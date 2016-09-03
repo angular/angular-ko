@@ -1,9 +1,31 @@
 #!/usr/bin/env bash
 
-set -ex -o pipefail
+set -e -o pipefail
 
+cd `dirname $0`/..
+
+if [[ "$(node --version)" < "v5" ]]; then
+    echo "ERROR: bad version of node detected. If you have nvm installed, type:"
+    echo "  nvm use"
+    echo "Aborting installation."
+    exit 1;
+else
+    echo "Node version: $(node --version)"
+fi
+
+echo "Installing main packages ..."
 npm install --no-optional
-(cd public/docs/_examples && npm install --no-optional)
-(cd public/docs/_examples/_protractor && npm install --no-optional)
-npm run webdriver:update --prefix public/docs/_examples/_protractor
-gulp add-example-boilerplate
+
+echo "Patching ..."
+source ./scripts/patch.sh
+
+if [ -z "$TRAVIS" ]; then
+    echo "Rebuilding node-sass, just in case ..."
+    npm rebuild node-sass;
+fi
+
+echo "Installing packages for examples ..."
+source ./scripts/examples-install.sh
+set +x
+
+echo "Installation done"

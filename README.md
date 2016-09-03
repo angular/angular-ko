@@ -22,17 +22,16 @@ Angular와 관련있는 **Angular API issues, cheatsheet corrections, feature re
 ##  개발 설정(Development Setup)
 이 사이트는 node와 npm에 많이 의존하고 있습니다.
 
-1. 최신버전의 node와 npm을 사용하시기 바랍니다. : 설치되어 있지 않다면 [nvm](https://github.com/creationix/nvm)을 이용해 node를 설치하세요.
+1. 최신버전의 node(적어도 v.5 이상)와 npm을 사용하시기 바랍니다. 설치되어 있지 않다면 [nvm](https://github.com/creationix/nvm)을 이용해 해당 버전을 설치하세요.
 
-1. npm package를 *글로벌영역*에 설치하세요 : `npm install -g harp gulp`
+1. npm package를 *전역으로* 설치하세요 : `npm install -g harp gulp`
 
-1. 이 repo와 [angular source code repo](https://github.com/angular/angular)를 같은 폴더에 클론하세요.
-클론된 2개의 repo는 반드시 같은 폴더 내에 있어야 합니다.
+1. 이 repo와 [angular source code repo](https://github.com/angular/angular), 그리고 [dart-lang/angular2 source code repo](https://github.com/dart-lang/angular2)를 같은 폴더에 클론하세요.
+클론된 3개의 repo는 반드시 같은 폴더 내에 각각 **angular**와 **angular-dart**라는 이름으로 있어야 합니다.
 
 1. `angular.io/`의 기본폴더로 이동하세요.
 
-1. `npm install`을 이용하여 *모든 문서들*의 로컬 패키지들을 설치하세요.
-> 만약 node v.5+를 이용한다면, 별도로 `node-sass`를 설치해야 합니다.: `npm rebuild node-sass`
+1. `npm install`을 실행해 *모든 문서들*의 로컬 패키지들을 설치하세요. > `node-sass`는 별도로 다시 빌드해야 합니다.: `npm rebuild node-sass`
 
 1. [아래](#code-sample-development)의 개발 준비를 위한 샘플코드를 참고하세요
 
@@ -115,10 +114,24 @@ jade문서 파일들은 `public/docs`아래 각 언어별 폴더에 있습니다
 
 - `git clean -xdf`
 
-리눅스/OSX 사용자의 경우, 프로젝트 셋업 시 아래 경로의 스크립트를 참고하세요 :
+리눅스/OSX/Windows Gitbash 사용자의 경우, 프로젝트 셋업 시 아래 경로의 스크립트를 참고하세요 :
 
 - `./scripts/install.sh`
 
+### Run with current build instead of release packages
+Can switch the `@angular` packages in `~/public/docs/_examples/node_modules` to the current build packages with
+```
+gulp install-example-angular --build
+```
+Restore to RELEASE packages with
+```
+gulp install-example-angular
+```
+>These commands will fail if something is locking any of the packages ... as an IDE often does.
+>
+>The symptom typically is an error trying to `rm -rf node_modules/@angular`.
+>
+>_Solution_: unlock the hold on the package(s). In VS Code, re-load the window (`cmd-P` then enter `>relow`).
 
 ## 사용 기술(Technology Used)
 - Angular 1.x: Angular의 제품 준비 버젼

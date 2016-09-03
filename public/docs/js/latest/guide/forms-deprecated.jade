@@ -2,7 +2,7 @@ include ../_util-fns
 
 .alert.is-important
   :marked
-    This guide is using the deprecated forms API. 
+    This guide is using the deprecated forms API, which is disabled as of RC5, thus this sample only works up to RC4.
     
     We have created a new version using the new API <a href='/docs/js/latest/guide/forms.html'>here</a>.
 
@@ -35,7 +35,8 @@ include ../_util-fns
 
   - How to share information across controls with template local variables
   
-  [Live Example](/resources/live-examples/forms-deprecated/js/plnkr.html)
+   <live-example>Live Example</live-example>
+   
 .l-main-section
 :marked
   ## Template-Driven Forms
@@ -493,7 +494,7 @@ figure.image-display
   :marked
     ### The NgForm directive
     We just set a template local variable with the value of an `NgForm` directive. 
-    Why did that work? We didn't add the **[`NgForm`](../api/common/NgForm-directive.html) directive** explicitly.
+    Why did that work? We didn't add the **[`NgForm`](../api/common/index/NgForm-directive.html) directive** explicitly.
     
     Angular added it surreptitiously, wrapping it around the `<form>` element
 
