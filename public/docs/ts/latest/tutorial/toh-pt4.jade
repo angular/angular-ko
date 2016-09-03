@@ -29,6 +29,7 @@ include ../_util-fns
     .file app
     .children
       .file app.component.ts
+      .file app.module.ts
       .file hero.ts
       .file hero-detail.component.ts
       .file main.ts
@@ -128,7 +129,7 @@ code-example(language="bash").
   ### Return Mocked Heroes
   Back in the `HeroService`  we import the mock `HEROES` and return it from the `getHeroes` method.
   Our `HeroService` looks like this:
-+makeExample('toh-4/ts/app/hero.service.1.ts', null, 'app/hero.service.ts')(format=".")
++makeExample('toh-4/ts/app/hero.service.1.ts', 'full', 'app/hero.service.ts')(format=".")
 :marked
   ### Use the Hero Service
   We're ready to use the `HeroService` in other components starting with our `AppComponent`.
@@ -308,6 +309,7 @@ a#child-component
     .file app
     .children
       .file app.component.ts
+      .file app.module.ts
       .file hero.ts
       .file hero-detail.component.ts
       .file hero.service.ts

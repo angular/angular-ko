@@ -2,12 +2,9 @@
 // #docplaster
 // #docregion import
 import { Component } from '@angular/core';
-import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 // #enddocregion import
-import { MovieService } from './movie.service';
 import { IMovie } from './movie';
-import { StringSafeDatePipe } from './date.pipe';
-
+import { MovieService } from './movie.service';
 
 // #docregion component
 @Component({
@@ -17,9 +14,6 @@ import { StringSafeDatePipe } from './date.pipe';
 // #docregion style-url
   styleUrls: ['app/movie-list.component.css'],
 // #enddocregion style-url
-// #docregion date-pipe
-  pipes: [StringSafeDatePipe]
-// #enddocregion date-pipe
 })
 // #enddocregion component
 // #docregion class

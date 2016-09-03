@@ -10,20 +10,27 @@ env:
     - DBUS_SESSION_BUS_ADDRESS=/dev/null
     - DISPLAY=:99.0
     - CHROME_BIN=chromium-browser
+    - LATEST_RELEASE=2.0.0-rc.5
+    - TASK_FLAGS="--dgeni-log=warn"
   matrix:
-    - SCRIPT=lint
-    - SCRIPT="run-e2e-tests --fast"
-    - SCRIPT="run-e2e-tests --fast" PREVIEW=true
+    - TASK=lint
+    - TASK="run-e2e-tests --fast" SCRIPT=examples-install.sh
+    - TASK="run-e2e-tests --fast" SCRIPT=examples-install-preview.sh
+    - TASK=build-compile SCRIPT=deploy-install.sh WAIT="travis_wait 50" POST_SCRIPT="check-docs.sh -v"
+    - TASK=build-compile SCRIPT=deploy-install-preview.sh WAIT="travis_wait 50" POST_SCRIPT="check-docs.sh -v"
 matrix:
   fast_finish: true
   allow_failures:
-    - env: "SCRIPT=\"run-e2e-tests --fast\" PREVIEW=true"
+    - env: TASK="run-e2e-tests --fast" SCRIPT=examples-install-preview.sh
+    - env: TASK=build-compile SCRIPT=deploy-install-preview.sh WAIT="travis_wait 50" POST_SCRIPT="check-docs.sh -v"
 before_install:
-  - npm install -g gulp --no-optional
+  - source ./scripts/env-set.sh
+  - ./scripts/before-install.sh
+install:
+  - npm install --no-optional
+  - if [[ -n "$SCRIPT" ]]; then echo "EXTRA INSTALL $SCRIPT"; ./scripts/$SCRIPT; fi
 before_script:
   - sh -e /etc/init.d/xvfb start
-install:
-  - ./scripts/install.sh
-  - if [[ $PREVIEW == true ]]; then npm install --prefix public/docs/_examples angular/{core,common,compiler,platform-browser,platform-browser-dynamic,http,forms,router-deprecated,router,upgrade}-builds; fi
 script:
-  - gulp $SCRIPT
+  - $WAIT gulp $TASK $TASK_FLAGS
+  - if [[ -n "$POST_SCRIPT" ]]; then ./scripts/$POST_SCRIPT; fi

@@ -1,22 +1,14 @@
 import { Component } from '@angular/core';
-import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from '@angular/router-deprecated';
 
-import { MovieListComponent } from './movie-list.component';
 import { MovieService } from './movie.service';
 import { IMovie } from './movie';
-import { StringSafeDatePipe } from './date.pipe';
 
 @Component({
   selector: 'my-app',
   templateUrl: 'app/app.component.html',
   styleUrls: ['app/app.component.css'],
-  directives: [MovieListComponent, ROUTER_DIRECTIVES],
-  pipes: [StringSafeDatePipe],
-  providers: [MovieService, ROUTER_PROVIDERS]
+  providers: [MovieService]
 })
-@RouteConfig([
-  {path: '/movies', name: 'Movies', component: MovieListComponent, useAsDefault: true}
-])
 export class AppComponent {
 
   angularDocsUrl = 'https://angular.io/';

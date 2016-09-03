@@ -11,6 +11,12 @@
     "intro": "Learn how Angular 1 concepts and techniques map to Angular 2"
   },
 
+  "ngmodule-faq": {
+    "title": "Angular Module FAQs",
+    "intro": "Answers to frequently asked questions about @NgModule",
+    "hide": true
+  },
+
   "component-communication": {
     "title": "Component Interaction",
     "intro": "Share information between different directives and components"
@@ -27,8 +33,14 @@
   },
 
   "dynamic-form": {
-    "title": "Dynamic Form",
+    "title": "Dynamic Forms",
     "intro": "Render dynamic forms with NgFormModel"
+  },
+
+  "rc4-to-rc5": {
+    "title": "RC4 to RC5 Migration",
+    "intro": "Migrate your RC4 app to RC5 in minutes.",
+    "hide": true
   },
 
   "set-document-title": {
