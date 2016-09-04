@@ -81,7 +81,7 @@
 
   "glossary": {
     "title": "Glossary",
-    "intro": "Brief definitions of the most important words in the Angular 2 vocabulary",
+    "intro": "Angular2에서 가장 중요한 용어들의 간략한 정의",
     "basics": true
   },
 
