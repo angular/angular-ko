@@ -375,127 +375,119 @@ a#G
 a#H
 .l-main-section#I
 :marked
-  ## Injector
+  ## 주입기 (Injector)
 .l-sub-section
   :marked
-    An object in the Angular [dependency injection system](#dependency-injection)
-    that can find a named "dependency" in its cache or create such a thing
-    with a registered [provider](#provider).
+    Angular [의존성 주입 시스템](#dependency-injection)에 포함되는 객체이며 
+    대상의 캐시 내부에서 이름지어진 "의존성"을 찾거나 기록된 [공급자](#provider)와 함께 
+    특정 대상을 만들어낼 수 있습니다.
 
 :marked
-  ## Input
+  ## 입력 (Input)
 .l-sub-section
   :marked
-    A directive property that can be the ***target*** of a
-    [Property Binding](!{docsLatest}/guide/template-syntax.html#property-binding).
-    Data values flow *into* this property from the data source identified
-    in the template expression to the right of the equal sign.
+    [프로퍼티 바인딩](!{docsLatest}/guide/template-syntax.html#property-binding)의 
+    ***대상***이 될 수 있는 지시 프로퍼티입니다. 데이터 값은 등호 우측의 템플릿 표현에서 
+    식별된 데이터 소스에서부터 프로퍼티 *내부로* 흘러갑니다.
 
-    See the [Template Syntax](!{docsLatest}/guide/template-syntax.html#inputs-outputs) chapter.
+    [템플릿 문법](!{docsLatest}/guide/template-syntax.html#inputs-outputs) 챕터를 참고해주세오.
 
 :marked
-  ## Interpolation
+  ## 보간 (Interpolation)
 .l-sub-section
   :marked
-    A form of [Property Data Binding](#data-binding) in which a
-    [template expression](#template-expression) between double-curly braces
-    renders as text.  That text may be concatenated with neighboring text
-    before it is assigned to an element property
-    or displayed between element tags as in this example.
-
+    이중 중괄호 사이에서 텍스트로 렌더링되는 [템플릿 표현](#template-expression) 내부의 
+    [프로퍼티 데이터 바인딩](#data-binding)의 형식입니다. 이 텍스트는 엘리먼트의 프로퍼티에 할당되기 
+    전에 이웃 텍스트와 연결되거나 아래 예시와 같이 엘리먼트 태그들 사이에서 표시될 것입니다.
+    
   code-example(language="html" escape="html").
     <label>My current hero is {{hero.name}}</label>
-
+    
   :marked
-    Learn more about interpolation in the
-    [Template Syntax](!{docsLatest}/guide/template-syntax.html#interpolation) chapter.
-
-.l-main-section#J
+    보간에 대해서 더 알아보시려면 
+    [템플릿 문법](!{docsLatest}/guide/template-syntax.html#interpolation) 챕터를 참고해주세요.
 
 +ifDocsFor('ts')
   a#jit
   :marked
-    ## Just in Time (JIT) Compilation
+    ## 실시간 컴파일 (Just in Time (JIT) Compilation)
   .l-sub-section
     :marked
-      With Angular _Just in Time_  bootstrapping you compile your components and modules in the browser
-      and launch the application dynamically. This is a good choice during development.
-      Consider the [Ahead of Time](#aot) mode for production apps.
-
+      Angular _실시간_ 부트스트래핑으로 여러분은 브라우저 내에 존재하는 여러분의 컴포넌트와 
+      모듈을 컴파일할 수 있으며 어플리케이션을 동적으로 실행할 수 있습니다. 이는 개발 과정에서 좋은 선택지입니다. 
+      생산용 앱을 대상으로 [AOT 컴파일](#aot) 모드를 권장합니다.
+      
 .l-main-section#K
 :marked
-  ## kebab-case
+  ## 케밥 표기법 (kebab-case)
 .l-sub-section
   :marked
-    See [dash-case](#dash-case).
+    [대시 표시법](#dash-case)을 참고하세요.
 
 .l-main-section#L
 :marked
-  ## Lifecycle Hooks
+  ## 생명주기 인용 (Lifecycle Hooks)
 .l-sub-section
   :marked
-    [Directives](#directive) and [Components](#component) have a lifecycle
-    managed by Angular as it creates, updates and destroys them.
-
-    Developers can tap into key moments in that lifecycle by implementing
-    one or more of the "Lifecycle Hook" interfaces.
-
-    Each interface has a single hook method whose name is the interface name prefixed with `ng`.
-    For example, the `OnInit` interface has a hook method names `ngOnInit`.
-
-    Angular calls these hook methods in the following order:
-    * `ngOnChanges` - called when an [input](#input)/[output](#output) binding values change
-    * `ngOnInit` - after the first `ngOnChanges`
-    * `ngDoCheck` - developer's custom change detection
-    * `ngAfterContentInit` - after component content initialized
-    * `ngAfterContentChecked` - after every check of component content
-    * `ngAfterViewInit` - after component's view(s) are initialized
-    * `ngAfterViewChecked` - after every check of a component's view(s)
-    * `ngOnDestroy` - just before the directive is destroyed.
-
-    Learn more in the [Lifecycle Hooks](!{docsLatest}/guide/lifecycle-hooks.html) chapter.
-
-.l-main-section#M
+    [지시자](#directive)와 [컴포넌트](#component)는 Angular가 지시자와 컴포넌트를 생성하고 
+    갱신하고 제거할 때, Angular의 관리를 받는 생명주기를 가집니다.
+    
+    개발자들은 하나 또는 그 이상의 "생명주기 인용" 인터페이스를 구현하는 방식으로 
+    특정 생명주기에서 중요한 기능을 활용할 수 있습니다.
+    
+    각각의 인터페이스는 하나의 인용 메소드를 소유하며 메소드명은 인터페이스명에서 앞부분에 `ng`가 추가된 형태입니다.
+    예를 들어, `OnInit` 인터페이스는 `ngOnInit`이라는 인용 메소드를 소유합니다.
+    
+    Angular는 아래와 같은 순서로 인용 메소드들을 호출합니다:
+    * `ngOnChanges` - [입력](#input)/[출력](#output)으로 묶인 값이 변화할 때 호출됩니다
+    * `ngOnInit` - 최초의 `ngOnChanges` 이후에 호출됩니다
+    * `ngDoCheck` - 개발자가 따로 설정한 변화를 탐지하면 호출됩니다
+    * `ngAfterContentInit` - 컴포넌트 내용이 초기화된 이후 호출됩니다
+    * `ngAfterContentChecked` - 모든 컴포넌트 내용을 확인한 이후 호출됩니다
+    * `ngAfterViewInit` - 컴포넌트의 (다수의) 뷰가 초기화된 이후 호출됩니다
+    * `ngAfterViewChecked` - 모든 컴포넌트의 (다수의) 뷰를 확인한 이후에 호출됩니다
+    * `ngOnDestroy` - 지시자가 소멸되기 직전에 호출됩니다.
+    
+    [생명주기 인용](!{docsLatest}/guide/lifecycle-hooks.html) 챕터에서 자세히 살펴보세요.
 
 :marked
-  ## Module
+  ## 모듈 (Module)
 .l-sub-section
   block module-defn
     .alert.is-important
       :marked
-       In Angular, there are two types of modules:
-       - [Angular modules](#angular-module).
-       See the [Angular Module](!{docsLatest}/guide/ngmodule.html) chapter for details and examples.
-       - ES2015 modules as described in this section.
+        Angular에는 두 가지 타입의 모듈이 존재합니다:
+        - [Angular 모듈](#angular-module).
+        세부 내용과 예시를 확인하려면 [Angular Module](!{docsLatest}/guide/ngmodule.html) 챕터를 참조하세요.
+        - 이 섹션에서 ES2015 모듈에 대해 서술되어있습니다.
 
     :marked
-      Angular apps are modular.
+      Angular 앱은 모듈화되어있습니다.
 
-      In general, we assemble our application from many modules, both the ones we write ourselves
-      and the ones we acquire from others.
+      일반적으로, 우리는 우리의 어플리케이션을 다양한 모듈(우리 스스로 작성한 것과 다른 곳에서 
+      가져온 것들)을 혼합하여 만들었습니다.
+      
+      모듈이란 하나의 목적만을 위한 결합력있는 코드의 블록을 의미합니다.
 
-      A typical module is a cohesive block of code dedicated to a single purpose.
+      모듈은 그 코드 내부의 어떤 값, 일반적으로 클래스로 구성된 하나의 대상을 **내보냅니다**.
+      그 대상이 필요한 모듈은 그것을 **가져옵니다**.
+      
+      Angular 모듈의 구조와 import/export 문법은 
+      [여기](http://www.2ality.com/2014/09/es6-modules-final.html)에 서술된 
+      [ES2015](#es2015) 모듈 표준에 기반을 두고 있습니다.
 
-      A module **exports** something of value in that code, typically one thing such as a class.
-      A module that needs that thing, **imports** it.
-
-      The structure of Angular modules and the import/export syntax
-      is based on the [ES2015](#es2015) module standard
-      described [here](http://www.2ality.com/2014/09/es6-modules-final.html).
-
-      An application that adheres to this standard requires a module loader to
-      load modules on request and resolve inter-module dependencies.
-      Angular does not ship with a module loader and does not have a preference
-      for any particular 3rd party library (although most samples use SystemJS).
-      Application developers may pick any module library that conforms to the standard
-
-      Modules are typically named after the file in which the exported thing is defined.
-      The Angular [DatePipe](https://github.com/angular/angular/blob/master/modules/@angular/common/src/pipes/date_pipe.ts)
-      class belongs to a feature module named `date_pipe` in the file `date_pipe.ts`.
-
-      Developers rarely access Angular feature modules directly.
-      We usually import them from one of the Angular [scoped packages](#scoped-package) such as `@angular/core`.
-
+      이 표준이 추가된 어플리케이션은 요청이 발생할 때 모듈을 불러오며, 
+      모듈 간 의존성을 해결하기 위해 모듈 로더를 필요로합니다. Angular는 모듈 로더를 내장하지 않으며 
+      어떤 특정 서드파티 라이브러리 (거의 모든 예시자료들이 SystemJS를 사용한다 하더라도)도 포함할 계획이 없습니다. 
+      어플리케이션 개발자들은 표준에 따르는 모듈 라이브러리를 선택하여 사용해야 할 것입니다.
+      
+      모듈은 일반적으로 내보낸 대상이 정의된 파일에 따라서 명명됩니다. 추천 모듈에 포함된 
+      Angular [데이터파이프](https://github.com/angular/angular/blob/master/modules/@angular/common/src/pipes/date_pipe.ts)
+      클래스는 `data_pipe.ts`파일 내부에 `data_pipe`로 명명되었습니다.
+      
+      개발자들은 드물게 Angular 추천 모듈을 직접 엑세스합니다.
+      우리는 주로 `@angular/core`같은 Angular의 [스코프 패키지](#scoped-package)중 하나로부터 그들을 가져옵니다.
+      
 a#N
 .l-main-section#O
 
