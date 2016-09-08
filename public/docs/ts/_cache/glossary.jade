@@ -595,11 +595,14 @@ a#Q
 
 +ifDocsFor('ts|js')
   :marked
-    ## Reactive Forms
+    ## 반응형 폼 (Reactive Forms)
   .l-sub-section
     :marked
       A technique for building Angular forms through code in a component.
       The alternate technique is [Template-Driven Forms](#template-driven-forms).
+
+      컴포넌트 코드를 통해 Angular 폼을 구성하는 기술.
+      대안 기술로는 [템플릿 주도 폼 (Template-Driven Forms)](#template-driven-forms)이 있음.
 
       When building reactive forms:
       - The "source of truth" is the component. The validation is defined using code in the component.
@@ -607,11 +610,19 @@ a#Q
       - The template input elements do *not* use `ngModel`.
       - The associated Angular directives are all prefixed with `Form` such as `FormGroup`, `FormControl`, and `FormControlName`.
 
+      반응형 폼의 구성 시:
+      - 정보의 유일한 원천은 컴포넌트입니다. 값의 검증은 컴포넌트 안의 코드에서 정의합니다.
+      - 폼의 요소인 각 컨트롤은 컴포넌트 클래스 안에서 `new FormControl()`나 `FormBuilder`를 통해서 명시적으로 생성됩니다.
+      - 템플릿의 입력 요소는 `ngModel`을 *사용하면 안 됩니다.*
+      - 관련된 Angular의 지시자는 모두 `Form`을 접두어로 가지고 있는 `FormGroup`, `FormControl`, `FormControlName`이 있습니다.
+
       Reactive forms are powerful, flexible, and great for more complex data entry form scenarios, such as dynamic generation
       of form controls.
 
+      반응형 폼은 동적으로 폼의 컨트롤 요소를 생성해야 하는 경우처럼 좀 더 복잡한 데이터 입력 폼 시나리오를 지원하는 강력하고, 유연하며, 훌륭한 기술입니다.
+
 :marked
-  ## Router
+  ## 라우터 (Router)
 .l-sub-section
   :marked
     Most applications consist of many screens or [views](#view).
@@ -619,39 +630,61 @@ a#Q
     and taking other similar actions that cause the application to
     replace one view with another.
 
+    대부분의 애플리케이션은 많은 화면 또는 [뷰(views)](#view)로 구성되어 있습니다.
+    사용자는 링크 또는 버튼을 클릭하거나 이와 유사하게 애플리케이션의 뷰를 치환하는 행위를 통해서 여러 뷰를 돌아다닙니다.
+
     The Angular [Component Router](!{docsLatest}/guide/router.html) is a richly featured mechanism for configuring
     and managing the entire view navigation process including the creation and destruction
     of views.
+
+    Angular의 [라우터 컴포넌트(Component Router)](!{docsLatest}/guide/router.html)는 뷰의 생성과 소멸을 포함하여 전체 뷰의 탐험과정의 구성과 관리를 위해
+    풍부한 기능을 갖고 있습니다.
   +ifDocsFor('ts|js')
     :marked
       In most cases, components becomes attached to a [router](#router) by means
       of a `RouterConfig` that defines routes to views.
 
+      대부분의 경우 컴포넌트는 뷰로의 라우팅을 정의하는 `RouterConfig`를 사용하여 [라우터(router)](#router)에 포함됩니다.
+
       A [routing component's](#routing-component) template has a `RouterOutlet` element
       where it can display views produced by the router.
+
+      [라우팅 컴포넌트](#routing-component)의 템플릿에는 라우터가 제공하는 뷰가 보여질 위치를 지정할 때 사용하는 `RouterOutlet` 요소를 갖고 있습니다.
 
       Other views in the application likely have anchor tags or buttons with `RouterLink`
       directives that users can click to navigate.
 
+      애플리케이션의 다른 뷰는 앵커 태그나 `RouterLink` 지시자가 정의된 버튼을 사용자가 클릭하여 찾아갈 수 있을 것입니다.
+
       See the [Component Router](!{docsLatest}/guide/router.html) chapter to learn more.
+
+      더 자세한 내용은 [라우터 컴포넌트(Component Router)](!{docsLatest}/guide/router.html) 챕터를 참고하세요.
 
 +ifDocsFor('ts|js')
   :marked
-    ## RouterModule
+    ## 라우터 모듈 (RouterModule)
   .l-sub-section
     :marked
       A separate [Angular module](#angular-module) that provides the necessary service providers and directives for navigating through application views.
 
+      애플리케이션의 뷰를 이동하는데 필요한 서비스 공급자와 지시자를 제공하는 독립된 [Angular 모듈](#angular-module) 
+
       See the [Component Router](!{docsLatest}/guide/router.html) chapter to learn more.
 
+      더 자세한 내용은 [라우터 컴포넌트(Component Router)](!{docsLatest}/guide/router.html) 챕터를 참고하세요.
+
 :marked
-  ## Routing Component
+  ## 라우팅 컴포넌트 (Routing Component)
 .l-sub-section
   block routing-component-defn
     :marked
       An Angular [Component](#component) with a RouterOutlet that displays views based on router navigations.
 
+      라우터 네비게이션을 통해서 화면에 뷰를 나타낼 RouterOutlet 을 지닌 Angular [컴포넌트](#component)
+
       See the [Component Router](!{docsLatest}/guide/router.html) chapter to learn more.
+
+      더 자세한 내용은 [라우터 컴포넌트(Component Router)](!{docsLatest}/guide/router.html) 챕터를 참고하세요.
 
 .l-main-section#S
 
