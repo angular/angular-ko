@@ -792,25 +792,21 @@ a#Y
 .l-main-section#Z
 
 :marked
-  ## Zone
+  ## 구역 (Zone)
 .l-sub-section
   block zone-defn
     :marked
-      Zones are a mechanism for encapsulating and intercepting
-      a JavaScript application's asynchronous activity.
+      구역은 자바스크립트 어플리케이션의 비동기 활동을 캡슐화하고 차단하기 위한 메커니즘입니다.
 
-      The browser DOM and JavaScript have a limited number
-      of asynchronous activities, activities such as DOM events (e.g., clicks),
-      [promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise), and
-      [XHR](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest)
-      calls to remote servers.
+      브라우저 DOM과 자바스크립트는 DOM 이벤트(클릭 이벤트 등), [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise), 
+      그리고 원격 서버에 보내는 [XHR](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) 호출같이 
+      제한된 수의 비동기 활동을 보유합니다.
 
-      Zones intercept all of these activities and give a "zone client" the opportunity
-      to take action before and after the async activity completes.
+      구역은 위와같은 활동들을 모두 차단하며 "구역 클라이언트"에 비동기 활동이 완료되기 전후로 동작을 
+      실행할 기회를 줍니다.
 
-      Angular runs our application in a zone where it can respond to
-      asynchronous events by checking for data changes and updating
-      the information it displays via [data bindings](#data-binding).
+      Angular는 데이터의 변화를 확인하고 [데이터 바인딩](#data-binding)을 통해 어플리케이션이 
+      보여주는 정보를 갱신함으로써 비동기 이벤트에 반응할 수 있는 구역 안에 존재하는 여러분의 
+      어플리케이션을 실행합니다.
 
-      Learn more about zones in this
-      [Brian Ford video](https://www.youtube.com/watch?v=3IqtmUscE_U).
+      [Brian Ford의 영상](https://www.youtube.com/watch?v=3IqtmUscE_U)에서 구역에 대해 더 알아보세요.
