@@ -610,11 +610,11 @@ a#Q
       - The template input elements do *not* use `ngModel`.
       - The associated Angular directives are all prefixed with `Form` such as `FormGroup`, `FormControl`, and `FormControlName`.
 
-      반응형 폼의 구성 시:
+      반응형 폼 구성 시:
       - 정보의 유일한 원천은 컴포넌트입니다. 값의 검증은 컴포넌트 안의 코드에서 정의합니다.
       - 폼의 요소인 각 컨트롤은 컴포넌트 클래스 안에서 `new FormControl()`나 `FormBuilder`를 통해서 명시적으로 생성됩니다.
       - 템플릿의 입력 요소는 `ngModel`을 *사용하면 안 됩니다.*
-      - 관련된 Angular의 지시자는 모두 `Form`을 접두어로 가지고 있는 `FormGroup`, `FormControl`, `FormControlName`이 있습니다.
+      - 관련된 Angular의 지시자는 모두 `Form`을 접두어로 가진 `FormGroup`, `FormControl`, `FormControlName`이 있습니다.
 
       Reactive forms are powerful, flexible, and great for more complex data entry form scenarios, such as dynamic generation
       of form controls.
@@ -696,17 +696,25 @@ a#Q
       Angular modules are delivered within *scoped packages* such as `@angular/core`, `@angular/common`, `@angular/platform-browser-dynamic`,
       `@angular/http`, and `@angular/router`.
 
+      Angular의 모듈은 `@angular/core`, `@angular/common`, `@angular/platform-browser-dynamic`, `@angular/http`, `@angular/router`과 같이
+      *Scoped Package*안에서 역할별로 나누어 배포하고 있습니다.
+
       A [*scoped package*](https://docs.npmjs.com/misc/scope) is a way to group related *npm* packages.
+
+      [*Scope Package*](https://docs.npmjs.com/misc/scope)는 관련 *NPM* 패키지를 하나로 구성하는 방법입니다.
 
       We import a scoped package the same way we'd import a *normal* package.
       The only difference, from a consumer perspective,
       is that the package name begins with the Angular *scope name*, `@angular`.
 
+      Scope package도 *일반* 패키지와 동일한 방식으로 임포트 합니다.
+      사용자 관점에서 유일한 차이점은 Angular의 *범위 이름*인 `@angular`로 패키지명이 시작한다는 것 뿐입니다.
+
     +makeExcerpt('architecture/ts/app/app.component.ts', 'import', '')
 
 a#snake-case
 :marked
-  ## snake_case
+  ## 스네이크 표기법(snake_case)
 
 .l-sub-section
   block snake-case-defn
@@ -714,54 +722,81 @@ a#snake-case
       The practice of writing compound words or phrases such that each word is separated by an
       underscore (`_`). This form is also known as **underscore case**.
 
+      조합된 단어나 구문의 각 단어를 밑줄(`_`)로 구분하는 관례. 이러한 형태는 **밑줄 표기법(underscore case)**이라고도 합니다.
+
 :marked
-  ## Service
+  ## 서비스 (Service)
 .l-sub-section
   :marked
     Components are great and all, but what do we do with data or logic that are not associated
     with a specific view or that we want to share across components? We build services!
 
+    컴포넌트는 충분히 훌륭하지만 특정 뷰와 관련이 없는 데이터나 로직을 다뤄야 한다거나 혹은 컴포넌트 간의 이를 공유하고 싶을 때는 무엇을 할 수 있을까요?
+    이 때 서비스를 생성하면 됩니다.
+
     Applications often require services such as a hero data service or a logging service.
     Our components depend on these services to do the heavy lifting.
+
+    애플리케이션은 영웅 데이터 서비스나 로깅 서비스와 같은 기능을 요구할 때가 종종있습니다.
+    컴포넌트는 서비스에 이러한 다루기 힘든 작업을 위임합니다.
 
     A service is a class with a focused purpose.
     We often create a service to implement features that are
     independent from any specific view,
     provide share data or logic across components, or encapsulate external interactions.
 
+    서비스는 뚜렷한 목적을 지닌 클래스입니다.
+    주로 어떤 뷰에도 종속되지 않는 기능을 구현하거나, 공유할 데이터를 제공하거나,
+    컴포넌트 간의 로직을 제공하거나, 또는 외부와 상호작용을 감추기 위한 용도로 서비스를 생성합니다.
+
     See the [Services](!{docsLatest}/tutorial/toh-pt4.html) chapter of the tutorial to learn more.
 
+    더 자세한 내용은 튜토리얼의 [서비스](!{docsLatest}/tutorial/toh-pt4.html) 장을 참고하세요.
+
 :marked
-  ## Structural Directive
+  ## 구조형 지시자 (Structural Directive)
 .l-sub-section
   :marked
     A category of [Directive](#directive) that can
     shape or re-shape HTML layout, typically by adding, removing, or manipulating
     elements and their children.
 
+    [지사자](#directive) 유형 중 하나로 일반적으로 HTML 요소 및 자식요소들을 더하거나, 빼거나, 조작하여 HTML 레이아웃을 만들거나 수정할 때 사용합니다.
+
     The `ngIf` "conditional element" directive and the `ngFor` "repeater" directive are
     good examples in this category.
 
+    구조형 지시자 유형의 대표적인 예로 "조건형 요소" 지시자 `ngIf`와 "반복형" 지사자 `ngFor`가 있습니다.
+
     See the [Structural Directives](!{docsLatest}/guide/structural-directives.html) chapter to learn more.
+
+    더 자세한 내용은 [구조형 지시자](!{docsLatest}/guide/structural-directives.html) 장을 참고하세요.
 
 .l-main-section#T
 :marked
-  ## Template
+  ## 템플릿 (Template)
 .l-sub-section
   :marked
     A template is a chunk of HTML that Angular uses to render a [view](#view) with
     the support and continuing guidance of an Angular [Directive](#directive),
     most notably a [Component](#component).
 
+    템플릿은 Angular의 도움을 받아 [뷰](#view)를 렌더링할 때 쓸 HTML 덩어리입니다.
+    템플릿은 [지시자](#directive)와 [컴포넌트](#component)의 도움으로 뷰를 구성합니다.
+
     We write templates in a special [Template Syntax](!{docsLatest}/guide/template-syntax.html).
+    템플릿은 [템플릿 문법](!{docsLatest}/guide/template-syntax.html)으로 작성합니다.
 
 +ifDocsFor('ts|js')
   :marked
-    ## Template-Driven Forms
+    ## 템플릿 주도 폼 (Template-Driven Forms)
   .l-sub-section
     :marked
       A technique for building Angular forms using HTML forms and input elements in the view.
       The alternate technique is [Reactive Forms](#reactive-forms).
+
+      뷰에서 HTML의 폼과 입력 요소를 사용하여 Angular의 폼을 구성하는 기술.
+      대안기술로 [반응형 폼(Reactive Forms)](#reactive-forms)가 있습니다.
 
       When building template-driven forms:
       - The "source of truth" is the template. The validation is defined using attributes on the individual input elements.
@@ -770,43 +805,71 @@ a#snake-case
       two-way binding set up.
       - The associated Angular directives are all prefixed with `ng` such as `ngForm`, `ngModel`, and `ngModelGroup`.
 
+      템플릿 주도 폼 구성 시:
+      - 정보의 유일한 원천은 템플릿입니다. 개별 값의 검증은 입력 요소의 속성으로 정의합니다. 
+      - `ngModel`로 [양방향 바인딩(Two-way binding)](#data-binding)을 선언하면 사용자가 진입 시 컴포넌트의 모델의 동기화되어 입력 요소와 동일한 값을 유지합니다.
+      - 내부적으로, Angular는 `name`속성을 지닌 각 입력요소마다 새로운 컨트롤을 생성하고 양방향 바인딩 설정을 합니다.
+      - 관련된 Angular의 지시자는 모두 `ng`를 접두어로 가진 `ngForm`, `ngModel`, and `ngModelGroup`이 있습니다.
+
       Template-driven forms are convenient, quick, and simple and are a good choice for many basic data entry form scenarios.
 
+      템플릿 주도 폼은 대부분 기본적인 데이터 초기화 폼 시나리오에 잘 맞는 편리하고 빠르며 간단한 방식입니다.
+ 
       Learn how to build template-driven forms
       in the [Forms](!{docsLatest}/guide/forms.html) chapter.
 
+      템플릿 주도 폼을 작성하는 방법은 [폼](!{docsLatest}/guide/forms.html) 챕터를 참고하세요.
+
 :marked
-  ## Template Expression
+  ## 템플릿 표현식 (Template Expression)
 .l-sub-section
   :marked
     An expression is a !{_Lang}-like syntax that Angular evaluates within
     a [data binding](#data-binding).  Learn how to write template expressions
     in the [Template Syntax](!{docsLatest}/guide/template-syntax.html#template-expressions) chapter.
 
+    표현식은 Angular가 평가할 수 있는 [데이터 바인딩](#data-binding)에 !{_Lang}와 유사한 문법의 작성된 코드입니다.
+    템플릿 표현식의 작성법은 [템플릿 문법](!{docsLatest}/guide/template-syntax.html#template-expressions) 챕터를 참고하세요.
+
 :marked
-  ## Transpile
+  ## 트랜스파일 (Transpile)
 .l-sub-section
   :marked
     The process of transforming code written in one form of JavaScript
     (e.g., TypeScript) into another form of JavaScript  (e.g., [ES5](#es5)).
 
+    JavaScript 중 특정 형식(예를 들면 TypeScript)으로 작성된 코드를 다른 형식의 JavaScript (예를 들면 [ES5](#es5))로
+    변환하는 작업
+
  :marked
-  ## TypeScript
+  ## 타입스크립트 (TypeScript)
 .l-sub-section
   :marked
     A version of JavaScript that supports most [ECMAScript 2015](#ecmascript=2015)
     language features and many features that may arrive in future versions
     of JavaScript such as [Decorators](#decorator).
 
+    대부분의 [ECMAScript 2015](#ecmascript=2015) 언어 기능과 [데코레이터](#decorator)처럼 JavaScript의
+    후속 버전에 포함될 여러 기능들을 지원하는 새로운 형식의 JavaScript 버전입니다.
+
     TypeScript is also noteable for its optional typing system which gives
     us compile-time type-checking and strong tooling support (e.g. "intellisense",
     code completion, refactoring, and intelligent search). Many code editors
     and IDEs support TypeScript either natively or with plugins.
 
+    타입스크립트의 주목할 만한 점은 컴파일 시점의 타입검사를 할 수 있는 타입 시스템을 선택할 수 있다는 점과
+    "인텔리센스, 코드 자동완성, 리팩토링, 인텔리젠트 검색과 같은 강력한 지원도구를 제공한다는 점입니다.
+    대다수 코드 에디터나 IDE는 타입스크립트를 기본으로 지원하거나 플러그인 형태로 사용할 수 있습니다.
+
     TypeScript is the preferred language for Angular 2 development although
     we are welcome to write in other JavaScript dialects such as [ES5](#es5).
 
+    타입스크립트는 Angular2 개발을 위해 권장하는 언어입니다.
+    물론 [ES5](#es5)와 같이 다른 JavaScript 형식으로 작성하는 것도 환영합니다.
+
     Learn more about TypeScript on its [website](http://www.typescriptlang.org/).
+
+    타입스크립트와 관련된 내용은 [웹사이트](http://www.typescriptlang.org/)를 참고하세요.
 
 a#U
 .l-main-section#V
