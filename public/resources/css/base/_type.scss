@@ -11,6 +11,7 @@ body {
   &.ng-cloak {
     display: none;
   }
+  word-break: keep-all;
 }
 
 // NOTE: (ericjim) the new api docs use material design blue 600 links in this fashion.

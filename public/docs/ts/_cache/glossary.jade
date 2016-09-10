@@ -9,15 +9,23 @@ block includes
 - var _decoratorLink = '<a href="#' + _decorator + '">' + _decorator + '</a>'
 
 :marked
-  # Angular 2 Glossary
+  # Angular 2 용어사전
 
   Angular 2 has a vocabulary of its own.
   Most Angular 2 terms are everyday English words
   with a specific meaning within the Angular system.
 
+  Angular 2에는 Angular 2만의 용어들이 있습니다.
+  대부분의 용어는 일상적인 영어 단어들로 이루어져 있지만
+  Angular 시스템 안에서 특정한 의미를 가집니다.
+
   We have gathered here the most prominent terms
   and a few less familiar ones that have unusual or
   unexpected definitions.
+
+  이 곳에는 가장 주요하게 쓰이는 용어들과
+  특이하거나 예상 밖의 정의를 가지고 있어
+  친숙하지 않은 몇몇 용어들을 정리해 두었습니다.
 
   [A](#A) [B](#B) [C](#C) [D](#D) [E](#E) [F](#F) [G](#G) [H](#H) [I](#I)
   [J](#J) [K](#K) [L](#L) [M](#M) [N](#N) [O](#O) [P](#P) [Q](#Q) [R](#R)
@@ -29,6 +37,7 @@ block includes
   a#aot
   :marked
     ## Ahead of Time (AOT) Compilation
+    ## Ahead of Time (AOT) 컴파일
   .l-sub-section
     :marked
       Angular applications can be compiled by developers at build-time.
@@ -36,37 +45,62 @@ block includes
       to a Module Factory, meaning you don't need to include the Angular compiler in your javascript bundle.
       Ahead of Time compiled applications also benefit from decreased load time and increased performance.
 
+      Angular 애플리케이션은 개발자가 빌드할 때 미리 컴파일할 수 있습니다.
+      커맨드라인 compiler인 'ngc'를 사용해 애플리케이션을 컴파일하면 모듈 팩토리(Module Factory)에 바로 부트스트랩핑 할 수 있습니다.
+      이 말은 곧 javascript 번들파일에 Angular 컴파일러를 포함할 필요가 없다는 의미입니다.
+      Ahead of Time 컴파일을 적용한 애플리케이션들은 로드 시간 절감과 퍼포먼스 향상의 효과를 누릴 수 있습니다.
+
   :marked
     ## Angular Module
+    ## Angular 모듈
   .l-sub-section
     :marked
       Helps us organize an application into cohesive blocks of functionality.
       An Angular module identifies the components, directives, and pipes that are used by the application
       along with the list of external Angular modules that the application needs, such as `FormsModule`.
 
+      애플리케이션을 기능 단위의 결합 가능한 블록들로 구조화할 수 있게 도와줍니다.
+      Angular 모듈은 애플리케이션에서 쓰이는 컴포넌트, 지시자, 파이프와 함께,
+      애플리케이션에 필요한 외부 앵귤러 모듈 리스트(`FormsModule`과 같은)를 찾고 확인합니다.
+
       Every Angular application has an application root module class. By convention the class is
       called `AppModule` and resides in a file named `app.component.ts`.
 
+      모든 Angular 애플리케이션은 루트 모듈 클래스를 가집니다. 관례상 이 클래스에는 'AppModule'이라는 이름을 붙이고
+      'app.component.ts'라는 이름의 파일 안에 만듭니다.
+
       See the [Angular Module](!{docsLatest}/guide/ngmodule.html) chapter for details and examples.
+
+      자세한 내용과 예시는 [Angular Module](!{docsLatest}/guide/ngmodule.html)에서 볼 수 있습니다.
 
 +ifDocsFor('ts|dart')
   :marked
     ## Annotation
+    ## 어노테이션 (Annotation)
   .l-sub-section
     block annotation-defn
       :marked
         In practice, a synonym for [Decoration](#decorator).
 
+        사실상 [Decoration 데코레이션](#decorator)과 동의어입니다.
+
 :marked
   ## Attribute Directive
+  ## 속성 지시자 (Attribute Directive)
 .l-sub-section
   :marked
     A category of [Directive](#directive) that can listen to and modify the behavior of
     other HTML elements, attributes, properties, and components. They are usually represented
     as HTML attributes, hence the name.
 
+    다른 HTML 엘리먼트, 속성, 프로퍼티와 컴포넌트들의 행동을 탐지하고 변경할 수 있는
+    [지시자(Directive}]{#directive)의 카테고리입니다.
+    보통 HTML 속성으로 표현하기 때문에 이런 이름을 갖게 되었습니다.
+
     The `ngClass` directive for adding and removing CSS class names is a good example of
     an Attribute Directive.
+
+    CSS 클래스명을 추가 또는 제거하는 'ngClass' 지시자가 속성 지시자의 좋은 예시입니다.
 
 .l-main-section#B
 
