@@ -19,6 +19,8 @@ Angular와 관련있는 **Angular API issues, cheatsheet corrections, feature re
 
 [Angular.io에 기여하기](https://github.com/angular/angular.js/blob/master/CONTRIBUTING.md)는 이곳을 참고해주세요.
 
+> **중요**: 절대 `public/docs/ts/_cache`안에 있는 파일들은 변경하지 마세요. 캐시된 파일들은 나누어진 작업흐름에 따라 업데이트 됩니다. 
+
 ##  개발 설정(Development Setup)
 이 사이트는 node와 npm에 많이 의존하고 있습니다.
 

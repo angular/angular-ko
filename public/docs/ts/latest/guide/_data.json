@@ -60,7 +60,7 @@
 
   "cheatsheet": {
     "title": "Angular Cheat Sheet",
-    "intro": "A quick guide to Angular syntax.",
+    "intro": "A quick guide to Angular syntax. (Content is provisional and may change.)",
     "nextable": true,
     "basics": true
   },
@@ -84,6 +84,11 @@
   "attribute-directives": {
     "title": "Attribute Directives",
     "intro": "Attribute directives attach behavior to elements."
+  },
+
+  "browser-support": {
+    "title": "Browser support",
+    "intro": "Browser support and polyfills guide."
   },
 
   "component-styles": {
@@ -115,7 +120,7 @@
 
   "npm-packages": {
     "title": "Npm Packages",
-    "intro": "Details of the recommended npm packages and the different kinds of package dependencies"
+    "intro": "Recommended npm packages, and how to specify package dependencies"
   },
 
   "pipes": {

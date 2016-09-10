@@ -16,7 +16,6 @@ module.exports = new Package('angular.io', [basePackage, targetPackage, cheatshe
 .factory(require('./services/renderMarkdown'))
 .processor(require('./processors/addJadeDataDocsProcessor'))
 .processor(require('./processors/filterUnwantedDecorators'))
-.processor(require('./processors/extractDirectiveClasses'))
 .processor(require('./processors/matchUpDirectiveDecorators'))
 .processor(require('./processors/filterMemberDocs'))
 
@@ -54,27 +53,34 @@ module.exports = new Package('angular.io', [basePackage, targetPackage, cheatshe
     '___platform_browser_private_types__',
     '___platform_browser_dynamic_private__',
     '___platform_browser_dynamic_private_types__',
+    '___platform_server_private__',
+    '___router_private__' ,
     '___core_private_testing_types__',
     '___compiler_private__',
     '__core_private__',
-    '___core_private__'
+    '___core_private__',
+    '___core_private_testing_placeholder__',
+    '___core_private_testing__'
   ];
 
   readTypeScriptModules.sourceFiles = [
     '@angular/common/index.ts',
-    '@angular/common/testing.ts',
+    '@angular/common/testing/index.ts',
     '@angular/core/index.ts',
-    '@angular/core/testing.ts',
+    '@angular/core/testing/index.ts',
     '@angular/forms/index.ts',
     '@angular/http/index.ts',
-    '@angular/http/testing.ts',
+    '@angular/http/testing/index.ts',
     '@angular/platform-browser/index.ts',
-    '@angular/platform-browser/testing.ts',
+    '@angular/platform-browser/testing/index.ts',
     '@angular/platform-browser-dynamic/index.ts',
-    '@angular/platform-browser-dynamic/testing.ts',
+    '@angular/platform-browser-dynamic/testing/index.ts',
     '@angular/platform-server/index.ts',
-    '@angular/platform-server/testing.ts',
+    '@angular/platform-server/testing/index.ts',
+    '@angular/platform-webworker/index.ts',
+    '@angular/platform-webworker-dynamic/index.ts',
     '@angular/router/index.ts',
+    '@angular/router/testing/index.ts',
     '@angular/router-deprecated/index.ts',
     '@angular/upgrade/index.ts',
   ];
@@ -93,7 +99,7 @@ module.exports = new Package('angular.io', [basePackage, targetPackage, cheatshe
 })
 
 
-.config(function(readFilesProcessor, generateNavigationDoc, createOverviewDump) {
+.config(function(readFilesProcessor, generateNavigationDoc) {
   // Clear out unwanted processors
   generateNavigationDoc.$enabled = false;
 })
