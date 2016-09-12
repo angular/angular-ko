@@ -12,81 +12,83 @@ block includes
 - var stepKOR = _stepInit
 
 :marked
+  이 빠른시작 가이드는 #{_Lang}으로 만든 간단한 Angular 2 어플리케이션을 어떻게 빌드하고 실행할지 안내합니다. 
+  또한 이 가이드에서 전반적으로 사용된 코드 예시를 통해 일반적인 개발 환경을 설정해줍니다.
+  
   This QuickStart guide demonstrates how to build and run a simple Angular 2 application in #{_Lang}.
   It also establishes a common development environment used throughout the code examples in these
   guides.
-    
-  이 빠른시작 가이드는 #{_Lang}으로 만든 간단한 Angular 2 어플리케이션을 어떻게 빌드하고 실행할지 안내합니다. 
-  또한 이 가이드에서 전반적으로 사용된 코드 예시를 통해 일반적인 개발 환경을 설정해줍니다.
+
 
 .callout.is-helpful
-  header Don't want #{_Lang}?
   header #{_Lang}을 사용하고싶지 않으신가요?
-  p.
-    Although you're getting started in #{_Lang}, you can also write Angular 2 applications
-    in JavaScript and #{_docsFor == 'ts' ? 'Dart' : 'TypeScript'}. Use the language selector in the
-    banner to switch development languages for this guide.  
+  header Don't want #{_Lang}?
   p.
     비록 여러분이 #{_Lang}을 처음 접하시더라도, 여러분은 Angular 2 어플리케이션을 자바스크립트와 
     #{_docsFor == 'ts' ? 'Dart' : 'TypeScript'}로도 작성하실 수 있습니다. 이 가이드에서 개발 언어를 
     변경하시려면 베너의 언어 선택버튼을 사용해주세요.
+  p.
+    Although you're getting started in #{_Lang}, you can also write Angular 2 applications
+    in JavaScript and #{_docsFor == 'ts' ? 'Dart' : 'TypeScript'}. Use the language selector in the
+    banner to switch development languages for this guide.  
 .l-main-section
-h1 Overview
 h1 개요
+h1 Overview
 
 aside.is-right
   :marked
+    <a href="http://plnkr.co/" title="Plunker" target="_blank">Plunker</a>에 
+    완성된 어플리케이션이 유효한 예시 링크로 올려져있으므로 여러분은 이러한 코드와 상호작용하실 수 있습니다. 
+    여러분들은 대부분의 섹션을 시작할 때 유효한 예시들을 찾으실 수 있습니다.
+
     The live example link opens the finished application in
     <a href="http://plnkr.co/" title="Plunker" target="_blank">Plunker</a> so that you can interact
     with the code. You'll find live examples at the start of most sections.
 
-    <a href="http://plnkr.co/" title="Plunker" target="_blank">Plunker</a>에 
-    완성된 어플리케이션이 유효한 예시 링크로 올려져있으므로 여러분은 이러한 코드와 상호작용하실 수 있습니다. 
-    여러분들은 대부분의 섹션을 시작할 때 유효한 예시들을 찾으실 수 있습니다.
 :marked
+  빠른시작 어플리케이션은 실제로 사용되는 Angular 어플리케이션 구조를 가지고 있으며 간단한 메시지를 보여줍니다:
+
   The QuickStart application has the structure of a real-world Angular application and
   displays the simple message:
   
-  빠른시작 어플리케이션은 실제로 사용되는 Angular 어플리케이션 구조를 가지고 있으며 간단한 메시지를 보여줍니다:
 
 figure.image-display
   img(src='/resources/images/devguide/quickstart/my-first-app.png' alt="Output of QuickStart app")
 
 :marked
-  **Try it out**. Here's a link to a <live-example></live-example>.
-  
   **확인해보세요**. <live-example></live-example>의 링크입니다.
+
+  **Try it out**. Here's a link to a <live-example></live-example>.
+
+  여러분들은 깃허브에서 <a href="https://github.com/angular/quickstart/blob/master/README.md" target="_blank">
+  빠른시작 어플리케이션 전부</a>를 복제할 수 있습니다.
 
   You can also <a href="https://github.com/angular/quickstart/blob/master/README.md" target="_blank">
   clone the entire QuickStart application</a> from GitHub.
   
-  여러분들은 깃허브에서 <a href="https://github.com/angular/quickstart/blob/master/README.md" target="_blank">
-  빠른시작 어플리케이션 전부</a>를 복제할 수 있습니다.
-
-h2 Build this application!
 h2 이 어플리케이션을 만들어보세요!
+h2 Build this application!
 
 :marked
-  - [Prerequisite](#prereq): Install #{_prereq}.
   - [시작하기전에](#prereq): Node.js와 npm을 설치해주세요.
-  - [Step 1](#create-and-configure): Create and configure the project.
+  - [Prerequisite](#prereq): Install #{_prereq}.
   - [1단계](#create-and-configure): 프로젝트를 생성하고 구성작업을 해주세요.
-  <span if-docs="ts"><li>[Step 2](#ngmodule): Create your application.</span>
+  - [Step 1](#create-and-configure): Create and configure the project.
   <span if-docs="ts"><li>[2단계](#ngmodule): 어플리케이션을 생성해주세요.</span>
-  - [Step !{step++}](#root-component): Create a component and add it to your application.
+  <span if-docs="ts"><li>[Step 2](#ngmodule): Create your application.</span>
   - [!{stepKOR++}단계](#root-component): 컴포넌트를 생성하고 여러분의 어플리케이션에 추가해주세요.
-  - [Step !{step++}](#main): Start up your application.
+  - [Step !{step++}](#root-component): Create a component and add it to your application.
   - [!{stepKOR++}단계](#main): 어플리케이션을 시작해주세요.
-  - [Step !{step++}](#index): Define the web page that hosts the application.
+  - [Step !{step++}](#main): Start up your application.
   - [!{stepKOR++}단계](#index): 어플리케이션을 호스트하는 웹 페이지를 정의해주세요.
-  - [Step !{step++}](#build-and-run): Build and run the application.
+  - [Step !{step++}](#index): Define the web page that hosts the application.
   - [!{stepKOR++}단계](#build-and-run): 어플리케이션을 빌드하고 실행해주세요.
-  - [Step !{step++}](#make-changes): Make some live changes.
+  - [Step !{step++}](#build-and-run): Build and run the application.
   - [!{stepKOR++}단계](#make-changes): 실시간 변화를 만들어주세요.
-  - [Wrap up and Next Steps](#wrap-up)
+  - [Step !{step++}](#make-changes): Make some live changes.
   - [마무리하시고 다음 단계로 넘어가주세요](#wrap-up)
-  
-  
+  - [Wrap up and Next Steps](#wrap-up)
+
 
 - var step = _stepInit // reinitialize step counter for headers to come
 
