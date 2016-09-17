@@ -1,27 +1,27 @@
 {
   "index": {
     "hero": "home",
-    "title": "One framework.",
-    "subtitle": "Mobile and desktop."
+    "title": "단 하나의 프레임워크.",
+    "subtitle": "모바일과 데스크탑."
   },
 
   "features": {
-    "title": "Features & Benefits"
+    "title": "특징과 장점"
   },
 
   "contribute": {
-    "title": "Contribute to Angular",
-    "subtitle": "Help us build the framework of the future!",
+    "title": "Angular에 공헌하기",
+    "subtitle": "이 프레임워크의 미래를 만들어 나가도록 도와주세요!",
     "autoformat": "true"
   },
 
   "news": {
-    "title": "News"
+    "title": "뉴스"
   },
 
   "events": {
-    "title": "Events",
-    "subtitle": "Where we'll be presenting"
+    "title": "이벤트",
+    "subtitle": "우리의 이벤트가 개최될 장소"
   },
 
   "support": {
@@ -30,6 +30,6 @@
   },
 
   "presskit": {
-    "title": "Press Kit"
+    "title": "보도 자료"
   }
 }
