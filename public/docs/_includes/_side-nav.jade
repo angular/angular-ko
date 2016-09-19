@@ -61,15 +61,15 @@ nav.side-nav.l-pinned-left.l-layer-4.l-offset-nav
   header.side-nav-search.st-input-wrapper
     form.st-input-inner
       label(for="search-io" class="is-hidden") Search Docs
-      input(type="search" id="search-io" placeholder="SEARCH DOCS...")
+      input(type="search" id="search-io" placeholder="문서 검색...")
     button(class="mobile-trigger button" aria-label="View Docs Menu" ng-click="appCtrl.toggleDocsMenu($event)" md-button) Docs <span class="icon icon-arrow-drop-down"></span>
 
   div(class="side-nav-secondary" ng-class="appCtrl.showDocsNav ? 'is-visible' : ''")
     .nav-blocks
-      a(class="nav-title #{isQuickstartSelected(cur)}" href="#{qs.href}" title="#{qs.tooltip}") Quickstart
+      a(class="nav-title #{isQuickstartSelected(cur)}" href="#{qs.href}" title="#{qs.tooltip}") 빠른시작
 
     .nav-blocks
-      a(class="nav-title #{anyItemSelected(tutorial)}" href="#{tutorial[0].href}" title="#{tutorial[0].tooltip}") Tutorial
+      a(class="nav-title #{anyItemSelected(tutorial)}" href="#{tutorial[0].href}" title="#{tutorial[0].tooltip}") 튜토리얼
         img(class="inline-arrow-down-svg" src="/resources/images/icons/ic_keyboard_arrow_down_black_24px.svg")
       .nav-ordered-lists(class="#{isCollapsed(anyItemSelected(tutorial))}")
         ul
@@ -77,7 +77,7 @@ nav.side-nav.l-pinned-left.l-layer-4.l-offset-nav
             li(class="nav-list-item #{item.class}"): a(href="#{item.href}" title="#{item.tooltip}") #{index + 1}. #{item.navTitle}
 
     .nav-blocks
-      a(class="nav-title #{anyItemSelected(basics)}" href="#{basics[0].href}" title="#{basics[0].tooltip}") Basics
+      a(class="nav-title #{anyItemSelected(basics)}" href="#{basics[0].href}" title="#{basics[0].tooltip}") 기본항목
         img(class="inline-arrow-down-svg" src="/resources/images/icons/ic_keyboard_arrow_down_black_24px.svg")
 
       .nav-ordered-lists(class="#{isCollapsed(anyItemSelected(basics))}")
@@ -86,7 +86,7 @@ nav.side-nav.l-pinned-left.l-layer-4.l-offset-nav
             li(class="nav-list-item #{item.class}"): a(href="#{item.href}" title="#{item.tooltip}") #{index + 1}. #{item.navTitle}
 
     .nav-blocks
-      a(class="nav-title #{anyItemSelected(guide)}" href="#{guide[0].href}" title="#{guide[0].tooltip}") Developer Guide
+      a(class="nav-title #{anyItemSelected(guide)}" href="#{guide[0].href}" title="#{guide[0].tooltip}") 개발자 가이드
         img(class="inline-arrow-down-svg" src="/resources/images/icons/ic_keyboard_arrow_down_black_24px.svg")
 
       .nav-unordered-lists(class="#{isCollapsed(anyItemSelected(guide))}")
@@ -95,7 +95,7 @@ nav.side-nav.l-pinned-left.l-layer-4.l-offset-nav
             li(class="nav-list-item #{item.class}"): a(href="#{item.href}" title="#{item.tooltip}") #{item.navTitle}
 
     .nav-blocks
-      a(class="nav-title #{anyItemSelected(cookbook)}" href="#{cookbook[0].href}" title="#{cookbook[0].tooltip}") Cookbook
+      a(class="nav-title #{anyItemSelected(cookbook)}" href="#{cookbook[0].href}" title="#{cookbook[0].tooltip}") 해설서
         img(class="inline-arrow-down-svg" src="/resources/images/icons/ic_keyboard_arrow_down_black_24px.svg")
 
       .nav-unordered-lists(class="#{isCollapsed(anyItemSelected(cookbook))}")
@@ -104,7 +104,7 @@ nav.side-nav.l-pinned-left.l-layer-4.l-offset-nav
             li(class="nav-list-item #{item.class}"): a(href="#{item.href}" title="#{item.tooltip}") #{item.navTitle}
 
     .nav-blocks
-      a(class="nav-title #{isApiReferenceSelected()}" href="#{reference[0].href}" title="#{reference[0].tooltip}") API Reference
+      a(class="nav-title #{isApiReferenceSelected()}" href="#{reference[0].href}" title="#{reference[0].tooltip}") API 참고문서
 
 script.
   // Could put in appCtrl but only needed here and clear here
