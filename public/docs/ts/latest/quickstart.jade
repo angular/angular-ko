@@ -268,36 +268,61 @@ block install-packages
   
 +ifDocsFor('ts')
   .l-main-section
+  h1#ngmodule 2단계: 어플리케이션을 생성해주세요
   h1#ngmodule Step 2: Create your application
   :marked
+    여러분들은 Angular 어플리케이션을 [NgModules](guide/ngmodule.html)과 관련된 코드 블럭들로 분해합니다. Angular는 
+    분리된 Angular 모듈들로 나뉩니다. 이런 작업은 여러분들의 어플리케이션이 필요한 부분에 Angular의 요소들을 
+    import 함으로써 페이로드의 크기를 작은 상태로 유지하는 것을 가능하게 만들어줍니다.
+    
     You compose Angular applications into closely related blocks of functionality with
     [NgModules](guide/ngmodule.html). Angular itself is split into separate Angular Modules. This
     makes it possible for you to keep payload size small by only importing the parts of Angular
     that your application needs.
 
+    모든 Angular 어플리케이션은 최소 하나의 모듈을 지닙니다: 이 문서에서 `AppModule`로 불리는 _루트 모듈_.
+    
     Every Angular application has at least one module: the _root module_, named `AppModule` here.
 
+    프로젝트의 루트 폴더에 **하위폴더 #{_appDir}을 생성해주세요**:
+    
     **Create #{_an} #{_appDir} subfolder** off the project root directory:
 
   code-example.
     mkdir #{_appDir}
 
   :marked
+    `app/app.module.ts`을 만들고 아래 내용을 채워주세요:
+    
     Create the file `app/app.module.ts` with the following content:
 
   +makeExample('app/app.module.1.ts')(format='.')
 
   :marked
+    이 파일은 어플리케이션의 시작 지점입니다.
+    
     This is the entry point to your application.
 
+    빠른시작 어플리케이션이 브라우저에서 동작하는 웹 어플리케이션이기 때문에, 여러분의 루트 모듈은 `@angular/platform-browser`로부터 
+    [`BrowserModule`](../latest/api/platform-browser/index/BrowserModule-class.html)을 `imports` 배열에 
+    import 해주셔야합니다.
+    
     Since the QuickStart application is a web application that runs in a browser, your root module
     needs to import the
     [`BrowserModule`](../latest/api/platform-browser/index/BrowserModule-class.html)
     from `@angular/platform-browser` to the `imports` array.
 
+    이 상태는 브라우저에서 작은 어플리케이션을 동작하기위한 가장 간결한 Angular 형태입니다.
+    
     This is the smallest amount of Angular that is needed for a minimal application to run in the
     browser.
 
+    빠른시작 어플리케이션은 아무 동작도 하지 않기때문에 여러분들은 어떠한 추가적인 모듈도 필요하지 않습니다. 실제 어플리케이션에서는, 
+    [`FormsModule`](../latest/api/forms/index/FormsModule-class.html)이나 
+    [`RouterModule`](../latest/api/router/index/RouterModule-class.html), 
+    [`HttpModule`](../latest/api/http/index/HttpModule-class.html) 등을 import하게 될 것입니다. 이 모듈들은 
+    [영웅들의 모험 튜토리얼](./tutorial/)에 소개되어 있습니다.
+    
     The QuickStart application doesn't do anything else, so you don't need any other modules. In a real
     application, you'd likely import [`FormsModule`](../latest/api/forms/index/FormsModule-class
     .html) as well as [`RouterModule`](../latest/api/router/index/RouterModule-class.html) and
