@@ -91,6 +91,7 @@ h2 Build this application!
 
 
 - var step = _stepInit // reinitialize step counter for headers to come
+- var stepKOR = _stepInit
 
 .l-main-section#prereq
 h1 시작하기전에: Node.js와 npm을 설치해주세요
@@ -331,15 +332,23 @@ block install-packages
 
 
 .l-main-section
+h1#root-component Step !{stepKOR++}: 컴포넌트를 생성하고 여러분의 어플리케이션에 추가해주세요
 h1#root-component Step !{step++}: Create a component and add it to your application
 :marked
+  모든 Angular 어플리케이션은 최소 하나 이상의 컴포넌트를 소유합니다: 이 문서에서 `AppComponent`로 불리는 _루트 컴포넌트_.
+
   Every Angular application has at least one component: the _root component_, named `AppComponent`
   here.
 
+  컴포넌트들은 Angular 어플리케이션의 기본 구성 단위입니다. 컴포넌트는 관련된 템플릿을 통해 화면&mdash;뷰&mdash;의 일부분을 
+  제어할 수 있습니다.
+  
   Components are the basic building blocks of Angular applications. A component controls a portion
   of the screen&mdash;a *view*&mdash;through its associated template.
 
 a#app-component
+p.
+  #[code #[+adjExPath('app/app.component.ts')]] #[b 컴포넌트 파일을 생성하고] 아래 내용을 채워주세요:
 p.
   #[b Create the component file]
   #[code #[+adjExPath('app/app.component.ts')]] with the following content:
@@ -347,24 +356,45 @@ p.
 +makeExample('app/app.component.ts')
 
 :marked
+  빠른시작 어플리케이션은 다른 일반적인 Angular 컴포넌트와 동일한 필수적인 구성을 지니고 있습니다:
+  
   The QuickStart application has the same essential structure as any other Angular component:
 
+    * **import 선언문**. Import는 여러분들의 컴포넌트가 Angular의 주요 [`@Component` 데코레이터 함수](../latest/api/core/index/Component-decorator
+    .html)에 접근하도록 만들어줍니다.
+    
     * **An import statement**. Importing gives your component access to
     Angular's core [`@Component` decorator function](../latest/api/core/index/Component-decorator
     .html).
+    
+    * `AppComponent` 컴포넌트 클래스의 *메타 데이터*와 연관된 **@Component 데코레이터**:
+
+        - *선택자*: 컴포넌트를 표시하는 HTML 엘리먼트를 위한 간단한 CSS 선택자를 지정.
+        
+        - *템플릿*: Angular에게 컴포넌트 뷰를 렌더링하는 방식을 지정.
+        
     * **A @Component #{_decorator}** that associates *metadata* with the
         `AppComponent` component class:
-
+        
         - a *selector* that specifies a simple CSS selector for an HTML element that represents
           the component.
         - a *template* that tells Angular how to render the component's view.
+
+    * 템플릿을 통해 뷰의 외형과 동작을 제어하는 **컴포넌트 클래스**. 이 문서에서는 루트 컴포넌트인 `AppComponent`만 
+    사용합니다. 여러분들은 빠른시작 예제에서 어떠한 어플리케이션에 대한 논리가 필요하지 않기 때문에, 컴포넌트는 비어있습니다.
+
     * **A component class** that controls the appearance and behavior of a view
     through its template. Here, you only have the root component, `AppComponent`. Since you don't
     need any application logic in the simple QuickStart example, it's empty.
 
+  여러분은 `AppComponent` 클래스를 *export*했기 때문에 여러분이 생성한 어플리케이션에 바로 *import*하실 수 있습니다.
+  
   You *export* the `AppComponent` class so that you can *import* it into the application that you
    just created.
 
+  여러분의 새로운 `AppComponent`를 import하기위해 `app/app.module.ts` 파일을 수정하고 
+  `NgModule` 데코레이터의 declarations와 bootstrap 영역에 추가해주세요:
+  
   Edit the file `app/app.module.ts` to import your new `AppComponent` and add it in the
   declarations and bootstrap fields in the `NgModule` decorator:
 
