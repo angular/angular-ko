@@ -1,9 +1,9 @@
 {
   "index": {
     "icon": "home",
-    "title": "Angular Docs",
+    "title": "Angular 문서",
     "menuTitle": "Docs Home",
-    "banner": "Welcome to <b>Angular in TypeScript</b>! The current Angular 2 release is <b>rc.6</b>. Please consult the <a href='https://github.com/angular/angular/blob/master/CHANGELOG.md' target='_blank'>  Change Log</a> about recent enhancements, fixes, and breaking changes."
+    "banner": "<b>타입스크립트용 Angular</b>에 오신 것을 환영합니다! 현재 Angular 2 릴리즈 버전은 <b>rc.6</b>입니다. 개선점, 픽스, 주요 변경사항들은 <a href='https://github.com/angular/angular/blob/master/CHANGELOG.md' target='_blank'>  변경 로그</a>에서 확인해주세요."
   },
 
   "cli-quickstart": {
@@ -15,8 +15,8 @@
 
   "quickstart": {
     "icon": "query-builder",
-    "title": "Quickstart",
-    "description": "Get up and running with Angular 2"
+    "title": "빠른시작",
+    "description": "Angular 2와 함께 달려보세요"
   },
 
   "tutorial": {

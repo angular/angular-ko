@@ -9,59 +9,99 @@ block includes
 
 //- TS/Dart shared step counter
 - var step = _stepInit
+- var stepKOR = _stepInit
 
 :marked
+  이 빠른시작 가이드는 #{_Lang}으로 만든 간단한 Angular 2 어플리케이션을 어떻게 빌드하고 실행할지 안내합니다. 
+  또한 이 가이드에서 전반적으로 사용된 코드 예시를 통해 일반적인 개발 환경을 설정해줍니다.
+  
   This QuickStart guide demonstrates how to build and run a simple Angular 2 application in #{_Lang}.
   It also establishes a common development environment used throughout the code examples in these
   guides.
 
+
 .callout.is-helpful
+  header #{_Lang}을 사용하고싶지 않으신가요?
   header Don't want #{_Lang}?
+  p.
+    비록 여러분이 #{_Lang}을 처음 접하시더라도, 여러분은 Angular 2 어플리케이션을 자바스크립트와 
+    #{_docsFor == 'ts' ? 'Dart' : 'TypeScript'}로도 작성하실 수 있습니다. 이 가이드에서 개발 언어를 
+    변경하시려면 베너의 언어 선택버튼을 사용해주세요.
   p.
     Although you're getting started in #{_Lang}, you can also write Angular 2 applications
     in JavaScript and #{_docsFor == 'ts' ? 'Dart' : 'TypeScript'}. Use the language selector in the
-    banner to switch development languages for this guide.
+    banner to switch development languages for this guide.  
 .l-main-section
+h1 개요
 h1 Overview
 
 aside.is-right
   :marked
+    <a href="http://plnkr.co/" title="Plunker" target="_blank">Plunker</a>에 
+    완성된 어플리케이션이 유효한 예시 링크로 올려져있으므로 여러분은 이러한 코드와 상호작용하실 수 있습니다. 
+    여러분들은 대부분의 섹션을 시작할 때 유효한 예시들을 찾으실 수 있습니다.
+
     The live example link opens the finished application in
     <a href="http://plnkr.co/" title="Plunker" target="_blank">Plunker</a> so that you can interact
     with the code. You'll find live examples at the start of most sections.
 
 :marked
+  빠른시작 어플리케이션은 실제로 사용되는 Angular 어플리케이션 구조를 가지고 있으며 간단한 메시지를 보여줍니다:
+
   The QuickStart application has the structure of a real-world Angular application and
   displays the simple message:
+  
 
 figure.image-display
   img(src='/resources/images/devguide/quickstart/my-first-app.png' alt="Output of QuickStart app")
 
 :marked
+  **확인해보세요**. <live-example></live-example>의 링크입니다.
+
   **Try it out**. Here's a link to a <live-example></live-example>.
+
+  여러분들은 깃허브에서 <a href="https://github.com/angular/quickstart/blob/master/README.md" target="_blank">
+  빠른시작 어플리케이션 전부</a>를 복제할 수 있습니다.
 
   You can also <a href="https://github.com/angular/quickstart/blob/master/README.md" target="_blank">
   clone the entire QuickStart application</a> from GitHub.
-
+  
+h2 이 어플리케이션을 만들어보세요!
 h2 Build this application!
 
 :marked
+  - [시작하기전에](#prereq): Node.js와 npm을 설치해주세요.
   - [Prerequisite](#prereq): Install #{_prereq}.
+  - [1단계](#create-and-configure): 프로젝트를 생성하고 구성작업을 해주세요.
   - [Step 1](#create-and-configure): Create and configure the project.
+  <span if-docs="ts"><li>[2단계](#ngmodule): 어플리케이션을 생성해주세요.</span>
   <span if-docs="ts"><li>[Step 2](#ngmodule): Create your application.</span>
+  - [!{stepKOR++}단계](#root-component): 컴포넌트를 생성하고 여러분의 어플리케이션에 추가해주세요.
   - [Step !{step++}](#root-component): Create a component and add it to your application.
+  - [!{stepKOR++}단계](#main): 어플리케이션을 시작해주세요.
   - [Step !{step++}](#main): Start up your application.
+  - [!{stepKOR++}단계](#index): 어플리케이션을 호스트하는 웹 페이지를 정의해주세요.
   - [Step !{step++}](#index): Define the web page that hosts the application.
+  - [!{stepKOR++}단계](#build-and-run): 어플리케이션을 빌드하고 실행해주세요.
   - [Step !{step++}](#build-and-run): Build and run the application.
+  - [!{stepKOR++}단계](#make-changes): 실시간 변화를 만들어주세요.
   - [Step !{step++}](#make-changes): Make some live changes.
+  - [마무리하시고 다음 단계로 넘어가주세요](#wrap-up)
   - [Wrap up and Next Steps](#wrap-up)
 
+
 - var step = _stepInit // reinitialize step counter for headers to come
+- var stepKOR = _stepInit
 
 .l-main-section#prereq
+h1 시작하기전에: Node.js와 npm을 설치해주세요
 h1 Prerequisite: Install #{_prereq}
 
 block setup-tooling
+  :marked
+    만약 당신의 기기에 Node.js와 npm이 설치되어있지 않다면 <a href="http://blog.npmjs.org/post/85484771375/how-to-install-npm"
+    target="_blank">설치해주세요</a>. 우리의 예제들은 node **v5.x.x** 이상, npm **v3.x.x** 이상을 요구합니다. 
+    여러분이 사용하고 있는 버전을 확인하시려면 터미널 창에서 `node -v`와 `npm -v`를 입력해주세요.
   :marked
     If Node.js and npm aren't already on your machine, <a href="http://blog.npmjs.org/post/85484771375/how-to-install-npm"
     target="_blank">install them</a>. Our examples require node **v5.x.x** or higher and
@@ -70,22 +110,34 @@ block setup-tooling
 
 aside.is-right
   :marked
+    코드 예제에서 텍스트를 쉽게 복사하려면, 예제 박스의 우측 상단에 있는 *클립보드로 복사하기* 아이콘
+    (<i class="material-icons" style="font-size: 100%">content_copy </i>)을 클릭해주세요.
+  :marked
     To easily copy text from a code example, click the *Copy to Clipboard* icon (<i
     class="material-icons" style="font-size: 100%">content_copy </i>) in the upper right corner of
     the example box.
 
 .l-main-section
+h1#create-and-configure 1단계: 프로젝트를 생성하고 구성작업을 해주세요
 h1#create-and-configure Step 1: Create and configure the project
 
 - var _package_and_config_files = _docsFor == 'dart' ? 'pubspec.yaml' : 'configuration files'
 
+:marked
+  이 단계에서 여러분들은:
+  * [프로젝트 폴더를 생성합니다](#create-the-project-folder)
+  * [설정 파일들을 생성합니다](#add-config-files)
+  * [패키지들을 설치합니다](#install-packages)
 :marked
   In this step you will:
   * [Create the project folder](#create-the-project-folder)
   * [Create #{_package_and_config_files}](#add-config-files)
   * [#{_Install} packages](#install-packages)
 
+h2#create-the-project-folder 프로젝트 폴더를 생성합니다
 h2 Create the project folder
+:marked
+  터미널 창을 활용하여, 프로젝트로 사용할 폴더를 만들고 해당 폴더로 이동해주세요.
 :marked
   Using a terminal window, create a directory for the project, and change into this
   directory.
@@ -95,25 +147,38 @@ code-example(language="sh").
   mkdir angular2!{_}quickstart
   cd    angular2!{_}quickstart
 
+h2#add-config-files 설정 파일들을 생성합니다
 h2#add-config-files Create #{_package_and_config_files}
 block package-and-config-files
   - var _tsconfigUri = 'guide/typescript-configuration.html#tsconfig'
 
+  p 우리의 Angular 프로젝트는 일반적으로 몇개의 설정 파일들이 필요합니다:
   p Our typical Angular project needs several configuration files:
   ul
     li.
+      #[b package.json]는 프로젝트에 사용되는 npm 패키지 의존성을 명시합니다.
+    li.
       #[b package.json] identifies npm package dependencies for the project.
+    li.
+      #[b tsconfig.json]는 타입스크립트 컴파일러가 프로젝트의 파일로부터 어떻게 자바스크립트를 생성하는지 정의합니다.
     li.
       #[b tsconfig.json] defines how the TypeScript compiler generates JavaScript from the project's
       files.
     li.
+      #[b typings.json]는 타입스크립트 컴파일러가 기본적으로 인식하지 못하는 라이브러리를 위한 추가적인 정의 파일을 제공합니다.
+    li.
       #[b typings.json] provides additional definition files for libraries that the TypeScript
       compiler doesn't natively recognize.
+    li.
+      #[b systemjs.config.js]는 모듈 로더에게 어디서 어플리케이션 모듈을 찾는지에 대한 정보를 제공하며 모든 필요한 패키지들을 등록합니다. 
+      이 파일은 또한 이후에 나올 문서 예제에 필요한 다른 패키지들을 포함하고 있습니다.
     li.
       #[b systemjs.config.js] provides information to a module loader about where to find
       application modules, and registers all the necessary packages. It also
       contains other packages that will be needed by later documentation examples.
 
+  p.
+    위 파일들을 여러분의 프로젝트 폴더에 생성해주세요. 아래의 예시 박스의 탭마다 적힌 텍스트를 붙여넣기하여 파일 내용을 채워넣으세요.
   p.
     Create each of these files in your project directory. Populate them by pasting in text from
     the tabs in the example box below.
@@ -132,22 +197,36 @@ block package-and-config-files
     `)
 
   p.
+    #[a(href="guide/npm-packages.html") Npm 패키지 설정하기] 가이드와 
+    #[a(href="#{_tsconfigUri}") 타입스크립트 설정하기] 가이드를 통해 위 설정 파일들에 대해서 더 알아보세요. 
+    모듈 로딩에 대한 세부적인 토론사항은 이 가이드에서 다루지 않습니다.
+  p.
     Learn more about these configuration files in the
     #[a(href="guide/npm-packages.html") Npm Package Configuration] guide and the
     #[a(href="#{_tsconfigUri}") TypeScript Configuration] guide.
     A detailed discussion of module loading is beyond the scope of this guide.
 
   .callout.is-helpful
+    header SystemJS와 Webpack?
     header SystemJS or Webpack?
+    p.
+      비록 우리가 설명을 위해 SystemJS를 사용하고 있지만, SystemJS는 모듈을 로딩하는 한 가지 선택사항일 뿐입니다. 
+      여러분이 선호하는 모듈 로더를 사용해주세요. Webpack과 Angular 함께 사용하기를 알아보시려면, <a
+      href="guide/webpack.html" > Webpack: 시작하기</a>를 참고해주세요. 또는 SystemJS 일반적인 설정을 더 알아보시려면 
+      <a href="https://github.com/systemjs/systemjs/blob/master/docs/config-api.md" target="_blank">여기</a>를 참고해주세요.
     p.
       Although we use SystemJS for illustrative purposes here, it's only one option for loading
       modules. Use the module loader that you prefer. For Webpack and Angular, see <a
       href="guide/webpack.html" >
-      Webpack: an Introduction</a>. Or, learn more about SystemJS configuration in general <a href="https://github.com/systemjs/systemjs/blob/master/docs/config-api.md" target="_blank">here</a>.
+      Webpack: an Introduction</a>. Or, learn more about SystemJS configuration in general 
+      <a href="https://github.com/systemjs/systemjs/blob/master/docs/config-api.md" target="_blank">here</a>.
 
 
+  h2#install-packages 패키지들을 설치합니다
   h2#install-packages #{_Install} packages
 block install-packages
+  :marked
+    커맨드 라인에서 npm을 사용하여, `package.json`에 나열된 패키지들을 아래의 명령어를 입력하여 설치해주세요:
   :marked
     Using npm from the command line, install the packages listed in `package.json` with the command:
 
@@ -155,8 +234,13 @@ block install-packages
     npm install
 
   :marked
+    설치 과정에서 &mdash;붉은색으로 표시되는&mdash; 에러 메시지가 나타날 것이며, 여러분들은 `npm WARN` 메시지를 보게될 것입니다. 
+    설치 과정이 `npm ERR!`메시지로 끝나지 않는다면, 여러분들은 성공한 것으로 인식하면 됩니다.
+  :marked
     Error messages&mdash;in red&mdash;might appear during the install, and you might see `npm WARN` messages. As long as there are no `npm ERR!` messages at the end, you can assume success.
 
+  :marked
+    여러분들은 이제 아래와같은 구조의 화면을 보실 수 있습니다:
   :marked
     You should now have the following structure:
 
@@ -170,7 +254,8 @@ block install-packages
       .file tsconfig.json
       .file typings.json
 
-
+  :marked
+    만약 `npm install`을 실행한 이후에 `typings` 폴더가 나타나지 않는다면, 여러분들은 수동으로 명령어를 입력하여 그것을 설치해야합니다:
   :marked
     If the `typings` folder doesn't show up after running `npm install`, you'll need to install it manually with the command:
 
@@ -178,39 +263,67 @@ block install-packages
       npm run typings install
 
 :marked
+  이제 여러분들은 코드를 작성할 준비가 되었습니다!
+:marked
   You're now ready to write some code!
+  
 +ifDocsFor('ts')
   .l-main-section
+  h1#ngmodule 2단계: 어플리케이션을 생성해주세요
   h1#ngmodule Step 2: Create your application
   :marked
+    여러분들은 Angular 어플리케이션을 [NgModules](guide/ngmodule.html)과 관련된 코드 블럭들로 분해합니다. Angular는 
+    분리된 Angular 모듈들로 나뉩니다. 이런 작업은 여러분들의 어플리케이션이 필요한 부분에 Angular의 요소들을 
+    import 함으로써 페이로드의 크기를 작은 상태로 유지하는 것을 가능하게 만들어줍니다.
+    
     You compose Angular applications into closely related blocks of functionality with
     [NgModules](guide/ngmodule.html). Angular itself is split into separate Angular Modules. This
     makes it possible for you to keep payload size small by only importing the parts of Angular
     that your application needs.
 
+    모든 Angular 어플리케이션은 최소 하나의 모듈을 지닙니다: 이 문서에서 `AppModule`로 불리는 _루트 모듈_.
+    
     Every Angular application has at least one module: the _root module_, named `AppModule` here.
 
+    프로젝트의 루트 폴더에 **하위폴더 #{_appDir}을 생성해주세요**:
+    
     **Create #{_an} #{_appDir} subfolder** off the project root directory:
 
   code-example.
     mkdir #{_appDir}
 
   :marked
+    `app/app.module.ts`을 만들고 아래 내용을 채워주세요:
+    
     Create the file `app/app.module.ts` with the following content:
 
   +makeExample('app/app.module.1.ts')(format='.')
 
   :marked
+    이 파일은 어플리케이션의 시작 지점입니다.
+    
     This is the entry point to your application.
 
+    빠른시작 어플리케이션이 브라우저에서 동작하는 웹 어플리케이션이기 때문에, 여러분의 루트 모듈은 `@angular/platform-browser`로부터 
+    [`BrowserModule`](../latest/api/platform-browser/index/BrowserModule-class.html)을 `imports` 배열에 
+    import 해주셔야합니다.
+    
     Since the QuickStart application is a web application that runs in a browser, your root module
     needs to import the
     [`BrowserModule`](../latest/api/platform-browser/index/BrowserModule-class.html)
     from `@angular/platform-browser` to the `imports` array.
 
+    이 상태는 브라우저에서 작은 어플리케이션을 동작하기위한 가장 간결한 Angular 형태입니다.
+    
     This is the smallest amount of Angular that is needed for a minimal application to run in the
     browser.
 
+    빠른시작 어플리케이션은 아무 동작도 하지 않기때문에 여러분들은 어떠한 추가적인 모듈도 필요하지 않습니다. 실제 어플리케이션에서는, 
+    [`FormsModule`](../latest/api/forms/index/FormsModule-class.html)이나 
+    [`RouterModule`](../latest/api/router/index/RouterModule-class.html), 
+    [`HttpModule`](../latest/api/http/index/HttpModule-class.html) 등을 import하게 될 것입니다. 이 모듈들은 
+    [영웅들의 모험 튜토리얼](./tutorial/)에 소개되어 있습니다.
+    
     The QuickStart application doesn't do anything else, so you don't need any other modules. In a real
     application, you'd likely import [`FormsModule`](../latest/api/forms/index/FormsModule-class
     .html) as well as [`RouterModule`](../latest/api/router/index/RouterModule-class.html) and
@@ -219,15 +332,23 @@ block install-packages
 
 
 .l-main-section
+h1#root-component Step !{stepKOR++}: 컴포넌트를 생성하고 여러분의 어플리케이션에 추가해주세요
 h1#root-component Step !{step++}: Create a component and add it to your application
 :marked
+  모든 Angular 어플리케이션은 최소 하나 이상의 컴포넌트를 소유합니다: 이 문서에서 `AppComponent`로 불리는 _루트 컴포넌트_.
+
   Every Angular application has at least one component: the _root component_, named `AppComponent`
   here.
 
+  컴포넌트들은 Angular 어플리케이션의 기본 구성 단위입니다. 컴포넌트는 관련된 템플릿을 통해 화면&mdash;뷰&mdash;의 일부분을 
+  제어할 수 있습니다.
+  
   Components are the basic building blocks of Angular applications. A component controls a portion
   of the screen&mdash;a *view*&mdash;through its associated template.
 
 a#app-component
+p.
+  #[code #[+adjExPath('app/app.component.ts')]] #[b 컴포넌트 파일을 생성하고] 아래 내용을 채워주세요:
 p.
   #[b Create the component file]
   #[code #[+adjExPath('app/app.component.ts')]] with the following content:
@@ -235,24 +356,45 @@ p.
 +makeExample('app/app.component.ts')
 
 :marked
+  빠른시작 어플리케이션은 다른 일반적인 Angular 컴포넌트와 동일한 필수적인 구성을 지니고 있습니다:
+  
   The QuickStart application has the same essential structure as any other Angular component:
 
+    * **import 선언문**. Import는 여러분들의 컴포넌트가 Angular의 주요 [`@Component` 데코레이터 함수](../latest/api/core/index/Component-decorator
+    .html)에 접근하도록 만들어줍니다.
+    
     * **An import statement**. Importing gives your component access to
     Angular's core [`@Component` decorator function](../latest/api/core/index/Component-decorator
     .html).
+    
+    * `AppComponent` 컴포넌트 클래스의 *메타 데이터*와 연관된 **@Component 데코레이터**:
+
+        - *선택자*: 컴포넌트를 표시하는 HTML 엘리먼트를 위한 간단한 CSS 선택자를 지정.
+        
+        - *템플릿*: Angular에게 컴포넌트 뷰를 렌더링하는 방식을 지정.
+        
     * **A @Component #{_decorator}** that associates *metadata* with the
         `AppComponent` component class:
-
+        
         - a *selector* that specifies a simple CSS selector for an HTML element that represents
           the component.
         - a *template* that tells Angular how to render the component's view.
+
+    * 템플릿을 통해 뷰의 외형과 동작을 제어하는 **컴포넌트 클래스**. 이 문서에서는 루트 컴포넌트인 `AppComponent`만 
+    사용합니다. 여러분들은 빠른시작 예제에서 어떠한 어플리케이션에 대한 논리가 필요하지 않기 때문에, 컴포넌트는 비어있습니다.
+
     * **A component class** that controls the appearance and behavior of a view
     through its template. Here, you only have the root component, `AppComponent`. Since you don't
     need any application logic in the simple QuickStart example, it's empty.
 
+  여러분은 `AppComponent` 클래스를 *export*했기 때문에 여러분이 생성한 어플리케이션에 바로 *import*하실 수 있습니다.
+  
   You *export* the `AppComponent` class so that you can *import* it into the application that you
    just created.
 
+  여러분의 새로운 `AppComponent`를 import하기위해 `app/app.module.ts` 파일을 수정하고 
+  `NgModule` 데코레이터의 declarations와 bootstrap 영역에 추가해주세요:
+  
   Edit the file `app/app.module.ts` to import your new `AppComponent` and add it in the
   declarations and bootstrap fields in the `NgModule` decorator:
 
