@@ -12,7 +12,7 @@ block includes
 - var stepKOR = _stepInit
 
 :marked
-  이 빠른시작 가이드는 #{_Lang}으로 만든 간단한 Angular 2 어플리케이션을 어떻게 빌드하고 실행할지 안내합니다. 
+  이 빠른시작 가이드는 #{_Lang}으로 만든 간단한 Angular 2 애플리케이션을 어떻게 빌드하고 실행할지 안내합니다. 
   또한 이 가이드에서 전반적으로 사용된 코드 예시를 통해 일반적인 개발 환경을 설정해줍니다.
   
   This QuickStart guide demonstrates how to build and run a simple Angular 2 application in #{_Lang}.
@@ -24,7 +24,7 @@ block includes
   header #{_Lang}을 사용하고싶지 않으신가요?
   header Don't want #{_Lang}?
   p.
-    비록 여러분이 #{_Lang}을 처음 접하시더라도, 여러분은 Angular 2 어플리케이션을 자바스크립트와 
+    비록 여러분이 #{_Lang}을 처음 접하시더라도, 여러분은 Angular 2 애플리케이션을 자바스크립트와 
     #{_docsFor == 'ts' ? 'Dart' : 'TypeScript'}로도 작성하실 수 있습니다. 이 가이드에서 개발 언어를 
     변경하시려면 베너의 언어 선택버튼을 사용해주세요.
   p.
@@ -38,7 +38,7 @@ h1 Overview
 aside.is-right
   :marked
     <a href="http://plnkr.co/" title="Plunker" target="_blank">Plunker</a>에 
-    완성된 어플리케이션이 유효한 예시 링크로 올려져있으므로 여러분은 이러한 코드와 상호작용하실 수 있습니다. 
+    완성된 애플리케이션이 유효한 예시 링크로 올려져있으므로 여러분은 이러한 코드와 상호작용하실 수 있습니다. 
     여러분들은 대부분의 섹션을 시작할 때 유효한 예시들을 찾으실 수 있습니다.
 
     The live example link opens the finished application in
@@ -46,7 +46,7 @@ aside.is-right
     with the code. You'll find live examples at the start of most sections.
 
 :marked
-  빠른시작 어플리케이션은 실제로 사용되는 Angular 어플리케이션 구조를 가지고 있으며 간단한 메시지를 보여줍니다:
+  빠른시작 애플리케이션은 실제로 사용되는 Angular 애플리케이션 구조를 가지고 있으며 간단한 메시지를 보여줍니다:
 
   The QuickStart application has the structure of a real-world Angular application and
   displays the simple message:
@@ -61,12 +61,12 @@ figure.image-display
   **Try it out**. Here's a link to a <live-example></live-example>.
 
   여러분들은 깃허브에서 <a href="https://github.com/angular/quickstart/blob/master/README.md" target="_blank">
-  빠른시작 어플리케이션 전부</a>를 복제할 수 있습니다.
+  빠른시작 애플리케이션 전부</a>를 복제할 수 있습니다.
 
   You can also <a href="https://github.com/angular/quickstart/blob/master/README.md" target="_blank">
   clone the entire QuickStart application</a> from GitHub.
   
-h2 이 어플리케이션을 만들어보세요!
+h2 이 애플리케이션을 만들어보세요!
 h2 Build this application!
 
 :marked
@@ -74,15 +74,15 @@ h2 Build this application!
   - [Prerequisite](#prereq): Install #{_prereq}.
   - [1단계](#create-and-configure): 프로젝트를 생성하고 구성작업을 해주세요.
   - [Step 1](#create-and-configure): Create and configure the project.
-  <span if-docs="ts"><li>[2단계](#ngmodule): 어플리케이션을 생성해주세요.</span>
+  <span if-docs="ts"><li>[2단계](#ngmodule): 애플리케이션을 생성해주세요.</span>
   <span if-docs="ts"><li>[Step 2](#ngmodule): Create your application.</span>
-  - [!{stepKOR++}단계](#root-component): 컴포넌트를 생성하고 여러분의 어플리케이션에 추가해주세요.
+  - [!{stepKOR++}단계](#root-component): 컴포넌트를 생성하고 여러분의 애플리케이션에 추가해주세요.
   - [Step !{step++}](#root-component): Create a component and add it to your application.
-  - [!{stepKOR++}단계](#main): 어플리케이션을 시작해주세요.
+  - [!{stepKOR++}단계](#main): 애플리케이션을 시작해주세요.
   - [Step !{step++}](#main): Start up your application.
-  - [!{stepKOR++}단계](#index): 어플리케이션을 호스트하는 웹 페이지를 정의해주세요.
+  - [!{stepKOR++}단계](#index): 애플리케이션을 호스트하는 웹 페이지를 정의해주세요.
   - [Step !{step++}](#index): Define the web page that hosts the application.
-  - [!{stepKOR++}단계](#build-and-run): 어플리케이션을 빌드하고 실행해주세요.
+  - [!{stepKOR++}단계](#build-and-run): 애플리케이션을 빌드하고 실행해주세요.
   - [Step !{step++}](#build-and-run): Build and run the application.
   - [!{stepKOR++}단계](#make-changes): 실시간 변화를 만들어주세요.
   - [Step !{step++}](#make-changes): Make some live changes.
@@ -170,7 +170,7 @@ block package-and-config-files
       #[b typings.json] provides additional definition files for libraries that the TypeScript
       compiler doesn't natively recognize.
     li.
-      #[b systemjs.config.js]는 모듈 로더에게 어디서 어플리케이션 모듈을 찾는지에 대한 정보를 제공하며 모든 필요한 패키지들을 등록합니다. 
+      #[b systemjs.config.js]는 모듈 로더에게 어디서 애플리케이션 모듈을 찾는지에 대한 정보를 제공하며 모든 필요한 패키지들을 등록합니다. 
       이 파일은 또한 이후에 나올 문서 예제에 필요한 다른 패키지들을 포함하고 있습니다.
     li.
       #[b systemjs.config.js] provides information to a module loader about where to find
@@ -269,11 +269,11 @@ block install-packages
   
 +ifDocsFor('ts')
   .l-main-section
-  h1#ngmodule 2단계: 어플리케이션을 생성해주세요
+  h1#ngmodule 2단계: 애플리케이션을 생성해주세요
   h1#ngmodule Step 2: Create your application
   :marked
-    여러분들은 Angular 어플리케이션을 [NgModules](guide/ngmodule.html)과 관련된 코드 블럭들로 분해합니다. Angular는 
-    분리된 Angular 모듈들로 나뉩니다. 이런 작업은 여러분들의 어플리케이션이 필요한 부분에 Angular의 요소들을 
+    여러분들은 Angular 애플리케이션을 [NgModules](guide/ngmodule.html)과 관련된 코드 블럭들로 분해합니다. Angular는 
+    분리된 Angular 모듈들로 나뉩니다. 이런 작업은 여러분들의 애플리케이션이 필요한 부분에 Angular의 요소들을 
     import 함으로써 페이로드의 크기를 작은 상태로 유지하는 것을 가능하게 만들어줍니다.
     
     You compose Angular applications into closely related blocks of functionality with
@@ -281,7 +281,7 @@ block install-packages
     makes it possible for you to keep payload size small by only importing the parts of Angular
     that your application needs.
 
-    모든 Angular 어플리케이션은 최소 하나의 모듈을 지닙니다: 이 문서에서 `AppModule`로 불리는 _루트 모듈_.
+    모든 Angular 애플리케이션은 최소 하나의 모듈을 지닙니다: 이 문서에서 `AppModule`로 불리는 _루트 모듈_.
     
     Every Angular application has at least one module: the _root module_, named `AppModule` here.
 
@@ -300,11 +300,11 @@ block install-packages
   +makeExample('app/app.module.1.ts')(format='.')
 
   :marked
-    이 파일은 어플리케이션의 시작 지점입니다.
+    이 파일은 애플리케이션의 시작 지점입니다.
     
     This is the entry point to your application.
 
-    빠른시작 어플리케이션이 브라우저에서 동작하는 웹 어플리케이션이기 때문에, 여러분의 루트 모듈은 `@angular/platform-browser`로부터 
+    빠른시작 애플리케이션이 브라우저에서 동작하는 웹 애플리케이션이기 때문에, 여러분의 루트 모듈은 `@angular/platform-browser`로부터 
     [`BrowserModule`](../latest/api/platform-browser/index/BrowserModule-class.html)을 `imports` 배열에 
     import 해주셔야합니다.
     
@@ -313,12 +313,12 @@ block install-packages
     [`BrowserModule`](../latest/api/platform-browser/index/BrowserModule-class.html)
     from `@angular/platform-browser` to the `imports` array.
 
-    이 상태는 브라우저에서 작은 어플리케이션을 동작하기위한 가장 간결한 Angular 형태입니다.
+    이 상태는 브라우저에서 작은 애플리케이션을 동작하기위한 가장 간결한 Angular 형태입니다.
     
     This is the smallest amount of Angular that is needed for a minimal application to run in the
     browser.
 
-    빠른시작 어플리케이션은 아무 동작도 하지 않기때문에 여러분들은 어떠한 추가적인 모듈도 필요하지 않습니다. 실제 어플리케이션에서는, 
+    빠른시작 애플리케이션은 아무 동작도 하지 않기때문에 여러분들은 어떠한 추가적인 모듈도 필요하지 않습니다. 실제 애플리케이션에서는, 
     [`FormsModule`](../latest/api/forms/index/FormsModule-class.html)이나 
     [`RouterModule`](../latest/api/router/index/RouterModule-class.html), 
     [`HttpModule`](../latest/api/http/index/HttpModule-class.html) 등을 import하게 될 것입니다. 이 모듈들은 
@@ -332,15 +332,15 @@ block install-packages
 
 
 .l-main-section
-h1#root-component Step !{stepKOR++}: 컴포넌트를 생성하고 여러분의 어플리케이션에 추가해주세요
+h1#root-component Step !{stepKOR++}: 컴포넌트를 생성하고 여러분의 애플리케이션에 추가해주세요
 h1#root-component Step !{step++}: Create a component and add it to your application
 :marked
-  모든 Angular 어플리케이션은 최소 하나 이상의 컴포넌트를 소유합니다: 이 문서에서 `AppComponent`로 불리는 _루트 컴포넌트_.
+  모든 Angular 애플리케이션은 최소 하나 이상의 컴포넌트를 소유합니다: 이 문서에서 `AppComponent`로 불리는 _루트 컴포넌트_.
 
   Every Angular application has at least one component: the _root component_, named `AppComponent`
   here.
 
-  컴포넌트들은 Angular 어플리케이션의 기본 구성 단위입니다. 컴포넌트는 관련된 템플릿을 통해 화면&mdash;뷰&mdash;의 일부분을 
+  컴포넌트들은 Angular 애플리케이션의 기본 구성 단위입니다. 컴포넌트는 관련된 템플릿을 통해 화면&mdash;뷰&mdash;의 일부분을 
   제어할 수 있습니다.
   
   Components are the basic building blocks of Angular applications. A component controls a portion
@@ -356,7 +356,7 @@ p.
 +makeExample('app/app.component.ts')
 
 :marked
-  빠른시작 어플리케이션은 다른 일반적인 Angular 컴포넌트와 동일한 필수적인 구성을 지니고 있습니다:
+  빠른시작 애플리케이션은 다른 일반적인 Angular 컴포넌트와 동일한 필수적인 구성을 지니고 있습니다:
   
   The QuickStart application has the same essential structure as any other Angular component:
 
@@ -381,13 +381,13 @@ p.
         - a *template* that tells Angular how to render the component's view.
 
     * 템플릿을 통해 뷰의 외형과 동작을 제어하는 **컴포넌트 클래스**. 이 문서에서는 루트 컴포넌트인 `AppComponent`만 
-    사용합니다. 여러분들은 빠른시작 예제에서 어떠한 어플리케이션에 대한 논리가 필요하지 않기 때문에, 컴포넌트는 비어있습니다.
+    사용합니다. 여러분들은 빠른시작 예제에서 어떠한 애플리케이션에 대한 논리가 필요하지 않기 때문에, 컴포넌트는 비어있습니다.
 
     * **A component class** that controls the appearance and behavior of a view
     through its template. Here, you only have the root component, `AppComponent`. Since you don't
     need any application logic in the simple QuickStart example, it's empty.
 
-  여러분은 `AppComponent` 클래스를 *export*했기 때문에 여러분이 생성한 어플리케이션에 바로 *import*하실 수 있습니다.
+  여러분은 `AppComponent` 클래스를 *export*했기 때문에 여러분이 생성한 애플리케이션에 바로 *import*하실 수 있습니다.
   
   You *export* the `AppComponent` class so that you can *import* it into the application that you
    just created.
