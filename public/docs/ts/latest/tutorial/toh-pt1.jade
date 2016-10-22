@@ -1,17 +1,27 @@
 include ../_util-fns
 
 :marked
+  # 옛날 옛적에
   # Once Upon a Time
+
+  모든 이야기는 시작점이 있습니다. 우리의 이야기는 [QuickStart](../quickstart.html)가 끝나는 곳에서 시작합니다.
 
   Every story starts somewhere. Our story starts where the [QuickStart](../quickstart.html) ends.
 
+  이 파트의 <live-example></live-example>을 실행해 보세요.
+
   Run the <live-example></live-example> for this part.
+
+  `angular2-tour-of-heroes` 폴더를 만들고, [QuickStart](../quickstart.html)를 따라가면서
+  Tour of Heroes에 필요한 필수 구성 요소와 핵심 파일을 설치하고 필요한 폴더 구조를 구축하십시오.
 
   Create a folder called `angular2-tour-of-heroes` and follow the [QuickStart](../quickstart.html) steps
   which provide the prerequisites, the folder structure, and the core files for our Tour of Heroes.
 
 include ../_quickstart_repo
 :marked
+  아래와 같은 구조를 만들어야 합니다.
+
   We should have the following structure:
 
 .filetree
@@ -31,20 +41,34 @@ include ../_quickstart_repo
     .file tsconfig.json
     .file typings.json
 :marked
+  ## 트랜스파일러와 앱 서버 작동시키기
   ## Keep the app transpiling and running
+
+  TypeScript 컴파일러를 실행해 변경사항을 감시하도록 하고, 서버를 시작해야 합니다.
+
   We want to start the TypeScript compiler, have it watch for changes, and start our server. We'll do this by typing
 
 code-example(language="bash").
   npm start
 
 :marked
+  이 명령어는 컴파일러를 watch 모드로 실행하고, 서버를 시작하며, 앱을 브라우저에 띄우고,
+  우리가 Tour of Heroes를 만들어 나가는 동안 계속 앱을 실행상태로 둘 것입니다.
+
   This command runs the compiler in watch mode, starts the server, launches the app in a browser,
   and keeps the app running while we continue to build the Tour of Heroes.
 
 .l-main-section
   :marked
+    ## 히어로를 보여줘
     ## Show our Hero
+
+    앱에서 히어로 정보를 보여주려고 합니다.
+
     We want to display Hero data in our app
+
+    `AppComponent`에 두 가지 속성을 추가합니다. 하나는 애플케이션 이름을 위한 `title` 속성이고,
+    다른 하나는 "Windstorm"이라는 히어로를 지정할 `hero` 속성입니다.
 
     Let's add two properties to our `AppComponent`, a `title` property for the application name and a `hero` property
     for a hero named "Windstorm".
@@ -52,23 +76,39 @@ code-example(language="bash").
   +makeExample('toh-1/ts-snippets/app.component.snippets.pt1.ts', 'app-component-1', 'app.component.ts (AppComponent class)')(format=".")
 
   :marked
+    이제 `@Component` 데코레이션의 템플릿에 이 새로운 속성들에 대한 데이터 바인딩을 추가합니다.
+
     Now we update the template in the `@Component` decoration with data bindings to these new properties.
 
   +makeExample('toh-1/ts-snippets/app.component.snippets.pt1.ts', 'show-hero')
 
   :marked
+    브라우저가 자동으로 새로고침되고 애플리케이션과 히어로의 이름을 보여줄 것입니다.
+
     The browser should refresh and display our title and hero.
+
+    이중 중괄호는 앱으로 하여금 컴포넌트의 `title`과 `hero` 속성을 읽고 렌더하도록 합니다.
+    이것이 일방향 데이터 바인딩 중 "보간(interpolation)" 형식입니다.
 
     The double curly braces tell our app to read the `title` and `hero` properties from the component and render them.
     This is the "interpolation" form of one-way data binding.
 .l-sub-section
   :marked
+    보간에 대해 [Displaying Data chapter](../guide/displaying-data.html)에서 더 자세히 알아 보세요.
+
     Learn more about interpolation in the [Displaying Data chapter](../guide/displaying-data.html).
 :marked
+  ### 히어로 객체
   ### Hero object
+
+  지금은 히어로가 이름만 가지고 있습니다. 더 많은 속성이 필요합니다.
+  `hero`를 문자열에서 클래스로 바꿔 봅시다.
 
   At the moment, our hero is just a name.  Our hero needs more properties.
   Let's convert the `hero` from a literal string to a class.
+
+  `id`와 `name` 속성을 가진 `Hero` 클래스를 만듭니다.
+  지금은 일단 `app.component.ts` 파일의 상단에 가까운 곳에 만들도록 합시다. import 문 바로 아래에 두면 됩니다.
 
   Create a `Hero` class with `id` and `name` properties.
   For now put this near the top of the `app.component.ts` file, just below the import statement.
@@ -76,34 +116,56 @@ code-example(language="bash").
 +makeExample('toh-1/ts/app/app.component.ts', 'hero-class-1', 'app.component.ts (Hero class)')(format=".")
 
 :marked
+  이제 `Hero` 클래스가 있으니 컴포넌트의 `hero` 속성이 `Hero` 타입의 인스턴스가 되도록 합니다.
+  id는 `1`, 이름은 "Windstorm"인 상태로 초기화합니다.
+
   Now that we have a `Hero` class, let’s refactor our component’s `hero` property to be of type `Hero`.
   Then initialize it with an id of `1` and the name, "Windstorm".
 
 +makeExample('toh-1/ts/app/app.component.ts', 'hero-property-1', 'app.component.ts (hero property)')(format=".")
 
 :marked
+  히어로를 문자열에서 객체로 변경했기 때문에 템플릿 내에서 히어로의 `name` 속성을 참조하는 바인딩을 업데이트해야 합니다.
+
   Because we changed the hero from a string to an object,
   we update the binding in the template to refer to the hero’s `name` property.
 
 +makeExample('toh-1/ts-snippets/app.component.snippets.pt1.ts', 'show-hero-2')
 :marked
+  브라우저 새로고침 후에도 히어로의 이름이 보이는군요.
+
   The browser refreshes and continues to display our hero’s name.
 
+  ### HTML 추가
   ### Adding more HTML
+
+  이름을 보여주는 것도 좋지만, 히어로의 모든 속성을 보여주고 싶네요.
+  `id`를 위한 `<div>`와 `name`을 위한 `<div>`를 각각 추가합시다.
+
   Displaying a name is good, but we want to see all of our hero’s properties.
   We’ll add a `<div>` for our hero’s `id` property and another `<div>` for our hero’s `name`.
 
 +makeExample('toh-1/ts-snippets/app.component.snippets.pt1.ts', 'show-hero-properties')
 :marked
+  이런, 문자열이 너무 기네요. 템플릿에 오타라도 내지 않으려면 이 문제를 처리해야겠습니다.
+
   Uh oh, our template string is getting long. We better take care of that to avoid the risk of making a typo in the template.
 
+  ### 멀티라인 템플릿 문자열
   ### Multi-line template strings
+
+  더 읽기 좋은 템플릿을 만들기 위해 문자열 접합(string concatenation)을 할 수도 있지만
+  그것도 조금만 길어지면 금방 보기 안 좋아집니다. 읽기 어렵고, 철자를 잘못 쓰기도 쉽죠.
+  ES2015와 TypeScript에서 지원하는 템플릿 문자열 기능을 활용합시다.
 
   We could make a more readable template with string concatenation
   but that gets ugly fast, it is harder to read, and
   it is easy to make a spelling error. Instead,
   let’s take advantage of the template strings feature
   in ES2015 and TypeScript to maintain our sanity.
+
+  문자열을 둘러싼 따옴표를 역따옴표로 변경하고
+  `<h1>`, `<h2>`와 `<div>`를 필요한 줄로 이동시킵니다.
 
   Change the quotes around the template to back-ticks and
   put the `<h1>`, `<h2>` and `<div>` elements on their own lines.
@@ -113,6 +175,11 @@ code-example(language="bash").
   .callout.is-important
     header A back-tick is not a single quote
     :marked
+      **주의** 역따옴표(`)는 작은 따옴표(')와 유사하게 생겼습니다만
+      완전히 다른 문자입니다. 역따옴표는 문자열을 구분하는 것보다 더 많은 일을 합니다.
+      여기서는 템플릿을 여러 줄로 작성하기 위한 용도로만 사용할 것입니다.
+      역따옴표 안의 모든 것이 하나의 템플릿 문자열에 포합됩니다.
+
       **Be careful!** A back-tick (`) looks a lot like a single quote (').
       It's actually a completely different character.
       Back-ticks can do more than demarcate a string.
@@ -122,25 +189,42 @@ code-example(language="bash").
 
 .l-main-section
 :marked
+  ## 히어로 편집하기
   ## Editing Our Hero
 
+  히어로의 이름을 텍스트박스에서 편집할 수 있으면 좋겠네요.
+
   We want to be able to edit the hero name in a textbox.
+
+  히어로 이름의 `<label>`을 `<label>`과 `<input>`으로 재작성해 봅시다.
 
   Refactor the hero name `<label>` with `<label>` and `<input>` elements as shown below:
 
 +makeExample('toh-1/ts-snippets/app.component.snippets.pt1.ts', 'editing-Hero', 'app.component.ts (input element)')
 :marked
+  이제 브라우저의 `<input>` 텍스트박스에 히어로의 이름이 나타납니다.
+  하지만 뭔가 찜찜한데요. 이름을 바꿔도 `<h2>`에 반영이 안 되고 있네요.
+  일방향 바인딩으로는 필요한 기능을 만들 수 없겠습니다.
+
   We see in the browser that the hero’s name does appear in the `<input>` textbox.
   But something doesn’t feel right.
   When we change the name, we notice that our change
   is not reflected in the `<h2>`. We won't get the desired behavior
   with a one-way binding to `<input>`.
 
+  ### 양방향 바인딩
   ### Two-Way Binding
+
+  `<input>`에 히어로 이름을 보여주고, 이름을 변경하면 변경사항이 바인딩된 모든 곳에 반영되도록 하는 것이 목표입니다.
+  간단히 말하면, 양방향 바인딩을 하는 것입니다.
 
   We intend to display the name of the hero in the `<input>`, change it,
   and see those changes wherever we bind to the hero’s name.
   In short, we want two-way data binding.
+
+  **폼 입력필드**에 양방향 바인딩을 사용하기 전에 Angular 모듈 중 하나인 `FormsModule`을 가져와야 합니다.
+  `NgModule` 데코레이터의 `imports` 배열에 추가합니다. 이 배열은 애플리케이션이 사용하는 외부 모듈 리스트를 담습니다.
+  이제 `ngModel`을 포함하는 폼 패키지를 가져왔습니다.
 
   Before we can use two-way data binding for **form inputs**, we need to import the `FormsModule`
   package in our Angular module. We add it to the `NgModule` decorator's `imports` array. This array contains the list
@@ -151,12 +235,19 @@ code-example(language="bash").
 
 .l-sub-section
   :marked
+    `FormsModule`과 `ngModel`에 대해 [Forms](../guide/forms.html#ngModel) 및
+    [Template Syntax](../guide/template-syntax.html#ngModel) 챕터에서 더 자세하게 알아보세요.
+
     Learn more about the `FormsModule` and `ngModel` in the
     [Forms](../guide/forms.html#ngModel) and
     [Template Syntax](../guide/template-syntax.html#ngModel) chapters.
 
 :marked
+  양방향 바인딩을 위한 **`ngModel`**의 내장 지시자를 사용해 템플릿을 수정합시다.
+
   Let’s update the template to use the  **`ngModel`** built-in directive for two-way binding.
+
+  `<input>`을 아래 HTML로 교체합니다.
 
   Replace the `<input>` with the following HTML
 
@@ -164,13 +255,25 @@ code-example(language="html").
   &lt;input [(ngModel)]="hero.name" placeholder="name">
 
 :marked
+  브라우저 새로고침 후에 히어로의 이름을 편집하면 `<h2>`에 즉각 변경된 이름이 보이는 것을 확인할 수 있습니다.
+
   The browser refreshes. We see our hero again. We can edit the hero’s name and
   see the changes reflected immediately in the `<h2>`.
 
 .l-main-section
 :marked
+  ## 걸어온 여정
   ## The Road We’ve Travelled
+
+  이 파트에서 무엇을 만들었는지 다시 살펴봅시다.
+
   Let’s take stock of what we’ve built.
+
+  * 단방향 데이터 바인딩 방법인 보간(interpolation) 형식의 이중 중괄호를 사용해 앱 이름과 `Hero` 객체의 속성을 표시했습니다.
+  * ES2015의 템플릿 문자열을 사용해 읽기 쉬운 멀티라인 템플릿을 작성했습니다.
+  * `ngModel` 내장 지시자를 `<input>` 요소에 적용해 히어로 이름을 변경하고 동시에 보여줄 수 있는 양방향 데이터 바인딩을 추가했습니다.
+  * `ngModel` 지시자는 `hero.name`이 바인딩된 다른 모든 곳에도 변경사항을 전파합니다.
+
 
   * Our Tour of Heroes uses the double curly braces of interpolation (a kind of one-way data binding)
   to display the application title and properties of a `Hero` object.
@@ -179,7 +282,11 @@ code-example(language="html").
   using the built-in `ngModel` directive.
   * The `ngModel` directive also propagates changes to every other binding of the `hero.name`.
 
+  <live-example></live-example>를 실행해 보세요.
+
   Run the <live-example></live-example> for this part.
+
+  아래는 오늘 만든 것들이 모두 작성된 `app.component.ts`입니다.
 
   Here's the complete `app.component.ts` as it stands now:
 
@@ -187,7 +294,14 @@ code-example(language="html").
 
 .l-main-section
 :marked
+  ## 다음 여정
   ## The Road Ahead
+
+  현재 Tour of Heroes는 한 명의 히어로만 보여주고 있지만, 우리는 히어로들의 명단을 보여주고 싶습니다.
+  사용자가 히어로를 선택하면 세부사항이 보이도록 하고 싶네요.
+  어떻게 목록을 추출해서 템플릿에 바인딩할 수 있는지, 사용자가 히어로를 선택할 수 있도록 하려면 어떻게 해야 하는지
+  [다음 튜토리얼 챕터](./toh-pt2.html)에서 알아 봅시다.
+
   Our Tour of Heroes only displays one hero and we really want to display a list of heroes.
   We also want to allow the user to select a hero and display their details.
   We’ll learn more about how to retrieve lists, bind them to the
