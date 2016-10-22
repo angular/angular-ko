@@ -22,7 +22,7 @@ Angular와 관련된 유용한 자료들의 링크를 포함하고 있습니다.
 
 이슈를 제기하는 것도 좋지만 **pull requests**를 통해 내용을 제출하는 것이 더 좋습니다!
 
-- [Angular-ko에 기여하기](https://github.com/angular/angular-ko/CONTRIBUTING.md)를 참고해주세요.
+- [Angular-ko에 기여하기](https://github.com/angular/angular-ko/blob/master/CONTRIBUTING.md)를 참고해주세요.
 
 
 ## 라이센스
