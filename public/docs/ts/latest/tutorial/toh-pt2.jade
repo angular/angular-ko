@@ -1,12 +1,22 @@
 include ../_util-fns
 
 :marked
-  # It Takes Many Heroes
+  # 많은 히어로들
+  # It Takes Many Heroes 
+
+  우리의 이야기는 더 많은 히어로를 필요로 합니다. Tour of Heroes 앱이 히어로의 목록을 보여주고, 사용자가 히어로를 선택하고, 선택된 히어로의 상세내용을 보여줄 수 있도록 확장해보겠습니다.
+
   Our story needs more heroes.
   We’ll expand our Tour of Heroes app to display a list of heroes,
   allow the user to select a hero, and display the hero’s details.
 
+  이 파트의 <live-example></live-example>을 실행해 보세요.
+
   Run the <live-example></live-example> for this part.
+
+  잠시 히어로의 목록을 보여주기 위해 필요한 것을 살펴봅시다. 
+  먼저, 히어로들의 정보가 필요합니다. 우리는 이 히어로들을 뷰의 템플릿에 보여주길 원하고, 
+  이것을 어떻게 하는지 살펴보겠습니다.
 
   Let’s take stock of what we’ll need to display a list of heroes.
   First, we need a list of heroes. We want to display those heroes in the view’s template,
@@ -14,7 +24,13 @@ include ../_util-fns
 
 .l-main-section
 :marked
-  ## Where We Left Off
+  ## 지나온 길
+  ## Where We Left Off 
+
+  Tour of Heroes 파트 2를 계속하기 전에, 
+  파트 1을 마친 후 아래 구조가 되었는지 확인해봅시다. 
+  그렇지 않다면 파트 1으로 돌아가서 빠진 부분이 없는지 확인해야 합니다.
+
   Before we continue with Part 2 of the Tour of Heroes,
   let’s verify we have the following structure after [Part 1](./toh-pt1.html).
   If not, we’ll need to go back to Part 1 and figure out what we missed.
@@ -28,7 +44,7 @@ include ../_util-fns
       .file app.module.ts
       .file main.ts
     .file node_modules ...
-    .file typings ...      
+    .file typings ...     
     .file index.html
     .file package.json
     .file styles.css
@@ -36,57 +52,97 @@ include ../_util-fns
     .file tsconfig.json
     .file typings.json
 :marked
-  ### Keep the app transpiling and running
+  ### 지속적인 앱 트랜스파일링과 실행
+  ### Keep the app transpiling and running 
+
+  TypeScript 컴파일러를 실행해 변경사항을 감시하도록 하고, 서버를 구동합니다.
+
   We want to start the TypeScript compiler, have it watch for changes, and start our server. We'll do this by typing
 
 code-example(language="bash").
+  npm start 
   npm start
 
 :marked
+  이렇게하면 Tour of Heroes를 계속 빌드하면서 애플리케이션을 실행할 수 있습니다.
+
   This will keep the application running while we continue to build the Tour of Heroes.
 
 .l-main-section
 :marked
+  ## 히어로 표시하기
   ## Displaying Our Heroes
+  ### 히어로 생성하기
   ### Creating heroes
+  10명의 히어로를 생성합니다.
+
   Let’s create an array of ten heroes.
 
 +makeExample('toh-2/ts/app/app.component.ts', 'hero-array', 'app.component.ts (hero array)')
 
 :marked
-  The `HEROES` array is of type `Hero`, the class defined in part one, 
+  `HEROES`는 파트 1에서 정의한 `Hero` 유형의 클래스 배열입니다. 
+  히어로 목록은 웹 서비스를 통해 가져오는 것이 좋겠지만 우선은 샘플 히어로를 보여줄 것입니다.
+
+  The `HEROES` array is of type `Hero`, the class defined in part one,
   to create an array of heroes.
   We aspire to fetch this list of heroes from a web service, but let’s take small steps
   first and display mock heroes.
 
+  ### 히어로 노출하기
   ### Exposing heroes
+
+  `AppComponent`에 바인딩에 사용할 히어로를 public 속성으로 만들어 봅시다.
+
   Let’s create a public property in `AppComponent` that exposes the heroes for binding.
 
 +makeExample('toh-2/ts-snippets/app.component.snippets.pt2.ts', 'hero-array-1', 'app.component.ts (hero array property)')
 
 :marked
+  `heroes` 타입을 정의할 필요는 없습니다. TypeScript가 `HEROES` 배열로부터 타입을 추측할 수 있습니다.
+
   We did not have to define the `heroes` type.  TypeScript can infer it from the `HEROES` array.
 .l-sub-section
   :marked
+    컴포넌트 클래스에서 heroes 목록의 타입을 정의할 수도 있습니다. 
+    그러나 궁극적으로 데이터 서비스를 통해 히어로 목록을 가져올 것입니다. 
+    왜냐하면 우리가 가고자 하는 방향은 히어로 데이터를 클래스 구현에서 분리하는 것이기 때문입니다.
+
     We could have defined the heroes list here in this component class.
     But we know that ultimately we’ll get the heroes from a data service.
     Because we know where we are heading, it makes sense to separate the hero data
     from the class implementation from the start.
 :marked
+  ### 템플렛에 히어로들을 표시하기
   ### Displaying heroes in a template
+
+  컴포넌트는 `heroes`를 가지고 있습니다. 
+  이제 이것을 템플릿에 보여주기 위해 비순차 목록을 만들어봅시다. 
+  다음의 HTML를 제목과 히어로 상세 사이에 입력하세요.
+
   Our component has `heroes`. Let’s create an unordered list in our template to display them.
   We’ll insert the following chunk of HTML below the title and above the hero details.
 
 +makeExample('toh-2/ts-snippets/app.component.snippets.pt2.ts', 'heroes-template-1', 'app.component.ts (heroes template)')
 
 :marked
+  이제 우리의 히어로들을 채울 수 있는 템플릿이 생겼습니다.
+
   Now we have a template that we can fill with our heroes.
 
+  ### ngFor를 사용해 히어로 나열하기
   ### Listing heroes with ngFor
+
+  컴포넌트 안에 있는 `heroes` 배열을 템플릿 안에 연동하여 
+  순회하면서 각각 표시하려고 합니다. 
+  이것을 하기 위해 Angular의 도움이 필요합니다. 
+  차례로 해보겠습니다.
 
   We want to bind the array of `heroes` in our component to our template, iterate over them,
   and display them individually.
   We’ll need some help from Angular to do this. Let’s do this step by step.
+
+  먼저 `<li>` 태그에 `*ngFor` 라는 내장 지시자를 추가합니다.
 
   First modify the `<li>` tag by adding the built-in directive `*ngFor`.
 
@@ -94,39 +150,69 @@ code-example(language="bash").
 
 .alert.is-critical
   :marked
+    `ngFor` 앞에 나오는 별표 (`*`)는 문법에서 매우 중요한 부분입니다.
+
     The leading asterisk (`*`) in front of `ngFor` is a critical part of this syntax.
 
 .l-sub-section
   :marked
+    `ngFor` 의 (`*`) 접두어는 `<li>` 엘리먼트와 그 자식요소가 
+    마스터 템플릿을 구성한다는 것을 뜻합니다.
+
     The (`*`) prefix to `ngFor` indicates that the `<li>` element and its children
     constitute a master template.
 
+    `ngFor` 지시자는 `AppComponent.heroes` 에서 반환된 `heroes` 배열을 순회하며 
+    템플릿 인스턴스에 출력합니다.
+
     The `ngFor` directive iterates over the `heroes` array returned by the `AppComponent.heroes` property
     and stamps out instances of this template.
+
+    `ngFor`에 할당된 인용문은 "*`heroes` 배열에 있는 모든 히어로를 `hero` 
+    지역변수에 저장하고 템플릿 인스턴스에서 사용할 수 있도록 만들라는 것*"을 뜻합니다.
 
     The quoted text assigned to `ngFor` means
     “*take each hero in the `heroes` array, store it in the local `hero` variable,
     and make it available to the corresponding template instance*”.
 
+    "hero" 앞의 `let` 키워드는 `hero`가 템플릿 입력변수임을 알아보게 합니다. 
+    이 변수를 사용하여 템플릿 안에서 히어로의 속성에 접근할 수 있습니다.
+
     The `let` keyword before "hero" identifies `hero` as a template input variable.
     We can reference this variable within the template to access a hero’s properties.
+
+    `ngFor`와 템플릿 입력변수에 대해
+    [Displaying Data](../guide/displaying-data.html#ngFor) 및
+    [Template Syntax](../guide/template-syntax.html#ngFor) 챕터에서 더 자세하게 알아보세요.
 
     Learn more about `ngFor` and template input variables in the
     [Displaying Data](../guide/displaying-data.html#ngFor) and
     [Template Syntax](../guide/template-syntax.html#ngFor) chapters.
 
 :marked
+  이제 `<li>` 태그 사이에 `hero` 템플릿 변수를 사용하여 
+  히어로의 속성을 보여주는 일부 콘텐츠를 삽입해보겠습니다.
+
   Now we insert some content between the `<li>` tags
   that uses the `hero` template variable to display the hero’s properties.
 
 +makeExample('toh-2/ts-snippets/app.component.snippets.pt2.ts', 'ng-for', 'app.component.ts (ngFor template)')(format=".")
 
 :marked
+  브라우저를 새로고침하면 히어로 목록이 보입니다!
+
   When the browser refreshes, we see a list of heroes!
 
+  ### 히어로 꾸미기
   ### Styling our heroes
+
+  그런데 히어로 목록이 너무 밋밋해 보입니다. 
+  사용자가 어떤 히어로를 가리키고 있는지, 어떤 히어로를 선택했는지 좀 더 명확하게 표시를 하면 좋을 것 같습니다.
+
   Our list of heroes looks pretty bland.
   We want to make it visually obvious to a user which hero we are hovering over and which hero is selected.
+
+  `@Component` 데코레이터에 다음 CSS 클래스를 `styles` 속성에 추가해보세요.
 
   Let’s add some styles to our component by setting the `styles` property on the `@Component` decorator
   to the following CSS classes:
@@ -134,13 +220,23 @@ code-example(language="bash").
 +makeExample('toh-2/ts/app/app.component.ts', 'styles', 'app.component.ts (styles)')(format=".")
 
 :marked
+  여러 줄의 문장을 입력하기 위해 역따옴표를 사용한 것에 주의하세요.
+
   Notice that we again use the back-tick notation for multi-line strings.
 
-  That's a lot of styles! We can put them inline as shown here, or we can move them out to their own file which will make it easier to code our component. 
+  스타일이 길군요! 이렇게 파일 안에 넣을 수도 있고, 또는 외부에 파일로 분리하여 컴포넌트 코딩을 좀 더 편리하게 할 수도 있습니다. 
+  외부 파일로 분리하는 방법은 나중에 사용하겠습니다. 지금은 이 방식을 사용하겠습니다.
+
+  That's a lot of styles! We can put them inline as shown here, or we can move them out to their own file which will make it easier to code our component.
   We'll do this in a later chapter. For now let's keep rolling.
+
+  컴포넌트에 적용한 스타일은 딱 그 컴포넌트 범위에 대해서만 적용됩니다. 
+  방금 적용한 스타일은 `AppComponent`에만 적용되고 외부 HTML에는 적용되지 않습니다.
 
   When we assign styles to a component they are scoped to that specific component.
   Our styles will only apply to our `AppComponent` and won't "leak" to the outer HTML.
+
+  히어로들을 표시하기 위한 템플릿은 아래처럼 보여야 합니다.
 
   Our template for displaying the heroes should now look like this:
 
@@ -148,44 +244,82 @@ code-example(language="bash").
 
 .l-main-section
   :marked
+    ## 히어로 선택하기
     ## Selecting a Hero
+
+    이제 히어로 목록과 하나의 히어로가 생겼습니다. 
+    목록과 개별 히어로는 아직 연결되지 않았습니다. 
+    사용자가 목록에서 히어로를 선택하고 상세 뷰에 선택된 히어로를 표시해보겠습니다. 
+    이러한 UI 패턴이 널리 알려진 "master-detail"  패턴입니다. 
+    이번 예제에서 master는 히어로 목록이고 detail은 선택된 히어로입니다.
+
     We have a list of heroes and we have a single hero displayed in our app.
     The list and the single hero are not connected in any way.
     We want the user to select a hero from our list, and have the selected hero appear in the details view.
     This UI pattern is widely known as "master-detail".
     In our case, the master is the heroes list and the detail is the selected hero.
 
+    클릭 이벤트에 `selectedHero` 컴포넌트 속성을 바인딩해서 master를 detail에 연결해보겠습니다.
+
     Let’s connect the master to the detail through a `selectedHero` component property bound to a click event.
 
+    ### 클릭 이벤트
     ### Click event
+
+    클릭 이벤트에 Angular 이벤트 바인딩을 하도록 `<li>`를 수정하겠습니다.
+
     We modify the `<li>` by inserting an Angular event binding to its click event.
 
   +makeExample('toh-2/ts-snippets/app.component.snippets.pt2.ts', 'selectedHero-click', 'app.component.ts (template excerpt)')
 
   :marked
+    이벤트 바인딩에 주목하세요.
+
     Focus on the event binding
   code-example(format="." language="bash").
     (click)="onSelect(hero)"
   :marked
+    괄호는 `<li>` 엘리먼트의 `click` 이벤트가 타겟임을 나타냅니다. 
+    부등호 오른쪽의 표현식은 `AppComponent` 에 있는 `onSelect()` 메소드를 호출하고, 
+    메소드의 인자로 `hero`를 전달한다는 것을 뜻합니다.  
+    여기서 말하는 `hero` 변수는 앞서 `ngFor`에서 정의한 변수입니다.
+
     The parenthesis identify the `<li>` element’s  `click` event as the target.
     The expression to the right of the equal sign calls the  `AppComponent` method, `onSelect()`,
     passing the template input variable `hero` as an argument.
     That’s the same `hero` variable we defined previously in the `ngFor`.
   .l-sub-section
     :marked
-      Learn more about Event Binding in the 
+      이벤트 연동에 대해
+      [User Input](../guide/user-input.html) 및
+      [Templating Syntax](../guide/template-syntax.html#event-binding) 챕터에서 더 자세하게 알아보세요.
+
+      Learn more about Event Binding in the
       [User Input](../guide/user-input.html) and
       [Templating Syntax](../guide/template-syntax.html#event-binding) chapters.
   :marked
+    ### 클릭 핸들러를 추가하기
     ### Add the click handler
+
+    이벤트 연동에 사용한 `onSelect` 메소드는 아직 생성하지 않았습니다. 
+    컴포넌트에 이 메소드를 추가해보겠습니다.
+
     Our event binding refers to an `onSelect` method that doesn’t exist yet.
     We’ll add that method to our component now.
 
+    이 메소드는 어떤 역할을 해야할까요? 당연히 사용자가 클릭한 히어로를 컴포넌트의 선택 히어로로 설정을 해야 합니다.
+
     What should that method do? It should set the component’s selected hero to the hero that the user clicked.
+
+    컴포넌트에는 “선택한 히어로” 변수 또한 없습니다. 바로 시작해보죠.
 
     Our component doesn’t have a “selected hero” yet either. We’ll start there.
 
+    ### 선택된 히어로 노출하기
     ### Expose the selected hero
+
+    이제 `AppComponent` 에서 정적 변수 `hero` 는 필요가 없습니다. 
+    단순히 `selectedHero`로 **교체**만 하면 됩니다.
 
     We no longer need the static `hero` property of the `AppComponent`.
     **Replace** it with this simple `selectedHero` property:
@@ -193,20 +327,34 @@ code-example(language="bash").
   +makeExample('toh-2/ts/app/app.component.ts', 'selected-hero', 'app.component.ts (selectedHero)')
 
   :marked
+    사용자가 히어로를 선택하기 전에는 선택 히어로가 없다고 하겠습니다. 
+    때문에 `selectedHero` 는 `hero`와 마찬가지로 초기화 할 필요가 없습니다.
+
     We’ve decided that none of the heroes should be selected before the user picks a hero so
     we won’t initialize the `selectedHero` as we were doing with `hero`.
+
+    이제 사용자가 선택한 `hero`를 `selectedHero` 속성으로 셋팅할 **`onSelect` 메소드를 추가**해보겠습니다.
 
     Now **add an `onSelect` method** that sets the `selectedHero` property to the `hero` the user clicked.
   +makeExample('toh-2/ts/app/app.component.ts', 'on-select', 'app.component.ts (onSelect)')
 
   :marked
+    선택된 히어로의 상세 정보를 템플릿에 보여 보겠습니다. 
+    아직은 여전히 예전 `hero` 속성을 참조하고 있습니다. 
+    새로운 `selectedHero` 속성에 연동이 되도록 템플릿을 수정하겠습니다.
+
     We will be showing the selected hero's details in our template.
     At the moment, it is still referring to the old `hero` property.
     Let’s fix the template to bind to the new `selectedHero` property.
 
   +makeExample('toh-2/ts-snippets/app.component.snippets.pt2.ts', 'selectedHero-details', 'app.component.ts (template excerpt)')
   :marked
+    ### ngIf로 비어있는 상세정보 숨기기
     ### Hide the empty detail with ngIf
+
+    앱을 로딩하면 히어로 목록이 보이고 선택된 히어로는 없는 상태입니다. 
+    `selectedHero` 변수는 `undefined` 상태이기 때문에 
+    브라우저 콘솔에 아래와 같은 에러가 보이게 됩니다.
 
     When our app loads we see a list of heroes, but a hero is not selected.
     The `selectedHero` is `undefined`.
@@ -216,10 +364,18 @@ code-example(language="bash").
     EXCEPTION: TypeError: Cannot read property 'name' of undefined in [null]
 
   :marked
+    템플릿에 `selectedHero.name` 을 보여주고 있다는 것을 기억하세요. 
+    `selectedHero` 자신이 undefined 상태이므로 name 속성 역시 존재하지 않습니다.
+
     Remember that we are displaying `selectedHero.name` in the template.
     This name property does not exist because `selectedHero` itself is undefined.
 
+    히어로를 선택하기 전까지는 DOM에서 히어로 상세정보를 제외하여 문제를 해결해 보겠습니다.
+
     We'll address this problem by keeping the hero detail out of the DOM until there is a selected hero.
+
+    템플릿의 HTML 히어로 상세정보는 `<div>`로 감싸겠습니다. 
+    그 다음 `ngIf` 내부 지시자를 추가하고 컴포넌트의 `selectedHero` 속성을 할당합니다.
 
     We wrap the HTML hero detail content of our template with a `<div>`.
     Then we add the `ngIf` built-in directive and set it to the `selectedHero` property of our component.
@@ -228,31 +384,57 @@ code-example(language="bash").
 
   .alert.is-critical
     :marked
+      `ngIf` 앞의 별표(`*`)는 문법에서 매우 중요한 부분이라는 것을 기억하세요.
+
       Remember that the leading asterisk (`*`) in front of `ngIf` is
       a critical part of this syntax.
   :marked
+    만약 `selectedHero`가 없다면 `ngIf` 지시자는 DOM에서 히어로 상세 HTML을 제거해버립니다. 
+    이제 더 이상 히어로 상세 엘리먼트도 없고 연동에 대해서도 걱정할 것이 없습니다.
+
     When there is no `selectedHero`, the `ngIf` directive removes the hero detail HTML from the DOM.
     There will be no hero detail elements and no bindings to worry about.
+
+    사용자가 히어로를 선택하면 `selectedHero`는 "유효"하게 되고 
+    `ngIf`는 히어로 상제 정보를 DOM에 삽입하고 내부 바인딩을 하게 됩니다.
 
     When the user picks a hero, `selectedHero` becomes "truthy" and
     `ngIf` puts the hero detail content into the DOM and evaluates the nested bindings.
   .l-sub-section
     :marked
+      `ngIf`와 `ngFor`는 “구조적 지시자(structural directives)” 라고 불립니다. 
+      왜냐하면 이것들은 DOM의 구조를 변경하기 때문입니다. 
+      다시말해, 이것들은 Angular에게 DOM안에 표시할 콘텐츠 구조를 알려줍니다.
+
       `ngIf` and `ngFor` are called “structural directives” because they can change the
       structure of portions of the DOM.
       In other words, they give structure to the way Angular displays content in the DOM.
+
+      `ngIf`, `ngFor`와 다른 구조 지시자(structural directives) 에 대해
+      [Structural Directives](../guide/structural-directives.html) 및
+      [Template Syntax](../guide/template-syntax.html#directives) 챕터에서 더 자세하게 알아보세요.
 
       Learn more about `ngIf`, `ngFor` and other structural directives in the
       [Structural Directives](../guide/structural-directives.html) and
       [Template Syntax](../guide/template-syntax.html#directives) chapters.
 
   :marked
+    브라우저를 갱신하면 히어로 목록은 보이지만 선택된 히어로의 상세는 보이지 않을 것입니다. 
+    `ngIf`가 `selectedHero`가 undefined 값을 가질때까지는 DOM에서 제외시키기 때문입니다. 
+    목록에서 하나의 히어로를 클릭하면 이제 선택된 히어로의 상세정보가 보이게 됩니다. 
+    모든 것이 예상한데로 동작하는군요.
+
     The browser refreshes and we see the list of heroes but not the selected hero detail.
     The `ngIf` keeps it out of the DOM as long as the `selectedHero` is undefined.
     When we click on a hero in the list, the selected hero displays in the hero details.
     Everything is working as we expect.
 
+    ### 선택 표시하기
     ### Styling the selection
+
+    이제 상세 영역에 선택된 히어로가 보이지만 선택된 히어로를 목록에서 빠르게 찾기는 어렵네요. 
+    이 문제는 `selected` CSS 클래스를 마스터 목록의 적당한 `<li>`에 적용하여 해결할 수 있습니다. 
+    예를들어 히어로 목록에서 Magneta를 선택하면 아래처럼 은은한 배경색으로 보이게 할 수 있습니다.
 
     We see the selected hero in the details area below but we can’t quickly locate that hero in the list above.
     We can fix that by applying the `selected` CSS class to the appropriate `<li>` in the master list.
@@ -262,12 +444,23 @@ code-example(language="bash").
   figure.image-display
     img(src='/resources/images/devguide/toh/heroes-list-selected.png' alt="Selected hero")
   :marked
+    템플릿에 `selected` 클래스가 적용되도록 `class` 프로퍼티 바인딩을 추가하겠습니다. 
+    `selectedHero`와 `hero`를 비교하는 표현식을 설정합니다.
+
     We’ll add a property binding on `class` for the `selected` class to the template. We'll set this to an expression that compares the current `selectedHero` to the `hero`.
+
+    핵심은 CSS 클래스 이름(`selected`) 입니다. 
+    만약 2개의 히어로가 같다면 `true`이고, 다르다면 `false` 입니다. 
+    다시 말해 “*히어로가 같으면 `selected` 클래스를 적용하고, 다르면 제거*”하는 것입니다.
 
     The key is the name of the CSS class (`selected`). The value is `true` if the two heroes match and `false` otherwise.
     We’re saying “*apply the `selected` class if the heroes match, remove it if they don’t*”.
   +makeExample('toh-2/ts-snippets/app.component.snippets.pt2.ts', 'class-selected-1', 'app.component.ts (setting the CSS class)')(format=".")
   :marked
+    템플릿에서 `class.selected`가 꺽쇠괄호(`[]`)로 둘러싸여 있는 것에 주의하세요. 
+    이것이 **프로퍼티 바인딩**의 문법입니다. 
+    프로퍼티 바인딩을 하면 데이터 소스(`hero === selectedHero` 표현식)에서 `class` 속성으로 단방향으로만 데이터가 전달됩니다.
+
     Notice in the template that the `class.selected` is surrounded in square brackets (`[]`).
     This is the syntax for a **property binding**, a binding in which data flows one way
     from the data source (the expression `hero === selectedHero`) to a property of `class`.
@@ -275,10 +468,15 @@ code-example(language="bash").
 
   .l-sub-section
     :marked
+      [프로퍼티 바인딩](../guide/template-syntax.html#property-binding)에 대해 템플릿 문법 챕터에서 더 자세하게 알아보세요.
+
       Learn more about [property bindings](../guide/template-syntax.html#property-binding)
       in the Template Syntax chapter.
 
   :marked
+    브라우저가 앱을 다시 로드합니다. 
+    이제 Magneta 히어로를 선택해보면 배경색을 통해 확실히 식별이 가능합니다.
+
     The browser reloads our app.
     We select the hero Magneta and the selection is clearly identified by the background color.
 
@@ -286,7 +484,11 @@ code-example(language="bash").
     img(src='/resources/images/devguide/toh/heroes-list-1.png' alt="Output of heroes list app")
 
   :marked
+    다른 히어로를 선택하면 색상이 교체되는 것을 볼 수 있습니다.
+
     We select a different hero and the tell-tale color switches to that hero.
+
+    `app.component.ts`가 아래처럼 완성되었습니다.
 
     Here's the complete `app.component.ts` as it stands now:
 
@@ -294,14 +496,28 @@ code-example(language="bash").
 
 .l-main-section
 :marked
+  ## 지나온 여정
   ## The Road We’ve Travelled
+
+  이번 챕터에서 학습한 내용입니다.
+
   Here’s what we achieved in this chapter:
+
+
+  * Tour of Heroes에 선택 가능한 히어로 목록이 보여집니다.
+  * 히어로를 선택하고 선택한 히어로의 상세정보를 보여주는 기능을 추가했습니다.
+  * 컴포넌트 템플릿에 내장 지시자인 `ngIf`와 `ngFor`를 어떻게 사용하는지 배웠습니다.
 
   * Our Tour of Heroes now displays a list of selectable heroes
   * We added the ability to select a hero and show the hero’s details
   * We learned how to use the built-in directives `ngIf` and `ngFor` in a component’s template
 
+  이 파트의 <live-example></live-example>을 실행해 보세요.
+
   Run the <live-example></live-example> for this part.
+
+  ### 앞으로의 여정
+  Tour of Heroes가 커졌지만 완성까지는 거리가 멀었습니다. 모든 앱을 하나의 컴포넌트에 만들 수는 없습니다. 여러 하위 컴포넌트로 분리하고 함께 동작하도록 다음 챕터 [next chapter](toh-pt3.html) 에서 배워보겠습니다.
 
   ### The Road Ahead
   Our Tour of Heroes has grown, but it’s far from complete.
