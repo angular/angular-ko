@@ -1,11 +1,14 @@
 include ../_util-fns
 
 :marked
+<<<<<<< HEAD
   # 많은 히어로들
   # It Takes Many Heroes 
 
   우리의 이야기는 더 많은 히어로를 필요로 합니다. Tour of Heroes 앱이 히어로의 목록을 보여주고, 사용자가 히어로를 선택하고, 선택된 히어로의 상세내용을 보여줄 수 있도록 확장해보겠습니다.
 
+=======
+>>>>>>> dbcc99c70bdcb36df46e20a2623a9a2424080318
   Our story needs more heroes.
   We’ll expand our Tour of Heroes app to display a list of heroes,
   allow the user to select a hero, and display the hero’s details.
@@ -36,21 +39,24 @@ include ../_util-fns
   If not, we’ll need to go back to Part 1 and figure out what we missed.
 
 .filetree
-  .file angular2-tour-of-heroes
+  .file angular-tour-of-heroes
   .children
     .file app
     .children
       .file app.component.ts
       .file app.module.ts
       .file main.ts
+<<<<<<< HEAD
     .file node_modules ...
     .file typings ...     
+=======
+    .file node_modules ...  
+>>>>>>> dbcc99c70bdcb36df46e20a2623a9a2424080318
     .file index.html
     .file package.json
     .file styles.css
     .file systemjs.config.js
     .file tsconfig.json
-    .file typings.json
 :marked
   ### 지속적인 앱 트랜스파일링과 실행
   ### Keep the app transpiling and running 
@@ -59,8 +65,12 @@ include ../_util-fns
 
   We want to start the TypeScript compiler, have it watch for changes, and start our server. We'll do this by typing
 
+<<<<<<< HEAD
 code-example(language="bash").
   npm start 
+=======
+code-example(language="sh" class="code-shell").
+>>>>>>> dbcc99c70bdcb36df46e20a2623a9a2424080318
   npm start
 
 :marked
@@ -276,7 +286,7 @@ code-example(language="bash").
     이벤트 바인딩에 주목하세요.
 
     Focus on the event binding
-  code-example(format="." language="bash").
+  code-example.
     (click)="onSelect(hero)"
   :marked
     괄호는 `<li>` 엘리먼트의 `click` 이벤트가 타겟임을 나타냅니다. 
@@ -360,7 +370,7 @@ code-example(language="bash").
     The `selectedHero` is `undefined`.
     That’s why we'll see the following error in the browser’s console:
 
-  code-example(language="html").
+  code-example(format="nocode").
     EXCEPTION: TypeError: Cannot read property 'name' of undefined in [null]
 
   :marked

@@ -1,52 +1,56 @@
-// #docplaster
 // #docregion
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router }       from '@angular/router';
+import 'rxjs/add/operator/switchMap';
+import { Component, OnInit }      from '@angular/core';
+import { ActivatedRoute, Router, Params } from '@angular/router';
+
+import { Observable }            from 'rxjs/Observable';
 
 import { Crisis, CrisisService } from './crisis.service';
-import { Subscription }          from 'rxjs/Subscription';
 
 @Component({
   template: `
     <ul class="items">
-      <li *ngFor="let crisis of crises"
-        [class.selected]="isSelected(crisis)"
-        (click)="onSelect(crisis)">
-        <span class="badge">{{crisis.id}}</span> {{crisis.name}}
+      <li *ngFor="let crisis of crises | async"
+        (click)="onSelect(crisis)"
+        [class.selected]="isSelected(crisis)">
+          <span class="badge">{{ crisis.id }}</span>
+          {{ crisis.name }}
       </li>
     </ul>
+
+    <router-outlet></router-outlet>
   `
 })
-export class CrisisListComponent implements OnInit, OnDestroy {
-  crises: Crisis[];
-  private selectedId: number;
-  private sub: Subscription;
+export class CrisisListComponent implements OnInit {
+  crises: Observable<Crisis[]>;
+  selectedId: number;
 
+  // #docregion ctor
   constructor(
     private service: CrisisService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router
+  ) {}
+  // #enddocregion ctor
 
-  isSelected(crisis: Crisis) { return crisis.id === this.selectedId; }
+  isSelected(crisis: Crisis) {
+    return crisis.id === this.selectedId;
+  }
 
   ngOnInit() {
-    this.sub = this.route
-      .params
-      .subscribe(params => {
+    this.crises = this.route.params
+      .switchMap((params: Params) => {
         this.selectedId = +params['id'];
-        this.service.getCrises()
-          .then(crises => this.crises = crises);
+        return this.service.getCrises();
       });
   }
 
-  ngOnDestroy() {
-    if (this.sub) {
-      this.sub.unsubscribe();
-    }
-  }
-
+  // #docregion onSelect
   onSelect(crisis: Crisis) {
-    // Navigate with Absolute link
-    this.router.navigate(['/crisis-center', crisis.id]);
+    this.selectedId = crisis.id;
+
+    // Navigate with relative link
+    this.router.navigate([crisis.id], { relativeTo: this.route });
   }
+  // #enddocregion onSelect
 }

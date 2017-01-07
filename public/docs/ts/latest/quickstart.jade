@@ -1,5 +1,6 @@
 block includes
   include _util-fns
+<<<<<<< HEAD
   - var _Install = 'Install'
   - var _prereq = 'Node.js and npm'
   - var _angular_browser_uri = '@angular/platform-browser-dynamic'
@@ -51,11 +52,24 @@ aside.is-right
   The QuickStart application has the structure of a real-world Angular application and
   displays the simple message:
   
-
-figure.image-display
-  img(src='/resources/images/devguide/quickstart/my-first-app.png' alt="Output of QuickStart app")
+=======
 
 :marked
+  Angular applications are made up of _components_.
+    A _component_ is the combination of an HTML template and a component class that controls a portion of the screen. Here is an example of a component that displays a simple string:
+
++makeExample('app/app.component.ts')(format='.')
+>>>>>>> dbcc99c70bdcb36df46e20a2623a9a2424080318
+
+block qs-src-online-and-local
+  .l-sub-section
+    :marked
+      Try this **<live-example>QuickStart example on Plunker</live-example>** without installing anything.
+      Try it locally with the [***QuickStart seed***](guide/setup.html "Setup for local development with the QuickStart seed")
+      and prepare for development of a real Angular application.
+
+:marked
+<<<<<<< HEAD
   **확인해보세요**. <live-example></live-example>의 링크입니다.
 
   **Try it out**. Here's a link to a <live-example></live-example>.
@@ -68,8 +82,16 @@ figure.image-display
   
 h2 이 애플리케이션을 만들어보세요!
 h2 Build this application!
+=======
+  Every component begins with an `@Component` [!{_decorator}](glossary.html#!{_decorator} '"!{_decorator}" explained')
+  <span if-docs="ts">function</span> that
+  <span if-docs="ts">takes a _metadata_ object. The metadata object</span> describes how the HTML template and component class work together.
+>>>>>>> dbcc99c70bdcb36df46e20a2623a9a2424080318
 
+  The `selector` property tells Angular to display the component inside a custom `<my-app>` tag in the `index.html`.
++makeExample('index.html','my-app','index.html (inside <body>)')(format='.')
 :marked
+<<<<<<< HEAD
   - [시작하기전에](#prereq): Node.js와 npm을 설치해주세요.
   - [Prerequisite](#prereq): Install #{_prereq}.
   - [1단계](#create-and-configure): 프로젝트를 생성하고 구성작업을 해주세요.
@@ -454,100 +476,27 @@ h1#index Step !{step++}: Define the web page that hosts the application
      where you import and run the `app` module which refers to the `main` file that you just
      wrote.
   * The [`<my-app>`](#my-app) tag in the `<body>` which is *where your app lives!*
-
-
-:marked
-  ## Add some style
-  Styles aren't essential, but they're nice, and `index.html` assumes that you have
-  a stylesheet called `styles.css`.
-
-  Create a `styles.css` file in the *#{_indexHtmlDir}* folder, and start styling,
-  perhaps with the minimal styles shown below.
-
-+makeExcerpt('styles.css (excerpt)', 'quickstart')
-
-.callout.is-helpful
-  :marked
-    For the full set of master styles used by the documentation samples,
-    see [styles.css](https://github.com/angular/angular.io/blob/master/public/docs/_examples/styles.css).
-
-.l-main-section#build-and-run
-h1 Step !{step++}: Build and run the application
-block run-app
-  :marked
-    Open a terminal window and enter this command:
-  code-example.
-    npm start
-aside.is-right
-  :marked
-    [Read more](https://github.com/angular/quickstart/blob/master/README.md#npm-scripts) about
-    other useful npm scripts included in this example's `package.json`.
-
-:marked
-  That command runs the following two parallel node processes:
-  * The TypeScript compiler in watch mode.
-  * A static file server called _lite-server_ that loads `index.html` in a browser
-  and refreshes the browser when application files change.
-
-  In a few moments, a browser tab should open and display the following:
-
-figure.image-display
-  img(src='/resources/images/devguide/quickstart/my-first-app.png' alt="Output of QuickStart app")
-
-
-block build-app
-  //- Nothing for ts.
-
-.l-main-section#make-changes
-h1 Step !{step++}: Make some live changes
-:marked
-  Try changing the message in `app/app.component.ts` to "My SECOND Angular 2 App".
-block server-watching
-  :marked
-    The TypeScript compiler and `lite-server` will detect your change, recompile the TypeScript into JavaScript,
-    refresh the browser, and display your revised message.
-
-
-    Close the terminal window when you're done to terminate both the compiler and the server.
-
-.l-main-section
-h1#wrap-up Wrap up and next steps
-:marked
-  The final project folder structure looks like this:
-block project-file-structure
-  .filetree
-    .file angular2-quickstart
-    .children
-      .file app
-      .children
-        .file app.component.ts
-        .file app.module.ts
-        .file main.ts
-      .file node_modules ...
-      .file typings ...
-      .file index.html
-      .file package.json
-      .file styles.css
-      .file systemjs.config.js
-      .file tsconfig.json
-      .file typings.json
-:marked
-  To see the file contents, open the <live-example></live-example>.
-
-.l-main-section
-:marked
-  ## What next?
-  This first application doesn't do much. It's basically "Hello, World" for Angular 2.
-
-  You wrote a little Angular component, created a simple `index.html`, and launched with a
-  static file server.
+=======
+  The `template` property defines a message inside an `<h1>` header.
+  The message starts with "Hello" and ends with `{{name}}`,
+  which is an Angular [interpolation binding](guide/displaying-data.html) expression.
+  At runtime, Angular replaces `{{name}}` with the value of the component's `name` property.
+  Interpolation binding is one of many Angular features you'll discover in this documentation.
 
 +ifDocsFor('ts')
   :marked
-    You also created the basic application setup that you'll re-use for other
-    sections in this guide. From here, the changes you'll make in the
-    `package.json` or `index.html` files are only minor updates to add libraries or some css
-    stylesheets. You also won't need to revisit module loading again.
-:marked
-  To take the next step and build a small application that demonstrates real features that you can
-  build with Angular, carry on to the [Tour of Heroes tutorial](./tutorial)!
+    In the example, change the component class's `name` property from `'Angular'` to `'World'` and see what happens.
+
+  .callout.is-helpful
+    header A word about TypeScript
+    p.
+      This example is written in <a href="http://www.typescriptlang.org/" target="_blank" title="TypeScript">TypeScript</a>, a superset of JavaScript. Angular
+      uses TypeScript because its types make it easy to support developer productivity with tooling. You can also write Angular code in JavaScript; <a href="cookbook/ts-to-js.html">this guide</a> explains how.
+
+.l-sub-section
+    :marked
+        ### Next step
+>>>>>>> dbcc99c70bdcb36df46e20a2623a9a2424080318
+
+        Start [**learning Angular**](guide/learning-angular.html "Learning Angular").
+

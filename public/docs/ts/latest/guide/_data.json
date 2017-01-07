@@ -2,22 +2,49 @@
   "index": {
     "title": "Documentation Overview",
     "navTitle": "Overview",
-    "description": "How to read and use this documentation",
+    "intro": "How to read and use this documentation",
     "nextable": true,
+    "basics": true
+  },
+
+  "setup": {
+    "title": "Setup for local development",
+    "navTitle": "Setup",
+    "intro": "Install the Angular QuickStart seed for faster, more efficient development on your machine",
+    "nextable": true,
+    "hideNextPage": true,
+    "basics": true
+  },
+
+  "learning-angular": {
+    "title": "Learning Angular",
+    "navTitle": "Learning Angular",
+    "intro": "A suggested path through the documentation for Angular newcomers",
+    "nextable": true,
+    "hideNextPage": true,
     "basics": true
   },
 
   "architecture": {
     "title": "Architecture Overview",
     "navTitle": "Architecture",
-    "intro": "The basic building blocks of Angular 2 applications",
+    "intro": "The basic building blocks of Angular applications",
+    "nextable": true,
+    "basics": true
+  },
+
+
+  "appmodule": {
+    "title": "AppModule: the root module",
+    "navTitle": "The Root Module",
+    "intro": "Tell Angular how to construct and bootstrap the app in the root \"AppModule\".",
     "nextable": true,
     "basics": true
   },
 
   "displaying-data": {
     "title": "Displaying Data",
-    "intro": "Interpolation and other forms of property binding help us show app data in the UI.",
+    "intro": "Property binding helps show app data in the UI.",
     "nextable": true,
     "basics": true
   },
@@ -36,14 +63,6 @@
     "basics": true
   },
 
-  "forms-deprecated": {
-    "title": "Forms",
-    "intro": "A form creates a cohesive, effective, and compelling data entry experience. An Angular form coordinates a set of data-bound user controls, tracks changes, validates input, and presents errors.",
-    "nextable": true,
-    "basics": true,
-    "hide": true
-  },
-
   "dependency-injection": {
     "title": "Dependency Injection",
     "intro": "Angular's dependency injection system creates and delivers dependent services \"just-in-time\".",
@@ -59,15 +78,27 @@
   },
 
   "cheatsheet": {
-    "title": "Angular Cheat Sheet",
-    "intro": "A quick guide to Angular syntax. (Content is provisional and may change.)",
+    "title": "Cheat Sheet",
+    "subtitle": "TypeScript",
     "nextable": true,
     "basics": true
   },
 
   "style-guide": {
     "title": "Style Guide",
-    "intro": "Write Angular 2 with style.",
+    "intro": "Write Angular with style.",
+    "basics": true
+  },
+
+  "glossary": {
+    "title": "Glossary",
+    "intro": "Brief definitions of the most important words in the Angular vocabulary",
+    "basics": true
+  },
+
+  "change-log": {
+    "title": "Change Log",
+    "intro": "An annotated history of recent documentation improvements.",
     "basics": true
   },
 
@@ -96,12 +127,6 @@
     "intro": "Learn how to apply CSS styles to components."
   },
 
-  "glossary": {
-    "title": "Glossary",
-    "intro": "Angular2에서 가장 중요한 용어들의 간략한 정의",
-    "basics": true
-  },
-
   "hierarchical-dependency-injection": {
     "title": "Hierarchical Dependency Injectors",
     "navTitle": "Hierarchical Injectors",
@@ -110,7 +135,7 @@
 
   "server-communication": {
     "title": "HTTP Client",
-    "intro": "Talk to a remote server with an HTTP Client."
+    "intro": "Use an HTTP Client to talk to a remote server."
   },
 
   "lifecycle-hooks": {
@@ -128,20 +153,19 @@
     "intro": "Pipes transform displayed values within a template."
   },
 
-  "router-deprecated": {
-    "title": "Router (Deprecated Beta)",
-    "intro": "The deprecated Beta Router.",
-    "hide": true
-  },
-
   "router": {
     "title": "Routing & Navigation",
-    "intro": "Discover the basics of screen navigation with the Angular 2 Component Router."
+    "intro": "Discover the basics of screen navigation with the Angular Router."
   },
 
   "security": {
     "title": "Security",
     "intro": "Developing for content security in Angular applications"
+  },
+
+  "setup-systemjs-anatomy": {
+    "title": "Setup Anatomy",
+    "intro": "Inside the local development environment for SystemJS"
   },
 
   "structural-directives": {
@@ -151,21 +175,21 @@
 
   "testing": {
     "title": "Testing",
-    "intro": "Techniques and practices for testing an Angular 2 app"
+    "intro": "Techniques and practices for testing an Angular app"
   },
 
   "typescript-configuration": {
     "title": "TypeScript Configuration",
-    "intro": "TypeScript configuration for Angular 2 developers"
+    "intro": "TypeScript configuration for Angular developers"
   },
 
   "upgrade": {
     "title": "Upgrading from 1.x",
-    "intro": "Angular 1 applications can be incrementally upgraded to Angular 2."
+    "intro": "Incrementally upgrade an Angular 1 application to Angular 2."
   },
 
   "webpack": {
     "title": "Webpack: an introduction",
-    "intro": "Create your Angular 2 applications with a Webpack based tooling"
+    "intro": "Create Angular applications with a Webpack based tooling"
   }
 }

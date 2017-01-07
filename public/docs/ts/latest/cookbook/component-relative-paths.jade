@@ -29,7 +29,7 @@ include ../_util-fns
     with a suitable package loader such as `systemjs` or `webpack`.
     Learn why [below](#why-default).
     
-    The Angular 2 CLI uses these technologies and defaults to the
+    The Angular CLI uses these technologies and defaults to the
     *component-relative path* approach described here.
     CLI users can skip this chapter or read on to understand
     how it works.
@@ -64,7 +64,8 @@ include ../_util-fns
   relative to the component class file simply by setting the `moduleId` property of the `@Component` metadata like this
 +makeExample('cb-component-relative-paths/ts/app/some.component.ts','module-id')(format='.')
 :marked
-  We strip the `app/` base path from the `templateUrl` and `styleUrls`. The result looks like this:
+  We strip the `app/` base path from the `templateUrl` and `styleUrls` and replace it with `./`. 
+  The result looks like this:
 +makeExample('cb-component-relative-paths/ts/app/some.component.ts','relative-config')(format='.')
 
 .alert.is-helpful

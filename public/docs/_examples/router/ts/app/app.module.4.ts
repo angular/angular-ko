@@ -1,28 +1,48 @@
+// #docplaster
 // #docregion
+// #docregion crisis-center-module, admin-module
 import { NgModule }       from '@angular/core';
-import { BrowserModule }  from '@angular/platform-browser';
+import { CommonModule }   from '@angular/common';
 import { FormsModule }    from '@angular/forms';
-import { Routes, RouterModule }   from '@angular/router';
 
-import { AppComponent }   from './app.component';
+import { AppComponent }            from './app.component';
+import { PageNotFoundComponent }   from './not-found.component';
 
-const routes: Routes = [
+import { AppRoutingModule }        from './app-routing.module';
+import { HeroesModule }            from './heroes/heroes.module';
+// #docregion crisis-center-module
+import { CrisisCenterModule }      from './crisis-center/crisis-center.module';
+// #enddocregion crisis-center-module
+import { ComposeMessageComponent } from './compose-message.component';
+// #docregion admin-module
+import { AdminModule }             from './admin/admin.module';
+// #docregion crisis-center-module
 
-];
+import { DialogService }           from './dialog.service';
 
 @NgModule({
   imports: [
-    BrowserModule,
+    CommonModule,
     FormsModule,
-    RouterModule.forRoot(routes, { useHash: true })  // .../#/crisis-center/
+    HeroesModule,
+    CrisisCenterModule,
+// #enddocregion crisis-center-module
+// #enddocregion admin-module
+    AdminModule,
+// #docregion crisis-center-module
+    AppRoutingModule
   ],
   declarations: [
-    AppComponent
+    AppComponent,
+// #enddocregion admin-module, crisis-center-module
+    ComposeMessageComponent,
+// #docregion admin-module, crisis-center-module
+    PageNotFoundComponent
   ],
   providers: [
-
+    DialogService
   ],
   bootstrap: [ AppComponent ]
 })
-export class AppModule {
-}
+export class AppModule { }
+// #enddocregion
