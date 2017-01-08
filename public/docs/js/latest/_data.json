@@ -3,73 +3,73 @@
     "icon": "home",
     "title": "Angular 한글문서",
     "subtitle": "JavaScript",
-    "menuTitle": "Docs Home",
+    "menuTitle": "문서 홈",
     "banner": "Angular의 최신버전은 <b>2.4</b>입니다. <a href='guide/change-log.html' title='Documentation change log'>업데이트 내용</a>을 확인할 수 있습니다.또한 Angular의 변경, 개선 및 수정사항이 포함된 <a href='https://github.com/angular/angular/blob/master/CHANGELOG.md' target='_blank' title='Angular Product Changes'>Angular 업데이트 기록</a>을 볼 수 있습니다."    
   },
 
   "quickstart": {
     "icon": "query-builder",
-    "title": "Quickstart",
+    "title": "빠른시작",
     "subtitle": "JavaScript",
-    "description": "Get up and running with Angular",
-    "banner": "This QuickStart guide demonstrates how to build and run a simple Angular application."
+    "description": "이제 Angular와 함께 달려보세요",
+    "banner": "빠른시작 가이드는 간단한 Angular 애플리케이션을 만들고, 실행하는 방법을 보여줍니다."
   },
 
   "tutorial": {
     "icon": "list",
-    "title": "Tutorial",
+    "title": "튜토리얼",
     "subtitle": "JavaScript"
   },
 
   "guide": {
     "icon": "list",
-    "title": "Guide",
+    "title": "가이드",
     "subtitle": "JavaScript"
   },
 
   "cookbook": {
     "icon": "list",
-    "title": "Cookbook",
+    "title": "해설서",
     "subtitle": "JavaScript"
   },
 
   "api/": {
     "icon": "book",
-    "title": "API Reference",
+    "title": "API 참조",
     "subtitle": "JavaScript",
     "reference": true
   },
 
   "cheatsheet": {
-    "title": "Cheat Sheet",
+    "title": "컨닝 페이퍼",
     "subtitle": "JavaScript",
     "reference": false
   },
 
   "glossary": {
-    "title": "Glossary",
+    "title": "용어사전",
     "subtitle": "JavaScript",
-    "intro": "Brief definitions of the most important words in the Angular vocabulary",
+    "intro": "Angular 어휘에서 가장 중요한 단어들에 대한 간랸한 정의",
     "reference": false
   },
 
   "resources": {
     "icon": "play-circle-fill",
-    "title": "Angular Resources",
+    "title": "Angular 자원들",
     "subtitle": "JavaScript",
     "resources": true
   },
 
   "help": {
     "icon": "chat",
-    "title": "Help & Support",
-    "subtitle": "From our team & community",
+    "title": "도움 & 지원",
+    "subtitle": "우리 팀과 커뮤니티에서 도움/지원을 받으세요",
     "resources": true
   },
 
   "styleguide": {
-    "title": "Docs Style Guide",
+    "title": "문서 스타일 가이드",
     "subtitle": "JavaScript",
-    "intro": "Design & Layout Patterns For Documentation"
+    "intro": "문서의 디자인과 레이아웃 패턴"
   }
 }
