@@ -11,4 +11,8 @@ nav(data-swiftype-index="false" class="main-nav l-pinned-top l-layer-5", scroll-
     li.l-left <a class="main-nav-button" href="/docs/#{language}/latest/" md-button>문서</a>
     li.l-left <a class="main-nav-button" href="/events.html" md-button>이벤트</a>
     li.l-left <a class="main-nav-button" href="/news.html" md-button>뉴스</a>
+    li.l-left <a class="main-nav-button" href="/translate/ko/home.html" md-button>한국어버전 소개</a>
     li.l-right <a class="main-nav-button" href="/docs/ts/latest/quickstart.html" md-button>시작하기</a>
+    li.l-right
+      a.main-nav-button.md-button.ng-cloak(ng-click="appCtrl.toggleSource($event)", href)
+        span {{appCtrl.sourceVisible?'Hide English':'Show English'}}

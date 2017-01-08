@@ -707,17 +707,10 @@ a#in-mem-web-api
 
 block redirect-to-web-api
   :marked
-<<<<<<< HEAD
-    This redirection is easy to configure with the in-memory web API service module
-    by adding the `InMemoryWebApiModule` to the `AppModule.imports` list.
-    At the same time, we calling its `forRoot` configuration method with the `HeroData` class.
-  +makeExample('server-communication/ts/app/app.module.ts', 'in-mem-web-api')(format=".")
-=======
     Finally, redirect client HTTP requests to the in-memory web API by
     adding the `InMemoryWebApiModule` to the `AppModule.imports` list.
     At the same time, call its `forRoot` configuration method with the `HeroData` class.
   +makeExample('server-communication/ts/app/app.module.ts', 'in-mem-web-api', 'app/app.module.ts')(format=".")
->>>>>>> dbcc99c70bdcb36df46e20a2623a9a2424080318
   :marked
     ### How it works
 

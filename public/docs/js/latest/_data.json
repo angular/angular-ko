@@ -1,10 +1,10 @@
 {
   "index": {
     "icon": "home",
-    "title": "Angular Docs",
+    "title": "Angular 한글문서",
     "subtitle": "JavaScript",
     "menuTitle": "Docs Home",
-    "banner": "The latest Angular release is <b>2.4</b>. View the <a href='https://github.com/angular/angular/blob/master/CHANGELOG.md' target='_blank'>change log</a> to see enhancements, fixes, and breaking changes."
+    "banner": "Angular의 최신버전은 <b>2.4</b>입니다. <a href='guide/change-log.html' title='Documentation change log'>업데이트 내용</a>을 확인할 수 있습니다.또한 Angular의 변경, 개선 및 수정사항이 포함된 <a href='https://github.com/angular/angular/blob/master/CHANGELOG.md' target='_blank' title='Angular Product Changes'>Angular 업데이트 기록</a>을 볼 수 있습니다."    
   },
 
   "quickstart": {
