@@ -1,14 +1,23 @@
 include ../_util-fns
 
 :marked
+  앱이 점점 커지고 있습니다.
+  컴포넌트를 재사용하고, 컴포넌트에 데이터를 전달하고, 보다 재사용성이 높은 자산을 만들기 위한 유스케이스가 계속 유입되고 있습니다.
+
   Our app is growing.
   Use cases are flowing in for reusing components, passing data to components, and creating more reusable assets. Let's separate the heroes list from the hero details and make the details component reusable.
+
+  이 파트의 <live-example></live-example>을 실행해 보세요.
 
   Run the <live-example></live-example> for this part.
 
 .l-main-section
 :marked
+  ## 지나온 길
   ## Where We Left Off
+
+  Tour of Heroes 를 계속하기 전에, 아래 구조가 되었는지 확인해봅시다. 그렇지 않다면 이전 파트로 돌아가서 빠진 부분이 없는지 확인해야 합니다.
+
   Before we continue with our Tour of Heroes, let’s verify we have the following structure. If not, we’ll need to go back and follow the previous chapters.
 
 .filetree
@@ -20,7 +29,7 @@ include ../_util-fns
       .file app.module.ts
       .file main.ts
     .file node_modules ...
-    .file typings ...      
+    .file typings ...
     .file index.html
     .file package.json
     .file styles.css
@@ -28,66 +37,117 @@ include ../_util-fns
     .file tsconfig.json
     .file typings.json
 :marked
+  ### 지속적인 앱 트랜스파일링과 실행
   ### Keep the app transpiling and running
+
+  TypeScript 컴파일러를 실행해 변경사항을 감시하도록 하고, 서버를 구동합니다.
+
   We want to start the TypeScript compiler, have it watch for changes, and start our server. We'll do this by typing
 
 code-example(language="bash").
   npm start
 
 :marked
+  이렇게하면 Tour of Heroes를 계속 빌드하면서 애플리케이션을 실행할 수 있습니다.
+
   This will keep the application running while we continue to build the Tour of Heroes.
 
+  ## 히어로 상세 컴포넌트 만들기
   ## Making a Hero Detail Component
+
+  히어로 목록과 히어로 상세가 같은 파일에 존재하고 있습니다.
+  이들 컴포넌트는 크지 않지만 각각 커질 수 있습니다.
+  공통의 요건보다는 개별 요건이 꼭 생기게 마련입니다.
+  그러나 변경사항을 양쪽에 두는 것은 위험하고 실속없이 테스팅 부담만 두배로 증가시키게 됩니다.
+  만약 다른 앱에서 히어로 상세만 재사용하려고 해도, 히어로 목록 또한 함께 움직여야 합니다.
+
   Our heroes list and our hero details are in the same component in the same file.
-  They're small now but each could grow. 
+  They're small now but each could grow.
   We are sure to receive new requirements for one and not the other.
   Yet every change puts both components at risk and doubles the testing burden without benefit.
   If we had to reuse the hero details elsewhere in our app,
-  the heroes list would tag along for the ride. 
-  
-  Our current component violates the 
+  the heroes list would tag along for the ride.
+
+  현재 컴포넌트는 [Single Responsibility Principle](https://blog.8thlight.com/uncle-bob/2014/05/08/SingleReponsibilityPrinciple.html) 원칙을 위반했습니다.
+  지금은 튜토리얼일 뿐이지만 어려운 것이 아니므로 제대로 수정하여 &mdash; Angular 앱을 어떤 과정으로 만드는지 배워보겠습니다.
+
+  Our current component violates the
   [Single Responsibility Principle](https://blog.8thlight.com/uncle-bob/2014/05/08/SingleReponsibilityPrinciple.html).
-  It's only a tutorial but we can still do things right &mdash; 
+  It's only a tutorial but we can still do things right &mdash;
   especially if doing them right is easy and we learn how to build Angular apps in the process.
-  
+
+  히어로 상세를 컴포넌트에서 분리합시다.
+
   Let’s break the hero details out into its own component.
 
+  ### 히어로 상세 컴포넌트 분리  
   ### Separating the Hero Detail Component
+
+  `hero-detail.component.ts` 파일을 `app` 폴더에 추가하고 다음처럼 `HeroDetailComponent`를 생성하세요.
+
   Add a new file named `hero-detail.component.ts` to the `app` folder and create `HeroDetailComponent` as follows.
 
 +makeExample('toh-3/ts/app/hero-detail.component.ts', 'v1', 'app/hero-detail.component.ts (initial version)')(format=".")
 .l-sub-section
   :marked
+    ### 작명 규칙
     ### Naming conventions
-    We like to identify at a glance which classes are components and which files contain components. 
-    
+    어떤 클래스가 컴포넌트인지, 어떤 파일이 컴포넌트를 포함하고 있는지 한눈에 알고 싶습니다.
+
+    We like to identify at a glance which classes are components and which files contain components.
+
+    `app.component.ts` 라는 파일 안에 `AppComponent`가 있고, `hero-detail.component.ts` 파일 안에 `HeroDetailComponent` 가 있는 것에 주의하세요.
+
     Notice that  we have an `AppComponent` in a file named `app.component.ts` and our new
-    `HeroDetailComponent` is in a file named `hero-detail.component.ts`. 
-    
+    `HeroDetailComponent` is in a file named `hero-detail.component.ts`.
+
+    모든 컴포넌트는 "Component"로 끝이 납니다. 모든 컴포넌트 파일은 ".component"로 끝이 납니다.
+
     All of our component names end in "Component".  All of our component file names end in ".component".
-    
-    We spell our file names in lower **[dash case](../guide/glossary.html#!#dash-case)** 
+
+    모든 파일명은 소문자 **[dash case](../guide/glossary.html#!#dash-case)** (속칭 **[kebab-case](../guide/glossary.html#!#kebab-case)**) 로 하여
+    서버나 소스 컨트롤에서 대소문자 문제가 발생하지 않게 합니다.
+
+    We spell our file names in lower **[dash case](../guide/glossary.html#!#dash-case)**
     (AKA **[kebab-case](../guide/glossary.html#!#kebab-case)**) so we don't worry about
     case sensitivity on the server or in source control.
 
     <!-- TODO
     .l-sub-section
       :marked
+        작명 규칙에 대해 [Naming Conventions] 에서 더 자세하게 알아보세요.
         Learn more about naming conventions in the chapter [Naming Conventions]
     :marked
     -->
 :marked
+  곧 필요하기 때문에 Angular에서 `Component`와 `Input` 데코레이터를 임포트하겠습니다.
+
   We begin by importing the `Component` and `Input` decorators from Angular because we're going to need them soon.
-    
-  We create metadata with the `@Component` decorator where we 
+
+  `@Component` 데코레이터의 메타데이타를 만들고, 그 안에 컴포넌트 엘리먼트를 식별할 selector를 정의하겠습니다.
+  그 다음 다른 컴포넌트에서 사용할 수 있도록 클래스를 익스포트 합니다.
+
+  We create metadata with the `@Component` decorator where we
   specify the selector name that identifies this component's element.
   Then we export the class to make it available to other components.
-  
+
+  이 작업을 마치면, 해당 컴포넌트를 `AppComponent`에 임포트하고 그에 대응하는 `<my-hero-detail>` 엘리먼트를 만들어 보겠습니다.
+
   When we finish here, we'll import it into `AppComponent` and create a corresponding `<my-hero-detail>`  element.
 :marked
+  #### 히어로 상세 템플릿
   #### Hero Detail Template
+
+  지금은 ***히어로***와 ***히어로 상세*** 뷰가 `AppComponent`안에 하나의 템플릿에 섞여 있습니다.
+  `AppComponent`에서 *히어로 상세* 부분을 **잘라내어** `HeroDetailComponent`의 새로운 템플릿에 **붙여넣기** 하세요.
+
   At the moment, the *Heroes* and *Hero Detail* views are combined in one template in `AppComponent`.
   Let’s **cut** the *Hero Detail* content from `AppComponent` and **paste** it into the new template property of  `HeroDetailComponent`.
+
+  앞서 `AppComponent`의 `selectedHero.name` 프로퍼티에 바인딩을 했었습니다.
+  `HeroDetailComponent`는 `selectedHero`가 아니라 `hero` 프로퍼티를 가질 것입니다.
+  그러므로 새로운 템플릿에서 `selectedHero`를 `hero`로 교체하세요. 이것만 변경하면 됩니다.
+  아래처럼 하면 됩니다.
 
   We previously bound to the `selectedHero.name` property of the `AppComponent`.
   Our `HeroDetailComponent` will have a `hero` property, not a `selectedHero` property.
@@ -97,67 +157,113 @@ code-example(language="bash").
 +makeExample('toh-3/ts/app/hero-detail.component.ts', 'template', 'app/hero-detail.component.ts (template)')(format=".")
 
 :marked
+  이제 히어로 상세 레이아웃은 `HeroDetailComponent`에만 존재합니다.
+
   Now our hero detail layout exists only in the `HeroDetailComponent`.
 
+  #### *히어로* 프로퍼티 추가하기
   #### Add the *hero* property
+
+  앞서 얘기한 `hero` 프로퍼티를 컴포넌트 클래스에 추가합니다.
+
   Let’s add that `hero` property we were talking about to the component class.
 +makeExample('toh-3/ts/app/hero-detail.component.ts', 'hero')
 :marked
-  Uh oh. We declared the `hero` property as type `Hero` but our `Hero` class is over in the `app.component.ts` file. 
-  We have two components, each in their own file, that need to reference the `Hero` class. 
-  
+  앗. `hero` 프로퍼티를 `Hero` 타입으로 선언했지만 `Hero` 클래스는 `app.component.ts` 파일에 있습니다.
+  두개의 콤포넌트가 각각의 파일에 있으므로 `Hero` 클래스를 참조해야 합니다.
+
+  Uh oh. We declared the `hero` property as type `Hero` but our `Hero` class is over in the `app.component.ts` file.
+  We have two components, each in their own file, that need to reference the `Hero` class.
+
+  `app.component.ts` 에 있는 `Hero` 클래스를 `hero.ts`로 이전하여 문제를 해결하겠습니다.
+
   We solve the problem by relocating the `Hero` class from `app.component.ts` to its own `hero.ts` file.
 
 +makeExample('toh-3/ts/app/hero.ts', '', 'app/hero.ts')(format=".")
 
 :marked
-  We export the `Hero` class from `hero.ts` because we'll need to reference it in both component files. 
+  양쪽 컴포넌트 파일에서 참조를 해야 하므로 `hero.ts`의 `Hero` 클래스를 익스포트합니다.
+  아래 임포트 구문을 **`app.component.ts`와 `hero-detail.component.ts`** 상단에 추가합니다.
+
+  We export the `Hero` class from `hero.ts` because we'll need to reference it in both component files.
   Add the following import statement near the top of **both `app.component.ts` and `hero-detail.component.ts`**.
 
 +makeExample('toh-3/ts/app/hero-detail.component.ts', 'hero-import')
 
 :marked
+  #### *히어로*는 ***인풋*** 프로퍼티
   #### The *hero* property is an ***input***
-  
-  The `HeroDetailComponent` must be told what hero to display. Who will tell it? The parent `AppComponent`! 
-  
-  The `AppComponent` knows which hero to show: the hero that the user selected from the list. 
+
+  `HeroDetailComponent`에게 어떤 히어로를 보여줘야 할지 알려줘야 합니다. 누가 알려줄까요? 부모인 `AppComponent` 입니다!
+
+  The `HeroDetailComponent` must be told what hero to display. Who will tell it? The parent `AppComponent`!
+
+  `AppComponent`는 어떤 히어로를 보여줘야 할지 알고 있습니다. 바로 사용자가 목록에서 선택한 히어로 입니다.
+  사용자의 선택은 `selectedHero` 프로퍼티에 저장되어 있습니다.
+
+  The `AppComponent` knows which hero to show: the hero that the user selected from the list.
   The user's selection is in its `selectedHero` property.
-  
+
+  조만간 `AppComponent`를 업데이트하여 `selectedHero` 프로퍼티를 `HeroDetailComponent`의 `hero` 프로퍼티에 바인딩하겠습니다.
+  바인딩은 *아마도* 이렇게 될 것입니다.
+
   We will soon update the `AppComponent` template so that it binds its `selectedHero` property
   to the `hero` property of our `HeroDetailComponent`. The binding *might* look like this:
 code-example(format=".").
   &lt;my-hero-detail [hero]="selectedHero">&lt;/my-hero-detail>
 :marked
+  `hero` 속성이 프로퍼티 바인딩의 ***타겟*** 입니다. &mdash; (=) 의 왼쪽에 꺽쇠괄호로 둘러 쌓여 있는 것에 주의하세요.
+
   Notice that the `hero` property is the ***target*** of a property binding &mdash; it's in square brackets to the left of the (=).
-  
+
+  Angular는 ***타겟*** 프로퍼티를 ***인풋*** 프로퍼티로 선언할 것을 요구합니다.
+  그렇게 하지 않으면 Angular는 바인딩을 거부하고 에러를 던질 것입니다.
+
   Angular insists that we declare a ***target*** property to be an ***input*** property.
   If we don't, Angular rejects the binding and throws an error.
 .l-sub-section
   :marked
-    We explain input properties in more detail [here](../guide/attribute-directives.html#why-input) 
-    where we also explain why *target* properties require this special treatment and 
+    인풋 속성은 [여기](../guide/attribute-directives.html#why-input)에서 더 자세하게 알아보세요.
+    이 링크에서 왜 *타겟* 프로퍼티는 특별한 처리가 필요한지 *소스* 프로퍼티는 그렇지 않은지 설명하고 있습니다.
+
+    We explain input properties in more detail [here](../guide/attribute-directives.html#why-input)
+    where we also explain why *target* properties require this special treatment and
     *source* properties do not.
 :marked
-  There are a couple of ways we can declare that `hero` is an *input*. 
+  `hero`를 *인풋*으로 선언하는 방법은 몇가지가 있습니다.
+  가장 *선호*하는 방법으로 해보겠습니다. 앞서 임포트한 `@Input` 데코레이터를 `hero` 프로퍼티에 어노테이팅 하는 것입니다.
+
+  There are a couple of ways we can declare that `hero` is an *input*.
   We'll do it the way we *prefer*, by annotating the `hero` property with the `@Input` decorator that we imported earlier.
 +makeExample('toh-3/ts/app/hero-detail.component.ts', 'hero-input')(format='.')
-  
+
 .l-sub-section
   :marked
-    Learn more about the `@Input()` decorator in the 
+    `@Input()` 데코레이터에 대해 
+    [Attribute Directives](../guide/attribute-directives.html#input) 에서 더 자세하게 알아보세요.
+
+    Learn more about the `@Input()` decorator in the
     [Attribute Directives](../guide/attribute-directives.html#input) chapter.
 
 .l-main-section
 :marked
+  ## AppModule 갱신
   ## Refresh the AppModule
+
+  애플리케이션의 root 모듈인 `AppModule`로 다시 돌아와서, `HeroDetailComponent`를 사용하도록 설정하겠습니다.
+
   We return to the `AppModule`, the application's root module, and teach it to use the `HeroDetailComponent`.
+
+  `HeroDetailComponent`를 임포트하여 참조 가능하도록 합니다.
 
   We begin by importing the `HeroDetailComponent` so we can refer to it.
 
 +makeExample('toh-3/ts/app/app.module.ts', 'hero-detail-import')
 
 :marked
+  다음으로 `NgModule` 데코레이터의 `declarations` 배열에 `HeroDetailComponent`를 추가합니다.
+  이 배열에는 우리가 생성했거나 애플리케이션 모듈에 속한 모든 컴포넌트, 파이프, 지시자를 추가할 수 있습니다.
+
   Then we add `HeroDetailComponent` to the `NgModule` decorator's `declarations` array.
   This array contains the list of all components, pipes, and directives that we created
   and that belong in our application's module.
@@ -166,40 +272,69 @@ code-example(format=".").
 
 .l-main-section
 :marked
+  ## AppComponent 갱신
   ## Refresh the AppComponent
 :marked
-  Now that the application knows about our `HeroDetailComponent`, 
+  이제 애플리케이션이 `HeroDetailComponent`를 알게 되었으므로,
+  `AppComponent` 템플릿에서 *히어로 상세* 부분을 지우고
+  `HeroDetailComponent`를 나타내는 엘리먼트 태그를 추가합니다.
+
+  Now that the application knows about our `HeroDetailComponent`,
   find the location in the `AppComponent` template where we removed the *Hero Detail* content
   and add an element tag that represents the `HeroDetailComponent`.
 code-example(format=".").
   &lt;my-hero-detail>&lt;/my-hero-detail>
 .l-sub-section
   :marked
+    *my-hero-detail*은 `HeroDetailComponent` 메타데이터에서 설정한 `selector`의 이름입니다.
+
     *my-hero-detail* is the name we set as the  `selector` in the `HeroDetailComponent` metadata.
 :marked
- The two components won't coordinate until we bind the `selectedHero` property of the `AppComponent` 
- to the `HeroDetailComponent` element's `hero` property  like this:
+  아래처럼 `AppComponent`의 `selectedHero` 프로퍼티를 `HeroDetailComponent` 엘리먼트의 `hero` 프로퍼티에 바인딩하기 전까지는
+  두개의 컴포넌트가 협력할 수 없습니다.
+  
+  The two components won't coordinate until we bind the `selectedHero` property of the `AppComponent` 
+  to the `HeroDetailComponent` element's `hero` property  like this
 code-example(format=".")
   &lt;my-hero-detail [hero]="selectedHero">&lt;/my-hero-detail>
 :marked
+  이제 `AppComponent` 템플릿은 아래처럼 되어야 합니다.
+
   The `AppComponent`’s template should now look like this
 
 +makeExample('toh-3/ts/app/app.component.ts', 'hero-detail-template', 'app.component.ts (template)')(format='.')
 :marked
+  바인딩을 한 덕분에 `HeroDetailComponent`는 `AppComponent`에서 히어로를 받고 목록 아래쪽에 표시 할 수 있습니다.
+  사용자가 새로운 히어로를 선택할 때마다 상세 부분이 업데이트 됩니다.
+
   Thanks to the binding, the `HeroDetailComponent` should receive the hero from the `AppComponent` and display that hero's detail beneath the list.
   The detail should update every time the user picks a new hero.
-  
+
 :marked
+  ### 잘 돌아가는군요!
   ### It works!
-  When we view our app in the browser we see the list of heroes. 
-  When we select a hero we can see the selected hero’s details. 
   
+  브라우저에서 앱을 보면 히어로 목록이 보입니다.
+  히어로를 선택하면 선택된 히어로의 상세 내용이 보입니다.
+
+  When we view our app in the browser we see the list of heroes.
+  When we select a hero we can see the selected hero’s details.
+
+  기본적으로 새로운 것은 앱의 아무곳에서나 히어로 상세를 보여주기 위해
+  `HeroDetailComponent`를 사용할 수 있다는 것입니다.
+
   What's fundamentally new is that we can use this `HeroDetailComponent`
   to show hero details anywhere in the app.
 
+  첫번째 재사용 가능한 컴포넌트를 만들었네요!
+
   We’ve created our first reusable component!
 
+  ### 앱 구조 리뷰
   ### Reviewing the App Structure
+
+  이번장의 리팩토링을 거쳐 아래와 같은 구조가 되었는지 확인해보세요.
+
   Let’s verify that we have the following structure after all of our good refactoring in this chapter:
 
 .filetree
@@ -219,6 +354,7 @@ code-example(format=".")
     .file tsconfig.json
     .file typings.json
 :marked
+  이번 챕터에서 논의한 코드 파일들입니다.
   Here are the code files we discussed in this chapter.
 
 +makeTabs(`
@@ -235,8 +371,18 @@ code-example(format=".")
 
 .l-main-section
 :marked
+  ## 지나온 여정
   ## The Road We’ve Travelled
+  
+  잠시 만들었던 것을 살펴보겠습니다.
+
   Let’s take stock of what we’ve built.
+
+  * 재사용 가능한 컴포넌트를 만들었습니다.
+  * 인풋을 받을 수 있는 컴포넌트를 만드는 법을 배웠습니다.
+  * Angular 모듈에 필요한 애플리케이션 지시자를 선언하는 법을 배웠습니다.
+  `NgModule` 데코레이터의 `declarations` 배열에 지시자를 나열했습니다.
+  * 부모 컴포넌트를 자식 컴포넌트에 바인딩 하는 것을 배웠습니다.
 
   * We created a reusable component
   * We learned how to make a component accept input
@@ -244,16 +390,29 @@ code-example(format=".")
   list the directives in the `NgModule` decorator's `declarations` array.
   * We learned to bind a parent component to a child component.
 
+  이 파트의 <live-example></live-example>을 실행해 보세요.
+
   Run the <live-example></live-example> for this part.
 
 .l-main-section
 :marked
+  ## 앞으로의 여정
   ## The Road Ahead
-  Our Tour of Heroes has become more reusable with shared components. 
-  
+
+  컴포넌트 공유를 통해 Tour of Heroes의 재사용성이 높아졌습니다.
+
+  Our Tour of Heroes has become more reusable with shared components.
+
+  여전히 `AppComponent`에서 샘플 데이터를 사용하고 있습니다.
+  지속 가능한 개발형태는 아닙니다.
+  데이터 접근은 서비스로 분리하여 데이터가 필요한 컴포넌트끼리 공유하도록
+  리팩토링을 해야합니다.
+
   We're still getting our (mock) data within the `AppComponent`.
-  That's not sustainable. 
+  That's not sustainable.
   We should refactor data access to a separate service
-  and share it among the components that need data. 
-  
+  and share it among the components that need data.
+
+  [다음 튜토리얼](toh-pt4.html) 에서 서비스를 생성하는 것을 배워보겠습니다.
+
   We’ll learn to create services in the [next tutorial](toh-pt4.html) chapter.
