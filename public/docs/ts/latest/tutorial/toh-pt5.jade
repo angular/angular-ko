@@ -8,12 +8,22 @@ block includes
   - var _redirectTo = 'redirectTo'
 
 :marked
+  Tour of Heroes 애플리케이션에 새로운 요구사항이 생겼습니다:
+
   We received new requirements for our Tour of Heroes application:
+
+  * *대시보드* 뷰를 추가
+  * *히어로*와 *대시보드* 뷰 이동하기
+  * 어느 뷰에서든 히어로를 클릭하면 선택된 히어로의 상세 뷰로 이동하기
+  * 이메일에서 *deep link*를 클릭하면 특정 히어로의 상세 뷰를 열기
+
 
   * Add a *Dashboard* view.
   * Navigate between the *Heroes* and *Dashboard* views.
   * Clicking on a hero in either view navigates to a detail view of the selected hero.
   * Clicking a *deep link* in an email opens the detail view for a particular hero.
+
+  작업을 완료하면 사용자는 아래처럼 앱을 이동 할 수 있을 것입니다:
 
   When we’re done, users will be able to navigate the app like this:
 
@@ -21,14 +31,21 @@ figure.image-display
   img(src='/resources/images/devguide/toh/nav-diagram.png' alt="View navigations")
 
 :marked
+  이런 요건을 충족시키기 위해 Angular의 *라우터*를 추가하겠습니다.
+  
   We'll add Angular’s *Router* to our app to satisfy these requirements.
+
 
 .l-sub-section
   :marked
+    [라우팅과 내비게이션](../guide/router.html) 챕터에서는 라우터에 대해 이번 튜토리얼보다 자세한 내용을 다루고 있습니다.
+
     The [Routing and Navigation](../guide/router.html) chapter covers the router
     in more detail than we will in this tutorial.
 
 :marked
+  이 파트의 <live-example></live-example>을 실행해 보세요.
+
   Run the <live-example></live-example> for this part.
 
 +ifDocsFor('ts|js')
@@ -36,7 +53,11 @@ figure.image-display
 
 .l-main-section
 :marked
+  ## 지나온 여정
   ## Where We Left Off
+
+  Tour of Heroes 를 계속하기 전에, 아래 구조가 되었는지 확인해봅시다.
+  그렇지 않다면 이전 파트로 돌아가서 빠진 부분이 없는지 확인해야 합니다.
 
   Before we continue with our Tour of Heroes, let’s verify that
   we have the following structure after adding our hero service
@@ -64,7 +85,11 @@ block intro-file-tree
 
 block keep-app-running
   :marked
+    ### 지속적인 앱 트랜스파일링과 실행
     ### Keep the app transpiling and running
+
+    터미널/콘솔 창을 열고, 
+    TypeScript 컴파일러를 실행해 변경사항을 감시하도록 하고, 서버를 구동합니다.
 
     Open a terminal/console window and enter the following command to
     start the TypeScript compiler, start the server, and watch for changes:
@@ -73,11 +98,23 @@ block keep-app-running
     npm start
 
 :marked
+  이렇게 하면 Tour of Heroes를 계속 빌드하면서 자동으로 애플리케이션을 실행하고 업데이트 할 수 있습니다.
+
   The application runs and updates automatically as we continue to build the Tour of Heroes.
 
+  ## 행동 계획
   ## Action plan
 
+  우리의 계획은 다음과 같습니다:
+
   Here's our plan:
+
+  * `AppComponent`는 내비게이션만 담당하는 애플리케이션 쉘이 되도록 변환
+  * *히어로*에 대한 관심사는 `AppComponent`에서 `HerosComponent`로 분리
+  * 라우팅 추가
+  * 새로운 `DashboardComponent' 생성
+  * *대시보드*를 내비게이션 구조에 연동
+
 
   * Turn `AppComponent` into an application shell that only handles navigation
   * Relocate the *Heroes* concerns within the current `AppComponent` to a separate `HeroesComponent`
@@ -87,25 +124,46 @@ block keep-app-running
 
 .l-sub-section
   :marked
+    *라우팅*은 *내비게이션*의 또다른 이름입니다. *라우터*는 뷰 사이를 탐색(navigating)하는 메카니즘을 말합니다.
+
     *Routing* is another name for *navigation*. The *router* is the mechanism for navigating from view to view.
 
 .l-main-section
 :marked
+  ## *AppComponent* 분리하기
   ## Splitting the *AppComponent*
+
+  현재는 앱이 `AppComponent'를 로딩하자마자 히어로 목록을 보여주고 있습니다.
 
   Our current app loads `AppComponent` and immediately displays the list of heroes.
 
+  수정된 앱은 뷰(*대시보드*와 *히어로*)를 선택할 수 있는 명령창(쉘)이 되어야 하고, 기본으로 하나의 창을 선택해야 합니다.
+  
   Our revised app should present a shell with a choice of views (*Dashboard* and *Heroes*)
   and then default to one of them.
+
+  `AppComponent`는 내비게이션 기능만 다뤄야 합니다.
+  `AppComponent`에 있는 히어로 표시 기능을 `HerosComponent`로 이동합니다.
 
   The `AppComponent` should only handle navigation.
   Let's move the display of *Heroes* out of `AppComponent` and into its own `HeroesComponent`.
 
   ### *HeroesComponent*
+  ### *HeroesComponent*
+
+  `AppComponent`는 이미 *히어로*만 다루고 있습니다.
+  `AppComponent`에 있는 모든 것을 이동하는 것보다는 그냥 기존 이름을 `HeroesComponent`로 변경하고
+  `AppComponent`는 따로 만들겠습니다.
 
   `AppComponent` is already dedicated to *Heroes*.
   Instead of moving anything out of `AppComponent`, we'll just rename it `HeroesComponent`
   and create a new `AppComponent` shell separately.
+
+  이름을 변경하는 절차:
+  * <span ngio-ex>app.component.ts</span> 파일명을 <span ngio-ex>heroes.component.ts</span>로 변경
+  * `AppComponent` 클래스를 `HeroesComponent`로 변경
+  * `my-app` 셀렉터를 `my-heroes`로 변경
+
 
   The steps are to rename:
   * <span ngio-ex>app.component.ts</span> file to <span ngio-ex>heroes.component.ts</span>
@@ -115,10 +173,29 @@ block keep-app-running
 +makeExcerpt('app/heroes.component.ts (showing renamings only)', 'renaming')
 
 :marked
+  ## *AppComponent* 만들기
   ## Create *AppComponent*
+
+  새로운 `AppComponent`는 애플리케이션 쉘이 될 것입니다.
+  화면 상단에 내비게이션이 있고, 탐색한 페이지는 아래쪽에 보이게 됩니다.
 
   The new `AppComponent` will be the application shell.
   It will have some navigation links at the top and a display area below for the pages we navigate to.
+
+  초기 단계는 다음과 같습니다:
+
+  * <span ngio-ex>app/app.component.ts</span> 파일 생성
+  * <span if-docs="ts">익스포트 할</span> `AppComponent` 클래스 정의
+  * `@Component` !{_데코레이터}를 클래스 상단에 추가하고 셀렉터는 `my-app`으로 지정
+  * `HeroesComponent` 에서 다음 내용을 `AppComponent`으로 이동:
+    * 클래스의 `title` 프로퍼티
+    * `title`을 바인딩하고 있는 `@Component` 템플릿의 `<h1>` 엘리먼트 부분
+  * 히어로를 볼 수 있도록 타이틀 바로 아래에 `<my-heroes>` 엘리먼트 추가
+  * Angular가 `<my-heroes>` 태그를 인식할 수 있도록 `HeroesComponent`를 `AppModule`의 `declarations` 배열에 추가
+  * `HeroService`는 모든 뷰에서 필요하므로 `AppModule`의 `providers` 배열에 `HeroService`를 추가
+  * `HeroComponent`의 `providers`에서는 `HeroService`를 제거 (전역으로 승격되었으므로)
+  * `AppComponent`에 필요한 `임포트` 구문 추가
+
 
   The initial steps are:
 
@@ -134,6 +211,8 @@ block keep-app-running
   * Remove `HeroService` from the `HeroesComponent` `providers` !{_array} since it has been promoted.
   * Add the supporting `import` statements for `AppComponent`.
 
+  첫 번째 초안은 다음과 같습니다.
+
   Our first draft looks like this:
 
 block app-comp-v1
@@ -145,50 +224,82 @@ block app-comp-v1
     app/app.module.ts (v1)`)
 
 :marked
+  앱은 여전히 잘 동작하고 히어로를 보여주고 있습니다.
+  `AppComponent`를 새로운 `AppComponent`와 `HeroesComponent`로 리팩토링 한 것이 잘 동작합니다!
+  특별한 문제 없이 잘 마무리했습니다.
+
   The app still runs and still displays heroes.
   Our refactoring of `AppComponent` into a new `AppComponent` and a `HeroesComponent` worked!
   We have done no harm.
 
 :marked
+  ## 라우팅 추가하기
   ## Add Routing
+
+  다음 단계로 갈 준비가 되었습니다.
+  히어로를 자동으로 표시하는 대신, 사용자가 버튼을 클릭한 *후에* 보이도록 하고 싶습니다.
+  다른말로 하면, 히어로 목록에서 탐색을 해보겠습니다.
 
   We're ready to take the next step.
   Instead of displaying heroes automatically, we'd like to show them *after* the user clicks a button.
   In other words, we'd like to navigate to the list of heroes.
 
+  이것을 하려면 Angular *컴포넌트 라우터*가 필요합니다.
+
   We'll need the Angular *Router*.
 
 block angular-router
   :marked
+    Angular 라우터는 `RouterModule`이라 불리우는 외부의 선택적인 Angular NgModule 입니다.
+    라우터는 여러 서비스(`RouterModule`), 
+    여러 지시자(`RouterOutlet, RouterLink, RouterLinkActive`),
+    설정 (`Routes`)의 조합입니다. 먼저 라우터 설정을 해보겠습니다.
+
     The Angular router is an external, optional Angular NgModule called `RouterModule`.
     The router is a combination of multiple provided services (`RouterModule`),
     multiple directives (`RouterOutlet, RouterLink, RouterLinkActive`),
     and a configuration (`Routes`). We'll configure our routes first.
 
 :marked
+  ### base 태그 추가하기
   ### Add the base tag
+
+  `index.html` 파일을 열고 `<base href="/">` 를 `<head>` 영역의 상단에 추가합니다.
 
   Open `index.html` and add `<base href="/">` at the top of the `<head>` section.
 
 +makeExcerpt('index.html', 'base-href')
 
 .callout.is-important
+  header base href 부분이 중요합니다.
   header base href is essential
   :marked
+    이 부분이 왜 중요한지 확인하려면 [Router](../guide/router.html#base-href)
+    챕터에서 확인하세요.
+
     See the *base href* section of the [Router](../guide/router.html#base-href)
     chapter to learn why this matters.
 
 a#configure-routes
 block router-config-intro
   :marked
+    ### 라우터 설정
     ### Configure routes
+
+    아직 애플리케이션에 어떤 라우터도 없습니다.
+    애플리케이션 라우터를 위해 먼저 설정파일을 만들어보겠습니다.
 
     Our application doesn't have any routes yet.
     We'll start by creating a configuration for the application routes.
 
 :marked
+  *Routes* 는 사용자가 링크를 클릭하거나 브라우저의 주소창에 URL 입력 시 
+  라우터에게 어느 뷰를 보여야 할지 알려줍니다.
+
   *Routes* tell the router which views to display when a user clicks a link or
   pastes a URL into the browser address bar.
+
+  히어로 컴포넌트로 이동할 첫번째 route를 정의해봅시다.
 
   Let's define our first route as a route to the heroes component:
 
@@ -198,24 +309,40 @@ block router-config-intro
 - var _are = _docsFor == 'dart' ? 'takes' : 'are'
 - var _routePathPrefix = _docsFor == 'dart' ? '/' : ''
 :marked
+  `Routes`는 *route 정의* 배열입니다.
+  지금은 하나의 route만 있지만 추후 추가할 것입니다.
+
   The `!{_RoutesVsAtRouteConfig}` !{_are} !{_an} !{_array} of *route definitions*.
   We have only one route definition at the moment but rest assured, we'll add more.
 
+  *route 정의*는 다음 파트로 구성됩니다:
+
   This *route definition* has the following parts:
+
+  - **path**: 라우터는 이 경로와 브라우저 주소창에 있는 URL을 비교합니다. (`heroes`)
+
+  - **component**: 경로에 도달하면 라우터는 이 컴포넌트를 생성합니다. (`HeroesComponent`)
 
   - **path**: the router matches this route's path to the URL in the browser address bar (`!{_routePathPrefix}heroes`).
   <li if-docs="dart"> **name**: the official name of the route;
    it *must* begin with a capital letter to avoid confusion with the *path* (`Heroes`).</li>
+
   - **component**: the component that the router should create when navigating to this route (`HeroesComponent`).
 
 .l-sub-section
   :marked
+    `Routes` 로 route를 정의하는 것은 [라우팅](../guide/router.html) 챕터에서 자세히 알아보세요.
+
     Learn more about defining routes with `!{_RoutesVsAtRouteConfig}` in the [Routing](../guide/router.html) chapter.
 
 +ifDocsFor('ts|js')
   :marked
+    ### 사용가능한 라우터 만들기
     ### Make the router available
 
+    라우터의 기본 구성을 설정했습니다. 이제 `AppModule`을 추가하겠습니다.
+    구성한 `RouteModule`을 이 `AppModule` !{_배열}에 추가합니다.
+    
     We've setup the initial route configuration. Now we'll add it to our `AppModule`.
     We'll add our configured `RouterModule` to the `AppModule` imports !{_array}.
 
@@ -223,26 +350,42 @@ block router-config-intro
 
   .l-sub-section
     :marked
+      애플리케이션의 _루트_에 구성된 라우터를 제공하고 있기 때문에 `forRoo`메소드를 사용합니다.
+      `forRoot`매소드는 라우팅에 필요한 라우터 서비스 공급자와 지침사항을 제공하고, 현재 브라우저의 URL을 기반으로 초기 탐색을 실행합니다.
+    
       We use the `forRoot` method because we're providing a configured router at the _root_ of the application.
       The `forRoot` method gives us the Router service providers and directives needed for routing, and
       performs the initial navigation based on the current browser URL.
 
 - var _heroesRoute = _docsFor == 'dart' ? "'Heroes'" : 'heroes'
 :marked
+  ### 라우터 아울렛
   ### Router Outlet
+
+  브라우저 주소창에서 `/heroes` 경로를 입력하면, 라우터는 `heroes` route를 확인하고 `HeroesComponent`를 보여줘야 합니다. 
+  그런데 어디에 보여줘야 할까요?
 
   If we paste the path, `/heroes`, into the browser address bar,
   the router should match it to the `!{_heroesRoute}` route and display the `HeroesComponent`.
   But where?
 
+  템플릿 하단에 `<router-outlet>`을 추가하여 **여기에요** 라고 알려줘야 합니다.
+  `RouterOutlet` 은 `!{_RouterModuleVsRouterDirectives}` <span if-docs="ts">에서 제공하는 지시자</span> 입니다.
+
   We have to ***tell it where*** by adding a `<router-outlet>` element to the bottom of the template.
   `RouterOutlet` is one of the <span if-docs="ts">directives provided by</span> the `!{_RouterModuleVsRouterDirectives}`.
   The router displays each component immediately below the `<router-outlet>` as we navigate through the application.
 
+  ### 라우터 링크
   ### Router Links
+
+  사실 사용자가 주소창에 URL을 직접 붙여넣기를 기대하지는 않았습니다.
+  앵커 태그를 템플릿에 추가하여 클릭 시 `HeroesComponent`로 이동하도록 하겠습니다.
 
   We don't really expect users to paste a route URL into the address bar.
   We add an anchor tag to the template which, when clicked, triggers navigation to the `HeroesComponent`.
+
+  수정된 템플릿은 이렇게 됩니다.
 
   The revised template looks like this:
 
@@ -250,55 +393,94 @@ block router-config-intro
 
 block routerLink
   :marked
+    앵커 태그의 `routerLink` 바인딩에 유의하세요.
+    사용자가 링크를 클릭 시 라우터에게 이동 위치를 알려주는 문자열을
+    `RouterLink` 지시자(`RouterModule` 지시자의 하나)에 바인딩했습니다.
+
     Notice the `routerLink` binding in the anchor tag.
     We bind the `RouterLink` directive (another of the `RouterModule` directives) to a string
     that tells the router where to navigate when the user clicks the link.
+
+    링크가 동적인 것은 아니므로, *라우팅 명령*은 route *경로*에 대해 **일회성 바인딩**으로 정의했습니다.
+    라우터 설정을 다시보면, `'/heroes'`가 `HeroesComponent`의 route path 였음을 확인할 수 있습니다.
 
     Since our link is not dynamic, we define a *routing instruction* with a **one-time binding** to our route **path**.
     Looking back at the route configuration, we confirm that `'/heroes'` is the path of the route to the `HeroesComponent`.
   .l-sub-section
     :marked
+      동적 라우터 링크와 *링크 파라미터 배열*에 대해 
+      [라우팅](../guide/router.html#link-parameters-array) 에서 더 자세히 알아보세요.
+
       Learn more about dynamic router links and the *link parameters array*
       in the [Routing](../guide/router.html#link-parameters-array) chapter.
 
 :marked
+  브라우저를 새로고침 하세요. 앱 제목과 히어로 링크만 보입니다. 히어로 목록은 보이지 않습니다.
+
   Refresh the browser.  We see only the app title and heroes link. We don't see the heroes list.
 
 .l-sub-section
   :marked
+    브라우저 주소는 `/` 입니다.
+    `HeroesComponent`의 route 경로는 `/`가 아니고 `/heroes`입니다.
+    `/`에 해당하는 route는 아직 없으므로 보여줄 것이 없습니다.
+    이것이 지금 수정하려는 것입니다.
+
     The browser's address bar shows `/`.
     The route path to `HeroesComponent` is `/heroes`, not `/`.
     We don't have a route that matches the path `/`, so there is nothing to show.
     That's something we'll want to fix.
 
 :marked
+  *Heroes* 내비게이션 링크를 클릭하면 브라우저 주소창은 `/heroes`로 업데이트 되고
+  이제 히어로 목록을 볼 수 있습니다. 결국 내비게이팅에 성공했습니다!
+
   We click the *Heroes* navigation link, the browser bar updates to `/heroes`,
   and now we see the list of heroes. We are navigating at last!
+
+  지금 단계에서 `AppComponent`는 아래와 같습니다.
 
   At this stage, our `AppComponent` looks like this.
 
 +makeExample('app/app.component.1.ts', 'v2', 'app/app.component.ts (v2)')
 
 :marked
+  *AppComponent*가 이제 라우터에 연결되어 해당 뷰를 보여주고 있습니다.
+  이런 이유로 다른 종류의 컴포넌트와 구분하기 위해,
+  이러한 컴포넌트를 *라우터 컴포넌트* 라고 부릅니다.
+
   The  *AppComponent* is now attached to a router and displaying routed views.
   For this reason and to distinguish it from other kinds of components,
   we call this type of component a *Router Component*.
 
 :marked
+  ## *대시보드* 추가하기
   ## Add a *Dashboard*
 
+  여러 개의 뷰가 있어야 라우팅이 의미가 있습니다. 다른 뷰를 추가해야겠습니다.
+
   Routing only makes sense when we have multiple views. We need another view.
+
+  왔다 갔다 탐색을 할 임시 `DashboardComponent`를 생성합니다.
 
   Create a placeholder `DashboardComponent` that gives us something to navigate to and from.
 
 +makeExcerpt('app/dashboard.component.1.ts (v1)', '')
 
 :marked
+  나중에 돌아와서 좀 더 유용하게 만들겠습니다.
+
   We’ll come back and make it more useful later.
 
+  ### 대시보드 route 설정하기
   ### Configure the dashboard route
 
+  `app.routing.ts`로 돌아와서 대시보드로 탐색할 방법을 지정하겠습니다.
+
   Go back to `!{_appRoutingTsVsAppComp}` and teach it to navigate to the dashboard.
+
+  대시보드 컴포넌트를 임포트하고
+  다음 내용을 `Routes` 배열에 추가합니다.
 
   Import the dashboard component and
   add the following route definition to the `!{_RoutesVsAtRouteConfig}` !{_array} of definitions.
@@ -308,12 +490,19 @@ block routerLink
 
 +ifDocsFor('ts|js')
   :marked
+    또한 `DashboardComponent`도 `AppModule`에 임포트하고 `declarations` 부분에 추가하세요.
+    
     Also import and add `DashboardComponent` to our `AppModule`'s `declarations`.
 
   +makeExcerpt('app/app.module.ts', 'dashboard')
 
 :marked
   #### !{_redirectTo}
+  #### !{_redirectTo}
+
+  처음에는 대시보드가 보이고
+  브라우저 주소창에는 `/dashboard` 라고 URL이 보였으면 합니다.
+  브라우저는 주소창에 `/`로 구동된 것을 기억하세요.
 
   We want the app to show the dashboard when it starts and
   we want to see a nice URL in the browser address bar that says `/dashboard`.
@@ -321,6 +510,8 @@ block routerLink
 
 block redirect-vs-use-as-default
   :marked
+    이때 redirect route를 사용하면 됩니다. 다음 내용을 route 정의 배열에 추가하세요.
+
     We can use a redirect route to make this happen. Add the following
     to our array of route definitions:
 
@@ -328,10 +519,15 @@ block redirect-vs-use-as-default
 
   .l-sub-section
     :marked
+      *redirects*에 대해 [라우팅](../guide/router.html#redirect) 에서 더 자세히 알아보세요.
+      
       Learn about the *redirects* in the [Routing](../guide/router.html#redirect) chapter.
 
 :marked
+  #### 템플릿에 내비게이션 추가하기
   #### Add navigation to the template
+
+  마지막으로, 템플릿 안의 *Heroes* 링크 바로 위에 대시보드 내비게이션 링크를 추가하세요.
 
   Finally, add a dashboard navigation link to the template, just above the *Heroes* link.
 
@@ -340,88 +536,151 @@ block redirect-vs-use-as-default
 
 .l-sub-section
   :marked
+    `<nav>` 태그 안에 2개의 링크를 품었습니다.
+    nav 태그는 아직 아무일도 하지 않지만 조금 뒤의 챕터에서 링크를 스타일링 할 때 편리하게 해줍니다.
+
     We nested the two links within `<nav>` tags.
     They don't do anything yet but they'll be convenient when we style the links a little later in the chapter.
 
 :marked
+  브라우저에서 변경을 확인하기 위해, 애플리케이션 root(`/`)로 가서 새로고침을 해보세요.
+  앱이 대시보드를 보여주고 대시보드와 히어로 사이를 이동할 수 있게 되었습니다.
+
   To see these changes in your browser, go to the application root (`/`) and reload.
   The app displays the dashboard and we can navigate between the dashboard and the heroes.
 
+  ## 대시보드에 최고 영웅 표시하기
   ## Dashboard Top Heroes
 
+  대시보드에서 Top 4 영웅을 한눈에 확인할 수 있도록 약간의 꾸밈을 더해보겠습니다.
+
   Let’s spice up the dashboard by displaying the top four heroes at a glance.
+
+  `template` 메타데이터를 새로운 템플릿 파일을 가르키는 `templateUrl`로 변경합니다.
 
   Replace the `template` metadata with a `templateUrl` property that points to a new
   template file.
 +ifDocsFor('ts|js')
   :marked
+    `templateUrl`의 모듈-상대적 로딩을 위해 `moduleId` 속성을 `module.id`로 설정합니다.
+    
     Set the `moduleId` property to `module.id` for module-relative loading of the `templateUrl`.
 
 +makeExcerpt('app/dashboard.component.ts', 'metadata')
+
 
 block templateUrl-path-resolution
   //- N/A for TS
 
 :marked
+  다음 내용으로 파일을 만드세요:
+
   Create that file with this content:
 
 +makeExample('app/dashboard.component.1.html', '', 'app/dashboard.component.html')
 
 :marked
+  다시 한번 히어로 목록을 순회하고 이름을 표시하기 위해 `*ngFor`를 사용할 수 있습니다.
+  챕터 뒷부분에서 스타일링을 하기 위해 추가적인 `<div>` 엘리먼트를 추가했습니다.
+
   We use `*ngFor` once again to iterate over a list of heroes and display their names.
   We added extra `<div>` elements to help with styling later in this chapter.
 
+  ### *HeroService* 
   ### Share the *HeroService*
 
+  컴포넌트의 히어로 목록을 꺼내오기 위해 `HeroService`를 재사용하겠습니다.
+
   We'd like to re-use the `HeroService` to populate the component's `heroes` !{_array}.
+
+  `HerosComponent`의 `providers` 배열에서 `HeroService`를 제거하고 `AppModule`의 `providers` 배열에 추가한 것을 상기해보세요.
 
   Recall earlier in the chapter that we removed the `HeroService` from the `providers` !{_array} of `HeroesComponent`
   and added it to the `providers` !{_array} of `!{_AppModuleVsAppComp}`.
 
+  이 때문에 `HeroService`의 싱글턴 인스턴스가 생성되었고, 애플리케이션의 *모든* 컴포넌트에서 사용이 가능합니다.
+  Angular가 `HeroService`를 주입할 것이므로 이곳 `DashboardComponent`에서도 사용할 수 있습니다.
+
   That move created a singleton `HeroService` instance, available to *all* components of the application.
   Angular will inject `HeroService` and we'll use it here in the `DashboardComponent`.
 
+  ### 히어로 가져오기
   ### Get heroes
+
+  <span ngio-ex>dashboard.component.ts</span>를 열고 필요한 `import` 구문을 추가합니다.
 
   Open <span ngio-ex>dashboard.component.ts</span> and add the requisite `import` statements.
 
 +makeExcerpt('app/dashboard.component.ts','imports')
 
 :marked
+  이제 다음과 같이 `DashboardComponent` 클래스를 구현합니다.
+
   Now implement the `DashboardComponent` class like this:
 
 +makeExcerpt('app/dashboard.component.ts (class)', 'class')
 
 :marked
+  이러한 로직은 `HeroesComponent`에서 보았던 적이 있습니다.
+
   We've seen this kind of logic before in the `HeroesComponent`:
+
+  * `heroes` 배열 프로퍼티 선언
+  * 생성자에 `HeroService` 주입하고 private `heroService` 필드에 저장
+  * Angular `ngOnInit` 라이프사이클 훅에서 히어로 목록을 가져오기 위해 서비스 호출  
+
 
   * Define a `heroes` !{_array} property.
   * Inject the `HeroService` in the constructor and hold it in a private `!{_priv}heroService` field.
   * Call the service to get heroes inside the Angular `ngOnInit` lifecycle hook.
 
+
+  대시보드에서, <span if-docs="ts"> `Array.slice` 메소드</span>를 이용하여 4명의 히어로(2등, 3등, 4등, 5등)을 선발했습니다.
+  
   In this dashboard we cherry-pick four heroes (2nd, 3rd, 4th, and 5th)<span if-docs="ts"> with the `Array.slice` method</span>.
+
+  브라우저를 새로고침 하면 대시보드에 4명의 히어로가 보입니다.
 
   Refresh the browser and see four heroes in the new dashboard.
 
 .l-main-section
 :marked
+  ## 히어로 상세 탐색하기
   ## Navigate to Hero Details
+
+  비록 `HeroesComponent` 하단에 선택된 히어로의 상세를 보여주고 있지만,
+  필수요건으로 정의한 3가지 방법으로 `HeroesDetailComponent`를 *탐색*할 수 있는 것은 아닙니다.
 
   Although we display the details of a selected hero at the bottom of the `HeroesComponent`,
   we don't yet *navigate* to the `HeroDetailComponent` in the three ways specified in our requirements:
+
+  1. 대시보드에서 선택된 히어로 탐색
+  1. 히어로 목록에서 선택된 히어로 탐색  
+  1. 브라우저 주소창에 붙여넣은 *deep link* URL을 통한 탐색
+
 
   1. from the *Dashboard* to a selected hero.
   1. from the *Heroes* list to a selected hero.
   1. from a "deep link" URL pasted into the browser address bar.
 
+  hero-detail route를 추가하는 것은 시작점이 명확해 보입니다.
+
   Adding a hero-detail route seems like an obvious place to start.
 
+  ### 히어로 상세로 라우팅하기
   ### Routing to a hero detail
+
+  다른 route를 설정했던 `app.routing.ts`에 `HeroDetailComponent` route를 추가하겠습니다.
 
   We'll add a route to the `HeroDetailComponent` in `!{_appRoutingTsVsAppComp}` where our other routes are configured.
 
+  새로운 route는 `HeroDetailComponent`에게 *어느 히어로를 보여줄지* 알려줘야 한다는 점에서 약간 다릅니다.
+  `HeroesComponent`나 `DashboardComponent`에게 아무것도 알려주지 않아도 됩니다.
+
   The new route is a bit unusual in that we must tell the `HeroDetailComponent` *which hero to show*.
   We didn't have to tell the `HeroesComponent` or the `DashboardComponent` anything.
+
+  지금은 부모인 `HeroComponent`가 히어로 객체를 바인딩하여 컴포넌트의 `hero` 프로퍼티를 셋팅하고 있습니다.
 
   At the moment the parent `HeroesComponent` sets the component's `hero` property to a
   hero object with a binding like this.
@@ -430,10 +689,17 @@ code-example(language="html").
   &lt;my-hero-detail [hero]="selectedHero">&lt;/my-hero-detail>
 
 :marked
+  이런 방식은 우리의 라우팅 시나리오에서는 유효하지 않습니다.
+  특히 마지막 시나리오에서는요; URL에 히어로 객체 전체를 넣을 수는 없습니다! 그렇게 하길 원하지도 않고요.
+
   That clearly won't work in any of our routing scenarios.
   Certainly not the last one; we can't embed an entire hero object in the URL! Nor would we want to.
 
+  ### 파라미터가 있는 route
   ### Parameterized route
+
+  URL에 히어로의 `id`를 추가 할 수 *있습니다*. `id`가 11인 히어로를 탐색하려면,
+  다음과 같은 URL을 기대할 수 있습니다.
 
   We *can* add the hero's `id` to the URL. When routing to the hero whose `id` is 11,
   we could expect to see a URL such as this:
@@ -442,10 +708,16 @@ code-example(format="nocode").
   /detail/11
 
 :marked
+  URL의 `/detail/` 부분은 고정입니다. 뒤이어 나오는 `id` 부분은 히어로마다 다릅니다.
+  이러한 route의 변수 부분에 히어로의 `id`를 나타내는 *파라미터* (또는 *토큰*)을 표시해야 합니다.
+
   The `/detail/` part of that URL is constant. The trailing numeric `id` part changes from hero to hero.
   We need to represent that variable part of the route with a *parameter* (or *token*) that stands for the hero's `id`.
 
+  ### 파라미터를 가진 route 설정하기
   ### Configure a Route with a Parameter
+
+  앞으로 사용할 *route 정의*가 있습니다.
 
   Here's the *route definition* we'll use.
 
@@ -453,46 +725,75 @@ code-example(format="nocode").
 +makeExcerpt(_file + ' (hero detail)','hero-detail')
 
 :marked
+  path에 있는 콜론 (:)은 `HeroDetailComponent`로 네이게이팅을 할 때 
+  `:id`가 특정 히어로의 `id`로 채워질 보관장소라는 것을 나타냅니다.
+
   The colon (:) in the path indicates that `:id` is a placeholder to be filled with a specific hero `id`
   when navigating to the `HeroDetailComponent`.
 
 +ifDocsFor('dart')
   .l-sub-section
     :marked
+      route를 만들기 전에 HeroDetailComponent를 임포트 하는 것을 잊지 마세요.
+      
       Remember to import the hero detail component before creating this route.
 
 :marked
+  애플리케이션 route 설정이 끝났습니다.
+
   We're finished with the application routes.
+
+  템플릿에 `'히어로 상세'` 링크를 추가하지는 않겠습니다.
+  왜냐하면 사용자가 특정 히어로를 보기 위해 내비게이션 *링크*를 클릭하지는 않기 때문입니다.
+  사용자는 대시보드나 히어로 목록에 표시된 히어로를 클릭할 것입니다.
 
   We won't add a `'Hero Detail'` link to the template because users
   don't click a navigation *link* to view a particular hero.
   They click a *hero* whether that hero is displayed on the dashboard or in the heroes list.
 
+  이러한 *히어로* 클릭은 챕터 뒤에서 다루겠습니다.
+  `HeroDetailComponent`가 내비게이션 *대상*이 되기 전까지는
+  히어로 작업 공간이 없기 때문입니다.
+
   We'll get to those *hero* clicks later in the chapter.
   There's no point in working on them until the `HeroDetailComponent`
   is ready to be navigated *to*.
+
+  그렇게 하려면 `HeroDetailComponent`의 점검이 필요합니다.
 
   That will require an `HeroDetailComponent` overhaul.
 
 .l-main-section
 :marked
+  ## *HeroDetailComponent* 수정하기
   ## Revise the *HeroDetailComponent*
+
+  `HeroDetailComponent`를 수정하기 전에, 현재 코드를 살펴보겠습니다.
 
   Before we rewrite the `HeroDetailComponent`, let's review what it looks like now:
 
 +makeExample('toh-4/ts/app/hero-detail.component.ts', null, 'app/hero-detail.component.ts (current)')
 
 :marked
+  템플릿은 바꾸지 않을 것입니다. 히어로는 동일한 방식으로 보여줄 겁니다.
+  큰 변화는 히어로를 어떻게 얻는가 하는 것입니다.
+
   The template won't change. We'll display a hero the same way.
   The big changes are driven by how we get the hero.
 
 block route-params
   :marked
+    이제 더 이상 부모의 프로퍼티 바인딩을 통해 히어로를 구하지 않을 것입니다.
+    새로운 `HeroDetailComponent`는 `ActivedRoute` 서비스의 `params` observable에서
+    `id` 파라미터를 가져오고, 해당 `id`의 히어로를 가져오기 위해 `HeroService`를 사용할 것입니다.
+
     We will no longer receive the hero in a parent component property binding.
     The new `HeroDetailComponent` should take the `id` parameter from the `params` observable
     in the `ActivatedRoute` service and use the `HeroService` to fetch the hero with that `id`.
 
 :marked
+  먼저, 필요한 것들을 임포트합니다.
+
   First, add the requisite imports:
 
 - var _vers = _docsFor == 'dart' ? '' : '.1'
@@ -500,6 +801,8 @@ block route-params
 
 - var _ActivatedRoute = _docsFor == 'dart' ? 'RouteParams' : 'ActivatedRoute'
 :marked
+  `!{_ActivatedRoute}` 서비스와 `HeroService`, `Location`은 생성자에 주입하여 private 필드로 저장합니다:
+
   Let's have the `!{_ActivatedRoute}` service, the `HeroService` and the `Location` service injected
   into the constructor, saving their values in private fields:
 
@@ -507,17 +810,25 @@ block route-params
 
 +ifDocsFor('ts')
   :marked
+    `switchMap`연산자를 가져 와서 라우트 파라미터 `Observable`에서 나중에 사용하십시오.
+  
     Also import the `switchMap` operator to use later with the route parameters `Observable`.
 
   +makeExcerpt('app/hero-detail.component.ts (switchMap import)', 'rxjs-import')
 
 :marked
+  클래스에 `OnInit` 인터페이스를 구현하겠다고 알려줍니다.
+
   We tell the class that we want to implement the `OnInit` interface.
 
 +makeExcerpt('app/hero-detail.component.ts', 'implement', '')
 
 block ngOnInit
   :marked
+    `ngOnInit` 라이프사이클 훅에서, `ActivedRoute` 서비스에서 
+    `id` 파라미터를 가져오기 위해 `params` observable을 사용합니다.
+     그리고 해당 `id`의 히어로를 가져오기 위해 `HeroService`를 사용할 것입니다.
+
     Inside the `ngOnInit` lifecycle hook, we use the `params` observable to
     extract the `id` parameter value from the `ActivatedRoute` service
     and use the `HeroService` to fetch the hero with that `id`.
@@ -526,43 +837,72 @@ block ngOnInit
 
 block extract-id
   :marked
+    `switchMap` 연산자가 관찰 가능한 라우트 파라미터의 id를 
+    새로운`Observable`, 즉 `HeroService.getHero` 메소드의 결과로 어떻게 매핑하는지 주목하세요.
+
     Note how the `switchMap` operator maps the id in the observable route parameters
     to a new `Observable`, the result of the `HeroService.getHero` method.
 
+    만약 getHero 요청을 처리하는 중에 사용자가 이 컴포넌트를 다시 이동한다면,
+    switchMap은 `HeroService.getHero`를 다시 호출하기 전에 이전의 호출을 취소합니다.
+  
     If the user re-navigates to this component while a getHero request is still inflight,
     switchMap cancels that old request before calling `HeroService.getHero` again.
 
 - var _str2int = _docsFor == 'dart' ? '<code>int.parse</code> static method' : 'JavaScript (+) operator'
 :marked
+  히어로 `id`는 숫자입니다. route 파라미터들은 *항상 문자열*입니다.
+  그래므로 route 파라미터 값은 !{_str2int}을 사용해 숫자값으로 변환해야 합니다.
+
   The hero `id` is a number. Route parameters are *always strings*.
   So we convert the route parameter value to a number with the !{_str2int}.
+
 
 +ifDocsFor('ts')
   .l-sub-section
     :marked
+      ### 탈퇴해야 합니까?    
       ### Do I need to unsubscribe?
 
+      `라우터`는 그것이 제공하는 [observables](../guide/router.html#activated-route)를 관리하고 서브스크립션을 지역화합니다.
+      서브스크립션은 컴포넌트가 파괴되어 메모리 누수를 막을 때 정리되기 때문에, 라우트 매개변수 'Observable`에서 _삭제(unsubscribe)_ 할 필요가 없습니다.
+      
       The `Router` manages the [observables](../guide/router.html#activated-route) it provides and localizes
       the subscriptions. The subscriptions are cleaned up when the component is destroyed, protecting against
       memory leaks, so we don't need to _unsubscribe_ from the route params `Observable`.
 
 :marked
+  ### *HeroService.getHero* 메소드 추가
   ### Add *HeroService.getHero*
+
+  이 코드의 문제는 `HeroService`에 `getHero` 메소드가 없다는 것입니다!
+  앱이 고장났다는 것을 누군가 알아차리기 전에 빨리 수정하는게 좋겠습니다.
 
   The problem with this bit of code is that `HeroService` doesn't have a `getHero` method!
   We better fix that quickly before someone notices that we broke the app.
+
+  `HeroService`를 열고 `id`에 따라 `getHeroes`에서 히어로 목록을 필터링 해주는 `getHero` 메소드를 추가합시다.
 
   Open `HeroService` and add a `getHero` method that filters the heroes list from `getHeroes` by `id`:
 
 +makeExcerpt('app/hero.service.ts', 'getHero')
 
 :marked
+  `HeroDetailComponent`로 돌아와 느슨한 부분을 마무리합시다.
+
   Let's return to the `HeroDetailComponent` to clean up loose ends.
 
+  ### 뒤로가기
   ### Find our way back
+
+  `HeroDetailComponent`를 *타겟으로* 이동하는 방법은 여러가지가 있습니다.
+  작업이 끝나면 다른 곳으로 어떻게 이동을 할까요?
 
   We can navigate *to* the `HeroDetailComponent` in several ways.
   How do we navigate somewhere else when we're done?
+
+  사용자가 `AppComponent`에 있는 2개의 링크 중에 하나를 클릭할 수 있습니다. 또는 브라우저의 back 버튼을 누를 수도 있습니다.
+  세번째 옵션을 생각해보겠습니다. 브라우저 방문기록에서 바로 직전의 페이지로 이동하는 `goBack` 메소드입니다.
 
   The user could click one of the two links in the `AppComponent`. Or click the browser's back button.
   We'll add a third option, a `goBack` method that navigates backward one step in the browser's history stack
@@ -574,17 +914,28 @@ block extract-id
 - var _CanDeactivateGuardUri = _docsFor == 'dart' ? 'angular2.router/CanDeactivate-class' : 'router/index/CanDeactivate-interface'
 .l-sub-section
   :marked
+    너무 많이 뒤로 가면 애플리케이션을 벗어날 수도 있습니다.
+    데모에서는 그래도 괜찮습니다. 실제 애플리케이션에서는
+    [!{_CanDeactivateGuard}](../api/!{_CanDeactivateGuardUri}.html) 같은 것을 사용해
+    보호 할 수 있습니다.
+
     Going back too far could take us out of the application.
     That's acceptable in a demo. We'd guard against it in a real application,
     perhaps with the [!{_CanDeactivateGuard}](../api/!{_CanDeactivateGuardUri}.html).
 
 :marked
+  이제 이 메소드를 컴포넌트 템플릿의 하단에 추가할 *Back* 버튼에
+  이벤트 바인딩을 하겠습니다.
+
   Then we wire this method with an event binding to a *Back* button that we
   add to the bottom of the component template.
 
 +makeExcerpt('app/hero-detail.component.html', 'back-button', '')
 
 :marked
+  버튼을 추가하여 한 단계 더 점진적으로 개선될 수 있도록 템플릿을 수정하고,
+  <span ngio-ex>hero-detail.component.html</span> 파일에 템플릿을 추가합니다.
+
   Modifying the template to add this button spurs us to take one more
   incremental improvement and migrate the template to its own file,
   called <span ngio-ex>hero-detail.component.html</span>:
@@ -592,23 +943,37 @@ block extract-id
 +makeExample('app/hero-detail.component.html')
 
 :marked
+  컴포넌트 메타데이터의 <span if-docs="ts">`moduleId`</span>와 `templateUrl`이 방금 생성한 템플릿 파일을 가리키도록 수정합니다.
+
   We update the component metadata with a <span if-docs="ts">`moduleId` and a </span>`templateUrl` pointing to the template file that we just created.
 
 +makeExcerpt('app/hero-detail.component.ts', 'metadata')
 
 :marked
+  브라우저를 새로고침하여 결과를 확인합니다.
+
   Refresh the browser and see the results.
 
 .l-main-section
 :marked
+  ## *대시보드* 히어로 선택하기
   ## Select a *Dashboard* Hero
 
+  사용자가 대시보드에서 히어로를 선택하면, 앱은 선택된 히어로를 보여주고 편집할 수 있도록 `HeroDetailComponent`로 이동해야 합니다.
+
   When a user selects a hero in the dashboard, the app should navigate to the `HeroDetailComponent` to view and edit the selected hero.
+
+  대시 보드 영웅은 버튼과 같은 블록으로 표시되지만, 앵커 태그처럼 행동해야 합니다.
+  영웅 블록 위로 마우스를 가져 가면 대상 URL이 브라우저 상태 표시 줄에 표시되고 
+  사용자는 링크를 복사하거나 영웅 상세보기를 새 탭에 열 수 있습니다.
 
   Although the dashboard heroes are presented as button-like blocks, they should behave like anchor tags.
   When hovering over a hero block, the target URL should display in the browser status bar 
   and the user should be able to copy the link or open the hero detail view in a new tab.
 
+  이 효과를 얻으려면 'dashboard.component.html`을 다시 열고 반복 된`<div * ngFor ...>`태그를`<a>`태그로 대체하십시오.
+  여는`<a>`태그는 다음과 같습니다 :
+  
   To achieve this effect, reopen the `dashboard.component.html` and replace the repeated `<div *ngFor...>` tags
   with `<a>` tags. The opening `<a>` tag looks like this:
 
@@ -617,6 +982,9 @@ block extract-id
 +ifDocsFor('dart')
   .alert.is-important
     :marked
+      문제가 되는 대시 보드의 라우터 링크는 현재 작동하지 않습니다.
+      [dart-lang/angular2/issues/186](https://github.com/dart-lang/angular2/issues/186).
+      
       Router links in the dashboard are currently not operational, as reported in issue
       [dart-lang/angular2/issues/186](https://github.com/dart-lang/angular2/issues/186).
 
@@ -632,6 +1000,8 @@ block extract-id
   The !{_array} has two elements, the ***!{_pathVsName}*** of
   the destination route and a ***route parameter*** set to the value of the current hero's `id`.
 
+  두 개의 배열 아이탬은 `path`, 그리고 앞서 `!{_appRoutingTsVsAppComp}`에 히어로 상세 route의 파라미터로 정의한 `id` 토큰에 대응됩니다.
+
   The two !{_array} items align with the ***!{_pathVsName}*** and ***:id***
   token in the parameterized hero detail route definition we added to
   `!{_appRoutingTsVsAppComp}` earlier in the chapter:
@@ -640,63 +1010,110 @@ block extract-id
 +makeExcerpt(_file + ' (hero detail)', 'hero-detail')
 
 :marked
+  브라우저를 새로고침하고 대시보드에서 히어로를 선택하세요; 앱이 히어로의 상세로 바로 이동해야만 합니다.
+  
   Refresh the browser and select a hero from the dashboard; the app should navigate directly to that hero’s details.
 
 +ifDocsFor('ts')
   .l-main-section
   :marked
+    ## _라우팅 모듈_로 라우트 리팩토링하기
     ## Refactor routes to a _Routing Module_
 
+    약 20개의 `AppModule` 라인이 4개의 라우트 구성에 사용됩니다.
+    대부분의 애플리케이션에는 더 많은 라우트가 있으며 원하지 않거나 권한이 없는 탐색을 방지하기 위해 
+    [보호 서비스 추가](../guide/router.html#guards)가 있습니다.
+    라우팅 고려사항은 이 모듈을 빠르게 지배 할 수 있으며, 
+    Angular 컴파일러의 전체 앱에 대한 핵심 사실을 확립하는 것이 주요한 목적을 불분명하게합니다.
+    
     Almost 20 lines of `AppModule` are devoted to configuring four routes. 
     Most applications have many more routes and they [add guard services](../guide/router.html#guards) 
     to protect against unwanted or unauthorized navigations. 
     Routing considerations could quickly dominate this module and obscure its primary purpose which is to 
     establish key facts about the entire app for the Angular compiler.
-
+    
+    라우팅 구성을 자체 클래스로 리팩터링해야합니다.
+    어떤 종류의 클래스일까요?
+    현재의`RouterModule.forRoot ()`는 라우팅 전용 클래스가 일종의 모듈이어야한다는 Angular `ModuleWithProviders`를 생성합니다.
+    그게 바로 [_라우팅 모듈_](../guide/router.html#routing-module)이어야 합니다.
+    
     We should refactor the routing configuration into its own class.
     What kind of class? 
     The current `RouterModule.forRoot()` produces an Angular `ModuleWithProviders` which suggests that a
     class dedicated to routing should be some kind of module.
     It should be a [_Routing Module_](../guide/router.html#routing-module).
 
+    규칙에 따라 _라우팅 모듈_의 이름에는 "Routing"이라는 단어가 포함되어 있으며 탐색된 구성 요소를 선언하는 모듈의 이름과 정렬됩니다.
+
     By convention the name of a _Routing Module_ contains the word "Routing" and 
     aligns with the name of the module that declares the components navigated to.
+
+    `app-routing.module.ts`파일을 `app.module.ts`의 형제로 만듭니다. `AppModule`클래스에서 추출한 다음 내용을 제공하십시오 :
 
     Create an `app-routing.module.ts` file as a sibling to `app.module.ts`. Give it the following contents extracted from the `AppModule` class:
 
   +makeExample('app/app-routing.module.ts')
   :marked
+    주목할만한 점, _라우팅 모듈_의 전형적인 특징 :
+    
     Noteworthy points, typical of _Routing Modules_:
+    
+    * 라우트를 변수로 가져옵니다. 나중에 내보낼 수도 있으며, _라우팅 모듈_ 패턴을 명확하게 나타냅니다.
+
     * Pulls the routes into a variable. You might export it in future and it clarifies the _Routing Module_ pattern.
 
+    * `RouterModule.forRoot(routes)`를 `imports`에 추가합니다.
+
     * Adds `RouterModule.forRoot(routes)` to `imports`.
+
+    * 'RouterModule`을`exports'에 추가하여 컴패니언 모듈의 구성 요소들이 `RouterLink`나 `RouterOutlet` 같은 
+    라우터 선언문에 접근 할 수 있도록 합니다.
 
     * Adds `RouterModule` to `exports` so that the components in the companion module have access to Router declarables 
     such as `RouterLink` and `RouterOutlet`.
 
+    * `선언(Declarations)`이 없습니다! 선언(Declarations)은 컴패니언 모듈의 책임입니다.
+
     * No `declarations`!  Declarations are the responsibility of the companion module.
+
+    * 만약 보호 서비스를 위한 모듈 `provider`가 있다면, 그것들을 추가합니다; 이 예제에는 없습니다.
 
     * Adds module `providers` for guard services if you have them; there are none in this example.
 
+    ### _AppModule 
     ### Update _AppModule_
+
+    이제`AppModule`에서 라우팅 설정을 지우고, `AppRoutingModule`을 가져옵니다.
+    (ES`import`선언문 _및_ `NgModule.imports`목록에 추가한 것 _모두_.)
 
     Now delete the routing configuration from `AppModule` and import the `AppRoutingModule` 
     (_both_ with an ES `import` statement _and_ by adding it to the `NgModule.imports` list).
+  
+    pre-refactor 상태와 비교하여 수정 한 `AppModule`이 있습니다 :
 
     Here is the revised `AppModule`, compared to its pre-refactor state:
+    
   +makeTabs(
     `toh-5/ts/app/app.module.ts, toh-5/ts/app/app.module.3.ts`,
      null,
     `app/app.module.ts (after), app/app.module.ts (before)`)
   :marked
+   이것이 더 간단하고, 애플리케이션의 주요 부분을 확인하는 것에 집중이 됩니다.
+    
     It's simpler and focused on identifying the key pieces of the application.
 
 .l-main-section
 :marked
+  ## *HeroesComponent*에서 히어로 선택하기
   ## Select a Hero in the *HeroesComponent*
+
+  앞에서, 대시보드에서 영웅을 선택하는 기능을 추가했습니다.
+  `HeroesComponent`에서 비슷한 작업을 해보겠습니다.
 
   Earlier we added the ability to select a hero from the dashboard.
   We'll do something similar in the `HeroesComponent`.
+
+  `HeroesComponent` 템플릿은 위쪽에 히어로 목록을 보여주고 아래에 선택된 히어로 상세를 보여주어 "master/detail" 형태로 보여주고 있습니다.
 
   The `HeroesComponent` template exhibits a "master/detail" style with the list of heroes
   at the top and details of the selected hero below.
@@ -704,34 +1121,58 @@ block extract-id
 +makeExample('toh-4/ts/app/app.component.ts','template', 'app/heroes.component.ts (current template)')(format=".")
 
 :marked
+  우리의 목표는 사용자가 선택한 영웅을 편집하려고 할 때, 세부 정보를 그 뷰로 옮기고, 해당 세부 정보로 이동하는 것입니다.
+  
   Our goal is to move the detail to its own view and navigate to it when the user decides to edit a selected hero.
+  
+  위쪽에 `<h1>`을 삭제합니다. (`AppComponent`-에서-`HeroesComponent`-으로- 변환했던 것은 잊어버리세요)
 
   Delete the `<h1>` at the top (we forgot about it during the `AppComponent`-to-`HeroesComponent` conversion).
+  
+  템플릿 끝에 있는 `<my-hero-detail>` 태그는 삭제합니다.
 
   Delete the last line of the template with the `<my-hero-detail>` tags.
+
+  이제 더 이상 전체 `HeroDetailComponent`는 보여주지 않습니다.
+  히어로 상세 자체 페이지에서 히어로 상세를 보여주고, 대시보드에서 한 것처럼 그곳으로는 route로 이동하겠습니다.
 
   We'll no longer show the full `HeroDetailComponent` here.
   We're going to display the hero detail on its own page and route to it as we did in the dashboard.
 
+  다양성을 위해 살짝 변화를 주어 보겠습니다.
+  우리는 "마스터/상세'스타일을 유지하면서 상세페이지를 "미니" 읽기 전용 버전으로 줄였습니다.
+  사용자가 목록에서 히어로를 선택하면, 히어로 상세 페이지로
+  이동하지 않을 것입니다. 대시 미니상세 페이지를 보여주고 전체 상세 페이지로 이동하기 위해서는 사용자가 버튼을
+  클릭하도록 하겠습니다. 
+  
   We'll throw in a small twist for variety.
   We are keeping the "master/detail" style but shrinking the detail to a "mini", read-only version.
   When the user selects a hero from the list, we *don't* go to the detail page.
   We show a *mini-detail* on *this* page instead and make the user click a button to navigate to the *full detail *page.
 
+  ### *미니-상세* 추가하기
   ### Add the *mini-detail*
+
+  아래 HTML을 `<my-hero-detail>`이 있었던 템플릿 하단에 추가하세요.
 
   Add the following HTML fragment at the bottom of the template where the `<my-hero-detail>` used to be:
 
 +makeExcerpt('app/heroes.component.html', 'mini-detail', '')
 
 :marked
+  히어로를 클릭하면, 사용자는 히어로 목록 아래에 다음 같은 것을 볼 수 있어야 합니다:
+
   After clicking a hero, the user should see something like this below the hero list:
 
 figure.image-display
   img(src='/resources/images/devguide/toh/mini-hero-detail.png' alt="Mini Hero Detail" height="70")
 
 :marked
+  ### *uppercase* 파이프로 포맷하기
   ### Format with the *uppercase* pipe
+
+  히어로 이름은 대문자로 표시된 것에 주목하세요. 이것은 삽입(interpolation) 바인딩 안에 `uppercase` 파이프를 사용한 것의 영향입니다.
+  파이프 연산자 ( | ) 바로 뒤의 내용을 살펴보세요.
 
   Notice that the hero's name is displayed in CAPITAL LETTERS. That's the effect of the `uppercase` pipe
   that we slipped into the interpolation binding. Look for it right after the pipe operator ( | ).
@@ -739,24 +1180,43 @@ figure.image-display
 +makeExcerpt('app/heroes.component.html', 'pipe', '')
 
 :marked
+  파이프는 문자열이나 환율, 날짜, 또는 다른 데이터를 포맷할 때 좋습니다.
+  Angular는 여러 파이프를 제공하고 여러분이 직접 만들 수도 있습니다.
+
   Pipes are a good way to format strings, currency amounts, dates and other display data.
   Angular ships with several pipes and we can write our own.
 
 .l-sub-section
   :marked
+    파이프에 대해 [파이프](../guide/pipes.html)에서 알아보세요.
+
     Learn about pipes in the [Pipes](../guide/pipes.html) chapter.
 
 :marked
+  ### 컴포넌트 파일 밖으로 컨텐츠 옮기기
   ### Move content out of the component file
+
+  아직 끝나지 않았습니다. 사용자가 *View Details* 버튼을 클릭하면
+  `HeroDetailComponent`로 이동하도록 컴포넌트 클래스를 업데이트해야 합니다.
 
   We are not done. We still have to update the component class to support navigation to the
   `HeroDetailComponent` when the user clicks the *View Details* button.
 
+  컴포넌트 파일이 너무 커졌네요. 대부분은 템플릿과 CSS 스타일입니다.
+  HTML과 CSS의 소란 속에서 컴포넌트 로직은 찾기 어렵습니다.
+
   This component file is really big. Most of it is either template or CSS styles.
   It's difficult to find the component logic amidst the noise of HTML and CSS.
 
+  더 이상 수정을 하기 전에 템플릿과 스타일을 각각의 파일을 갖도록 이동합시다.
+
   Let's migrate the template and the styles to their own files before we make any more changes:
 
+  1. 새로운 <span ngio-ex>heroes.component.html</span> 파일에 템플릿 컨텐츠를 *복사 & 붙어녛기*.
+  1. 새로운 <span ngio-ex>heroes.component.css</span> 파일에 스타일 컨텐츠를 *복사 & 붙어녛기*.
+  1. 컴포넌트 메타데이터의 `templateUrl`과 `styleUrls` 속성이 위의 파일을 참조하도록 수정.
+  <li if-docs="ts">.`moduleId` 속성을`module.id`로 **설정하면** `templateUrl`과`styleUrls`가 컴포넌트에 상대적임.</li>
+  
   1. *Cut-and-paste* the template contents into a new <span ngio-ex>heroes.component.html</span> file.
   1. *Cut-and-paste* the styles contents into a new <span ngio-ex>heroes.component.css</span> file.
   1. *Set* the component metadata's `templateUrl` and `styleUrls` properties to refer to both files.
@@ -764,6 +1224,10 @@ figure.image-display
 
 .l-sub-section
   :marked
+    `styleUrls` 속성은 스타일 파일(경로도 포함)의 배열입니다.
+    필요하다면 다른 경로의 여러 스타일 파일을 나열할 수도 있습니다.
+    <span if-docs="ts">`templateUrl`처럼 애플리케이션 root에서부터 모든 경로를 지정해야 합니다.</span>
+
     The `styleUrls` property is !{_an} !{_array} of style file names (with paths).
     We could list multiple style files from different locations if we needed them.
 
@@ -773,13 +1237,23 @@ block heroes-component-cleanup
 +makeExcerpt('app/heroes.component.ts (revised metadata)', 'metadata')
 
 :marked
+  ### _HeroesComponent_ 클래스 업데이트.
   ### Update the _HeroesComponent_ class.
+
+  `HeroesComponent`는 버튼 클릭에 대한 응답으로 `HeroDetailComponent`로 이동합니다.
+  버튼의 _클릭_ 이벤트는 라우터가 어디로 가야 하는지를 _확실하게_ 알려주는 'gotoDetail` 메소드에 바인딩되어 있습니다
 
   The `HeroesComponent` navigates to the `HeroDetailComponent` in response to a button click. 
   The button's _click_ event is bound to a `gotoDetail` method that navigates _imperatively_
   by telling the router where to go.
-
+    
+  이 방법을 사용하려면 컴포넌트 클래스를 일부 변경해야합니다.
+  
   This approach requires some changes to the component class:
+
+  1. Angular 라우터 라이브러리에서 `라우터`를 임포트합니다.
+  1. 생성자에서 `라우터`를 주입합니다. (`HeroService`와 함께)
+  1. 2개의 링크 파라미터 배열과 함께 `router.navigate` 메소드를 호출하도록 `gotoDetail` 메소드를 구현합니다.
 
   1. Import the `router` from the Angular router library
   1. Inject the `router` in the constructor (along with the `HeroService`)
@@ -788,6 +1262,10 @@ block heroes-component-cleanup
 +makeExcerpt('app/heroes.component.ts', 'gotoDetail')
 
 :marked
+  `DashboardComponent`의`[routerLink]`바인딩에서했던 것처럼 우리는 두 요소된 링크 파라미터 !{_배열}**
+  &mdash; 경로와 라우트 파라미터 &mdash;)를`router.navigate` 메소드에 전달하고 있습니다.
+  여기 완전히 수정 된`HeroesComponent` 클래스가 있습니다 :
+
   Note that we're passing a two-element **link parameters !{_array}**
   &mdash; a path and the route parameter &mdash; to
   the `router.navigate` method just as we did in the `[routerLink]` binding
@@ -797,28 +1275,50 @@ block heroes-component-cleanup
 +makeExcerpt('app/heroes.component.ts', 'class')
 
 :marked
+  브라우저를 새로고침하여 클릭을 해보세요.
+  앱에서 내비게이션이 가능합니다. 대시보드에서 히어로 상세로, 뒤로, 
+  히어로 목록의 미니 상세에서 히어로 상세로, 그리고 다시 히어로 목록으로.
+  대시보드와 히어로 목록 사이에서 앞뒤로 이동할 수 있습니다.
+
   Refresh the browser and start clicking.
   We can navigate around the app, from the dashboard to hero details and back,
   for heroes list to the mini-detail to the hero details and back to the heroes again.
   We can jump back and forth between the dashboard and the heroes.
 
+  이 장에서 다룬 모든 내비게이션 요건을 충족시켰습니다.
+
   We've met all of the navigational requirements that propelled this chapter.
 
 .l-main-section
 :marked
+  ## 앱 꾸미기
   ## Styling the App
+
+  앱은 기능적이지만 꾀 못생겼습니다.
+  우리의 창의적인 디자이너 팀은 더 좋게 보이기 위해 CSS 파일을 주었습니다.
 
   The app is functional but pretty ugly.
   Our creative designer team provided some CSS files to make it look better.
 
+  ### 스타일이 적용된 대시보드
   ### A Dashboard with Style
+
+  디자이너는 대시보드의 영웅들을 일렬로된 직사각형으로 표시해야 한다고 생각합니다.
+  그들은 반응형 디자인을 위한 간단한 미디어 쿼리를 포함해 60줄 정도의 CSS파일을 주었습니다.
 
   The designers think we should display the dashboard heroes in a row of rectangles.
   They've given us ~60 lines of CSS for this purpose including some simple media queries for responsive design.
 
+  만약 60줄 정도를 컴포넌트 `styles` 메타데이터에 넣는다면,
+  컴포넌트 로직을 완전히 가리게 될 것입니다.
+  그렇게하지 않겠습니다. 별도의 `*.css` 파일에서 CSS를 수정하는 것이 훨씬 편리합니다.
+
   If we paste these ~60 lines into the component `styles` metadata,
   they'll completely obscure the component logic.
   Let's not do that. It's easier to edit CSS in a separate `*.css` file anyway.
+
+  <span ngio-ex>dashboard.component.css</span> 파일을 `!{_appDir}` 폴더에 추가하고
+  다음처럼 컴포넌트 메타데이터의 `styleUrls` 배열 속성에서 참조합니다.
 
   Add a <span ngio-ex>dashboard.component.css</span> file to the `!{_appDir}` folder and reference
   that file in the component metadata's `styleUrls` !{_array} property like this:
@@ -826,9 +1326,16 @@ block heroes-component-cleanup
 +makeExcerpt('app/dashboard.component.ts (styleUrls)', 'css')
 
 :marked
+  ### 세련된 히어로 상세
   ### Stylish Hero Details
 
+  또한 디자이너는 특별히 `HeroDetailComponent`만을 위해 제작된 CSS 스타일도 주었습니다.
+
   The designers also gave us CSS styles specifically for the `HeroDetailComponent`.
+
+  `DashboardComponent`에서 했던 것처럼 <span ngio-ex>hero-detail.component.css</span> 를 
+  `!{_appDir}` 폴더에 추가하고 `styleUrls` 배열 안에서 그 파일을 참조합니다.
+  `hero` 프로퍼티의 `@Input` 데코레이터와 Input을 임포트한 부분 또한 제거합니다.
 
   Add a <span ngio-ex>hero-detail.component.css</span> to the `!{_appDir}`
   folder and refer to that file inside
@@ -836,6 +1343,8 @@ block heroes-component-cleanup
   Let's also remove the `hero` property `@Input` !{_decorator}
   <span if-docs="ts">and its import</span>
   while we are at it.
+
+  앞서 언급한 컴포넌트 CSS 파일에 대한 내용입니다.
 
   Here's the content for the aforementioned component CSS files.
 
@@ -848,10 +1357,16 @@ block css-files
     app/dashboard.component.css`)
 
 :marked
+  ### 내비게이션 링크 꾸미기
   ### Style the Navigation Links
+
+  디자이너는 `AppComponent`의 내비게이션 링크가 좀 더 선택가능한 버튼처럼 보이게 하기 위해 CSS를 전달 했었습니다.
+  우리는 `<nav>` 태그로 링크를 둘러 쌈으로써 협력을 했었습니다.
 
   The designers gave us CSS to make the navigation links in our `AppComponent` look more like selectable buttons.
   We cooperated by surrounding those links in `<nav>` tags.
+
+  다음 내용으로 <span ngio-ex>app.component.css</span> 파일을 `!{_appDir}` 폴더에 추가하세요.
 
   Add a <span ngio-ex>app.component.css</span> file to the `!{_appDir}` folder with the following content.
 
@@ -860,7 +1375,13 @@ block css-files
 .l-sub-section
   block router-link-active
     :marked
+      ***routerLinkActive* 지시자**
+
       **The *routerLinkActive* directive**
+
+      Angular 라우터는 현재 route와 일치하는 HTML 내비게이션 엘리먼트에 클래스를
+      추가할 수 있도록 `routerLinkActive` 지시자를 제공합니다.
+      우리가 해야 할 일은 스타일을 정의하는 것뿐입니다. 좋군요!
 
       The Angular Router provides a `routerLinkActive` directive we can use to
       add a class to the HTML navigation element whose route matches the active route.
@@ -870,6 +1391,10 @@ block css-files
 
 block style-urls
   :marked
+    먼저`moduleId : module.id`를 `AppComponent`의`@ Component` 메타 데이터에 추가하여 
+    _module-relative_ 파일 URL을 가능하게합니다.
+    그런 다음 이 CSS 파일을 가리키는`styleUrls` 속성을 다음과 같이 추가하십시오.
+  
     First add `moduleId: module.id` to the `@Component` metadata of the `AppComponent`
     to enable _module-relative_ file URLs.
     Then add a `styleUrls` property that points to this CSS file as follows.
@@ -877,13 +1402,25 @@ block style-urls
 +makeExcerpt('app/app.component.ts','styleUrls')
 
 :marked
+  ### 전역 애플리케이션 스타일
   ### Global application styles
+
+  컴포넌트에 스타일을 추가하면, 컴포넌트가 필요로 하는 모든 것
+  &mdash; HTML, CSS, 코드 &mdash; 을 하나의 편리한 위치에 유지할 수 있습니다.
+  모든 것을 패키징하고 다른 곳에서 컴포넌트를 재사용하는 것은 매우 쉽습니다.
 
   When we add styles to a component, we're keeping everything a component needs
   &mdash; HTML, the CSS, the code &mdash; together in one convenient place.
   It's pretty easy to package it all up and re-use the component somewhere else.
 
+  컴포넌트 바깥에 *애플리케이션 레벨*에서 사용할 수 있는 스타일을 만드는 것도 가능합니다.
+
   We can also create styles at the *application level* outside of any component.
+
+  디자이너는 앱 전체에 걸쳐 엘리먼트에 적용되는 기본 스타일을 주었습니다.
+  이것은 앞에서 소개한 마스터 스타일의 전체에 해당합니다.
+  ([빠른시작, "스타일 추가하기"](../quickstart.html#!#add-some-style) 참고)
+  다음은 발췌 부분입니다.
 
   Our designers provided some basic styles to apply to elements across the entire app.
   These correspond to the full set of master styles that we installed earlier during [setup](../guide/setup.html).
@@ -894,14 +1431,21 @@ block style-urls
 - var styles_css = 'https://raw.githubusercontent.com/angular/angular.io/master/public/docs/_examples/_boilerplate/styles.css'
 
 :marked
+  만약 아직 존재하지 않는다면 <span ngio-ex>styles.css</span> 파일을 만드세요.
+  [master styles given here](!{styles_css})가 포함되어 있는지 확인하세요.
+
   Create the file <span ngio-ex>styles.css</span>, if it doesn't exist already.
   Ensure that it contains the [master styles given here](!{styles_css}).
+
+  필요하다면, <span ngio-ex>index.html</span>도 이 스타일을 참조하도록 수정하세요.
 
   If necessary, also edit <span ngio-ex>index.html</span> to refer to this stylesheet.
 
 +makeExcerpt('index.html (link ref)', 'css')
 
 :marked
+  이제 앱을 보겠습니다. 대시보드, 히어로, 내비게이션 링크가 잘 꾸며졌습니다!
+
   Look at the app now. Our dashboard, heroes, and navigation links are styling!
 
 figure.image-display
@@ -909,7 +1453,11 @@ figure.image-display
 
 .l-main-section
 :marked
+  ## 애플리케이션 구조와 코드
   ## Application structure and code
+
+  이번 장의 샘플 소스코드를 <live-example></live-example> 에서 리뷰하세요.
+  다음과 같은 구조가 되었는지 확인하세요.
 
   Review the sample source code in the <live-example></live-example> for this chapter.
   Verify that we have the following structure:
@@ -946,11 +1494,23 @@ block file-tree-end
 
 .l-main-section
 :marked
+  ## 요약
   ## Recap
 
+  ### 지나온 여정
   ### The Road Behind
 
+  우리는 이번 챕터에서 먼 길을 여행했습니다.
+
   We travelled a great distance in this chapter
+
+  - 여러 컴포넌트 사이를 이동하기 위해 Angular *라우터*를 추가했습니다.
+  - 내비게이션 메뉴를 보여주기 위해 라우터 링크를 어떻게 만드는지 배웠습니다.
+  - 사용자가 선택한 히어로의 상세로 이동하기 위해 라우터 링크 파라미터를 사용했습니다.
+  - 여러 컴포넌트 간에 `HeroService`를 공유했습니다.
+  - HTML과 CSS를 각각의 파일로 만들어 컴포넌트에서 분리했습니다.
+  - 데이터를 포맷팅하기 위해 `uppercase` 파이프를 추가했습니다.
+  <li if-docs="ts">가져온 `Routing Module`로 라우트를 리팩토링 했습니다.</li>
 
   - We added the Angular *Router* to navigate among different components.
   - We learned how to create router links to represent navigation menu items.
@@ -960,10 +1520,17 @@ block file-tree-end
   - We added the `uppercase` pipe to format data.
   <li if-docs="ts"> We refactored routes into a `Routing Module` that we import.</li>
 
+  ### 앞으로의 여정
   ### The Road Ahead
+
+  애플리케이션을 만드는데 필요한 기반을 많이 닦았습니다.
+  그러나 여전히 중요한 부분을 놓치고 있습니다: 원격 데이터 접근입니다.
 
   We have much of the foundation we need to build an application.
   We're still missing a key piece: remote data access.
+
+  다음 챕터에서는,
+  샘플 데이터를 http를 사용해 서버에서 받은 데이터로 교체하겠습니다.
 
   In the next chapter,
   we’ll replace our mock data with data retrieved from a server using http.
