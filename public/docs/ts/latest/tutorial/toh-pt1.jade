@@ -1,54 +1,48 @@
 include ../_util-fns
 
 :marked
-  # 옛날 옛적에
-  # Once Upon a Time
+  ## 개발을 위한 설치
+  ## Setup to develop locally
 
-  모든 이야기는 시작점이 있습니다. 우리의 이야기는 [QuickStart](../quickstart.html)가 끝나는 곳에서 시작합니다.
+  실제 애플리케이션 개발은 당신의 컴퓨터와 같은 로컬 개발 환경에서 이루어집니다.
+  
+  Real application development takes place in a local development environment like your machine.
+  
+  <ngio-ex path="angular-tour-of-heroes"></ngio-ex>라는 이름의 새로운 프로젝트를 만들기 위해 다음의 [설치](../guide/setup.html) 지시사항을 따르세요. 해당 프로젝트의 파일 구조는 아래와 같습니다 :
 
-  Every story starts somewhere. Our story starts where the [QuickStart](../quickstart.html) ends.
-
-  이 파트의 <live-example></live-example>을 실행해 보세요.
-
-  Run the <live-example></live-example> for this part.
-
-  `angular2-tour-of-heroes` 폴더를 만들고, [QuickStart](../quickstart.html)를 따라가면서
-  Tour of Heroes에 필요한 필수 구성 요소와 핵심 파일을 설치하고 필요한 폴더 구조를 구축하십시오.
-
-  Create a folder called `angular2-tour-of-heroes` and follow the [QuickStart](../quickstart.html) steps
-  which provide the prerequisites, the folder structure, and the core files for our Tour of Heroes.
-
-include ../_quickstart_repo
-:marked
-  아래와 같은 구조를 만들어야 합니다.
-
-  We should have the following structure:
+  Follow the [setup](../guide/setup.html) instructions for creating a new project
+  named <ngio-ex path="angular-tour-of-heroes"></ngio-ex>
+  after which the file structure should look like this:
 
 .filetree
-  .file angular2-tour-of-heroes
+  .file angular-tour-of-heroes
   .children
     .file app
     .children
       .file app.component.ts
       .file app.module.ts
       .file main.ts
-    .file node_modules ...
-    .file typings ...
+    .file node_modules ... 
     .file index.html
     .file package.json
     .file styles.css
     .file systemjs.config.js
     .file tsconfig.json
-    .file typings.json
 :marked
+  첫번째 에피소드를 끝내면, 다음과 같은 앱이 실행됩니다 <live-example></live-example>.
+  
+  When we're done with this first episode, the app runs like this <live-example></live-example>.
+
   ## 지속적인 앱 트랜스파일링과 실행
   ## Keep the app transpiling and running
 
   TypeScript 컴파일러를 실행해 변경사항을 감시하도록 하고, 서버를 구동합니다.
+  터미널 창에서 아래의 명령어를 통해 이것을 수행하세요.
 
-  We want to start the TypeScript compiler, have it watch for changes, and start our server. We'll do this by typing
+  We want to start the TypeScript compiler, have it watch for changes, and start our server. 
+  Do this by entering the following command in the terminal window.
 
-code-example(language="bash").
+code-example(language="sh" class="code-shell").
   npm start
 
 :marked
@@ -70,15 +64,14 @@ code-example(language="bash").
     `AppComponent`에 두 가지 속성을 추가합니다. 하나는 애플케이션 이름을 위한 `title` 속성이고,
     다른 하나는 "Windstorm"이라는 히어로를 지정할 `hero` 속성입니다.
 
-    Let's add two properties to our `AppComponent`, a `title` property for the application name and a `hero` property
-    for a hero named "Windstorm".
+    Update the `AppComponent` so it has two properties: &nbsp; a `title` property for the application name and a `hero` property for a hero named "Windstorm".
 
   +makeExample('toh-1/ts-snippets/app.component.snippets.pt1.ts', 'app-component-1', 'app.component.ts (AppComponent class)')(format=".")
 
   :marked
     이제 `@Component` 데코레이션의 템플릿에 이 새로운 속성들에 대한 데이터 바인딩을 추가합니다.
 
-    Now we update the template in the `@Component` decoration with data bindings to these new properties.
+    Now update the template in the `@Component` decoration with data bindings to these new properties.
 
   +makeExample('toh-1/ts-snippets/app.component.snippets.pt1.ts', 'show-hero')
 

@@ -3,7 +3,6 @@ block includes
   - var _at_angular = '@angular'
 
 :marked
-  # Browser support #  
   Angular supports most recent browsers. This includes the following specific versions:
 
 table
@@ -21,8 +20,8 @@ table
     td latest
     td 14
     td 11
-    td 9
-    td 9
+    td 10
+    td 10
     td Marshmallow (6.0)
     td 11
   tr
@@ -30,8 +29,8 @@ table
     td
     td 13
     td 10
-    td 8
-    td 8
+    td 9
+    td 9
     td Lollipop<br>(5.0, 5.1)
     td
   tr
@@ -39,8 +38,8 @@ table
     td
     td
     td 9
-    td 7
-    td 7
+    td 8
+    td 8
     td KitKat<br>(4.4)
     td
   tr
@@ -48,8 +47,8 @@ table
     td
     td
     td
-    td
-    td
+    td 7
+    td 7
     td Jelly Bean<br>(4.1, 4.2, 4.3)
     td
     
@@ -61,7 +60,7 @@ table
     <a href="https://www.browserstack.com" target="_blank">Browserstack</a>.
 
 :marked
-  # Polyfills #
+  ## Polyfills #
   Angular is built on the latest standards of the web platform.
   Targeting such a wide range of browsers is challenging because they do not support all features of modern browsers.
   
@@ -81,7 +80,7 @@ table
     Note that polyfills cannot magically transform an old, slow browser into a modern, fast one.
   
 :marked
-  ## Mandatory polyfills ##
+  ### Mandatory polyfills ##
   These are the polyfills required to run an Angular application on each supported browser:
   
 table
@@ -103,7 +102,7 @@ table
         [ES6<br>classList](#classlist)
 
 :marked
-  ## Optional browser features to polyfill ##
+  ### Optional browser features to polyfill ##
   Some features of Angular may require additional polyfills.
   
   For example, the animations library relies on the standard web animation API, which is only available in Chrome and Firefox today.
@@ -126,18 +125,18 @@ table
     td All but Chrome and Firefox<br>Not supported in IE9
   tr(style="vertical-align: top") 
     td
-      a(href="../api/common/index/DatePipe-class.html" target="_blank") Date
+      a(href="../api/common/index/DatePipe-pipe.html" target="_blank") Date
       span ,  
-      a(href="../api/common/index/CurrencyPipe-class.html" target="_blank") currency
+      a(href="../api/common/index/CurrencyPipe-pipe.html" target="_blank") currency
       span , 
-      a(href="../api/common/index/DecimalPipe-class.html" target="_blank") decimal
+      a(href="../api/common/index/DecimalPipe-pipe.html" target="_blank") decimal
       span  and 
-      a(href="../api/common/index/PercentPipe-class.html" target="_blank") percent
+      a(href="../api/common/index/PercentPipe-pipe.html" target="_blank") percent
       span  pipes
     td
       :marked
         [Intl API](#intl)
-    td All but Chrome, Firefox, Edge and IE11
+    td All but Chrome, Firefox, Edge, IE11 and Safari 10
   tr(style="vertical-align: top") 
     td 
       a(href="../api/common/index/NgClass-directive.html" target="_blank") NgClass
@@ -156,7 +155,7 @@ table
     td IE 9
 
 :marked
-  ## Suggested polyfills ##
+  ### Suggested polyfills ##
   Below are the polyfills which are used to test the framework itself. They are a good starting point for an application. 
 
 table
@@ -201,4 +200,4 @@ table
     td 0.4KB
 
 :marked
-  * Figures are for minified and gzipped code, computed with the <a href="http://closure-compiler.appspot.com/home" target="_blank">closure compiler</a>
+  \* Figures are for minified and gzipped code, computed with the <a href="http://closure-compiler.appspot.com/home" target="_blank">closure compiler</a>

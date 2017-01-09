@@ -1,13 +1,12 @@
-header(class="background-sky")
+header(class="background-sky l-relative")
+
   .hero.background-superhero-paper.is-large
-    h1.text-headline.hero-logo #{title}<br>#{subtitle}
-
-    .hero-cta
-      a(href="/docs/ts/latest/quickstart.html" class="md-raised button button-large button-plain" md-button) 시작하기
-
-  .banner.banner-floaty
-    .banner-ng-annoucement
-      div(class="banner-text" align="center")
-        p Join us for AngularConnect in London, UK this September!
-      div(class="banner-button")
-        a(href="http://angularconnect.com/?utm_source=angular&utm_medium=banner&utm_campaign=angular-banner" target="_blank" class="button md-button") Register now
+        img(class="hero-logo" src='/resources/images/logos/angular2/angular.svg')
+        h1.text-headline #{title}<br>#{subtitle}
+        a(href="/docs/ts/latest/quickstart.html" class="hero-cta md-raised button button-large button-plain" md-button) 시작하기
+        
+    announcement-bar
+      .announcement-bar-slide.clearfix
+        img(src="/resources/images/logos/angular2/angular-banner-logo-grey.png" width="64")
+        p Test-drive <strong>@angular/material</strong>: 22 components now in beta.
+        a(href="https://material.angular.io/" target="_blank" class="button md-button") Try now

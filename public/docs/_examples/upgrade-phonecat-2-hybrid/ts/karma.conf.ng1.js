@@ -19,7 +19,6 @@ module.exports = function(config) {
 
       // Polyfills
       'node_modules/core-js/client/shim.js',
-      'node_modules/reflect-metadata/Reflect.js',
 
       // zone.js
       'node_modules/zone.js/dist/zone.js',
@@ -63,11 +62,10 @@ module.exports = function(config) {
 
     frameworks: ['jasmine'],
 
-    browsers: ['Chrome', 'Firefox'],
+    browsers: ['Chrome'],
 
     plugins: [
       'karma-chrome-launcher',
-      'karma-firefox-launcher',
       'karma-jasmine'
     ]
 

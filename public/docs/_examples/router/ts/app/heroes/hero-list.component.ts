@@ -1,53 +1,52 @@
 // #docplaster
 // #docregion
 // TODO SOMEDAY: Feature Componetized like CrisisCenter
-import { Component, OnInit, OnDestroy } from '@angular/core';
+// #docregion rxjs-imports
+import 'rxjs/add/operator/switchMap';
+import { Observable } from 'rxjs/Observable';
+// #enddocregion rxjs-imports
+import { Component, OnInit } from '@angular/core';
 // #docregion import-router
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 // #enddocregion import-router
 
 import { Hero, HeroService }  from './hero.service';
-import { Subscription }       from 'rxjs/Subscription';
 
 @Component({
   // #docregion template
   template: `
     <h2>HEROES</h2>
     <ul class="items">
-      <li *ngFor="let hero of heroes"
+      <li *ngFor="let hero of heroes | async"
         [class.selected]="isSelected(hero)"
         (click)="onSelect(hero)">
-        <span class="badge">{{hero.id}}</span> {{hero.name}}
+        <span class="badge">{{ hero.id }}</span> {{ hero.name }}
       </li>
     </ul>
+
+    <button routerLink="/sidekicks">Go to sidekicks</button>
   `
   // #enddocregion template
 })
-export class HeroListComponent implements OnInit, OnDestroy {
-  heroes: Hero[];
+// #docregion ctor
+export class HeroListComponent implements OnInit {
+  heroes: Observable<Hero[]>;
 
-  // #docregion ctor
   private selectedId: number;
-  private sub: Subscription;
 
   constructor(
     private service: HeroService,
     private route: ActivatedRoute,
-    private router: Router) {}
+    private router: Router
+  ) {}
   // #enddocregion ctor
 
   ngOnInit() {
-    this.sub = this.route
-      .params
-      .subscribe(params => {
+    this.heroes = this.route.params
+      .switchMap((params: Params) => {
         this.selectedId = +params['id'];
-        this.service.getHeroes()
-          .then(heroes => this.heroes = heroes);
+        return this.service.getHeroes();
       });
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
   }
   // #enddocregion ctor
 
@@ -60,6 +59,6 @@ export class HeroListComponent implements OnInit, OnDestroy {
     this.router.navigate(['/hero', hero.id]);
   }
   // #enddocregion select
-
+// #docregion ctor
 }
 // #enddocregion

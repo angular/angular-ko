@@ -62,4 +62,19 @@ angularIO.controller('AppCtrl', ['$mdDialog', '$timeout', '$http', '$sce', funct
 
   // TRIGGER PRETTYPRINT AFTER DIGEST LOOP COMPLETE
   $timeout(prettyPrint, 1);
-} ]);
+
+  vm.sourceVisible = sourceVisible;
+  vm.toggleSource = function ($event) {
+    $event.preventDefault();
+    vm.sourceVisible = !vm.sourceVisible;
+    var nodes = document.querySelectorAll('.original-english');
+    var $nodes = angular.element(nodes);
+    console.log('$nodes : ',$nodes)
+    if (vm.sourceVisible) {
+      $nodes.removeClass('hidden');
+    } else {
+      $nodes.addClass('hidden');
+    }
+    localStorage.setItem('source-visible', vm.sourceVisible);
+  };
+}]);

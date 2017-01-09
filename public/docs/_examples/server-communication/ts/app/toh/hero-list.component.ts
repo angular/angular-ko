@@ -5,9 +5,11 @@ import { Hero }              from './hero';
 import { HeroService }       from './hero.service';
 
 @Component({
+  moduleId: module.id,
   selector: 'hero-list',
-  templateUrl: 'app/toh/hero-list.component.html',
-  providers: [ HeroService ]
+  templateUrl: './hero-list.component.html',
+  providers: [ HeroService ],
+  styles: ['.error {color:red;}']
 })
 // #docregion component
 export class HeroListComponent implements OnInit {

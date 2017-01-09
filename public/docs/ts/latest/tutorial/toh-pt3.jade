@@ -21,21 +21,19 @@ include ../_util-fns
   Before we continue with our Tour of Heroes, let’s verify we have the following structure. If not, we’ll need to go back and follow the previous chapters.
 
 .filetree
-  .file angular2-tour-of-heroes
+  .file angular-tour-of-heroes
   .children
     .file app
     .children
       .file app.component.ts
       .file app.module.ts
       .file main.ts
-    .file node_modules ...
-    .file typings ...
+    .file node_modules ...   
     .file index.html
     .file package.json
     .file styles.css
     .file systemjs.config.js
     .file tsconfig.json
-    .file typings.json
 :marked
   ### 지속적인 앱 트랜스파일링과 실행
   ### Keep the app transpiling and running
@@ -44,7 +42,7 @@ include ../_util-fns
 
   We want to start the TypeScript compiler, have it watch for changes, and start our server. We'll do this by typing
 
-code-example(language="bash").
+code-example(language="sh" class="code-shell").
   npm start
 
 :marked
@@ -108,8 +106,8 @@ code-example(language="bash").
     모든 파일명은 소문자 **[dash case](../guide/glossary.html#!#dash-case)** (속칭 **[kebab-case](../guide/glossary.html#!#kebab-case)**) 로 하여
     서버나 소스 컨트롤에서 대소문자 문제가 발생하지 않게 합니다.
 
-    We spell our file names in lower **[dash case](../guide/glossary.html#!#dash-case)**
-    (AKA **[kebab-case](../guide/glossary.html#!#kebab-case)**) so we don't worry about
+    We spell our file names in lower **[dash case](../guide/glossary.html#dash-case)** 
+    (AKA **[kebab-case](../guide/glossary.html#kebab-case)**) so we don't worry about
     case sensitivity on the server or in source control.
 
     <!-- TODO
@@ -209,7 +207,7 @@ code-example(language="bash").
 
   We will soon update the `AppComponent` template so that it binds its `selectedHero` property
   to the `hero` property of our `HeroDetailComponent`. The binding *might* look like this:
-code-example(format=".").
+code-example(language="html").
   &lt;my-hero-detail [hero]="selectedHero">&lt;/my-hero-detail>
 :marked
   `hero` 속성이 프로퍼티 바인딩의 ***타겟*** 입니다. &mdash; (=) 의 왼쪽에 꺽쇠괄호로 둘러 쌓여 있는 것에 주의하세요.
@@ -282,7 +280,7 @@ code-example(format=".").
   Now that the application knows about our `HeroDetailComponent`,
   find the location in the `AppComponent` template where we removed the *Hero Detail* content
   and add an element tag that represents the `HeroDetailComponent`.
-code-example(format=".").
+code-example(language="html").
   &lt;my-hero-detail>&lt;/my-hero-detail>
 .l-sub-section
   :marked
@@ -294,8 +292,8 @@ code-example(format=".").
   두개의 컴포넌트가 협력할 수 없습니다.
   
   The two components won't coordinate until we bind the `selectedHero` property of the `AppComponent` 
-  to the `HeroDetailComponent` element's `hero` property  like this
-code-example(format=".")
+  to the `HeroDetailComponent` element's `hero` property  like this:
+code-example(language="html").
   &lt;my-hero-detail [hero]="selectedHero">&lt;/my-hero-detail>
 :marked
   이제 `AppComponent` 템플릿은 아래처럼 되어야 합니다.
@@ -338,7 +336,7 @@ code-example(format=".")
   Let’s verify that we have the following structure after all of our good refactoring in this chapter:
 
 .filetree
-  .file angular2-tour-of-heroes
+  .file angular-tour-of-heroes
   .children
     .file app
     .children
@@ -348,11 +346,9 @@ code-example(format=".")
       .file hero-detail.component.ts
       .file main.ts
     .file node_modules ...
-    .file typings ...
     .file index.html
     .file package.json
     .file tsconfig.json
-    .file typings.json
 :marked
   이번 챕터에서 논의한 코드 파일들입니다.
   Here are the code files we discussed in this chapter.

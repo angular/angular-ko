@@ -1,8 +1,10 @@
 // #docregion
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
 
-import { Hero } from './hero.model.ts';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+
+import { Hero } from './hero.model';
 
 @Injectable()
 export class HeroService {

@@ -1,0 +1,123 @@
+.docs-content, .l-content, .main-footer {
+  display: none;
+  &.cheatsheet {
+    display: block;
+  }
+  .original-english {
+    border-top: 1px dashed $regal;
+
+    &.hidden {
+      display: none !important;
+    }
+  }
+
+  h1.original-english {
+    margin-top: -($unit * 2);
+  }
+
+  h2.original-english {
+    margin-top: -($unit * 1);
+  }
+
+  h3.original-english {
+    margin-top: -($unit * 0);
+  }
+
+  h3.original-english {
+    margin-top: -($unit * 0);
+  }
+
+  p.original-english {
+    margin-top: -($unit * 3);
+  }
+
+  .card {
+    height: auto;
+    min-height: 194px;
+    h2.original-english {
+      margin-top: $unit;
+      padding-top: $unit;
+    }
+    p.original-english {
+      margin-top: 0;
+    }
+  }
+
+  .callout {
+    li {
+      p {
+        padding: 0;
+      }
+    }
+  }
+
+  th, td, li {
+    p {
+      margin: 0;
+      &.original-english {
+        margin: 0;
+      }
+    }
+
+    ul {
+      margin: 0;
+    }
+  }
+}
+
+.main-footer {
+  display: none;
+}
+
+api-list .docs-content{
+  display: block;
+}
+
+api-list + .main-footer{
+  display:block;
+}
+
+td, th {
+  > p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.translated-ko {
+  em {
+    font-style: normal;
+    font-weight: bold;
+  }
+  [lang=english] {
+    margin-left: 0.2em;
+    margin-right: 0.2em;
+  }
+  span[lang=english] {
+    display: inline-block;
+  }
+}
+
+.about-ko-translation {
+  font-size: 16px;
+  h2 {
+    border-bottom: 1px solid $silver;
+  }
+  p {
+    margin: 0 0 24px 0;
+    line-height: 28px;
+  }
+}
+
+body, .main-nav .main-nav-button, .translated-ko {
+  font-family: "Helvetica Neue", Arial, STHeiti, "Microsoft YaHei", sans-serif, Helvetica, "DroidSansFallback", FreeSans, Arimo, "Droid Sans", "wenquanyi micro hei", "Hiragino Sans GB", "Hiragino Sans GB W3" !important;
+}
+
+.vertical-table {
+  th {
+    white-space: nowrap;
+  }
+}
+
+img {
+  max-width: 100%;
+}

@@ -15,7 +15,6 @@ module.exports = new Package('angular.io', [basePackage, targetPackage, cheatshe
 
 .factory(require('./services/renderMarkdown'))
 .processor(require('./processors/addJadeDataDocsProcessor'))
-.processor(require('./processors/filterUnwantedDecorators'))
 .processor(require('./processors/matchUpDirectiveDecorators'))
 .processor(require('./processors/filterMemberDocs'))
 
@@ -43,25 +42,10 @@ module.exports = new Package('angular.io', [basePackage, targetPackage, cheatshe
   var angular_repo_path =  path.resolve(__dirname, '../../../../angular');
   // confirm that the angular repo is actually there.
   if (!fs.existsSync(angular_repo_path)) {
-    throw new Error('build-api-docs task requires the angular2 repo to be at ' + angular_repo_path);
+    throw new Error('build-api-docs task requires the angular repo to be at ' + angular_repo_path);
   }
   readTypeScriptModules.basePath = path.resolve(angular_repo_path, 'modules');
-  readTypeScriptModules.ignoreExportsMatching = [
-    '___esModule',
-    '___core_private_types__',
-    '___platform_browser_private__',
-    '___platform_browser_private_types__',
-    '___platform_browser_dynamic_private__',
-    '___platform_browser_dynamic_private_types__',
-    '___platform_server_private__',
-    '___router_private__' ,
-    '___core_private_testing_types__',
-    '___compiler_private__',
-    '__core_private__',
-    '___core_private__',
-    '___core_private_testing_placeholder__',
-    '___core_private_testing__'
-  ];
+  readTypeScriptModules.ignoreExportsMatching = [/^_/];
 
   readTypeScriptModules.sourceFiles = [
     '@angular/common/index.ts',
@@ -81,8 +65,8 @@ module.exports = new Package('angular.io', [basePackage, targetPackage, cheatshe
     '@angular/platform-webworker-dynamic/index.ts',
     '@angular/router/index.ts',
     '@angular/router/testing/index.ts',
-    '@angular/router-deprecated/index.ts',
     '@angular/upgrade/index.ts',
+    '@angular/upgrade/static.ts'
   ];
   readTypeScriptModules.hidePrivateMembers = true;
 
@@ -167,12 +151,4 @@ module.exports = new Package('angular.io', [basePackage, targetPackage, cheatshe
     require('./rendering/toId'),
     require('./rendering/indentForMarkdown')
   ]));
-})
-
-.config(function(filterUnwantedDecorators) {
-  filterUnwantedDecorators.decoratorsToIgnore = [
-    'CONST',
-    'IMPLEMENTS',
-    'ABSTRACT'
-  ];
 });

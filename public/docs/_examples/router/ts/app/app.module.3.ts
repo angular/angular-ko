@@ -3,31 +3,27 @@ import { NgModule }       from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
 import { FormsModule }    from '@angular/forms';
 
-import { AppComponent }       from './app.component';
-import { routing,
-         appRoutingProviders } from './app.routing';
+import { AppComponent }     from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+import { HeroesModule }     from './heroes/heroes.module';
 
-import { HeroesModule }           from './heroes/heroes.module';
-import { CrisisCenterModule }     from './crisis-center/crisis-center.module';
-
-import { DialogService }  from './dialog.service';
+import { CrisisListComponent }   from './crisis-list.component';
+import { PageNotFoundComponent } from './not-found.component';
 
 @NgModule({
+// #docregion module-imports
   imports: [
     BrowserModule,
     FormsModule,
-    routing,
     HeroesModule,
-    CrisisCenterModule
+    AppRoutingModule
   ],
+// #enddocregion module-imports
   declarations: [
-    AppComponent
-  ],
-  providers: [
-    appRoutingProviders,
-    DialogService
+    AppComponent,
+    CrisisListComponent,
+    PageNotFoundComponent
   ],
   bootstrap: [ AppComponent ]
 })
-export class AppModule {
-}
+export class AppModule { }
