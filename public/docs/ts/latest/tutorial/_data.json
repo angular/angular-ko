@@ -1,39 +1,39 @@
 {
   "index": {
-    "title": "Tutorial: Tour of Heroes",
-    "navTitle": "Introduction",
-    "intro": "The Tour of Heroes tutorial takes you through the steps of creating an Angular application in TypeScript.",
+    "title": "튜토리얼: Tour of Heroes",
+    "navTitle": "소개",
+    "intro": "Tour of Heroes 튜토리얼을 통해 TypeScript를 이용하여 Angular 애플리케이션을 만드는 방법을 살펴보세요.",
     "nextable": true
   },
   "toh-pt1": {
-    "title": "The Hero Editor",
-    "intro": "We build a simple hero editor",
+    "title": "히어로 편집기",
+    "intro": "간단한 히어로 편집기 만들기",
     "nextable": true
   },
   "toh-pt2": {
-    "title": "Master/Detail",
-    "intro": "We build a master/detail page with a list of heroes",
+    "title": "마스터/상세페이지",
+    "intro": "히어로 목록을 위한 마스터/상세 페이지 만들기",
     "nextable": true
   },
   "toh-pt3": {
-    "title": "Multiple Components",
-    "intro": "We refactor the master/detail view into separate components",
+    "title": "여러가지 컴포넌트",
+    "intro": "분리된 컴포넌트로 마스터/상세 뷰를 재구성하기",
     "nextable": true
   },
   "toh-pt4": {
-    "title": "Services",
-    "intro": "We create a reusable service to manage our hero data calls",
+    "title": "서비스",
+    "intro": "우리의 히어로 데이터를 호출하는 재사용 가능한 데이터 서비스를 생성하기",
     "nextable": true
   },
   "toh-pt5": {
-    "title": "Routing",
-    "intro": "We add the Angular Router and learn to navigate among the views",
+    "title": "라우팅",
+    "intro": "Angular 라우터를 추가하고 뷰 사이를 이동하는 방법 배우기",
     "nextable": true
   },
   "toh-pt6": {
     "title": "HTTP",
-    "subtitle": "Getting and saving data",
-    "intro": "We convert our service and components to use Angular's HTTP service",
+    "subtitle": "데이터 호출 및 저장",
+    "intro": "Angular의 HTTP 서비스를 이용하기 위해 우리의 서비스와 컴포넌트 변환하기",
     "nextable": true
   }
 }
