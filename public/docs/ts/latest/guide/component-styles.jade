@@ -2,7 +2,7 @@ block includes
   include ../_util-fns
 
 :marked
-  Angular 2 applications are styled with regular CSS. That means we can apply
+  Angular applications are styled with regular CSS. That means we can apply
   everything we know about CSS stylesheets, selectors, rules, and media queries
   to our Angular applications directly.
   
@@ -11,7 +11,7 @@ block includes
   
   In this chapter we learn how to load and apply these *component styles*.
   
-  # Table Of Contents
+  ## Table Of Contents
 
   * [Using Component Styles](#using-component-styles)
   * [Special selectors](#special-selectors)
@@ -26,7 +26,7 @@ block includes
 :marked
   ## Using Component Styles
   
-  For every Angular 2 component we write, we may define not only an HTML template,
+  For every Angular component we write, we may define not only an HTML template,
   but also the CSS styles that go with that template, 
   specifying any selectors, rules, and media queries that we need.
 
@@ -298,8 +298,7 @@ a#relative-urls
   ## Appendix 2: Loading Styles with Relative URLs
   
   It's common practice to split a component's code, HTML, and CSS into three separate files in the same directory:
-  
-code-example(format='').
+code-example(format="nocode").
   quest-summary.component.ts
   quest-summary.component.html
   quest-summary.component.css
@@ -313,7 +312,8 @@ block module-id
   :marked
     We can change the way Angular calculates the full URL be setting the component metadata's `moduleId` property to `module.id`.
 
-  +makeExample('component-styles/ts/app/quest-summary.component.ts','', 'app/quest-summary.component.ts')
+  +makeExample('app/quest-summary.component.ts')
+
   :marked
     Learn more about `moduleId` in the [Component-Relative Paths](../cookbook/component-relative-paths.html) chapter.
 

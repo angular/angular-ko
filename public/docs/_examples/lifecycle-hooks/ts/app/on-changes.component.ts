@@ -2,7 +2,7 @@
 // #docregion
 import {
   Component, Input, OnChanges,
-  SimpleChange, ViewChild
+  SimpleChanges, ViewChild
 } from '@angular/core';
 
 class Hero {
@@ -33,7 +33,7 @@ export class OnChangesComponent implements OnChanges {
   changeLog: string[] = [];
 
   // #docregion ng-on-changes
-  ngOnChanges(changes: {[propertyName: string]: SimpleChange}) {
+  ngOnChanges(changes: SimpleChanges) {
     for (let propName in changes) {
       let chng = changes[propName];
       let cur  = JSON.stringify(chng.currentValue);
@@ -49,8 +49,9 @@ export class OnChangesComponent implements OnChanges {
 /***************************************/
 
 @Component({
+  moduleId: module.id,
   selector: 'on-changes-parent',
-  templateUrl: 'app/on-changes-parent.component.html',
+  templateUrl: './on-changes-parent.component.html',
   styles: ['.parent {background: Lavender;}']
 })
 export class OnChangesParentComponent {

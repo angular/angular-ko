@@ -1,75 +1,83 @@
 {
   "index": {
     "icon": "home",
-    "title": "Angular 문서",
-    "menuTitle": "Docs Home",
-    "banner": "<b>타입스크립트용 Angular</b>에 오신 것을 환영합니다! 현재 Angular 2 릴리즈 버전은 <b>rc.6</b>입니다. 개선점, 픽스, 주요 변경사항들은 <a href='https://github.com/angular/angular/blob/master/CHANGELOG.md' target='_blank'>  변경 로그</a>에서 확인해주세요."
+    "title": "Angular 한글문서",
+    "subtitle": "TypeScript",
+    "menuTitle": "문서 홈",
+    "banner": "Angular의 최신버전은 <b>2.4</b>입니다. <a href='guide/change-log.html' title='Documentation change log'>업데이트 내용</a>을 확인할 수 있습니다.또한 Angular의 변경, 개선 및 수정사항이 포함된 <a href='https://github.com/angular/angular/blob/master/CHANGELOG.md' target='_blank' title='Angular Product Changes'>Angular 업데이트 기록</a>을 볼 수 있습니다."
   },
 
   "cli-quickstart": {
     "icon": "query-builder",
-    "title": "CLI Quickstart",
-    "description": "Use the CLI tool to build apps quickly in Angular 2",
+    "title": "CLI를 이용한 빠른시작",
+    "subtitle": "TypeScript",
+    "description": "CLI 도구를 이용하게 빠르게 Angular 애플리케이션을 만들어 보세요",
     "hide": true
   },
 
   "quickstart": {
     "icon": "query-builder",
     "title": "빠른시작",
-    "description": "Angular 2와 함께 달려보세요"
+    "subtitle": "TypeScript",
+    "banner": "Angular 기초를 빠르게 살펴보세요"
   },
 
   "tutorial": {
     "icon": "list",
-    "title": "Tutorial",
-    "banner": "Angular 2 is currently in Release Candidate."
+    "title": "튜토리얼",
+    "subtitle": "TypeScript"
   },
 
   "guide": {
     "icon": "list",
-    "title": "Developer Guides",
-    "banner": "Angular 2 is currently in Release Candidate."
+    "title": "가이드",
+    "subtitle": "TypeScript"
   },
 
   "cookbook": {
     "icon": "list",
-    "title": "Cookbook",
-    "banner": "How to solve common implementation challenges."
+    "title": "해설서",
+    "subtitle": "TypeScript",
+    "banner": "공통의 수행 과제를 해결하는 방법."
   },
 
   "api/": {
     "icon": "book",
-    "title": "API Preview",
+    "title": "API 참조",
+    "subtitle": "TypeScript",
     "reference": true
   },
 
   "cheatsheet": {
-    "title": "Angular Cheat Sheet",
-    "intro": "A quick guide to Angular syntax. (Content is provisional and may change.)",
+    "title": "컨닝 페이퍼",
+    "subtitle": "TypeScript",
     "reference": false
   },
 
   "glossary": {
-    "title": "Glossary",
-    "intro": "Angular2에서 가장 중요한 용어들의 간략한 정의",
+    "title": "용어사전",
+    "subtitle": "TypeScript",
+    "intro": "Angular 어휘에서 가장 중요한 단어들에 대한 간랸한 정의",
     "reference": false
   },
 
   "resources": {
     "icon": "play-circle-fill",
-    "title": "Angular Resources",
-    "banner": "Angular 2 is currently in Release Candidate.",
+    "title": "Angular 재료",
+    "subtitle": "TypeScript",
     "resources": true
   },
 
   "help": {
     "icon": "chat",
-    "title": "Help & Support",
+    "title": "도움 & 지원",
+    "subtitle": "우리 팀 & 커뮤니티에서 도움/지원을 받으세요",
     "resources": true
   },
 
   "styleguide": {
-    "title": "Docs Style Guide",
-    "intro": "Design & Layout Patterns For Documentation"
+    "title": "문서 스타일 가이드",
+    "subtitle": "TypeScript",
+    "intro": "문서의 디자인과 레이아웃 패턴"
   }
 }

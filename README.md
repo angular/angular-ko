@@ -24,7 +24,6 @@ Angular와 관련된 유용한 자료들의 링크를 포함하고 있습니다.
 
 - [Angular-ko에 기여하기](https://github.com/angular/angular-ko/blob/master/CONTRIBUTING.md)를 참고해주세요.
 
-
 ## 라이센스
 Google 제공 ©2010-2016. 코드 라이센스 [MIT-style License](https://github.com/angular.io/blob/master/LICENSE). 문서 라이센스 [CC BY 4.0](http://creativecommons.org/licenses/by/4.0/).
 

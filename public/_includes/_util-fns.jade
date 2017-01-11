@@ -37,12 +37,19 @@
 
 //- Location of sample code
 - var _liveLink = 'live link';
+- var _ngRepoURL = 'https://github.com/angular/angular';
+- var _ngDocRepoURL = 'https://github.com/angular/angular.io';
+- var _qsRepo = 'https://github.com/angular/quickstart';
+- var _qsRepoZip = _qsRepo + '/archive/master.zip';
+
+- var _npm = 'npm';
 
 //- NgModule related
 - var _AppModuleVsAppComp = 'AppModule'
 - var _appModuleTsVsAppCompTs = 'app/app.module.ts'
 - var _appModuleTsVsMainTs = 'app/app.module.ts'
 - var _bootstrapModule = 'bootstrapModule'
+- var _declsVsDirectives = 'declarations'
 - var _moduleVsComp = 'module'
 - var _moduleVsRootComp = 'module'
 - var _platformBrowserDynamicVsBootStrap = 'platformBrowserDynamic'
@@ -83,14 +90,14 @@ mixin makeExample(_filePath, region, _title, stylePatterns)
   - var format = attributes.format || defaultFormat;
   - if (attributes.format === '.') format = '';
   - var avoid = !!attributes.avoid;
+  - var avoidClass = avoid ? 'is-anti-pattern' : '';
 
-  if (title)
-    if (avoid)
-      .example-title.avoid AVOID: #{title}
-    else
-      .example-title #{title}
-  code-example(language="#{language}" format="#{format}")
-    != styleString(frag, stylePatterns)
+  div(class="code-example #{avoidClass}")
+    if (title)
+      header
+        h4 #{title}
+    code-example(language="#{language}" format="#{format}")
+      != styleString(frag, stylePatterns)
 
 //- Like makeExample, but: (1) doesn't show line numbers. (2) If region
 //- is omitted and title is 'foo (r)' then region is taken as 'r'.
@@ -142,17 +149,17 @@ mixin makeJson( filePath, jsonConfig, title, stylePatterns)
   - var json = unescapeHtml(frag);
   - var jsonExtract = extractJson(json, jsonConfig);
   - var avoid = !!attributes.avoid;
+  - var avoidClass = avoid ? 'is-anti-pattern' : '';
 
-  if (title)
-    if (avoid)
-      .example-title.avoid #{title}
-    else
-      .example-title #{title}
-  code-example(language="#{language}" format="#{format}")
-    if (jsonExtract == 'ERROR')
-      err ERROR: Unable to extract json using config: "#{jsonConfig.toString()}"
-    else
-      != styleString(jsonExtract, stylePatterns)
+  div(class="code-example #{avoidClass}")
+    if (title)
+      header
+        h4 #{title}
+    code-example(language="#{language}" format="#{format}")
+      if (jsonExtract == 'ERROR')
+        err ERROR: Unable to extract json using config: "#{jsonConfig.toString()}"
+      else
+        != styleString(jsonExtract, stylePatterns)
 
 if !jade2ng
   //- Open (and close) an explanation <div>. See QuickStart
@@ -300,7 +307,7 @@ if !jade2ng
 -   } else {
 -     // ``` gets translated to <pre><code>.....</code></pre> and we need
 -     // to remove this from the fragment prefix is 11 long and suffix is 13 long
--     frag = jade2ng ? frag : frag.substring(11, frag.length-13);
+-     frag = frag.substring(11, frag.length-13);
 -     // Uncomment next line for debugging.
 -     // frag = "FileName: " + fullFileName + "   Current path: " + current.path +  " PathToDocs: " + getPathToDocs() + "\n" + frag;
 -     return frag;
