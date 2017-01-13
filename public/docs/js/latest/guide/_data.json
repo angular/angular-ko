@@ -1,156 +1,156 @@
 {
   "index": {
-    "title": "Documentation Overview",
-    "navTitle": "Overview",
-    "description": "How to read and use this documentation",
+    "title": "문서 개요",
+    "navTitle": "개요",
+    "description": "문서를 읽고 사용하는 방법",
     "nextable": true,
     "basics": true
   },
 
   "architecture": {
-    "title": "Architecture Overview",
-    "navTitle": "Architecture",
-    "intro": "The basic building blocks of Angular applications",
+    "title": "아키텍쳐 개요",
+    "navTitle": "아키텍쳐",
+    "intro": "Angular 애플리케이션의 기본 구성요소",
     "nextable": true,
     "basics": true
   },
 
   "displaying-data": {
     "title": "Displaying Data",
-    "intro": "Interpolation and other forms of property binding help us show app data in the UI.",
+    "intro": "보간(Interpolation) 및 다른 형태의 속성 바인딩은 UI에 앱 데이터를 표시하는 데 도움이됩니다.",
     "nextable": true,
     "basics": true
   },
 
   "user-input": {
-    "title": "User Input",
-    "intro": "User input triggers DOM events. We listen to those events with event bindings that funnel updated values back into our components and models.",
+    "title": "사용자 입력",
+    "intro": "사용자 입력은 DOM 이벤트를 트리거합니다. 해당 이벤트는 업데이트 된 값을 컴포넌트와 모델에 전달하는 이벤트 바인딩을 사용하여 수신합니다.",
     "nextable": true,
     "basics": true
   },
 
   "forms": {
-    "title": "Forms",
-    "intro": "A form creates a cohesive, effective, and compelling data entry experience. An Angular form coordinates a set of data-bound user controls, tracks changes, validates input, and presents errors.",
+    "title": "폼",
+    "intro": "폼은 응집력 있고 효과적이며 매력적인 데이터 입력 경험을 제공합니다. Angular 폼은 데이터 바인딩 된 사용자 컨트롤 집합을 조정하고 변경 내용을 추적하며 입력의 유효성을 검사하고 오류를 표시합니다.",
     "nextable": true,
     "basics": true
   },
 
   "dependency-injection": {
-    "title": "Dependency Injection",
-    "intro": "Angular's dependency injection system creates and delivers dependent services \"just-in-time\".",
+    "title": "의존성 주입",
+    "intro": "Angular의 의존성 주입 시스템은 \"알맞은 때에\" 종속 서비스를 만들고 전달합니다.",
     "nextable": true,
     "basics": true
   },
 
   "template-syntax": {
-    "title": "Template Syntax",
-    "intro": "Learn how to write templates that display data and consume user events with the help of data binding.",
+    "title": "템플릿 구문",
+    "intro": "데이터 바인딩을 사용하여 데이터를 표시하고 사용자 이벤트를 사용하는 템플릿을 작성하는 방법에 대해 알아보세요.",
     "nextable": true,
     "basics": true
   },
 
   "cheatsheet": {
-    "title": "Cheat Sheet",
+    "title": "컨닝 페이퍼",
     "subtitle": "JavaScript",
     "nextable": true,
     "basics": true
   },
 
   "style-guide": {
-    "title": "Style Guide",
-    "intro": "Write Angular with style.",
+    "title": "스타일 가이드",
+    "intro": "Angular에 스타일 적용하기.",
     "basics": true
   },
 
   "ngmodule": {
-    "title": "Angular Modules (NgModule)",
-    "intro": "Define application modules with @NgModule",
+    "title": "Angular 모듈(NgModule)",
+    "intro": "@NgModule을 사용한 애플리케이션 모듈 정의.",
     "hide": true
   },
 
   "attribute-directives": {
-    "title": "Attribute Directives",
-    "intro": "Attribute directives attach behavior to elements."
+    "title": "속성 지시자",
+    "intro": "속성 지시자는 동작을 요소에 연결합니다."
   },
 
   "browser-support": {
-    "title": "Browser support",
-    "intro": "Browser support and polyfills guide."
+    "title": "브라우저 지원",
+    "intro": "브라우저 지원 및 polyfills 가이드."
   },
 
   "component-styles": {
-    "title": "Component Styles",
-    "intro": "Learn how to apply CSS styles to components."
+    "title": "컴포넌트 스타일",
+    "intro": "컴포넌트에 CSS스타일 적용하는 방법을 배우세요."
   },
 
   "glossary": {
-    "title": "Glossary",
-    "intro": "Brief definitions of the most important words in the Angular vocabulary",
+    "title": "용어사전",
+    "intro": "Angular 어휘에서 가장 중요한 단어에 대한 간략한 정의",
     "basics": true
   },
 
   "hierarchical-dependency-injection": {
-    "title": "Hierarchical Dependency Injectors",
-    "navTitle": "Hierarchical Injectors",
-    "intro": "Angular's hierarchical dependency injection system supports nested injectors in parallel with the component tree."
+    "title": "계층적 의존성 주입기",
+    "navTitle": "계층형 주입기",
+    "intro": "Angular'의 계층적 의존성 주입기(Hierarchical Dependency Injectors) 시스템은 컴포넌트 트리와 병렬로 중첩 된 주입기를 지원합니다."
   },
 
   "server-communication": {
-    "title": "HTTP Client",
-    "intro": "Talk to a remote server with an HTTP Client."
+    "title": "HTTP 클라이언트",
+    "intro": "HTTP 클라이언트를 사용하여 원격 서버와 통신하기."
   },
 
   "lifecycle-hooks": {
-    "title": "Lifecycle Hooks",
-    "intro": "Angular calls lifecycle hook methods on directives and components as it creates, changes, and destroys them."
+    "title": "라이프사이클-훅",
+    "intro": "Angular는 지시자와 컴포넌트를 생성, 변경 및 제거 할 때 라이프사이클-훅 메서드를 호출합니다."
   },
 
   "npm-packages": {
-    "title": "Npm Packages",
-    "intro": "Recommended npm packages, and how to specify package dependencies"
+    "title": "Npm 패키지",
+    "intro": "권장하는 npm 패키지 및 패키지 종속성을 지정하는 방법"
   },
 
   "pipes": {
-    "title": "Pipes",
-    "intro": "Pipes transform displayed values within a template."
+    "title": "파이프",
+    "intro": "표시된 값을 템플릿으로 변환하는 파이프."
   },
 
   "router": {
-    "title": "Routing & Navigation",
-    "intro": "Discover the basics of screen navigation with the Angular router."
+    "title": "라우팅 & 네비게이션",
+    "intro": "Angular 라우터로 화면 탐색의 기본 사항 알아보기."
   },
 
   "security": {
-    "title": "Security",
-    "intro": "Developing for content security in Angular applications"
+    "title": "보안",
+    "intro": "Angular 애플리케이션의 콘텐츠 보안 개발"
   },
 
   "structural-directives": {
-    "title": "Structural Directives",
-    "intro": "Angular has a powerful template engine that lets us easily manipulate the DOM structure of our elements."
+    "title": "구조 지시자",
+    "intro": "Angular는 강력한 템플릿 엔진을 사용하여 요소(element)의 DOM 구조를 쉽게 조작 할 수 있습니다."
   },
 
   "testing": {
-    "title": "Testing",
-    "intro": "Techniques and practices for testing an Angular app",
+    "title": "테스트",
+    "intro": "Angular 앱을 테스트하기 위한 기법과 절차",
     "hide": true
   },
 
   "typescript-configuration": {
-    "title": "TypeScript Configuration",
-    "intro": "TypeScript configuration for Angular developers",
+    "title": "TypeScript 설정",
+    "intro": "Angular 개발자를 위한 TypeScript 설정",
     "hide": true
   },
 
   "upgrade": {
-    "title": "Upgrading from 1.x",
-    "intro": "Angular 1 applications can be incrementally upgraded to Angular 2."
+    "title": "1.x에서의 업그레이드",
+    "intro": "Angular 1 애플리케이션은 점진적으로 Angular 2로 업그레이드 할 수 있습니다."
   },
 
   "webpack": {
-    "title": "Webpack: an introduction",
-    "intro": "Create your Angular applications with a Webpack based tooling",
+    "title": "Webpack: 소개",
+    "intro": "Webpack 기반 도구로 Angular 애플리케이션 만들기",
     "hide": true
   }
 }
