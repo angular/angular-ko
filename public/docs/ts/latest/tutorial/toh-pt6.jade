@@ -12,9 +12,6 @@ block includes
 - var _promise = _Promise.toLowerCase()
 
 :marked
-  # 데이터 가져오기와 저장하기
-  # Getting and Saving Data
-
   이해관계자들은 진행상황에 감사하고 있습니다.
   이제 그들은 서버에서 히어로 데이터를 가져오고,
   사용자가 추가, 수정, 삭제, 그리고 변경사항을 다시 서버에 저장하길 원합니다.
@@ -82,7 +79,7 @@ block http-library
     Fortunately we're ready to import from `@angular/http` because `systemjs.config` configured *SystemJS* to load that library when we need it.
 
 :marked
-  ### Http 서비스 등록하기
+  ### HTTP 서비스 등록하기
   ### Register for HTTP services
 
 block http-providers
@@ -390,7 +387,7 @@ block get-heroes-details
 
   We also adjust to the fact that the `data` in the response is a single hero object rather than !{_an} !{_array}.
 
-  ### 변함없는 API
+  ### 변함없는 _getHeroes_ API
   ### Unchanged _getHeroes_ API
 
   비록 `getHeroes()`와 `getHero()` 내부에 중요한 변경이 있었지만,
@@ -462,7 +459,7 @@ block get-heroes-details
 +makeExcerpt('app/hero-detail.component.ts', 'save')
 
 :marked
-  ### 히어로 서비스의 업데이트 메소드
+  ### 히어로 서비스의 `update` 메소드
   ### Hero service `update` method
 
   변경사항을 서버에 유지하기 위핸 HTTP _put_ 을 사용하기는 하지만,
