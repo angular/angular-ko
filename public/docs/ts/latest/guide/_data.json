@@ -35,9 +35,9 @@
 
 
   "appmodule": {
-    "title": "AppModule: 루트 모듈",
-    "navTitle": "루트 모듈",
-    "intro": "루트 \"AppModule\"에서 앱을 만들고 부트 스트랩하는 방법을 배워보세요.",
+    "title": "AppModule: 최상위 모듈",
+    "navTitle": "최상위 모듈",
+    "intro": "최상위 \"AppModule\"에서 앱을 만들고 부트 스트랩하는 방법을 배워보세요.",
     "nextable": true,
     "basics": true
   },
@@ -57,8 +57,8 @@
   },
 
   "forms": {
-    "title": "양식",
-    "intro": "양식은 응집력 있고 효과적이며 매력적인 데이터 입력 경험을 제공합니다. Angular 양식은 데이터 바인딩 된 사용자 컨트롤 집합을 조정하고 변경 내용을 추적하며 입력의 유효성을 검사하고 오류를 표시합니다.",
+    "title": "폼",
+    "intro": "폼은 응집력 있고 효과적이며 매력적인 데이터 입력 경험을 제공합니다. Angular 폼은 데이터 바인딩 된 사용자 컨트롤 집합을 조정하고 변경 내용을 추적하며 입력의 유효성을 검사하고 오류를 표시합니다.",
     "nextable": true,
     "basics": true
   },
@@ -139,8 +139,8 @@
   },
 
   "lifecycle-hooks": {
-    "title": "라이프사이클 후크",
-    "intro": "Angular는 지시자와 컴포넌트를 생성, 변경 및 제거 할 때 라이프사이클 후크 메서드를 호출합니다."
+    "title": "라이프사이클-훅",
+    "intro": "Angular는 지시자와 컴포넌트를 생성, 변경 및 제거 할 때 라이프사이클-훅 메서드를 호출합니다."
   },
 
   "npm-packages": {
@@ -169,18 +169,18 @@
   },
 
   "structural-directives": {
-    "title": "구조 지시문",
+    "title": "구조 지시자",
     "intro": "Angular는 강력한 템플릿 엔진을 사용하여 요소(element)의 DOM 구조를 쉽게 조작 할 수 있습니다."
   },
 
   "testing": {
     "title": "테스트",
-    "intro": "Angular app을 테스트하기 위한 기법과 절차",
+    "intro": "Angular 앱을 테스트하기 위한 기법과 절차",
   },
 
   "typescript-configuration": {
-    "title": "TypeScript 구성",
-    "intro": "Angular 개발자를 위한 TypeScript 구성",
+    "title": "TypeScript 설정",
+    "intro": "Angular 개발자를 위한 TypeScript 설정",
   },
 
   "upgrade": {
