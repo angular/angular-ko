@@ -22,7 +22,7 @@
   },
   "toh-pt4": {
     "title": "서비스",
-    "intro": "우리의 히어로 데이터를 호출하는 재사용 가능한 데이터 서비스를 생성하기",
+    "intro": "히어로 데이터를 호출하는 재사용 가능한 데이터 서비스를 생성하기",
     "nextable": true
   },
   "toh-pt5": {
@@ -33,7 +33,7 @@
   "toh-pt6": {
     "title": "HTTP",
     "subtitle": "데이터 호출 및 저장",
-    "intro": "Angular의 HTTP 서비스를 이용하기 위해 우리의 서비스와 컴포넌트 변환하기",
+    "intro": "Angular의 HTTP 서비스를 이용하기 위해 서비스와 컴포넌트 변환하기",
     "nextable": true
   }
 }
