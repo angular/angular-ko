@@ -12,24 +12,41 @@ block includes
 - var _promise = _Promise.toLowerCase()
 
 :marked
+  이해관계자들은 진행상황에 감사하고 있습니다.
+  이제 그들은 서버에서 히어로 데이터를 가져오고,
+  사용자가 추가, 수정, 삭제, 그리고 변경사항을 다시 서버에 저장하길 원합니다.
+
   Our stakeholders appreciate our progress.
   Now they want to get the hero data from a server, let users add, edit, and delete heroes,
   and save these changes back to the server.
 
+  이 챕터에서는 애플리케이션이 원격 서버의 웹 API에 대한 HTTP 호출을 하도록 만들어보겠습니다.
+
   In this chapter we teach our application to make the corresponding HTTP calls to a remote server's web API.
+
+  이 파트의 <live-example></live-example>을 실행해 보세요.
 
   Run the <live-example></live-example> for this part.
 
 .l-main-section
 :marked
+  ## 지나온 여정
   ## Where We Left Off
+
+  [이전 챕터](toh-pt5.html)에서는 대시보드와 고정된 히어로 목록 사이를 이동하고,
+  그러는 동안에 선택된 히어로를 수정하는 것을 배웠습니다.
+  이 부분이 이번 챕터의 시작 지점입니다.
 
   In the [previous chapter](toh-pt5.html), we learned to navigate between the dashboard and the fixed heroes list, editing a selected hero along the way.
   That's our starting point for this chapter.
 
 block start-server-and-watch
   :marked
+    ### 지속적인 앱 트랜스파일링과 실행
     ### Keep the app transpiling and running
+
+    터미널/콘솔 창을 열고,
+    TypeScript 컴파일러를 실행해 변경사항을 감시하도록 하고, 서버를 구동합니다.
 
     Open a terminal/console window and enter the following command to
     start the TypeScript compiler, start the server, and watch for changes:
@@ -38,46 +55,87 @@ block start-server-and-watch
     npm start
 
 :marked
+  이렇게 하면 Tour of Heroes를 계속 빌드하면서 자동으로 애플리케이션을 실행하고 업데이트 할 수 있습니다.
+
   The application runs and updates automatically as we continue to build the Tour of Heroes.
 
 .l-main-section#http-providers
+h1 HTTP 서비스 제공
 h1 Providing HTTP Services
 block http-library
   :marked
+    Http 모듈은 Angular core모듈이 아닙니다
+
     The `HttpModule` is ***not*** a core Angular module.
+
+    웹에 접근하기 위한 Angular의 선택적 접근방법으로,
+    Angular npm 패키지로서 별도의 스크립트로 배포되며, `@angular/http`라는 별도의 부가적인 모듈로 존재합니다.
+
     It's Angular's optional approach to web access and it exists as a separate add-on module called `@angular/http`,
     shipped in a separate script file as part of the Angular npm package.
+
+    다행히도 *SystemJS*가 가 필요할때 로드할 수 있도록 설정해 두었기 때문에 `@angular/http`를 임포트할 준비가 되어있습니다
 
     Fortunately we're ready to import from `@angular/http` because `systemjs.config` configured *SystemJS* to load that library when we need it.
 
 :marked
+  ### HTTP 서비스 등록하기
   ### Register for HTTP services
 
 block http-providers
   :marked
+    우리의 앱은 Angular `http` 서비스에 의존하고 있고, 그것 또한 다른 지원 서비스에 의존하고 있습니다.
+
     Our app will depend upon the Angular `http` service which itself depends upon other supporting services.
+
+    `@angular/http` 라이브러리의 `HttpModule`은 완전한 HTTP 서비스의 집합을 제공합니다.
+
     The `HttpModule` from `@angular/http` library holds providers for a complete set of HTTP services.
 
+    애플리케이션 어느 곳에서나 이러한 서비스에 접근 가능해야 합니다.
+
     We should be able to access these services from anywhere in the application.
+
+    `AppModule` 임포트 목록에 `HttpModule`모듈을 추가하여 모든 것을 등록합니다.
+    `AppModule`에서 최상위 컴포넌트인 `AppComponent`와 애플리케이션을 시작(bootstrap)합니다.
+
     So we register them all by adding `HttpModule` to the `imports` list of the `AppModule` where we
     bootstrap the application and its root `AppComponent`.
 
   +makeExample('app/app.module.ts', 'v1','app/app.module.ts (v1)')
 
   :marked
+    최상위 ngModule인 `AppModule`의 임포트 배열에 `!{_HttpModule}`을 추가한 것에 유의하세요.
+
     Notice that we supply `!{_HttpModule}` as part of the *imports* !{_array} in root NgModule `AppModule`.
 
 .l-main-section
 :marked
+  ## 웹 API 시뮬레이션하기
   ## Simulating the web API
+
+  최상위 `!{_AppModuleVsAppComp}` *providers*에 애플리케이션 범위의 서비스로 등록하길 권합니다.
+  <span if-docs="dart">여기서는 특별한 이유로 `main`에 등록했습니다.</span>
 
   We recommend registering application-wide services in the root
   `!{_AppModuleVsAppComp}` *providers*.  <span if-docs="dart">Here we're
   registering in `main` for a special reason.</span>
 
+  우리 애플리케이션은 아직 개발 초기 단계이고 제품 출시까지는 아직 멀었습니다.
+
   Our application is in the early stages of development and far from ready for production.
+
+  심지어 아직 히어로 요청을 처리할 웹서버도 없습니다.
+
   We don't even have a web server that can handle requests for heroes.
+
+  그전까지는 가짜로 처리해야 합니다.
+
   Until we do, *we'll have to fake it*.
+
+  HTTP 클라이언트를 *속여서* *in-memory 웹 API*인 샘플 서비스에서 데이터를 가져오고 저장하는 것처럼 해보겠습니다.
+  <span if-docs="dart">애플리케이션 자체가 알 필요도 없고 몰라야만 합니다.
+  따라서 in-memory 웹 API를 `AppComponent` *위에* 구성할 것입니다.
 
   We're going to *trick* the HTTP client into fetching and saving data from
   a mock service, the *in-memory web API*.
@@ -85,12 +143,20 @@ block http-providers
   shouldn't know about this.  So we'll slip the in-memory web API into the
   configuration *above* the `AppComponent`.</span>
 
+
+  다음은 속임수에 사용되는 <span ngio-ex>!{_appModuleTsVsMainTs}</span> 버전입니다.
+
   Here is a version of <span ngio-ex>!{_appModuleTsVsMainTs}</span> that performs this trick:
 
 +makeExcerpt(_appModuleTsVsMainTs, 'v2')
 
 block backend
   :marked
+    실제 API 서버를 사용하기 보다, 이번 예제에서는
+    <a href="https://github.com/angular/in-memory-web-api" target="_blank" title="In-memory Web API"><i>InMemoryWebApiModule</i></a>
+    를 `imports`에 추가하여 원격 서버와의 통신을 시뮬레이션 하겠습니다.
+    효과적으로 `Http` 클라이언트의 XHR 백엔드 서비스를 in-memory 대안으로 대체합니다.
+
     Rather than require a real API server, this example simulates communication with the remote server by adding the
     <a href="https://github.com/angular/in-memory-web-api" target="_blank" title="In-memory Web API"><i>InMemoryWebApiModule</i></a>
     to the module `imports`, effectively  replacing the `Http` client's XHR backend service with an in-memory alternative.
@@ -98,18 +164,31 @@ block backend
   +makeExcerpt(_appModuleTsVsMainTs, 'in-mem-web-api', '')
 
   :marked
+    `forRoot` 구성 메소드는 다음과 같이 in-memory 데이터베이스를
+    구현하는 `InMemoryDataService` 클래스를 사용합니다.
+
     The `forRoot` configuration method takes an `InMemoryDataService` class
     that primes the in-memory database as follows:
 
 +makeExample('app/in-memory-data.service.ts', 'init')(format='.')
+
+p 이 파일은 #[code #[+adjExPath('mock-heroes.ts')]]를 대체합니다. #[code #[+adjExPath('mock-heroes.ts')]]는 삭제해도 좋습니다.
 
 p This file replaces the #[code #[+adjExPath('mock-heroes.ts')]] which is now safe to delete.
 
 block dont-be-distracted-by-backend-subst
   .alert.is-helpful
     :marked
+      이 챕터는 !{_Angular_http_library}에 대한 소개입니다.
+      백엔드 대체의 세부 사항에 신경쓰지 마세요. 단지 예제를 따라하세요.
+
       This chapter is an introduction to the !{_Angular_http_library}.
       Please don't be distracted by the details of this backend substitution. Just follow along with the example.
+
+      in-memory API에 대해 [HTTP 클라이언트 챕터](../guide/server-communication.html#in-mem-web-api)
+      에서 더 자세히 확인하세요.
+      in-memory 웹 API는 오직 개발 초기 단계나 Tour of Heroes 같은 데모에서만 유용하다는 것을 기억하세요.
+      실제 웹 API 서버가 준비되면 건너뛰세요.
 
       Learn more later about the in-memory web API in the [HTTP client chapter](../guide/server-communication.html#in-mem-web-api).
       Remember, the in-memory web API is only useful in the early stages of development and for demonstrations such as this Tour of Heroes.
@@ -117,40 +196,62 @@ block dont-be-distracted-by-backend-subst
 
 .l-main-section
 :marked
+  ## 히어로와 HTTP
   ## Heroes and HTTP
+
+  현재 구현된 `HeroService`을 보세요.
 
   Look at our current `HeroService` implementation
 
 +makeExcerpt('toh-4/ts/app/hero.service.ts (old getHeroes)', 'get-heroes')
 
 :marked
+  샘플 히어로로 결정(resolve)되는 !{_Promise}를 반환했습니다.
+  당시에는 과도한 것처럼 보였을 지 모르지만, HTTP 클라이언트로 히어로를 불러올 때
+  비동기 작업으로 해야 하는 날이 있을 것이라 생각했습니다.
+
   We returned a !{_Promise} resolved with mock heroes.
   It may have seemed like overkill at the time, but we were anticipating the
   day when we fetched heroes with an HTTP client and we knew that would have to be an asynchronous operation.
+
+  그날이 왔습니다! `getHeroes()`가 HTTP를 사용하도록 변환합시다.
 
   That day has arrived! Let's convert `getHeroes()` to use HTTP.
 
 +makeExcerpt('app/hero.service.ts (updated getHeroes and new class members)', 'getHeroes')
 
 :marked
+  업데이트 된 임포트 구문은 다음과 같습니다:
+
   Our updated import statements are now:
 
 +makeExcerpt('app/hero.service.ts (updated imports)', 'imports')
 
 - var _h3id = `http-${_promise}`
 :marked
+  브라우저를 새로고침하면, 히어로 데이터가 샘플 서버로부터 성공적으로 로드되어야 합니다.
+
   Refresh the browser, and the hero data should be successfully loaded from the
   mock server.
 
   <h3 id="!{_h3id}">HTTP !{_Promise}</h3>
 
+  여전히 !{_Promise}를 반환하지만 다르게 만들고 있습니다.
+
   We're still returning a !{_Promise} but we're creating it differently.
 
 block get-heroes-details
   :marked
+    Angular `http.get`은 RxJS `Observable`을 반환합니다.
+    *Observables*는 비동기 데이터 흐름을 관리하는 강력한 방법입니다.
+    이 챕터의 뒷 부분에서 [Observables](#observables)에 대해 배우겠습니다.
+
     The Angular `http.get` returns an RxJS `Observable`.
     *Observables* are a powerful way to manage asynchronous data flows.
     We'll learn about [Observables](#observables) later in this chapter.
+
+    지금은 친숙한 환경으로 돌아와 `Observable`을
+    `toPromise` 연산자를 사용한 `Promise`로 교체하겠습니다.
 
     For *now* we get back on familiar ground by immediately
     converting that `Observable` to a `Promise` using the `toPromise` operator.
@@ -158,9 +259,16 @@ block get-heroes-details
   +makeExcerpt('app/hero.service.ts', 'to-promise', '')
 
   :marked
+    안타깝게도, Angular `Observable`은 `toPromise` 연산자가 없습니다 ... 바로 사용할 수 없군요.
+    Angular `Observable`은 기본 골격만 구현했습니다.
+
     Unfortunately, the Angular `Observable` doesn't have a `toPromise` operator ...
     not out of the box.
     The Angular `Observable` is a bare-bones implementation.
+
+    유용한 기능으로 `Observable`을 확장한 `toPromise` 같은 수 많은 연산자들이 있습니다.
+    만약 이러한 기능을 원한다면, 우리 스스로 연산자를 추가해야 합니다.
+    RxJS 라이브러리에서 다음과 같이 쉽게 임포트할 수 있습니다.
 
     There are scores of operators like `toPromise` that extend `Observable` with useful capabilities.
     If we want those capabilities, we have to add the operators ourselves.
@@ -170,39 +278,63 @@ block get-heroes-details
 
   .l-sub-section
     :marked
+      더 많은 연산자를 추가할 수도 있습니다. 왜 그래야만 하는지는 [이번 튜토리얼의 뒷부분](#rxjs-imports)에서 알아보세요.
+
       You'll add more operators, and learn why you must do so, [later in this tutorial](#rxjs-imports).
 
   :marked
+    ### *then* 콜백에서 데이터 가져오기
     ### Extracting the data in the *then* callback
+
+    *promise*의 `then` 콜백에서, 응답 데이터를 가져오기 위해 HTTP `Response`의 `json` 메소드를 호출합니다.
 
     In the *promise*'s `then` callback we call the `json` method of the HTTP `Response` to extract the
     data within the response.
   +makeExcerpt('app/hero.service.ts', 'to-data', '')
 
 :marked
+  응답 JSON은 한개의 `data` 프로퍼티를 가지고 있습니다.
+  `data` 프로퍼티는 호출자가 정말로 원하는 *히어로*의 배열을 가지고 있습니다.
+  그러므로 그 배열을 가져와서 결정(resolved)된 !{_Promise} 값으로 반환합니다.
+
   That response JSON has a single `data` property.
   The `data` property holds the !{_array} of *heroes* that the caller really wants.
   So we grab that !{_array} and return it as the resolved !{_Promise} value.
 
 .alert.is-important
   :marked
+    서버에서 반환된 데이터의 모양에 주목하세요.
+    이 특별한 *in-memory 웹 API* 예제는 `data` 프로퍼티를 가진 객체를 반환합니다.
+    당신의 API는 다른 것을 반환할 수도 있습니다. *당신의 웹 API*에 맞춰 코드를 수정하세요.
+
     Pay close attention to the shape of the data returned by the server.
     This particular *in-memory web API* example happens to return an object with a `data` property.
     Your API might return something else. Adjust the code to match *your web API*.
 
 :marked
+  호출자는 이러한 비밀을 알지 못합니다. 단지 이전에 했던 것처럼 *히어로*의 !{_Promise}를 받았을 뿐입니다.
+  (샘플) 서버에서 히어로를 가져오는 것을 전혀 모르고 있습니다.
+  HTTP 응답을 히어로로 변환하는데 필요한 우여곡절에 대해 아무것도 모릅니다.
+  이것이 `HeroService`와 같은 서비스에 데이터 접근을 위임하는 목적이자 묘미입니다.
+
   The caller is unaware of these machinations. It receives a !{_Promise} of *heroes* just as it did before.
   It has no idea that we fetched the heroes from the (mock) server.
   It knows nothing of the twists and turns required to convert the HTTP response into heroes.
   Such is the beauty and purpose of delegating data access to a service like this `HeroService`.
 
+  ### 에러 처리
   ### Error Handling
+
+  `getHeroes`의 끝에서 서버 실패를 `catch`하고 그것을 에러 핸들러에 전달했습니다:
 
   At the end of `getHeroes()` we `catch` server failures and pass them to an error handler:
 
 +makeExcerpt('app/hero.service.ts', 'catch', '')
 
 :marked
+  이것은 중요한 단계입니다!
+  서버 실패는 우리가 제어할 수 없는 이유로 자주 발생하기 때문에 반드시 HTTP 실패를 고려해야 합니다.
+
   This is a critical step!
   We must anticipate HTTP failures as they happen frequently for reasons beyond our control.
 
@@ -210,48 +342,93 @@ block get-heroes-details
 
 - var rejected_promise = _docsFor == 'dart' ? 'propagated exception' : 'rejected promise';
 :marked
+  데모 서비스에서는 콘솔에 에러를 남깁니다; 실제로는 보다 신경을 써야합니다.
+
   In this demo service we log the error to the console; we would do better in real life.
+
+  또한 호출자가 적절한 에러 메시지를 사용자에게 보여 줄 수 있도록,
+  거부 된(rejected) promise의 호출자에게 좀 더 사용자 친화적인 형태의 에러를 반환하기로 했습니다.
 
   We've also decided to return a user friendly form of the error to
   the caller in a !{rejected_promise} so that the caller can display a proper error message to the user.
 
+  ### id로 히어로 가져오기
   ### Get hero by id
+  `HeroDetailComponent`는 `HeroService`에 편집할 한개의 히어로를 가져옵니다.
+
   The `HeroDetailComponent` asks the `HeroService` to fetch a single hero to edit.
   
+
+  현재 `HeroService`는 모든 히어로를 가져온 다음에 `id`에 일치하는 것을 필터링하여 원하는 히어로를 찾습니다.
+  시뮬레이션 중에는 괜찮습니다. 오직 한개를 원할 때 _모든_ 히어로를 실제 서버에 요청하는 것은 낭비입니다.
+  대부분의 웹 API는 `api/hero/:id` 형태로 _아이디로 가져오기(get-by-id)_를 지원합니다.
+
   The `HeroService` currently fetches all heroes and then finds the desired hero 
   by filtering for the one with the matching `id`.
   That's fine in a simulation. It's wasteful to ask a real server for _all_ heroes when we only want one.
   Most web APIs support a _get-by-id_ request in the form `api/hero/:id` (e.g., `api/hero/11`).
 
+  `HeroService.getHero` 메소드를가 _아이디로 가져오기(get-by-id)_ 요청을 만들 수 있도록 업데이트하고,
+  우리가 방금 배운 것을 적용하여 `getHeros` 메소드를 작성하세요: 
+
   Update the `HeroService.getHero` method to make a _get-by-id_ request,
   applying what we just learned to write `getHeroes`:
 +makeExcerpt('app/hero.service.ts', 'getHero', '')
 :marked
+  `getHeros`와 거의 비슷합니다.
+  URL은 히어로 id를 `api/hero/:id` 형태에 일치하는 URL로 인코딩하여,
+  서버가 어떤 히어로를 업데이트해야 하는지 식별합니다.
+
   It's almost the same as `getHeroes`. 
   The URL identifies _which_ hero the server should update by encoding the hero id into the URL
   to match the `api/hero/:id` pattern.
 
+  또한 응답 `data`가 배열이 아니라 단일 히어로 객체라는 사실에도 적응하세요.
+
   We also adjust to the fact that the `data` in the response is a single hero object rather than !{_an} !{_array}.
 
+  ### 변함없는 _getHeroes_ API
   ### Unchanged _getHeroes_ API
+
+  비록 `getHeroes()`와 `getHero()` 내부에 중요한 변경이 있었지만,
+  함수모양(signature)은 변경되지 않았습니다.
+  여전히 !{_Promise}를 반환합니다.
+  `getHeroes()`를 호출하는 어떤 컴포넌트도 수정하지 않아도 됩니다.
 
   Although we made significant *internal* changes to `getHeroes()` and `getHero()`, 
   the public signatures did not change.
   We still return a !{_Promise} from both methods. 
   We won't have to update any of the components that call them.
 
+  우리의 이해관계자들은 현재까지의 API 통합에 대해 감격하고 있습니다.
+  이제 그들은 히어로를 생성하고 지우길 원합니다.
+
   Our stakeholders are thrilled with the web API integration so far.
   Now they want the ability to create and delete heroes.
+
+  히어로 상세를 수정하려고 하면 어떤 일이 벌어지는지 보겠습니다.
 
   Let's see first what happens when we try to update a hero's details.
 
 .l-main-section
 :marked
+  ## 히어로 상세정보 업데이트
   ## Update hero details
+
+  이미 상세 뷰를 통해 히어로의 이름 수정이 가능합니다. 어서 시도해보세요.
+  타이핑을 하면 히어로 이름이 뷰의 상단에 업데이트 됩니다.
+  그러나 `Back` 버튼을 누르면 모든 변경 사항이 없어집니다.
 
   We can edit a hero's name already in the hero detail view. Go ahead and try
   it. As we type, the hero name is updated in the view heading.
   But when we hit the `Back` button, the changes are lost!
+
+  업데이트가 전에는 지워지지 않았었습니다. 무엇이 변경되었을까요?
+
+  Updates weren't lost before, what's happening?
+
+  앱에서 샘플 히어로 목록을 사용할때, 변경사항은 앱 전역에 공유되는 목록의 히어로 객체에 바로 반영이 되었습니다.
+  이제 서버에서 데이터를 가져오므로, 변경사항을 유지하고 싶다면, 서버에 다시 써줘야 합니다.
 
   Updates weren't lost before. What changed?
   When the app used a list of mock heroes, updates were applied directly to the
@@ -259,7 +436,13 @@ block get-heroes-details
   from a server, if we want changes to persist, we'll need to write them back to
   the server.
 
+:marked
+  ### 히어로 상세내용 저장
   ### Save hero details
+
+  히어로 이름 수정사항이 없어지지 않도록 합시다.
+  먼저 히어로 상세 템플릿 하단에 저장버튼을 추가합니다.
+  저장버튼의 클릭 이벤트에 새로운 `save` 메소드를 바인딩합니다.
 
   Let's ensure that edits to a hero's name aren't lost. Start by adding,
   to the end of the hero detail template, a save button with a `click` event
@@ -268,13 +451,19 @@ block get-heroes-details
 +makeExcerpt('app/hero-detail.component.html', 'save')
 
 :marked
+  `save` 메소드는 히어로 서비스의 업데이트 메소드를 사용해 변경사항을 보관하고 이전화면으로 이동합니다.
+
   The `save` method persists hero name changes using the hero service
   `update` method and then navigates back to the previous view:
 
 +makeExcerpt('app/hero-detail.component.ts', 'save')
 
 :marked
+  ### 히어로 서비스의 `update` 메소드
   ### Hero service `update` method
+
+  변경사항을 서버에 유지하기 위핸 HTTP _put_ 을 사용하기는 하지만,
+  `update` 메소드의 전체 구조는 `getHeroes`와 비슷합니다.
 
   The overall structure of the `update` method is similar to that of
   `getHeroes`, although we'll use an HTTP _put_ to persist changes
@@ -283,19 +472,31 @@ block get-heroes-details
 +makeExcerpt('app/hero.service.ts', 'update')
 
 :marked
+  우리는 URL의 히어로 id를 인코딩하여 서버에 업데이트 할 히어로를 식별할 수 있습니다.
+  put의 내용은 `!{_JSON_stringify}`를 호출하여 얻은 히어로를 인코딩한 JSON 문자열입니다.
+  요청 헤더에서 content type(`application/json`)을 확인할 수 있습니다.
+
   We identify _which_ hero the server should update by encoding the hero id in
   the URL. The put body is the JSON string encoding of the hero, obtained by
   calling `!{_JSON_stringify}`.  We identify the body content type
   (`application/json`) in the request header.
 
+  브라우저를 새로고침하여 한번 시도해보세요. 변경된 히어로 이름이 유지되어야 합니다.
+
   Refresh the browser and give it a try. Changes to hero names should now persist.
 
 .l-main-section
 :marked
+  ## 히어로 추가하기
   ## Add a hero
+
+  새로운 히어로를 추가하기 위해 히어로의 이름을 알아야 합니다.
+  이를 위해 추가 버튼과 쌍을 이루는 input 엘리먼트를 사용하겠습니다.
 
   To add a new hero we need to know the hero's name. Let's use an input
   element for that, paired with an add button.
+
+  다음을 히어로 컴포넌트 HTML에 입력하세요. heading 다음 첫번째 위치입니다.
 
   Insert the following into the heroes component HTML, first thing after
   the heading:
@@ -303,27 +504,43 @@ block get-heroes-details
 +makeExcerpt('app/heroes.component.html', 'add')
 
 :marked
+  클릭 이벤트에 반응하여, 컴포넌트의 클릭 핸들러를 호출하고,
+  다른 이름을 사용할 수 있도록 input 필드를 초기화 합니다.
+
   In response to a click event, we call the component's click handler and then
   clear the input field so that it will be ready to use for another name.
 
 +makeExcerpt('app/heroes.component.ts', 'add')
 
 :marked
+  주어진 이름이 비어있지 않다면, 핸들러는 이름이 붙여진 히어로를 히어로 서비스에 위임하고
+  배열에 새로운 히어로를 추가합니다.
+
   When the given name is non-blank, the handler delegates creation of the
   named hero to the hero service, and then adds the new hero to our !{_array}.
+
+  마침내, `HeroService` 클래스에 `create` 메소드를 구현했습니다.
 
   Finally, we implement the `create` method in the `HeroService` class.
 +makeExcerpt('app/hero.service.ts', 'create')
 
 :marked
+  브라우저를 새로고침하여 새로운 히어로를 생성해보세요!
+
   Refresh the browser and create some new heroes!
 
 .l-main-section
 :marked
+  ## 히어로 지우기
   ## Delete a hero
+
+  히어로가 너무 많나요?
+  히어로 뷰에서 각각의 히어로에 삭제 버튼을 추가하겠습니다.
 
   Too many heroes?
   Let's add a delete button to each hero in the heroes view.
+
+  히어로 컴포넌트 HTML에서 반복되는 `<li>` 태그의 히어로 이름 바로 옆에 이 버튼을 추가하세요.
 
   Add this button element to the heroes component HTML, right after the hero
   name in the repeated `<li>` tag:
@@ -331,63 +548,108 @@ block get-heroes-details
 +makeExcerpt('app/heroes.component.html', 'delete', '')
 
 :marked
+  `<li>` 엘리먼트는 다음과 같이 보여야 합니다:
+
   The `<li>` element should now look like this:
 
 +makeExcerpt('app/heroes.component.html', 'li-element')
 
 :marked
+  컴포넌트의 `delete` 메소드를 호출하는 것뿐만 아니라, 삭제 버튼의
+  클릭 핸들러 코드에서는 클릭 이벤트의 전파도 중단시킵니다. &mdash;
+  우리는 `<li>` 클릭 핸들러가 작동하기를 원하지는 않습니다.
+  왜냐하면 선택하려는 히어로가 삭제될 것이기 때문입니다!
+
   In addition to calling the component's `delete` method, the delete button
   click handling code stops the propagation of the click event &mdash; we
   don't want the `<li>` click handler to be triggered because that would
   select the hero that we are going to delete!
+
+  `delete` 핸들러의 논리는 약간 까다롭습니다:
 
   The logic of the `delete` handler is a bit trickier:
 
 +makeExcerpt('app/heroes.component.ts', 'delete')
 
 :marked
+  물론, 우리는 히어로 삭제를 히어로 서비스에 위임했습니다. 그러나
+  컴포넌트는 여전히 화면을 업데이트할 책임이 있습니다: 삭제된 히어로를
+  배열에서 제거하고 필요한 경우 선택된 히어로를 초기화해야 합니다.
+
   Of course, we delegate hero deletion to the hero service, but the component
   is still responsible for updating the display: it removes the deleted hero
   from the !{_array} and resets the selected hero if necessary.
 
 :marked
+  삭제 버튼은 히어로 엔트리의 맨 오른쪽에 배치하고 싶습니다.
+  다음 CSS를 추가하여 처리할 수 있습니다.
+
   We want our delete button to be placed at the far right of the hero entry.
   This extra CSS accomplishes that:
 
 +makeExcerpt('app/heroes.component.css', 'additions')
 
 :marked
+  ### 히어로 서비스의 `delete` 메소드
   ### Hero service `delete` method
+
+  히어로 서비스의 `delete` 메소드는 서버에서 히어로를 제거하기 위해 _delete_ HTTP 메소드를 사용합니다:
 
   The hero service's `delete` method uses the _delete_ HTTP method to remove the hero from the server:
 
 +makeExcerpt('app/hero.service.ts', 'delete')
 
 :marked
+  브라우저를 새로고침하여 새로운 삭제 기능을 사용해보세요.
+
   Refresh the browser and try the new delete functionality.
 
 #observables
+#observables
 :marked
+  ## !{_Observable}
   ## !{_Observable}s
 
 block observables-section-intro
   :marked
+    개별 `Http` 서비스 메소드는 HTTP `Response` 객체의 `Observable`을 반환합니다.
+
     Each `Http` service method  returns an `Observable` of HTTP `Response` objects.
+
+    `HeroService`는 이런 `Observable`을 `Promise`로 변환하여 호출자에게 promise로 반환했습니다.
+    이번 섹션에서 `Observable`을 바로 반환하는 법을 배우고 언제, 왜 이것이 좋은지 논의해보겠습니다.
 
     Our `HeroService` converts that `Observable` into a `Promise` and returns the promise to the caller.
     In this section we learn to return the `Observable` directly and discuss when and why that might be
     a good thing to do.
 
+    ### 배경
     ### Background
+
+    *observable*은 배열 같은 연산자로 처리할 수 있는 이벤트 스트림입니다.
+
     An *observable* is a stream of events that we can process with array-like operators.
+
+    Angular core는 observable에 대한 기본적인 지원을 합니다. 개발자는
+    <a href="http://reactivex.io/rxjs" target="_blank" title="RxJS">RxJS 라이브러리</a>의
+    연산자(operator)와 익스텐션(extension)을 통해 지원을 확대할 수 있습니다.
+    어떻게 하는지 곧 살펴보겠습니다.
 
     Angular core has basic support for observables. 
     We developers augment that support with operators and extensions from the
     <a href="http://reactivex.io/rxjs" target="_blank" title="RxJS">RxJS library</a>.
     We'll see how shortly.
 
+    `HeroService`는 `http.get`의 `Observable`결과를 `toPromise` 연산자에 바로 연결(chain)한 것을 떠올려보세요.
+    이 연산자는 `Observable`을 `Promise`로 변환하였고 우리는 그것을 다시 호출자에게 돌려주었습니다.
+
     Recall that our `HeroService` quickly chained the `toPromise` operator to the `Observable` result of `http.get`.
     That operator converted the `Observable` into a `Promise` and we passed that promise back to the caller.
+
+    promise로 변환하는 것은 종종 좋은 선택입니다. 일반적으로 `http.get`을 요청하여 단일 덩어리의 데이터를 가져옵니다.
+    데이터를 받으면 그것으로 일은 끝입니다.
+    promise 형식의 단일 결과는 호출하는 컴포넌트가 쉽게 사용할 수 있으며,
+    많은 JavaScript 개발자가 promise를 이해하는데 도움이 됩니다.
 
     Converting to a promise is often a good choice. We typically ask `http.get` to fetch a single chunk of data.
     When we receive the data, we're done.
@@ -395,57 +657,104 @@ block observables-section-intro
     and it helps that promises are widely understood by JavaScript programmers.
 
 :marked
+  그러나 요청이 항상 "한번에 끝"이 나는 것은 아닙니다.
+  첫번째 요청을 보내고, 서버에서 첫번째 요청에 대한 응답을 보내기 전에, 기존 요청을 취소하고 새로운 요청을 만듭니다. 
+  이러한 _요청-취소-신규요청_ 순서는 !{_Promise}로 구현하기가 어렵습니다.
+  곧 보실 것처럼 !{_Observable}로는 쉽습니다.
+
   But requests aren't always "one and done". We may start one request,
   then cancel it, and make a different request before the server has responded to the first request.
   Such a _request-cancel-new-request_ sequence is difficult to implement with *!{_Promise}s*.
   It's easy with *!{_Observable}s* as we'll see.
 
+  ### 이름으로 검색하기
   ### Search-by-name
+
+  Tour of Heroes에 *히어로 검색* 기능을 추가하겠습니다.
+  사용자가 검색상자에 이름을 입력하면, 해당 이름으로 히어로를 걸러내기 위해 반복적으로 HTTP 요청을 생성합니다.
+
   We're going to add a *hero search* feature to the Tour of Heroes.
   As the user types a name into a search box, we'll make repeated HTTP requests for heroes filtered by that name.
+
+  서버의 웹 api에 검색 쿼리를 전송할 `HeroSearchService`를 만드는 것으로 시작하겠습니다.
 
   We start by creating `HeroSearchService` that sends search queries to our server's web api.
 
 +makeExample('app/hero-search.service.ts')
 
 :marked
+  `HeroSearchService`의 `!{_priv}http.get()` 호출은 `HeroService`의 것과 비슷합니다.
+  하지만 이제 URL은 쿼리 문자열을 가지고 있습니다. 
+
   The `!{_priv}http.get()` call in `HeroSearchService` is similar to the one
   in the `HeroService`, although the URL now has a query string.
+
+  <span if-docs="ts">또 다른 눈에띄는 차이점은: 이제 더 이상 `toPromise`를 호출하지 않습니다.
+  대신에 `http.get`에서 *observable*을 반환하고,
+  그 뒤에 또 다른 RxJS 연산자인 map에 연결(chain)한 후,
+  히어로 데이터를 추출합니다.</span>
 
   <span if-docs="ts">A more important difference: we no longer call `toPromise`.
   Instead we return the *observable* from the the `htttp.get`, 
   after chaining it to another RxJS operator, <code>map</code>, 
   to extract heroes from the response data.
 
+  RxJS 연산자 연결은 응답 절차를 간단하고 읽기 쉽게 합니다.
+  [아래쪽의 연산자에 대한 토론](#rxjs-imports)을 보세요.
+
   RxJS operator chaining makes response processing easy and readable.
   See the [discuss below about operators](#rxjs-imports).
   </span>
 
   ### HeroSearchComponent
+  ### HeroSearchComponent
+
+  새로운 `HeroSearchService`를 호출하는 새로운 `HeroSearchComponent`를 만들겠습니다.
 
   Let's create a new `HeroSearchComponent` that calls this new `HeroSearchService`.
+
+  컴포넌트 템플릿은 간단합니다. &mdash; 그저 텍스트 상자와 일치하는 검색 결과의 목록입니다.
 
   The component template is simple &mdash; just a text box and a list of matching search results.
 
 +makeExample('app/hero-search.component.html')
 :marked
+  우리는 또한 새로운 컴포넌트에 스타일을 더하길 원하고 있습니다.
+
   We'll also want to add styles for the new component.
 +makeExample('app/hero-search.component.css')
 :marked
+  사용자가 검색 상자에 입력을 하면, *keyup* 이벤트 바인딩은
+  새로운 검색어와 함께 컴포넌트의 `search` 메소드를 호출합니다.
+
   As the user types in the search box, a *keyup* event binding calls the component's `search` method with the new search box value.
 
+  `*ngFor`는 컴포넌트의 `heroes` 프로퍼티로부터 *히어로* 객체를 반복합니다.
+  놀라울 것은 없습니다.
+
   The `*ngFor` repeats *hero* objects from the component's `heroes` property. No surprise there.
+
+  그러나, 곧 보게 될 것처럼, `heroes` 프로퍼티는 이제 단순히 히어로의 배열이 아니고
+  히어로의 *!{_Observable}* 배열입니다.
+  `*ngFor`는 `async` 파이프 (`AsyncPipe`)를 통과 할 때까지
+  `!{_Observable}`로 아무것도 할 수 없습니다.
+  `async` 파이프는 `!{_Observable}`을 구독(subscribe)하고 `*ngFor`를 위한 히어로 배열을 생산합니다.
 
   But, as we'll soon see, the `heroes` property is now !{_an} *!{_Observable}* of hero !{_array}s, rather than just a hero !{_array}.
   The `*ngFor` can't do anything with !{_an} `!{_Observable}` until we flow it through the `async` pipe (`AsyncPipe`).
   The `async` pipe subscribes to the `!{_Observable}` and produces the !{_array} of heroes to `*ngFor`.
+
+  `HeroSearchComponent` 클래스와 메타데이터를 만들 시간입니다.
 
   Time to create the `HeroSearchComponent` class and metadata.
 
 +makeExample('app/hero-search.component.ts')
 
 :marked
+  #### 검색어
   #### Search terms
+
+  `!{_priv}searchTerms`에 주목하세요:
 
   Let's focus on the `!{_priv}searchTerms`:
 
@@ -453,14 +762,25 @@ block observables-section-intro
 
 block search-criteria-intro
   :marked
+    `Subject`는 _observable_ 이벤트 스트림의 생산자입니다;
+    `searchTerms`는 이름 검색의 필터 기준인 문자열의 `Observable`을 생산합니다.
+
     A `Subject` is a producer of an _observable_ event stream;
     `searchTerms` produces an `Observable` of strings, the filter criteria for the name search.
+
+    각각의 `search` 호출은 subject의 _observable_ 스트림에 `next`를 호출하여
+    새로운 문자열을 넣습니다.
 
     Each call to `search` puts a new string into this subject's _observable_ stream by calling `next`.
 
 :marked
   <a id="ngoninit"></a>
+  #### _**heroes**_ 프로퍼티 초기화 (_**ngOnInit**_)
   #### Initialize the _**heroes**_ property (_**ngOnInit**_)
+
+  <span if-docs="ts">`Subject`는 또한 `Observable`입니다.</span>
+  우리는 검색어 스트림을 `Hero` 배열의 스트림으로 변경하고
+  결과를 `heroes` 프로퍼티에 할당할 것입니다.
 
   <span if-docs="ts">A `Subject` is also an `Observable`.</span>
   We're going to turn the stream
@@ -469,52 +789,99 @@ block search-criteria-intro
 +makeExcerpt('app/hero-search.component.ts', 'search', '')
 
 :marked
+  만약 모든 사용자 키입력을 직접 `HeroSearchService`에 전달한다면,
+  엄청난 HTTP 요청을 불러 일으킬 것입니다.
+  나쁜 생각이군요. 우리는 서버 자원에 부담을 주고 휴대폰 데이터를 불태워 소모하고 싶지 않습니다.
+
   If we passed every user keystroke directly to the `HeroSearchService`, we'd unleash a storm of HTTP requests.
   Bad idea. We don't want to tax our server resources and burn through our cellular network data plan.
 
 block observable-transformers
   :marked
+    다행히도, `Observable` 연산자는 요청을 줄여주는 문자열 `Observable`로 연결시킬 수 있습니다.
+    우리는 `HeroSearchService` 호출은 더 적게하면서 여전히 시기적절한 결과를 받을 수 있습니다.
+    방법은 다음과 같습니다:
+
     Fortunately, we can chain `Observable` operators to the string `Observable` that reduce the request flow.
     We'll make fewer calls to the `HeroSearchService` and still get timely results. Here's how:
+
+    * `debounceTime(300)`는 새로운 문자열 이벤트의 흐름이 300ms 동안 일시정지 할 때까지
+    기다린 후 최신 문자열을 전달합니다. 우리는 300ms 보다 더 빠르게 요청을 만들 수가 없습니다.
 
     * `debounceTime(300)` waits until the flow of new string events pauses for 300 milliseconds
     before passing along the latest string. We'll never make requests more frequently than 300ms.
 
+    * `distinctUntilChanged`는 오직 필터 텍스트가 변경된 경우에만 요청을 보내는 것을 보장합니다.
+    같은 검색어로 요청을 반복하는 것은 아무런 소용이 없습니다.
+
     * `distinctUntilChanged` ensures that we only send a request if the filter text changed.
     There's no point in repeating a request for the same search term.
+
+    * `switchMap`은 `debounce`와 `distinctUntilChanged`를 통과한 각각의 검색어로 검색 서비스를 호출합니다.
+    이것은 앞선 검색 observable을 취소하고, 폐기하고, 오직 최종 검색 서비스 observable만 반환합니다.
 
     * `switchMap` calls our search service for each search term that makes it through the `debounce` and `distinctUntilChanged` gauntlet.
     It cancels and discards previous search observables, returning only the latest search service observable.
 
   .l-sub-section
     :marked
+      [switchMap 연산자]
+      (http://www.learnrxjs.io/operators/transformation/switchmap.html)
+      (종전 "flatMapLatest")는 매우 영리합니다.
+
       The [switchMap operator](http://www.learnrxjs.io/operators/transformation/switchmap.html)
       (formerly known as "flatMapLatest") is very clever.
+
+      모든 기준을 통과한 키 이벤트는 `http` 메소드 콜을 트리거합니다.
+      요청 사이에 300ms의 일시정지가 있더라도, 진행중인 여러 HTTP 요청이 있을 수 있으며
+      전송 순서대로 반환되지 않을 수 있습니다.
 
       Every qualifying key event can trigger an `http` method call.
       Even with a 300ms pause between requests, we could have multiple HTTP requests in flight
       and they may not return in the order sent.
 
+      `switchMap`는 가장 최근 `http` 메소드 호출의 observable만 반환하면서
+      원래의 요청 순서를 유지합니다.
+      앞선 호출의 결과는 취소되고 폐기됩니다.
+
       `switchMap` preserves the original request order while returning
        only the observable from the most recent `http` method call.
       Results from prior calls are canceled and discarded.
 
+      또한 검색 텍스트가 비어 있는 경우 `http` 메소드 호출을 단락(short-circuit)하고 빈 배열을 가진 observable을 반환합니다.
+
       We also short-circuit the `http` method call and return an observable containing an empty array
       if the search text is empty.
+
+      `HeroSearchService` observable을 _취소_하는 것이 지연된 HTTP 요청을 실제로 취소하지는 않는 다는 것에 유의하세요.
+      서비스가 해당 기능을 지원할 때까지는 또 다른 날의 주제입니다.
+      지금은 원하지 않는 결과를 폐기하는 것에 만족합니다.
 
       Note that _canceling_ the `HeroSearchService` observable won't actually abort a pending HTTP request
       until the service supports that feature, a topic for another day.
       We are content for now to discard unwanted results.
   :marked
+    * `catch`는 실패한 observable을 가로챕니다.
+    우리의 간단한 예제에서는 에러를 콘솔창에 출력합니다; 실제 애플리케이션에서는 보다 신경을 써야합니다.
+    그 다음 검색 결과를 지우기 위해 빈 배열을 가진 observable을 반환합니다.
+
     * `catch` intercepts a failed observable.
     Our simple example prints the error to the console; a real life application should do better.
     Then we return an observable containing an empty array to clear the search result.
 
   a#rxjs-imports
   :marked
+    ### RxJS 연산자 임포트
     ### Import RxJS operators
+
+    대부분의 RxJS 연산자는 Angular의 `Observable` 구현에 포함되어 있지 않습니다.
+    기본 구현에는 오직 Angular 자체에 필요한 것만 포함되어 있습니다.
+
     Most RxJS operators are not included in Angular's base `Observable` implementation.
     The base implementation includes only what Angular itself requires.
+
+    만약 RxJS 기능을 원하는 경우, 그것들이 선언된 라이브러리를 *임포트*하여 `Observable`을 확장해야 합니다.
+    _이번_ 컴포넌트에 필요한 모든 RxJS 임포트는 다음과 같습니다:
 
     If we want more RxJS features, we have to extend  `Observable` by *importing* the libraries in which they are defined.
     Here are all the RxJS imports _this_ component needs:
@@ -522,15 +889,26 @@ block observable-transformers
   +makeExample('app/hero-search.component.ts','rxjs-imports','app/hero-search.component.ts (rxjs imports)')(format='.')
 
   :marked
+    `import 'rxjs/add/...'` 구문은 익숙하지 않을 것입니다.
+    `{...}` 괄호 사이에 일반적인 기호(symbol) 리스트가 없습니다.
+
     The `import 'rxjs/add/...'` syntax may be unfamiliar.
     It's missing the usual list of symbols between the braces: `{...}`.
+
+    우리는 연산자 기호(symbol) 자체가 필요하지 않습니다.
+    각각의 경우, 라이브러리를 임포트하는 단순한 작업만으로
+    라이브러리의 스크립트 파일을 로드하고 실행하며,
+    결과적으로 `Observable` 클래스에 연산자를 추가합니다.
     
     We don't need the operator symbols themselves. 
     In each case, the mere act of importing the library
     loads and executes the library's script file which, in turn, adds the operator to the `Observable` class.
 
 :marked
+  ### 대시보드에 검색 컴포넌트 추가하기
   ### Add the search component to the dashboard
+
+  `DashboardComponent` 템플릿 하단에 히어로 검색 HTML 엘리먼트를 추가하겠습니다.
 
   We add the hero search HTML element to the bottom of the `DashboardComponent` template.
 
@@ -539,6 +917,9 @@ block observable-transformers
 - var _declarations = _docsFor == 'dart' ? 'directives' : 'declarations'
 - var declFile = _docsFor == 'dart' ? 'app/dashboard.component.ts' : 'app/app.module.ts'
 :marked
+  마침내 <span ngio-ex>hero-search.component.ts</span>에서
+  `HeroSearchComponent`를 임포트하고 `declarations`에 추가했습니다.
+
   Finally, we import `HeroSearchComponent` from
   <span ngio-ex>hero-search.component.ts</span>
   and add it to the `!{_declarations}` !{_array}:
@@ -546,6 +927,9 @@ block observable-transformers
 +makeExcerpt(declFile, 'search')
 
 :marked
+  앱을 다시 실행하고, *대시보드*로 이동하여 검색 상자에 임의의 텍스트를 입력하세요.
+  어느 시점에서 보면 다음과 같이 보일것입니다.
+
   Run the app again, go to the *Dashboard*, and enter some text in the search box.
   At some point it might look like this.
 
@@ -554,7 +938,11 @@ figure.image-display
 
 .l-main-section
 :marked
+  ## 애플리케이션 구조와 코드
   ## Application structure and code
+
+  이 챕터의 <live-example></live-example> 에서 샘플 소스 코드를 살펴보세요.
+  다음 구조를 가지고 있는지 확인하세요.
 
   Review the sample source code in the <live-example></live-example> for this chapter.
   Verify that we have the following structure:
@@ -595,15 +983,38 @@ block filetree
 
 .l-main-section
 :marked
+  ## 마무리
   ## Home Stretch
 
+  이제 여행의 막바지에 다다랐지만, 우리는 많은 성과를 거두었습니다.    
+
   We are at the end of our journey for now, but we have accomplished a lot.
+
+  - 애플리케이션에서 HTTP를 사용하기 위해 필요한 종속성을 추가했습니다.
+  
   - We added the necessary dependencies to use HTTP in our application.
+
+  - `HeroService`가 웹 API에서 히어로를 로드할 수 있도록 리팩토링했습니다.
+  
   - We refactored `HeroService` to load heroes from a web API.
+
+  - `HeroService`가 post, put, delete 메소드를 지원하도록 확장했습니다.
+  
   - We extended `HeroService` to support post, put and delete methods.
+
+  - 컴포넌트가 히어로를 추가, 수정, 삭제할 수 있도록 업데이트했습니다.
+  
   - We updated our components to allow adding, editing and deleting of heroes.
+
+  - in-memory 웹 API를 설정했습니다.
+  
   - We configured an in-memory web API.
+
+  - !{_Observable}을 어떻게 사용하는지 배웠습니다.
+  
   - We learned how to use !{_Observable}s.
+
+  이번 챕터에서 _추가하거나 변경_한 파일 목록은 다음과 같습니다.
 
   Here are the files we _added or changed_ in this chapter.
 
@@ -644,7 +1055,11 @@ block file-summary
 
 .l-sub-section
   :marked
+    ### 다음 단계
     ### Next Step
+
+    [학습 경로](../guide/learning-angular.html#architecture)로 돌아와서
+    이번 튜토리얼에서 발견한 개념과 사례에 대해서 읽을 수 있습니다.
 
     Return to the [learning path](../guide/learning-angular.html#architecture) where 
     you can read about the concepts and practices you discovered in this tutorial.
