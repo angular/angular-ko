@@ -357,6 +357,9 @@ block get-heroes-details
 
   ### id로 히어로 가져오기
   ### Get hero by id
+  `HeroDetailComponent`는 `HeroService`에 편집할 한개의 히어로를 가져옵니다.
+
+  The `HeroDetailComponent` asks the `HeroService` to fetch a single hero to edit.
 
   현재 `HeroService`는 모든 히어로를 가져온 다음에 `id`에 일치하는 것을 필터링하여 원하는 히어로를 찾습니다.
   시뮬레이션 중에는 괜찮습니다. 오직 한개를 원할 때 _모든_ 히어로를 실제 서버에 요청하는 것은 낭비입니다.
@@ -394,7 +397,7 @@ block get-heroes-details
   여전히 !{_Promise}를 반환합니다.
   `getHeroes()`를 호출하는 어떤 컴포넌트도 수정하지 않아도 됩니다.
 
-  Although we made significant *internal* changes to `getHeroes()` and `getHero()`,
+  Although we made significant *internal* changes to `getHeroes()` and `getHero()`, 
   the public signatures did not change.
   We still return a !{_Promise} from both methods. 
   We won't have to update any of the components that call them.
@@ -634,7 +637,7 @@ block observables-section-intro
     연산자(operator)와 익스텐션(extension)을 통해 지원을 확대할 수 있습니다.
     어떻게 하는지 곧 살펴보겠습니다.
 
-    Angular core has basic support for observables.
+    Angular core has basic support for observables. 
     We developers augment that support with operators and extensions from the
     <a href="http://reactivex.io/rxjs" target="_blank" title="RxJS">RxJS library</a>.
     We'll see how shortly.
@@ -898,8 +901,8 @@ block observable-transformers
     각각의 경우, 라이브러리를 임포트하는 단순한 작업만으로
     라이브러리의 스크립트 파일을 로드하고 실행하며,
     결과적으로 `Observable` 클래스에 연산자를 추가합니다.
-
-    We don't need the operator symbols themselves.
+    
+    We don't need the operator symbols themselves. 
     In each case, the mere act of importing the library
     loads and executes the library's script file which, in turn, adds the operator to the `Observable` class.
 
@@ -1060,5 +1063,5 @@ block file-summary
     [학습 경로](../guide/learning-angular.html#architecture)로 돌아와서
     이번 튜토리얼에서 발견한 개념과 사례에 대해서 읽을 수 있습니다.
 
-    Return to the [learning path](../guide/learning-angular.html#architecture) where
+    Return to the [learning path](../guide/learning-angular.html#architecture) where 
     you can read about the concepts and practices you discovered in this tutorial.
