@@ -143,7 +143,7 @@ block http-providers
   We're going to *trick* the HTTP client into fetching and saving data from
   a mock service, the *in-memory web API*.
   <span if-docs="dart"> The application itself doesn't need to know and
-  shouldn't know about this. So we'll slip the in-memory web API into the
+  shouldn't know about this.  So we'll slip the in-memory web API into the
   configuration *above* the `AppComponent`.</span>
 
 
@@ -358,10 +358,6 @@ block get-heroes-details
   ### id로 히어로 가져오기
   ### Get hero by id
 
-  `HeroDetailComponent`는 `HeroService`에 편집 할 영웅 하나를 가져오도록 요청합니다.
-
-  The `HeroDetailComponent` asks the `HeroService` to fetch a single hero to edit.
-
   현재 `HeroService`는 모든 히어로를 가져온 다음에 `id`에 일치하는 것을 필터링하여 원하는 히어로를 찾습니다.
   시뮬레이션 중에는 괜찮습니다. 오직 한개를 원할 때 _모든_ 히어로를 실제 서버에 요청하는 것은 낭비입니다.
   대부분의 웹 API는 `api/hero/:id` 형태로 _아이디로 가져오기(get-by-id)_를 지원합니다.
@@ -400,7 +396,7 @@ block get-heroes-details
 
   Although we made significant *internal* changes to `getHeroes()` and `getHero()`,
   the public signatures did not change.
-  We still return a !{_Promise} from both methods.
+  We still return a !{_Promise} from both methods. 
   We won't have to update any of the components that call them.
 
   우리의 이해관계자들은 현재까지의 API 통합에 대해 감격하고 있습니다.
