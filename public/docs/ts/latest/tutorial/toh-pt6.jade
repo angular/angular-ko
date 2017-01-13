@@ -365,7 +365,7 @@ block get-heroes-details
   시뮬레이션 중에는 괜찮습니다. 오직 한개를 원할 때 _모든_ 히어로를 실제 서버에 요청하는 것은 낭비입니다.
   대부분의 웹 API는 `api/hero/:id` 형태로 _아이디로 가져오기(get-by-id)_를 지원합니다.
 
-  The `HeroService` currently fetches all heroes and then finds the desired hero
+  The `HeroService` currently fetches all heroes and then finds the desired hero 
   by filtering for the one with the matching `id`.
   That's fine in a simulation. It's wasteful to ask a real server for _all_ heroes when we only want one.
   Most web APIs support a _get-by-id_ request in the form `api/hero/:id` (e.g., `api/hero/11`).
@@ -381,7 +381,7 @@ block get-heroes-details
   URL은 히어로 id를 `api/hero/:id` 형태에 일치하는 URL로 인코딩하여,
   서버가 어떤 히어로를 업데이트해야 하는지 식별합니다.
 
-  It's almost the same as `getHeroes`.
+  It's almost the same as `getHeroes`. 
   The URL identifies _which_ hero the server should update by encoding the hero id into the URL
   to match the `api/hero/:id` pattern.
 
@@ -694,9 +694,9 @@ block observables-section-intro
   <span if-docs="ts">또 다른 눈에띄는 차이점은: 이제 더 이상 `toPromise`를 호출하지 않습니다.
   대신에 `http.get`에서 *observable*을 반환하고,
   그 뒤에 또 다른 RxJS 연산자인 map에 연결(chain)한 후,
-  히어로 데이터를 추출합니다.
+  히어로 데이터를 추출합니다.</span>
 
-  A more important difference: we no longer call `toPromise`.
+  <span if-docs="ts">A more important difference: we no longer call `toPromise`.
   Instead we return the *observable* from the the `htttp.get`,
   after chaining it to another RxJS operator, <code>map</code>,
   to extract heroes from the response data.
