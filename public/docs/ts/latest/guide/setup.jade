@@ -1,7 +1,9 @@
 block includes
   include ../_util-fns
   - var _prereq = 'node and npm';
+  - var _prereq_ko = 'node 와 npm';
   - var _playground = 'playground';
+  - var _playground_ko = '놀이터';
   - var _Install = 'Install';
   //- npm commands
   - var _install = 'install';
@@ -9,33 +11,62 @@ block includes
 
 a#develop-locally
 :marked
+  ## 로컬 개발 환경 셋팅
   ## Setup a local development environment
 
   <span if-docs="ts">
+  <live-example name=quickstart>빠른시작 라이브-코딩</live-example>은 Angular _놀이터_입니다.
+  그곳에서 실제 개발을 하는 것은 아닙니다.
+  여러분은 [로컬에서 개발해보야만](#why-locally "Why develop locally") 합니다.
+  그리고 그것이 또한 Angular를 배우는 방법이라고 생각합니다.
+
   The <live-example name=quickstart>QuickStart live-coding</live-example> example is an Angular _playground_.
   It's not where you'd develop a real application. 
   You [should develop locally](#why-locally "Why develop locally") on your own machine ... and that's also how we think you should learn Angular.
   </span>
+
+  여러분의 머신에서 새로운 프로젝트를 설정하는 것은 [github](!{_qsRepo} "Install the github QuickStart repo")
+  에서 관리하는 **빠른시작 시드**를 통해 빠르고 쉽게 할 수 있습니다.
 
   Setting up a new project on your machine is quick and easy with the **QuickStart seed**,
   maintained [on github](!{_qsRepo} "Install the github QuickStart repo"). 
 
 .l-sub-section
   :marked
+    <live-example title="QuickStart Seed in Plunker">빠른시작 시드 라이브 예제</live-example>는
+    빠른시작에 예제를 보다 풍부하게 해주는 `app.module.ts`와 `main.ts` 애플리케이션 파일([아래에서 설명](#app-files "QuickStart application files"))을 _추가_합니다.
+
     The <live-example title="QuickStart Seed in Plunker">QuickStart seed live-example</live-example> is QuickStart
     _plus_ the `app.module.ts` and `main.ts` application files ([described below](#app-files "QuickStart application files")) that facilitate richer application examples.
 
 :marked
+  [!{_prereq_ko}이 설치](#install-prerequisites "What if you don't have !{_prereq}?")되어 있는지 확인하십시오. 그리고 ...
+
   Make sure you have [!{_prereq} installed](#install-prerequisites "What if you don't have !{_prereq}?").
   Then ...
+
+  1. 프로젝트 폴더를 생성합니다. (`quickstart`라 한 다음 나중에 이름을 바꿀 수 있습니다.)
+
   1. Create a project folder (you can call it `quickstart` and rename it later).
+
+  1. **빠른시작 시드**를 프로젝트 폴더에 [복제](#clone "Clone it from github") 또는 [다운로드](#download "download it from github")합니다.
+
   1. [Clone](#clone "Clone it from github") or [download](#download "download it from github") the **QuickStart seed** into your project folder.
+
+  1. [!{_npm}](#install-prerequisites "What if you don't have !{_prereq}?")을 설치합니다.
+
   1. !{_Install} [!{_npm}](#install-prerequisites "What if you don't have !{_prereq}?") packages.
+
+  1. 샘플 애플리케이션을 시작하기 위해 `!{_npm} !{_start}`를 실행하세요.
+
   1. Run `!{_npm} !{_start}` to launch the sample application.
 
 a#clone
 :marked
+  ### 복제
   ### Clone
+
+  터미널 명령을 사용해 _복제부터 실행까지(clone-to-launch)_ 단계를 수행하세요.
 
   Perform the _clone-to-launch_ steps with these terminal commands.
 
@@ -47,11 +78,17 @@ code-example(language="sh" class="code-shell").
 
 .alert.is-important
   :marked
+    2017년 1월 현재 네트워킹이 지원되지 않는 _윈도우 Bash_에서는 `npm start`가 실패합니다.
+
     `npm start` fails in _Bash for Windows_ which does not support networking to servers as of January, 2017.
 
 a#download
 :marked
+  ### 다운로드
   ### Download
+
+  <a href="!{_qsRepoZip}" title="Download the QuickStart seed repository">빠른시작 시드를  다운로드</a>하고 프로젝트 폴더에 압축을 풀고, 다음 터미널 명령을 사용해 나머지 단계를 수행하세요.
+
   <a href="!{_qsRepoZip}" title="Download the QuickStart seed repository">Download the QuickStart seed</a>
   and unzip it into your project folder. Then perform the remaining steps with these terminal commands.
 
@@ -62,23 +99,34 @@ code-example(language="sh" class="code-shell").
 
 .alert.is-important
   :marked
+    2017년 1월 현재 네트워킹이 지원되지 않는 _윈도우 Bash_에서는 `npm start`가 실패합니다.
+
     `npm start` fails in _Bash for Windows_ which does not support networking to servers as of January, 2017.
 
 a#non-essential
 .l-main-section
 :marked
+  ## _중요하지 않은_ 파일 삭제 (옵션)
   ## Delete _non-essential_ files (optional)
+
+  테스트와 QuickStart 저장소 유지에 필요한 _중요하지 않은_ 파일들은 삭제해도 됩니다.
+  (`.git` 폴더나 `.gitignore`같은 ***모든 git 관련 생산물 포함***)
 
   You can quickly delete the _non-essential_ files that concern testing and QuickStart repository maintenance
   (***including all git-related artifacts*** such as the `.git` folder and `.gitignore`!).
   
 .alert.is-important
   :marked
+     실수로 직접 만든 테스트나 git 셋업을 삭제하지 않도록 하기 위해 초기 단계에서만 하세요!
+
      Do this only in the beginning to avoid accidentally deleting your own tests and git setup!
 
 :marked
+  프로젝트 폴더에서 터미널 창을 열고 여러분의 환경에 맞는 다음 커맨드를 입력하세요:
+
   Open a terminal window in the project folder and enter the following commands for your environment:
 
+  ### OX/X (bash)
   ### OS/X (bash)
 code-example(language="sh" class="code-shell").
   xargs -a non-essential-files.txt rm -rf
@@ -86,6 +134,7 @@ code-example(language="sh" class="code-shell").
   rm non-essential-files.txt
 
 :marked
+  ### 윈도우
   ### Windows
 code-example(language="sh" class="code-shell").
     for /f %i in (non-essential-files.txt) do del %i /F /S /Q
@@ -95,10 +144,16 @@ code-example(language="sh" class="code-shell").
 a#seed
 .l-main-section
 :marked
+  ## 빠른시작 시드에는 무엇이 있나요?  
   ## What's in the QuickStart seed?
 
 block qs-seed
   :marked
+    **빠른시작 시드**는 빠른시작 놀이터와 동일한 애플리케이션이 포함되어 있습니다.
+    그러나 이것의 진짜 목적은 _로컬_ 개발을 위한 견고한 기반을 제공하는 것입니다.
+    결과적으로, 프로젝트 폴더에는 대부분 [나중에 배우게 될](setup-systemjs-anatomy.html "Setup Anatomy")
+    _더 많은 파일_이 있습니다.
+
     The **QuickStart seed** contains the same application as the QuickStart playground.
     But its true purpose is to provide a solid foundation for _local_ development.
     Consequently, there are _many more files_ in the project folder on your machine, 
@@ -107,6 +162,8 @@ block qs-seed
 block core-files
   a#app-files
   :marked
+    **`/app`** 폴더에 있는 다음 3개의 TypeScript (`.ts`) 파일에 주목하세요.
+
     Focus on the following three TypeScript (`.ts`) files in the **`/app`** folder.
 
   .filetree
@@ -127,6 +184,9 @@ block core-files
     `)(format='.')
 
 :marked
+  모든 가이드와 해설서는 _최소 3개의 코어 파일_이 있습니다. 각 파일은 고유한 목적을 가지고 있으며
+  애플리케이션이 커짐에 따라 독립적으로 진화합니다.
+
   All guides and cookbooks have _at least these core files_. Each file has a distinct purpose and evolves independently as the application grows.
 
 style td, th {vertical-align: top}
@@ -140,6 +200,9 @@ table(width="100%")
     td <ngio-ex>app.component.ts</ngio-ex>
     td
       :marked
+        빠른시작 !{_playground_ko}에서처럼 같은 `AppComponent`를 정의합니다.
+        이것은 애플리케이션이 진화하면서 생기는 중첩된 컴포넌트 트리의 최상위 컴포넌트입니다.
+
         Defines the same `AppComponent` as the one in the QuickStart !{_playground}.
         It is the **root** component of what will become a tree of nested components
         as the application evolves. 
@@ -147,6 +210,9 @@ table(width="100%")
     td <code>app.module.ts</code>
     td
       :marked
+        [최상위 모듈](appmodule.html "AppModule: the root module")인 `AppModule`을 정의합니다.
+        `AppModule`은 Angular에게 애플리케이션을 어떻게 조립하는지 알려줍니다.
+
         Defines `AppModule`, the [root module](appmodule.html "AppModule: the root module") that tells Angular how to assemble the application.
         Right now it declares only the `AppComponent`. 
         Soon there will be more components to declare. 
@@ -154,6 +220,11 @@ table(width="100%")
     td <ngio-ex>main.ts</ngio-ex>
     td
       :marked
+        [실시간(JIT) 컴파일러](../glossary.html#jit)로 애플리케이션을 컴파일하고
+        브라우저에서 실행할 수 있도록 애플리케이션을 [시작(bootstrap)](appmodule.html#main "bootstrap the application")합니다.
+        이것은 대부분의 프로젝트 개발 중에 합리적인 선택이고
+        Plunker 같은 _라이브-코딩_ 환경에서 샘플을 실행할 경우 실행 가능한 유일한 선택지입니다.
+
         Compiles the application with the [JIT compiler](../glossary.html#jit)
         and [bootstraps](appmodule.html#main "bootstrap the application") the application to run in the browser.
         That's a reasonable choice for the development of most projects and
@@ -162,7 +233,10 @@ table(width="100%")
 
 .l-sub-section
   :marked
+    ### 다음 단계
     ### Next Step
+
+    만약 Angular가 처음이라면, [학습 경로](learning-angular.html "Angular learning path")을 계속 해보시기를 권장합니다.
 
     If you're new to Angular, we recommend staying on the [learning path](learning-angular.html "Angular learning path").
 
@@ -172,19 +246,35 @@ br
 a#install-prerequisites
 .l-main-section
 :marked
+  ## 부록: !{_prereq_ko}
   ## Appendix: !{_prereq}
 block install-tooling
   :marked
+    Node.js 와 npm은 Angular 및 다른 플랫폼을 사용하는 모던 웹 개발에서 필수적입니다.
+    node는 클라이언트 개발 및 빌드 도구를 지원합니다.
+    그 자체도 _node_ 애플리케이션인 _npm_ 패키지 매니저는 JavaScript 라이브러리를 설치합니다.
+
     Node.js and npm are essential to modern web development with Angular and other platforms.
     Node powers client development and build tools.
     The _npm_ package manager, itself a _node_ application, installs JavaScript libraries.
     
+    아직 설치하지 않았다면 <a href="https://docs.npmjs.com/getting-started/installing-node" target="_blank" title="Installing Node.js and updating npm">
+    지금 설치하세요.</a>
+
     <a href="https://docs.npmjs.com/getting-started/installing-node" target="_blank" title="Installing Node.js and updating npm">
     Get them now</a> if they're not already installed on your machine.
  
+    터미널/콘솔 창에서 `node -v`, `npm -v` 커맨드를 실행하여 **node `v4.x.x`이상, npm `3.x.x`이상**인 것을 확인하세요.
+    예전 버전은 에러가 발생합니다.
+
     **Verify that you are running node `v4.x.x` or higher and npm `3.x.x` or higher**
     by running the commands `node -v` and `npm -v` in a terminal/console window.
     Older versions produce errors.
+
+    여러 node와 npm 버전을 사용하려면 [nvm](https://github.com/creationix/nvm)을
+    추천합니다.
+    이미 예전 버전의 node와 npm을 사용하는 프로젝트가 머신에서 구동중인 경우
+    [nvm](https://github.com/creationix/nvm)가 필요할 것입니다.
 
     We recommend [nvm](https://github.com/creationix/nvm) for managing multiple versions of node and npm. 
     You may need [nvm](https://github.com/creationix/nvm) if you already have projects running on your machine that 
@@ -194,23 +284,52 @@ block install-tooling
   a#why-locally
   .l-main-section
   :marked
+    ## 부록: 왜 로컬에서 개발하는가
     ## Appendix: Why develop locally
+
+    브라우저에서 <live-example title="QuickStart Seed in Plunker">라이브 코딩</live-example>을 하는 것은 Angular를 살펴보는 굉장한 방법입니다.
 
     <live-example title="QuickStart Seed in Plunker">Live coding</live-example> in the browser is a great way to explore Angular.
 
+    거의 모든 문서 페이지의 링크를 통해, 브라우저에서 완전한 샘플을 열어볼 수 있습니다.
+    샘플 코드 놀이를 해볼 수도 있고, 친구와 변경사항을 공유할 수도 있고, 다운로드 받아서
+    머신에서 코드를 실행할 수도 있습니다.
+
     Links on almost every documentation page open completed samples in the browser.
     You can play with the sample code, share your changes with friends, and download and run the code on your own machine.
+
+    [빠른시작](../quickstart.html "Angular QuickStart Playground")은 `AppComponent` 파일만 보여줍니다.
+    이것은 _놀이터만을 위해_ 내부적으로 `app.module.ts`와 `main.ts`에 해당하는 것을 만들기 때문에,
+    독자는 방해받지 않고 Angular에 대해 알아볼 수 있습니다.
+    다른 샘플은 빠른시작 시드에 기반합니다.
 
     The [QuickStart](../quickstart.html "Angular QuickStart Playground") shows just the `AppComponent` file.
     It creates the equivalent of `app.module.ts` and `main.ts` internally _for the playground only_.
     so the reader can discover Angular without distraction.
     The other samples are based on the QuickStart seed. 
 
+    이것은 재미있습니다. 하지만 ...
+
     As much fun as this is ...
-    * you can't ship your app in plunker
-    * you aren't always online when writing code
-    * transpiling TypeScript in the browser is slow
-    * the type support, refactoring, and code completion only work in your local IDE
+
+    * 여러분의 앱을 plunker에 배포할 수 없습니다.
+
+      you can't ship your app in plunker
+
+    * 코드를 작성할 때 항상 온라인일 수는 없습니다.
+
+      you aren't always online when writing code   
+
+    * 브라우저에서 TypeScript를 트랜스파일링 하는 것은 느립니다.
+
+      transpiling TypeScript in the browser is slow
+
+    * 타입 지원, 리팩토링, 코드 자동완성은 오직 로컬 IDE에서만 사용 가능합니다.
+    
+      the type support, refactoring, and code completion only work in your local IDE
+
+    문서의 샘플을 실행해보고 여러분만의 실험을 하기 위한 _놀이터_로 <live-example title="QuickStart Seed in Plunker"><i>라이브 코딩</i></live-example> 환경을 사용하세요.
+    이것은 <a href="https://github.com/angular/angular.io/issues/new" target="_blank" title="File a documentation issue">문서 이슈를 제기</a>하거나 <a href="https://github.com/angular/angular/issues/new" target="_blank" title="File an Angular issue">Angular 자체의 이슈를 제기</a>하려고 할 때 버그를 재생산하기 위한 최적의 장소입니다.
 
     Use the <live-example title="QuickStart Seed in Plunker"><i>live coding</i></live-example> environment as a _playground_, 
     a place to try the documentation samples and experiment on your own.
@@ -218,4 +337,6 @@ block install-tooling
     <a href="https://github.com/angular/angular.io/issues/new" target="_blank" title="File a documentation issue">file a documentation issue</a> or
     <a href="https://github.com/angular/angular/issues/new" target="_blank" title="File an Angular issue">file an issue with Angular itself</a>.
   
+    실제 개발에서는 [로컬에서 개발하기](#develop-locally)를 강력히 권유합니다.
+
     For real development, we strongly recommend [developing locally](#develop-locally).
