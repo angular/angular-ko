@@ -165,7 +165,7 @@
 
   "setup-systemjs-anatomy": {
     "title": "설정 구조",
-    "intro": "SystemJS의 로컬 개발 환경",
+    "intro": "SystemJS의 로컬 개발 환경"
   },
 
   "structural-directives": {
@@ -175,12 +175,12 @@
 
   "testing": {
     "title": "테스트",
-    "intro": "Angular 앱을 테스트하기 위한 기법과 절차",
+    "intro": "Angular 앱을 테스트하기 위한 기법과 절차"
   },
 
   "typescript-configuration": {
     "title": "TypeScript 설정",
-    "intro": "Angular 개발자를 위한 TypeScript 설정",
+    "intro": "Angular 개발자를 위한 TypeScript 설정"
   },
 
   "upgrade": {
@@ -190,6 +190,6 @@
 
   "webpack": {
     "title": "Webpack: 소개",
-    "intro": "Webpack 기반 도구로 Angular 애플리케이션 만들기",
+    "intro": "Webpack 기반 도구로 Angular 애플리케이션 만들기"
   }
 }
