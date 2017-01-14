@@ -12,10 +12,17 @@ block includes
 
 
 :marked
+  이 페이지는 개괄적으로 Angular 문서를 설명합니다.
+  Angular가 처음이라면, "[Angular 배우기](learning-angular.html)"를 먼저 방문하세요.
+
   This page describes the Angular documentation at a high level.
   If you're new to Angular, you may want to visit "[Learning Angular](learning-angular.html)" first.
 
+  ## 주제
   ## Themes
+
+  문서는 주요 주제 섹션으로 나누어져 있으며, 
+  각 주제별로 페이지 모음이 있습니다.
 
   The documentation is divided into major thematic sections, each
   a collection of pages devoted to that theme.
@@ -27,49 +34,86 @@ table(width="100%")
   col(width="15%")
   col
   tr(style=top)
-    td <b><a href="../quickstart.html">QuickStart</a></b>
+    td
+      p <b><a href="../quickstart.html">빠른시작</a></b>
+      p <b><a href="../quickstart.html">QuickStart</a></b>
     td
       :marked
+        Angular 처음 맛보기. <span if-docs="ts">온라인 코드 편집기에서
+        "Hello World"를 실행하고 라이브 코드를 다루는 경험을 시작하세요.</span>.
+        
         A first taste of Angular<span if-docs="ts"> with zero installation. 
         Run "Hello World" in an online code editor and start playing with live code</span>.
   tr(style=top)
-    td <b>Guide</b>
+    td
+      p <b><a href="./">가이드</a></b>
+      p <b><a href="./">Guide</a></b>
     td
       :marked
+        로컬 개발환경을 셋팅하고, 데이터를 표시하고 사용자 입력을 받고, 컴포넌트에 애플리케이션 서비스를 주입하고,
+        간단한 폼을 만드는 등 Angular의 기본을 배웁니다. (벌써 여기까지 왔습니다!) 
+
         Learn the Angular basics (you're already here!) like the setup for local development,
         displaying data and accepting user input, injecting application services into components,
         and building simple forms.
   tr(style=top)
-    td <b><a href="../api/">API Reference</a></b>
+    td
+      p <b><a href="../api/">API 참조설명</a></b>
+      p <b><a href="../api/">API Reference</a></b>
     td
       :marked
+        각각의 Angular 라이브러리에 대한 권위있는 상세설명.
+
         Authoritative details about each of the Angular libraries.
   tr(style=top)
-    td <b><a href="../tutorial/">Tutorial</a></b>
+    td
+      p <b><a href="../tutorial/">튜토리얼</a></b>
+      p <b><a href="../tutorial/">Tutorial</a></b>
     td
       :marked
+        단계별 몰입형 접근방식을 통한 Angular 애플리케이션의 주요 기능 소개.
+
         A step-by-step, immersive approach to learning Angular that
         introduces the major features of Angular in an application context.
   tr(style=top)
-    td <b><a href="!{advancedUrl}">Advanced</a></b>
+    td
+      p <b><a href="!{advancedUrl}">상세문서</a></b>
+      p <b><a href="!{advancedUrl}">Advanced</a></b>
     td
       :marked
+        Angular 기능과 개발 실습에 대한 심층 분석.
+
         In-depth analysis of Angular features and development practices.
-  tr(style=top if-docs="ts")
-    td <b><a href="../cookbook/">Cookbook</a></b>
+  tr(style=top)
+    td
+      p <b><a href="../cookbook/">해설서</a></b>
+      p <b><a href="../cookbook/">Cookbook</a></b>
     td
       :marked
+        특정 애플리케이션 과제를 해결하기 위한 해법, 주로 간단한 설명이 있는 코드조각
+
         Recipes for specific application challenges, mostly code snippets with a minimum of exposition.
 
 :marked
+  몇개의 초기 페이지는 튜토리얼로 작성되었고 명확하게 표시되어 있습니다.
+  나머지 페이지에서는 샘플을 빌드하는데 필요한 각 단계를 설명하기 보다는 코드의 핵심사항을 강조합니다.
+  언제나 라이브 링크를 통해 전체 소스를 받을 수 있습니다.
+
   A few early pages are written as tutorials and are clearly marked as such.
   The rest of the pages highlight key points in code rather than explain each step necessary to build the sample.
   You can always get the full source through the #{_liveLink}s.
 
+  ## 코드 샘플
   ## Code samples
+
+  각 페이지는 페이지에 동반하는 샘플 애플리케이션의 코드 조각을 포함하고 있습니다.
+  여러분의 애플리케이션에서 코드조각을 재사용할 수 있습니다.
 
   Each page includes code snippets from a sample application that accompanies the page.
   You can reuse these snippets in your applications.
+
+  [아케텍쳐](architecture.html) 페이지의 <live-example name="아키텍쳐"></live-example> 처럼,
+  주로 페이지의 상단에 있는 샘플의 실행 버전 링크를 통해 살펴보세요.
 
   Look for a link to a running version of that sample, often near the top of the page,
   such as this <live-example name="architecture"></live-example> from the [Architecture](architecture.html) page.
@@ -77,16 +121,37 @@ table(width="100%")
   The link launches a browser-based, code editor where you can inspect, modify, save, and download the code.
   </span>
 
+  ## 참고 페이지
   ## Reference pages
 
+  * [컨닝 페이퍼](cheatsheet.html)는 일반적인 시나리오에서의 Angular 문법을 나열합니다.
+  
   * The [Cheat Sheet](cheatsheet.html) lists Angular syntax for common scenarios.
-  * The [Glossary](glossary.html) defines terms that Angular developers should know.
+
+  * [용어사전](glossary.html)은 Angular 개발자가 알아야 하는 용어를 정의합니다.   
+
+  * The [Glossary](glossary.html) defines terms that Angular developers should know. 
+
+  // REVIEW: 아래 영문이 한국어 버전에서는 들여쓰기가 깨져서 보이고 있습니다.
+  <li if-docs="ts">[변경 기록](change-log.html)은 문서에서 추가되거나 변경된 부분을 공지합니다.</li>
+
   <li if-docs="ts">The [Change Log](change-log.html) announces what's new and changed in the documentation.</li>
+
+  * [API 참조설명](../api/)은 Angular 라이브러리의 공개 회원이 만든 저작물입니다.
+
   * The [API Reference](../api/) is the authority on every public-facing member of the Angular libraries.
 
+  ## 피드백
   ## Feedback
+
+  피드백을 환영합니다!
 
   We welcome feedback! 
 
+  * **문서** 이슈와 pull request에 대해서는 <a href="!{_ngDocRepoURL}" target="_blank" title="angular docs on github">!{_angular_io} Github 저장소</a>를 이용하세요.
+
   * Use the <a href="!{_ngDocRepoURL}" target="_blank" title="angular docs on github">!{_angular_io} Github repository</a> for **documentation** issues and pull requests.
+
+  * **Angular** 자체에 대한 이슈 보고는 <a href="!{_ngRepoURL}" target="_blank" title="angular source on github">Angular Github 저장소</a>를 이용하세요.
+
   * Use the <a href="!{_ngRepoURL}" target="_blank" title="angular source on github">Angular Github repository</a> to report issues with **Angular** itself.
