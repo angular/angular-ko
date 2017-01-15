@@ -289,6 +289,7 @@ figure.image-display
   One way to reduce the noise would be to examine every `$event.keyCode` and take action only when the key is _Enter_.
   
   더 쉬운 방법도 있습니다: Angular의 `keyup.enter`라는 가상 이벤트(pseudo-event)에 바인딩하는 것입니다.
+  그러면 Angular는 사용자가 _Enter_를 눌렀을 경우에만 이벤트 핸들러를 호출합니다.
 
   There's an easier way: bind to Angular's `keyup.enter` pseudo-event. 
   Then Angular calls the event handler only when the user presses _Enter_.

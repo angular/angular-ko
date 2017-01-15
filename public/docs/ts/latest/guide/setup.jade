@@ -87,7 +87,7 @@ a#download
   ### 다운로드
   ### Download
 
-  <a href="!{_qsRepoZip}" title="Download the QuickStart seed repository">빠른시작 시드를  다운로드</a>하고 프로젝트 폴더에 압축을 풀고, 다음 터미널 명령을 사용해 나머지 단계를 수행하세요.
+  <a href="!{_qsRepoZip}" title="Download the QuickStart seed repository">빠른시작 시드를 다운로드</a>하고 프로젝트 폴더에 압축을 풀고, 다음 터미널 명령을 사용해 나머지 단계를 수행하세요.
 
   <a href="!{_qsRepoZip}" title="Download the QuickStart seed repository">Download the QuickStart seed</a>
   and unzip it into your project folder. Then perform the remaining steps with these terminal commands.
@@ -212,6 +212,8 @@ table(width="100%")
       :marked
         [최상위 모듈](appmodule.html "AppModule: the root module")인 `AppModule`을 정의합니다.
         `AppModule`은 Angular에게 애플리케이션을 어떻게 조립하는지 알려줍니다.
+        지금은 단지 `AppComponent`만 선언합니다.
+        곧 더 많은 컴포넌트를 선언할 것입니다.
 
         Defines `AppModule`, the [root module](appmodule.html "AppModule: the root module") that tells Angular how to assemble the application.
         Right now it declares only the `AppComponent`. 
@@ -224,6 +226,7 @@ table(width="100%")
         브라우저에서 실행할 수 있도록 애플리케이션을 [시작(bootstrap)](appmodule.html#main "bootstrap the application")합니다.
         이것은 대부분의 프로젝트 개발 중에 합리적인 선택이고
         Plunker 같은 _라이브-코딩_ 환경에서 샘플을 실행할 경우 실행 가능한 유일한 선택지입니다.
+        나중에 문서에서 다른 컴파일과 배포 옵션에 대해 배울 것입니다.
 
         Compiles the application with the [JIT compiler](../glossary.html#jit)
         and [bootstraps](appmodule.html#main "bootstrap the application") the application to run in the browser.
