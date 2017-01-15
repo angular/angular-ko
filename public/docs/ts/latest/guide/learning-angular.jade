@@ -4,40 +4,76 @@ block includes
 figure
   img(src="/resources/images/devguide/intro/people.png" width="200px" height="152px" alt="Us" align="left" style="margin-left:-40px;margin-right:10px" )
 :marked
+  모든 사람은 다르게 학습합니다.
+  문서를 처음부터 쭉 읽을 필요는 없습니다. 대부분의 페이지는 독자적으로 존재합니다.
+  Angular를 처음 접하는 분들은 다음 인기있는 학습 경로를 따라 가시면 됩니다.
+  <br class="l-clear-left">
+
   Everyone learns differently.
   You don't have to read the documentation straight through.  Most pages stand on their own.
   Those new to Angular may wish to follow this popular learning path.
   <br class="l-clear-left">
 
+  1. 만약 아직 하지 못했다면, 로컬 Angular 개발을 위해 [셋업](setup.html "Setup locally withe Quickstart seed")을 합니다.
+
   1. [Setup](setup.html "Setup locally withe Quickstart seed") for local Angular development, if you haven't already done so.
+
+  1. [*Tour of Heroes* 튜토리얼](../tutorial "Tour of Heroes")을 학습하세요.
 
   1. Take the [*Tour of Heroes* tutorial](../tutorial "Tour of Heroes"). 
   
+
+    *Tour of Heroes*는 [셋업](setup.html)에서부터 전문 애플리케이션의 중요한 특징을
+    설명하는 모든 기능을 갖춘 예제까지 차례대로 다룹니다:
+    실용적인 프로젝트 구조, 데이터 바인딩, master/detail, 서비스, 종속성 주입, 내비게이션,
+    그리고 원격 데이터 접근
+
     The *Tour of Heroes* takes you step-by-step from [setup](setup.html)
     to a full-featured example that demonstrates the essential characteristics of a professional application:
     a sensible project structure, data binding, master/detail, services, dependency injection, navigation, and remote data access.
 
+  1. 전체적인 파악을 위해 <a id="architecture"></a> [아키텍쳐](architecture.html) 개요를 읽으세요.
+  
   1. <a id="architecture"></a>Read the [Architecture](architecture.html) overview for the big picture.
-  <li if-docs="ts"><p>
-    [The Root Module](appmodule.html) introduces the `NgModule` class that tells Angular how to compile and run your application.
-  </p></li>
+    <li if-docs="ts">
+      [최상위 모듈](appmodule.html)에서는 Angular에서 애플리케이션을 어떻게 컴파일하고 실행하는지 알려주는 `NgModule` 클래스를 소개합니다.      
+    </li>
+    <li if-docs="ts">
+      [The Root Module](appmodule.html) introduces the `NgModule` class that tells Angular how to compile and run your application.
+    </li>
+
+  1. [데이터 표시](displaying-data.html)는 컴포넌트 프로퍼티 값을 화면에 어떻게 바인딩하는지 보여줍니다.
 
   1. [Displaying Data](displaying-data.html) shows how data binding puts component property values on screen.
 
+  1. [사용자 입력](user-input.html)은 사용자로 발생시킨 DOM 이벤트에 어떻게 반응하는지 설명합니다.
+
   1. [User Input](user-input.html) explains how to respond to user-initiated DOM events.
 
+  1. [폼](forms.html)은 UI 내의 데이터 입력 및 유효성 검사를 다룹니다.
+
   1. [Forms](forms.html) covers data entry and validation within the UI.
+
+  1. [종속성 주입](dependency-injection.html)은 작은 단일 목적의 부품으로 크고 유지 보수가 쉬운 응용 프로그램을 만드는 방법입니다.
 
   1. [Dependency Injection](dependency-injection.html) is the way to build large, maintainable applications
   from small, single-purpose parts.
 
+  1. [템플릿 구문](template-syntax.html)은 Angular 템플릿 HTML에 대한 포괄적인 연구입니다.
+
   1. [Template Syntax](template-syntax.html) is a comprehensive study of Angular template HTML.
+
+  위의 섹션들을 읽은 후에는, 이 사이트의 다른 페이지 사이로 자유롭게 이동하셔도 됩니다.
 
   After reading the above sections, feel free to skip around among the other pages on this site.
 
 .l-sub-section
   :marked
+    ### 다음 단계
     ### Next Step
+
+    코딩을 시작할 준비가 되었다면 [튜토리얼](../tutorial "Tour of Heroes")을 시도해보세요.
+    또는 기본 개념을 먼저 배우고 싶다면 [아키텍쳐](architecture.html "Basic Concepts") 페이지로 이동하세요.
 
     Try the [tutorial](../tutorial "Tour of Heroes") if you're ready to start coding or 
     visit the [Architecture](architecture.html "Basic Concepts") page if you prefer to learn the basic concepts first.
