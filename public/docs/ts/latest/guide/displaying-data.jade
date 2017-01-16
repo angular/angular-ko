@@ -4,11 +4,18 @@ block includes
   - var _boolean = 'truthy/falsey';
 
 :marked
+  HTML 템플릿의 컨트롤을 Angular 컴포넌트의 속성에 바인딩하여 데이터를 표시 할 수 있습니다.
+
   You can display data by binding controls in an HTML template to properties of an Angular component.
+
+  이 페이지에서는 히어로의 목록이 있는 컴포넌트를 만듭니다.
+  히어로의 이름을 표시하고, 조건부로 목록 아래에 메시지를 나타냅니다.
 
   In this page, you'll create a component with a list of heroes.
   You'll display the list of hero names and
   conditionally show a message below the list.
+
+  최종 UI는 다음과 같습니다.
 
   The final UI looks like this:
 
@@ -16,36 +23,62 @@ figure.image-display
   img(src="/resources/images/devguide/displaying-data/final.png" alt="Final UI")
 
 :marked
+  # 컨텐츠
   # Contents
 
-  * [Showing component properties with interpolation](#interpolation).
-  * [Showing !{_an} !{_array} property with NgFor](#ngFor).
-  * [Conditional display with NgIf](#ngIf).
+  * [보간법을 통한 컴포넌트 속성 표시](#interpolation).
+
+    [Showing component properties with interpolation](#interpolation).
+
+  * [NgFor를 통한 배열 속성 표시](#ngFor).
+
+    [Showing !{_an} !{_array} property with NgFor](#ngFor).
+
+  * [NgIf를 통한 조건부 표시](#ngIf).
+
+    [Conditional display with NgIf](#ngIf).
 
 .l-sub-section
   :marked
+    <live-example></live-example>은 이 페이지에서 설명하는 모든 구문과 코드의 단편을 보여줍니다.
+
     The <live-example></live-example> demonstrates all of the syntax and code
     snippets described in this page.
 
 .l-main-section#interpolation
 :marked
+  ## 보간법으로 컴포넌트 속성 표시
   ## Showing component properties with interpolation
+
+  컴포넌트 속성을 표시하는 가장 쉬운 방법은 보간법을 통해 속성 이름을 바인딩하는 것입니다.
+  보간법을 사용하면 이중 중괄호로 묶인 뷰 템플릿에 속성 이름을 넣을 수 있습니다 : `{{myHero}}`.
+
   The easiest way to display a component property
   is to bind the property name through interpolation.
   With interpolation, you put the property name in the view template, enclosed in double curly braces: `{{myHero}}`.
 
+  <ngio-ex path="displaying-data"></ngio-ex>라는 이름의 새로운 프로젝트를 만들기 위해서는 [셋업](setup.html)의 지침을 따르세요.
+
   Follow the [setup](setup.html) instructions for creating a new project
   named <ngio-ex path="displaying-data"></ngio-ex>.
 
+  그런 다음 템플릿과 컴포넌트의 본문을 변경하여 <ngio-ex path="app.component.ts"></ngio-ex> 파일을 수정합니다.
+
   Then modify the <ngio-ex path="app.component.ts"></ngio-ex> file by
   changing the template and the body of the component.
+
+  완료하면 다음과 같이 보입니다:
 
   When you're done, it should look like this:
 
 +makeExample('app/app.component.1.ts')
 
 :marked
+  이전에 비어있던 컴포넌트에 두 개의 속성, 즉 `title`과 `myHero`를 추가했습니다.
+
   You added two properties to the formerly empty component: `title` and `myHero`.
+
+  수정된 템플릿은 이중 중괄호 보간법을 사용하여 두 개의 컴포넌트 속성을 표시합니다:
 
   The revised template displays the two component properties using double curly brace
   interpolation:
@@ -55,24 +88,39 @@ figure.image-display
 +ifDocsFor('ts')
   .l-sub-section
     :marked
+      템플릿은 ECMAScript 2015 역따옴표(<code>\`</code>) 안에있는 여러 줄의 문자열입니다.
+      역따옴표(<code>\`</code>) &mdash; 작은 따옴표 (`'`)와 같은 문자가 아닌 mdash; 를 사용하면 
+      여러 행에 걸쳐 문자열을 구성 할 수 있으므로 HTML을 보다 쉽게 읽을 수 있습니다.
+      
       The template is a multi-line string within ECMAScript 2015 backticks (<code>\`</code>).
       The backtick (<code>\`</code>)&mdash;which is *not* the same character as a single
       quote (`'`)&mdash;allows you to compose a string over several lines, which makes the
       HTML more readable.
 
 :marked
+  Angular는 컴포넌트에서 `title`과 `myHero`의 속성값을 자동으로 가져와 브라우저에 삽입합니다.
+  Angular는 이러한 속성이 변경 될 때 디스플레이를 업데이트합니다.
+
   Angular automatically pulls the value of the `title` and `myHero` properties from the component and
   inserts those values into the browser. Angular updates the display
   when these properties change.
 
 .l-sub-section
   :marked
+    보다 정확하게는 키 스트로크, 타이머 완료 또는 HTTP 요청에 대한 응답과 같이 뷰와 관련된 일종의 비동기 이벤트가 발생한 후에 디스플레이가 다시 표시됩니다.
+
     More precisely, the redisplay occurs after some kind of asynchronous event related to
     the view, such as a keystroke, a timer completion, or a response to an HTTP request.
 
 :marked
+  `AppComponent` 클래스의 인스턴스를 생성하기 위해 ** 새롭게 ** 호출하지 않습니다.
+  Angular가 인스턴스를 만듭니다. 어떻게 그럴까요?
+  
   Notice that you don't call **new** to create an instance of the `AppComponent` class.
   Angular is creating an instance for you. How?
+
+  `@Component` 데코레이터의 CSS `선택자`는 `<my-app>`이라는 요소를 지정합니다.
+  그 요소는 `index.html` 파일의 본문에 있는 플레이스 홀더입니다 :
 
   The CSS `selector` in the `@Component` !{_decorator} specifies an element named `<my-app>`.
   That element is a placeholder in the body of your `index.html` file:
@@ -80,59 +128,88 @@ figure.image-display
 +makeExcerpt('index.html', 'body')
 
 :marked
-  When you bootstrap with the `AppComponent` class (in <ngio-ex path="main.ts"></ngio-ex>), Angular looks for a `<my-app>`
-  in the `index.html`, finds it, instantiates an instance of `AppComponent`, and renders it
+  `AppletComponent` 클래스(<ngio-ex path="main.ts"></ngio-ex>)로 실행(부트스트랩) 할 때, Angular는 `index.html`에서 `<my-app>`을 발견하고, `AppComponent`의 인스턴스를 인스턴스화하고, `<my-app>` 태그 안에 렌더링합니다.
+
+  When you bootstrap with the `AppComponent` class (in <ngio-ex path="main.ts"></ngio-ex>), Angular looks for a `<my-app>` in the `index.html`, finds it, instantiates an instance of `AppComponent`, and renders it
   inside the `<my-app>` tag.
 
-  Now run the app. It should display the title and hero name:
+  이제 앱을 실행하세요. 제목과 히어로 이름을 표시할 겁니다:
+
+  Now run the app. It should display the title and hero name
+
 figure.image-display
   img(src="/resources/images/devguide/displaying-data/title-and-hero.png" alt="Title and Hero")
 
 +ifDocsFor('ts')
   :marked
+    다음 몇 개의 섹션에서는 앱의 코딩 선택 사항 중 일부를 살펴보겠습니다.
+
     The next few sections review some of the coding choices in the app.
 
 :marked
+  ## 템플릿 인라인 또는 템플릿 파일?
   ## Template inline or template file?
+
+  컴포넌트의 템플릿은 두 위치 중 하나에 저장할 수 있습니다.
+  `template` 속성를 사용하여 * 인라인 *을 정의하거나 별도의 HTML 파일에 템플릿을 정의하고 `@Component` 데코레이터의 `templateUrl` 속성을 사용하여 컴포넌트 메타데이터에 연결할 수 있습니다.
 
   You can store your component's template in one of two places.
   You can define it *inline* using the `template` property, or you can define
   the template in a separate HTML file and link to it in
   the component metadata using the `@Component` !{_decorator}'s `templateUrl` property.
 
+  인라인과 HTML의 선택은 기호, 환경 및 조직 정책에 따라 달라집니다.
+  템플릿이 작고 추가 HTML 파일이 없는 데모가 더 간단하기 때문에 여기에서 앱은 인라인 HTML을 사용합니다.
+
   The choice between inline and separate HTML is a matter of taste,
   circumstances, and organization policy.
   Here the app uses inline HTML because the template is small and the demo
   is simpler without the additional HTML file.
 
+  두 가지 스타일 모두, 템플릿 데이터 바인딩은 컴포넌트의 속성에 동일한 액세스 권한을 가집니다.
+
   In either style, the template data bindings have the same access to the component's properties.
 
 +ifDocsFor('ts')
   :marked
+    ## 생성자 또는 변수 초기화?
     ## Constructor or variable initialization?
+
+    이 예제에서는 변수 할당을 사용하여 컴포넌트를 초기화하지만, 대신 생성자를 사용하여 속성을 선언하고 초기화 할 수도 있습니다.
 
     Although this example uses variable assignment to initialize the components, you can instead declare and initialize the properties using a constructor:
 
   +makeExcerpt('app/app-ctor.component.ts', 'class')
 
   :marked
+    이 앱은 간결하게 하기 위해 더 간결한 "변수 할당" 스타일을 사용합니다.
+
     This app uses more terse "variable assignment" style simply for brevity.
 
 .l-main-section#ngFor
 :marked
+  ## **ngFor**를 통한 배열 속성 표시
   ## Showing !{_an} !{_array} property with ***ngFor**
+
+  히어로의 목록을 표시하려면 먼저 컴포넌트에 히어로 이름의 배열을 추가하고 배열의 첫 번째 이름을 `myHero`로 다시 정의하세요.
 
   To display a list of heroes, begin by adding !{_an} !{_array} of hero names to the component and redefine `myHero` to be the first name in the !{_array}.
 
 +makeExcerpt('app/app.component.2.ts', 'class')
 
 :marked
+  이제 템플릿의 Angular `ngFor` 지시자를 사용하여 각 항목을 `히어로` 목록에 표시하세요.
+
   Now use the Angular `ngFor` directive in the template to display
   each item in the `heroes` list.
 
 +makeExcerpt('app/app.component.2.ts', 'template')
 
 :marked
+  이 UI는 `<ul>`과 `<li>`태그와 함께 HTML의 정렬되지 않은 목록을 사용합니다. 
+  `<li>`요소의 `*ngFor`는 Angular "반복(repeater)" 지시자입니다. 
+  `반복 템플릿(repeater template)`으로 `<li>`요소(그리고 그것의 자식)를 표시합니다.
+
   This UI uses the HTML unordered list with `<ul>` and `<li>` tags. The `*ngFor`
   in the `<li>` element is the Angular "repeater" directive.
   It marks that `<li>` element (and its children) as the "repeater template":
@@ -141,14 +218,24 @@ figure.image-display
 
 .alert.is-important
   :marked
+    `*ngFor`에 선행별표 (\*)를 잊지 마세요. 이것은 구문의 필수 요소입니다.
+    자세한 내용은 [템플릿 구문](./template-syntax.html#ngFor) 페이지를 참조하세요.
+
     Don't forget the leading asterisk (\*) in `*ngFor`. It is an essential part of the syntax.
     For more information, see the [Template Syntax](./template-syntax.html#ngFor) page.
 
 :marked
+  `ngFor` 큰 따옴표로 묶인 내용에서 `히어로`를 주목하세요;
+  템플릿 입력 변수의 예입니다.
+  [템플릿 구문](./template-syntax.html) 페이지의 [상세구문](./template-syntax.html#ngForMicrosyntax) 섹션에서 템플릿 입력 변수에 대해 자세히 읽어보세요.
+
   Notice the `hero` in the `ngFor` double-quoted instruction;
   it is an example of a template input variable. Read
   more about template input variables in the [microsyntax](./template-syntax.html#ngForMicrosyntax) section of
   the [Template Syntax](./template-syntax.html) page.
+
+  Angular는 목록의 각 항목에 대해 `<li>`를 복제하여 현재 반복문에서 `히어로` 변수를 항목(히어로)으로 설정합니다. 
+  Angular는 변수를 이중 중괄호의 보간법 문맥으로 사용합니다.
 
   Angular duplicates the `<li>` for each item in the list, setting the `hero` variable
   to the item (the hero) in the current iteration. Angular uses that variable as the
@@ -156,9 +243,13 @@ figure.image-display
 
 .l-sub-section
   :marked
+    이 경우, `ngFor`는 배열을 표시하지만, `ngFor`는 임의의 [반복할 수 있는](iterableUrl) 객체에 대한 항목을 반복 할 수 있습니다.
+
     In this case, `ngFor` is displaying !{_an} !{_array}, but `ngFor` can
     repeat items for any [iterable](!{_iterableUrl}) object.
 :marked
+  이제 히어로는 정렬되지 않은 목록에 나타납니다.
+
   Now the heroes appear in an unordered list.
 
 figure.image-display
@@ -166,16 +257,28 @@ figure.image-display
 
 .l-main-section
 :marked
+  ## 데이터를 위한 클래스 만들기
   ## Creating a class for the data
+
+  앱의 코드는 컴포넌트 내부에 직접 데이터를 정의하지만 이것이 모범 사례가 아닙니다.
+  그러나 간단한 데모에서는 괜찮습니다.
 
   The app's code defines the data directly inside the component, which isn't best practice.
   In a simple demo, however, it's fine.
 
+  현재 바인딩을 문자열의 배열입니다.
+  실제 애플리케이션에서 대부분의 바인딩은 보다 특수한 객체에 대한 것입니다.
+
   At the moment, the binding is to !{_an} !{_array} of strings.
   In real applications, most bindings are to more specialized objects.
 
+  이 바인딩이 특수 객체에 사용하도록 변환하려면 히어로 이름의 배열을 `Hero` 객체의 배열로 변환하세요. 
+  이를 위해서는 `Hero` 클래스가 필요합니다.
+
   To convert this binding to use specialized objects, turn the !{_array}
   of hero names into !{_an} !{_array} of `Hero` objects. For that you'll need a `Hero` class.
+
+  <ngio-ex path="hero.ts"></ngio-ex>라는 이름의 `appDir` 폴더에 다음 코드로 새 파일을 만듭니다:
 
   Create a new file in the `!{_appDir}` folder called  <ngio-ex path="hero.ts"></ngio-ex> with the following code:
 
@@ -183,24 +286,46 @@ figure.image-display
 
 block hero-class
   :marked
+    생성자와 두 개의 속성, 즉 `id`와 `name`으로 클래스를 정의했습니다.
+
     You've defined a class with a constructor and two properties: `id` and `name`.
+
+    클래스에 속성이 있는 것처럼 보이지 않을 수도 있지만, 속성이 있습니다.
+    생성자 매개 변수의 선언은 TypeScript 바로 가기를 이용합니다.
 
     It might not look like the class has properties, but it does.
     The declaration of the constructor parameters takes advantage of a TypeScript shortcut.
+
+    첫 번째 매개 변수를 생각하세요:
 
     Consider the first parameter:
 
   +makeExcerpt('app/hero.ts ()', 'id')
 
   :marked
+    간단한 구문이 많이 있습니다.
+
     That brief syntax does a lot:
-    * Declares a constructor parameter and its type.
-    * Declares a public property of the same name.
-    * Initializes that property with the corresponding argument when creating an instance of the class.
+
+    * 생성자 매개 변수와 그 타입을 선언합니다.
+
+      Declares a constructor parameter and its type.
+
+    * 같은 이름의 공용 속성을 선언합니다.
+
+      Declares a public property of the same name.
+
+    * 클래스의 인스턴스를 만들 때 해당 속성을 사용하여 속성을 초기화합니다.
+
+      Initializes that property with the corresponding argument when creating an instance of the class.
+
 
 .l-main-section
 :marked
+  ## 히어로 클래스 사용하기
   ## Using the Hero class
+
+  `Hero` 클래스를 가져온 후에, `AppComponent.heroes` 속성은 `Hero` 객체의 _타입이 지정된_ 배열을 반환 할 수 있습니다 :
 
   After importing the `Hero` class, the `AppComponent.heroes` property can return a _typed_ !{_array}
   of `Hero` objects:
@@ -208,6 +333,10 @@ block hero-class
 +makeExcerpt('app/app.component.3.ts', 'heroes')
 
 :marked
+  그런 다음 템플릿을 업데이트하세요.
+  현재 히어로의 `id`와 `name`이 표시됩니다.
+  히어로의  `name` 속성 만 표시하도록 수정했습니다.
+
   Next, update the template.
   At the moment it displays the hero's `id` and `name`.
   Fix that to display only the hero's `name` property.
@@ -215,15 +344,25 @@ block hero-class
 +makeExcerpt('app/app.component.3.ts', 'template')
 
 :marked
+  화면은 동일하게 보이지만 코드는 명확합니다.
+
   The display looks the same, but the code is clearer.
 
 .l-main-section#ngIf
 :marked
+  ## NgIf로 조건부 표시하기
   ## Conditional display with NgIf
+
+  특정 상황에서만 뷰를 보여주거나 또는 뷰의 일부만 표시 해야하는 경우가 있습니다.
 
   Sometimes an app needs to display a view or a portion of a view only under specific circumstances.
 
+  히어로가 4명 이상일 경우에 메시지를 표시하도록 예제를 변경해 보겠습니다.
+
   Let's change the example to display a message if there are more than three heroes.
+
+  Angular `ngIf` 지시자는 _참/거짓_ 조건에 따라 요소를 삽입하거나 제거합니다.
+  실행중을 보려면 템플릿의 맨 아래에 다음 단락을 추가하세요:
 
   The Angular `ngIf` directive inserts or removes an element based on a !{_boolean} condition.
   To see it in action, add the following paragraph at the bottom of the template:
@@ -232,10 +371,18 @@ block hero-class
 
 .alert.is-important
   :marked
+    `*ngIf`에서 선행별표(\*)를 잊지 마세요. 이것은 구문의 필수 요소입니다.
+    [템플릿 구문](./template-syntax.html) 페이지의 [ngIf 섹션](./template-syntax.html#ngIf)에서 `ngIf`와 `*`에 대해 자세히 읽어보세요.
+
     Don't forget the leading asterisk (\*) in `*ngIf`. It is an essential part of the syntax.
     Read more about `ngIf` and `*` in the [ngIf section](./template-syntax.html#ngIf) of the [Template Syntax](./template-syntax.html) page.
 
 :marked
+  큰 따옴표 안에있는 템플릿 표현식 `*ngIf="heros.length > 3"`은 !{_Lang}와 비슷하게 보이고 동작합니다.
+  컴포넌트의 히어로 목록에 항목이 네 개 이상있을 경우, Angular는 단락을 DOM에 추가하여 메시지가 나타납니다. 
+  3개 이하의 항목이 있는 경우, Angular는 단락을 생략하므로 아무 메시지도 표시되지 않습니다.
+  자세한 내용은 [템플릿 구문](./template-syntax.html) 페이지의 [템플릿 표현식](./template-syntax.html#template-expressions) 섹션을 참조하세요.
+
   The template expression inside the double quotes,
   `*ngIf="heros.length > 3"`, looks and behaves much like !{_Lang}.
   When the component's list of heroes has more than three items, Angular adds the paragraph
@@ -246,22 +393,48 @@ block hero-class
 
 .alert.is-helpful
   :marked
+    Angular는 메시지를 표시하거나 숨기지 않습니다. DOM에서 단락 요소를 추가 및 제거합니다.
+    특히 많은 데이터 바인딩이 포함 된 큰 HTML 단락을 조건부로 포함하거나 제외 할 경우, 큰 프로젝트에서 성능을 향상시킵니다.
+
     Angular isn't showing and hiding the message. It is adding and removing the paragraph element from the DOM. That improves performance, especially in larger projects when conditionally including or excluding
     big chunks of HTML with many data bindings.
 
 :marked
+  시도해 보세요. 배열에는 네 개의 항목이 있으므로 메시지가 나타나야 합니다.
+  <ngio-ex path="app.component.ts"></ngio-ex>로 돌아가 히어로 배열에서 요소 중 하나를 삭제하거나 주석 처리합니다.
+  브라우저가 자동으로 새로고침을 하여 메시지가 사라질 것입니다.
+
   Try it out. Because the !{_array} has four items, the message should appear.
   Go back into <ngio-ex path="app.component.ts"></ngio-ex> and delete or comment out one of the elements from the hero !{_array}.
   The browser should refresh automatically and the message should disappear.
 
 .l-main-section
 :marked
+  ##요약
   ## Summary
+
+  이제 사용 방법을 알았습니다.
+
   Now you know how to use:
-  - **Interpolation** with double curly braces to display a component property.
-  - **ngFor** to display !{_an} !{_array} of items.
-  - A !{_Lang} class to shape the **model data** for your component and display properties of that model.
-  - **ngIf** to conditionally display a chunk of HTML based on a boolean expression.
+
+  - 컴포넌트 속성을 표시하는 이중 중괄호가 있는 **보간법**.
+
+    **Interpolation** with double curly braces to display a component property.
+  
+  - **ngFor** 항목 배열을 표시합니다.
+
+    **ngFor** to display !{_an} !{_array} of items.
+  
+  - 컴포넌트에 대한 **모델 데이터**를 형성하고 해당 모델의 속성을 표시하는 !{_Lang} 클래스
+
+    A !{_Lang} class to shape the **model data** for your component and display properties of that model.
+  
+  - ** ngIf **는 조건부로 참/거짓 표현식을 기반으로 히여 HTML 청크를 표시합니다.
+
+    **ngIf** to conditionally display a chunk of HTML based on a boolean expression.
+
+  
+  다음은 최종 코드입니다.
 
   Here's the final code:
 
