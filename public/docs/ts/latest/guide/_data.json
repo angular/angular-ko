@@ -37,7 +37,7 @@
   "appmodule": {
     "title": "AppModule: 최상위 모듈",
     "navTitle": "최상위 모듈",
-    "intro": "최상위 \"AppModule\"에서 앱을 만들고 부트 스트랩하는 방법을 배워보세요.",
+    "intro": "최상위 \"AppModule\"에서 앱을 만들고 실행하는 방법을 배워보세요.",
     "nextable": true,
     "basics": true
   },
