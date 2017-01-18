@@ -37,7 +37,7 @@
   "appmodule": {
     "title": "AppModule: 최상위 모듈",
     "navTitle": "최상위 모듈",
-    "intro": "최상위 \"AppModule\"에서 앱을 만들고 부트 스트랩하는 방법을 배워보세요.",
+    "intro": "최상위 \"AppModule\"에서 앱을 만들고 실행(bootstrap)하는 방법을 배워보세요.",
     "nextable": true,
     "basics": true
   },
@@ -145,7 +145,7 @@
 
   "npm-packages": {
     "title": "Npm 패키지",
-    "intro": "권장하는 npm 패키지 및 패키지 종속성을 지정하는 방법"
+    "intro": "권장하는 npm 패키지 및 패키지 의존성을 지정하는 방법"
   },
 
   "pipes": {
@@ -154,7 +154,7 @@
   },
 
   "router": {
-    "title": "라우팅 & 네비게이션",
+    "title": "라우팅 & 내비게이션",
     "intro": "Angular 라우터로 화면 탐색의 기본 사항 알아보기."
   },
 

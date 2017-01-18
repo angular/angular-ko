@@ -549,10 +549,10 @@ block redirect-vs-use-as-default
   To see these changes in your browser, go to the application root (`/`) and reload.
   The app displays the dashboard and we can navigate between the dashboard and the heroes.
 
-  ## 대시보드에 최고 영웅 표시하기
+  ## 대시보드에 최고 히어로 표시하기
   ## Dashboard Top Heroes
 
-  대시보드에서 Top 4 영웅을 한눈에 확인할 수 있도록 약간의 꾸밈을 더해보겠습니다.
+  대시보드에서 Top 4 히어로을 한눈에 확인할 수 있도록 약간의 꾸밈을 더해보겠습니다.
 
   Let’s spice up the dashboard by displaying the top four heroes at a glance.
 
@@ -963,9 +963,9 @@ block extract-id
 
   When a user selects a hero in the dashboard, the app should navigate to the `HeroDetailComponent` to view and edit the selected hero.
 
-  대시 보드 영웅은 버튼과 같은 블록으로 표시되지만, 앵커 태그처럼 행동해야 합니다.
-  영웅 블록 위로 마우스를 가져 가면 대상 URL이 브라우저 상태 표시 줄에 표시되고 
-  사용자는 링크를 복사하거나 영웅 상세보기를 새 탭에 열 수 있습니다.
+  대시 보드 히어로은 버튼과 같은 블록으로 표시되지만, 앵커 태그처럼 행동해야 합니다.
+  히어로 블록 위로 마우스를 가져 가면 대상 URL이 브라우저 상태 표시 줄에 표시되고 
+  사용자는 링크를 복사하거나 히어로 상세보기를 새 탭에 열 수 있습니다.
 
   Although the dashboard heroes are presented as button-like blocks, they should behave like anchor tags.
   When hovering over a hero block, the target URL should display in the browser status bar 
@@ -1107,7 +1107,7 @@ block extract-id
   ## *HeroesComponent*에서 히어로 선택하기
   ## Select a Hero in the *HeroesComponent*
 
-  앞에서, 대시보드에서 영웅을 선택하는 기능을 추가했습니다.
+  앞에서, 대시보드에서 히어로을 선택하는 기능을 추가했습니다.
   `HeroesComponent`에서 비슷한 작업을 해보겠습니다.
 
   Earlier we added the ability to select a hero from the dashboard.
@@ -1121,7 +1121,7 @@ block extract-id
 +makeExample('toh-4/ts/app/app.component.ts','template', 'app/heroes.component.ts (current template)')(format=".")
 
 :marked
-  우리의 목표는 사용자가 선택한 영웅을 편집하려고 할 때, 세부 정보를 그 뷰로 옮기고, 해당 세부 정보로 이동하는 것입니다.
+  우리의 목표는 사용자가 선택한 히어로을 편집하려고 할 때, 세부 정보를 그 뷰로 옮기고, 해당 세부 정보로 이동하는 것입니다.
   
   Our goal is to move the detail to its own view and navigate to it when the user decides to edit a selected hero.
   
@@ -1303,7 +1303,7 @@ block heroes-component-cleanup
   ### 스타일이 적용된 대시보드
   ### A Dashboard with Style
 
-  디자이너는 대시보드의 영웅들을 일렬로된 직사각형으로 표시해야 한다고 생각합니다.
+  디자이너는 대시보드의 히어로들을 일렬로된 직사각형으로 표시해야 한다고 생각합니다.
   그들은 반응형 디자인을 위한 간단한 미디어 쿼리를 포함해 60줄 정도의 CSS파일을 주었습니다.
 
   The designers think we should display the dashboard heroes in a row of rectangles.
@@ -1391,7 +1391,7 @@ block css-files
 
 block style-urls
   :marked
-    먼저`moduleId : module.id`를 `AppComponent`의`@ Component` 메타 데이터에 추가하여 
+    먼저`moduleId : module.id`를 `AppComponent`의`@Component` 메타데이터에 추가하여 
     _module-relative_ 파일 URL을 가능하게합니다.
     그런 다음 이 CSS 파일을 가리키는`styleUrls` 속성을 다음과 같이 추가하십시오.
   

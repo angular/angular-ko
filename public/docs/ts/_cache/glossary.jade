@@ -46,7 +46,7 @@ block includes
       Ahead of Time compiled applications also benefit from decreased load time and increased performance.
 
       Angular 애플리케이션은 개발자가 빌드할 때 미리 컴파일할 수 있습니다.
-      커맨드라인 compiler인 'ngc'를 사용해 애플리케이션을 컴파일하면 모듈 팩토리(Module Factory)에 바로 부트스트랩핑 할 수 있습니다.
+      커맨드라인 compiler인 'ngc'를 사용해 애플리케이션을 컴파일하면 모듈 팩토리(Module Factory)에 바로 실행(bootstrap) 할 수 있습니다.
       이 말은 곧 javascript 번들파일에 Angular 컴파일러를 포함할 필요가 없다는 의미입니다.
       Ahead of Time 컴파일을 적용한 애플리케이션은 로드 시간 절감과 퍼포먼스 향상의 효과를 누릴 수 있습니다.
 
@@ -714,7 +714,7 @@ a#Q
     :marked
       An Angular [Component](#component) with a RouterOutlet that displays views based on router navigations.
 
-      라우터 네비게이션을 통해서 화면에 뷰를 나타낼 RouterOutlet 을 지닌 Angular [컴포넌트](#component)
+      라우터 내비게이션을 통해서 화면에 뷰를 나타낼 RouterOutlet 을 지닌 Angular [컴포넌트](#component)
 
       See the [Component Router](!{docsLatest}/guide/router.html) chapter to learn more.
 
@@ -771,7 +771,7 @@ a#snake-case
     Applications often require services such as a hero data service or a logging service.
     Our components depend on these services to do the heavy lifting.
 
-    애플리케이션은 영웅 데이터 서비스나 로깅 서비스와 같은 기능을 요구할 때가 종종있습니다.
+    애플리케이션은 히어로 데이터 서비스나 로깅 서비스와 같은 기능을 요구할 때가 종종있습니다.
     컴포넌트는 서비스에 이러한 다루기 힘든 작업을 위임합니다.
 
     A service is a class with a focused purpose.

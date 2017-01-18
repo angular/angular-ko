@@ -38,7 +38,7 @@ a#aot
 .l-sub-section
   :marked
     Angular 애플리케이션은 개발자가 빌드할 때 미리 컴파일할 수 있습니다.
-    커맨드라인 compiler인 `ngc`를 사용해 애플리케이션을 컴파일하면 모듈 팩토리(Module Factory)에 바로 부트스트랩핑 할 수 있습니다.
+    커맨드라인 compiler인 `ngc`를 사용해 애플리케이션을 컴파일하면 모듈 팩토리(Module Factory)에 바로 실행(bootstrap) 할 수 있습니다.
     이 말은 곧 JavaScript 번들파일에 Angular 컴파일러를 포함할 필요가 없다는 의미입니다.
     Ahead of Time 컴파일을 적용한 애플리케이션은 로드 시간 절감과 퍼포먼스 향상의 효과를 누릴 수 있습니다.
 
@@ -178,19 +178,19 @@ a#aot
     This more rare usage should be clear in context.
 
 :marked
-  ## 부트스트랩핑 (Bootstrap)
+  ## 실행(Bootstrap)
   ## Bootstrap
 .l-sub-section
   block bootstrap-defn-top
     :marked
-      Angular 애플리케이션은 루트 Angular 모듈(`AppModule`)을 사용하는 "부트스트랩핑"을 통해 실행됩니다.
-      부트스트랩핑은 애플리케이션에서 가장 처음으로 로드되는 최상위 레벨 "루트" [컴포넌트](#component)를 정의합니다.
+      Angular 애플리케이션은 루트 Angular 모듈(`AppModule`)을 사용하는 "실행(bootstrap)"을 통해 실행됩니다.
+      실행(bootstrap)은 애플리케이션에서 가장 처음으로 로드되는 최상위 레벨 "루트" [컴포넌트](#component)를 정의합니다.
       더 자세한 내용은 [Setup](!{docsLatest}/guide/setup.html)에서 확인하세요.
 
       You launch an Angular application by "bootstrapping" it using the application root Angular module (`AppModule`). Bootstrapping identifies an application's top level "root" [component](#component), which is the first component that is loaded for the application. 
       For more information, see the [Setup](!{docsLatest}/guide/setup.html) page.
   :marked
-    `index.html`에서 각각의 최상위 루트 컴포넌트를 가진 여러 개의 앱을 부트스트랩핑할 수도 있습니다.
+    `index.html`에서 각각의 최상위 루트 컴포넌트를 가진 여러 개의 앱을 실행(bootstrap)할 수도 있습니다.
 
     You can bootstrap multiple apps in the same `index.html`, each with its own top level root.
 
@@ -935,7 +935,7 @@ a#Q
       Other views in the application likely have anchor tags or buttons with `RouterLink`
       directives that users can click to navigate.
 
-      더 자세한 내용은 [라우팅 & 네비게이션](!{docsLatest}/guide/router.html)페이지를 참고하세요.
+      더 자세한 내용은 [라우팅 & 내비게이션](!{docsLatest}/guide/router.html)페이지를 참고하세요.
 
       For more information, see the [Routing & Navigation](!{docsLatest}/guide/router.html) page.
 
@@ -945,7 +945,7 @@ a#Q
     ## Router module
   .l-sub-section
     :marked
-      더 자세한 내용은 [라우팅 & 네비게이션](!{docsLatest}/guide/router.html)페이지를 참고하세요.
+      더 자세한 내용은 [라우팅 & 내비게이션](!{docsLatest}/guide/router.html)페이지를 참고하세요.
 
       For more information, see the [Routing & Navigation](!{docsLatest}/guide/router.html) page.
 
@@ -954,11 +954,11 @@ a#Q
   ## Routing component
 .l-sub-section
   :marked
-    라우터 네비게이션을 통해서 화면에 뷰를 나타낼 RouterOutlet 을 지닌 Angular [컴포넌트](#component)
+    라우터 내비게이션을 통해서 화면에 뷰를 나타낼 RouterOutlet 을 지닌 Angular [컴포넌트](#component)
 
     An Angular [component](#component) with a `RouterOutlet` that displays views based on router navigations.
 
-    더 자세한 내용은 [라우팅 & 네비게이션](!{docsLatest}/guide/router.html)페이지를 참고하세요.
+    더 자세한 내용은 [라우팅 & 내비게이션](!{docsLatest}/guide/router.html)페이지를 참고하세요.
 
     For more information, see the [Routing & Navigation](!{docsLatest}/guide/router.html) page.
 
@@ -1011,7 +1011,7 @@ a#snake-case
     For data or logic that is not associated
     with a specific view or that you want to share across components, build services.
 
-    애플리케이션은 영웅 데이터 서비스나 로깅 서비스와 같은 기능을 요구할 때가 종종있습니다.
+    애플리케이션은 히어로 데이터 서비스나 로깅 서비스와 같은 기능을 요구할 때가 종종있습니다.
     컴포넌트는 서비스에 이러한 다루기 힘든 작업을 위임합니다.
 
     Applications often require services such as a hero data service or a logging service.
