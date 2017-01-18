@@ -144,12 +144,12 @@ code-example(language="sh" class="code-shell").
     **Don't forget the parentheses!** Neglecting them leads to an error that's difficult to diagnose.
 :marked
   TypeScript는 `@Injectable()` 데코레이터를 발견하면 서비스에 대한 메타데이터 또는
-  다른 종속성을 서비스에 주입하기 위해 Angular가 필요로 하는 메타데이터를 내보내게 됩니다.
+  다른 의존성을 서비스에 주입하기 위해 Angular가 필요로 하는 메타데이터를 내보내게 됩니다.
 
   TypeScript sees the `@Injectable()` decorator and emits metadata about our service, 
   metadata that Angular may need to inject other dependencies into this service.
 
-  `HeroService`는 *아직은* 다른 종속성이 없지만 데코레이터를 추가하겠습니다.
+  `HeroService`는 *아직은* 다른 의존성이 없지만 데코레이터를 추가하겠습니다.
   *처음부터* `@Injectable()` 데코레이터를 적용하는 것이
   일관성을 위해서나 미래를 위해서나 "모범적인 사례(best practice)" 입니다.
 

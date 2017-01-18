@@ -73,7 +73,7 @@ figure
 
     [Services](#services)
 
-  * [종속성 주입(Dependency injection)](#dependency-injection)
+  * [의존성 주입(Dependency injection)](#dependency-injection)
 
     [Dependency injection](#dependency-injection)
 
@@ -449,7 +449,7 @@ block ts-decorator
 block dart-directives
 
 :marked
-  - `providers`: 컴포넌트가 필요로 하는 서비스에 대한 ** 종속성 주입 제공자 **의 배열.
+  - `providers`: 컴포넌트가 필요로 하는 서비스에 대한 ** 의존성 주입 제공자 **의 배열.
   이것은 Angular에게 컴포넌트의 생성자가 `HeroService`를 필요로 하므로 표시 할 히어로 목록을 가져올 수 있다고 알려주는 하나의 방법입니다.
 
   - `providers`: !{_array} of **dependency injection providers** for services that the component requires.
@@ -755,7 +755,7 @@ figure
   Angular doesn't *enforce* these principles.
   It won't complain if you write a "kitchen sink" component with 3000 lines.
 
-  Angular는 애플리케이션 로직을 서비스로 요소화하고 해당 서비스를 * 종속성 주입 *을 통해 컴포넌트에 사용할 수 있게 함으로써 이러한 원칙을 *따를 수* 있도록 도와줍니다.
+  Angular는 애플리케이션 로직을 서비스로 요소화하고 해당 서비스를 * 의존성 주입 *을 통해 컴포넌트에 사용할 수 있게 함으로써 이러한 원칙을 *따를 수* 있도록 도와줍니다.
 
   Angular does help you *follow* these principles by making it easy to factor your
   application logic into services and make those services available to components through *dependency injection*.
@@ -764,13 +764,13 @@ figure
 
 .l-main-section
 :marked
-  ## 종속성 주입
+  ## 의존성 주입
   ## Dependency injection
 figure
   img(src="/resources/images/devguide/architecture/dependency-injection.png" alt="Service" style="float:left; width:200px; margin-left:-40px;margin-right:10px" )
 :marked
-  _종속성 주입_은 클래스의 새로운 인스턴스에 필요한 완전한 종속성을 제공하는 방법입니다. 대부분의 종속성은 서비스입니다.
-  Angular는 새로운 컴포넌트에 필요한 서비스를 제공하기 위해 종속성 주입을 사용합니다.
+  _의존성 주입_은 클래스의 새로운 인스턴스에 필요한 완전한 의존성을 제공하는 방법입니다. 대부분의 의존성은 서비스입니다.
+  Angular는 새로운 컴포넌트에 필요한 서비스를 제공하기 위해 의존성 주입을 사용합니다.
 
   _Dependency injection_ is a way to supply a new instance of a class
   with the fully-formed dependencies it requires. Most dependencies are services.
@@ -794,7 +794,7 @@ figure
   주입자(injector)는 이전에 생성한 서비스 인스턴스의 컨테이너를 유지 관리합니다.
   요청된 서비스 인스턴스가 컨테이너에 없으면 주입자는 서비스를 Angular로 반환하기 전에 컨테이너에 컨테이너를 추가합니다.
   요청된 모든 서비스가 확인되고 반환되면, Angular는 이러한 서비스를 사용하여 컴포넌트의 생성자를 인수로 호출 할 수 있습니다.
-  이것은 *종속성 주입 *입니다.
+  이것은 *의존성 주입 *입니다.
 
   An injector maintains a container of service instances that it has previously created.
   If a requested service instance is not in the container, the injector makes one and adds it to the container
@@ -848,11 +848,11 @@ block registering-providers
   <!-- We've vastly oversimplified dependency injection for this overview.
   The full story is in the [dependency injection](dependency-injection.html) page. -->
 
-  종속성 주입에 대해 기억해야 할 점 :
+  의존성 주입에 대해 기억해야 할 점 :
 
   Points to remember about dependency injection:
 
-  * 종속성 주입은 Angular 프레임워크에 연결되어 어디서나 사용됩니다.
+  * 의존성 주입은 Angular 프레임워크에 연결되어 어디서나 사용됩니다.
 
   * Dependency injection is wired into the Angular framework and used everywhere.
 
@@ -911,7 +911,7 @@ block registering-providers
 
     [Services](#services)
 
-  * [종속성 주입(Dependency injection)](#dependency-injection)
+  * [의존성 주입(Dependency injection)](#dependency-injection)
 
     [Dependency injection](#dependency-injection)
 
