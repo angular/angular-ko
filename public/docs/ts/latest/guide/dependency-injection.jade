@@ -181,7 +181,7 @@ block ctor-syntax
 
 .l-sub-section
   :marked
-    `Car` 소비자는 문제가 있습니다. 소비자는 다음과 같이
+    `Car` _소비자_는 문제가 있습니다. 소비자는 다음과 같이
     자동차 생성 코드를 업데이트 해야 합니다.
 
     The _consumer_ of `Car` has the problem. The consumer must update the car creation code to
@@ -993,7 +993,7 @@ block dart-diff-const-metadata
 +makeExample('dependency-injection/ts/app/providers.component.ts','providers-6a')(format=".")
 
 :marked
-  해법은: useExisting 옵션을 사용한 별칭입니다.
+  해법은: `useExisting` 옵션을 사용한 별칭입니다.
 
   The solution: alias with the `useExisting` option.
 
@@ -1094,7 +1094,7 @@ block dart-diff-const-metadata-ctor
 +makeExample('dependency-injection/ts/app/heroes/hero.service.ts','internals', 'app/heroes/hero.service.ts (excerpt)')(format='.')
 
 :marked
-  `Logger`를 주입할 수 있지만, 그러나 boolean `isAuthorized`를 주입할 수는 없습니다.
+  `Logger`를 주입할 수 있지만, boolean `isAuthorized`를 주입할 수는 없습니다.
   팩토리 제공자로 `HeroService`의 새로운 인스턴스를 생성해야 할 것입니다.
 
   We can inject the `Logger`, but we can't inject the  boolean `isAuthorized`.
