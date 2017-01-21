@@ -1,68 +1,68 @@
 {
   "index": {
-    "title": "Cookbook",
-    "navTitle": "Overview",
-    "intro": "A collection of recipes for common Angular application scenarios"
+    "title": "해설서(Cookbook)",
+    "navTitle": "개요",
+    "intro": "일반적인 Angular 애플리케이션 시나리오를 위한 레시피 컬렉션"
   },
 
   "aot-compiler": {
-    "title": "Ahead-of-Time Compilation",
-    "intro": "Learn how to use Ahead-of-time compilation"
+    "title": "사전(Ahead-of-Time) 컴파일",
+    "intro": "사전(Ahead-of-time) 컴파일 사용법 배우기"
   },
 
   "a1-a2-quick-reference": {
-    "title": "Angular 1 to 2 Quick Reference",
-    "navTitle": "Angular 1 to 2 Quick Ref",
-    "intro": "Learn how Angular 1 concepts and techniques map to Angular 2"
+    "title": "Angular1에서 Angular2로의 빠른 참조",
+    "navTitle": "Angular1에서 Angular2로의 빠른 참조",
+    "intro": "Angular1 개념과 기법이 Angular2에 어떻게 매핑되는 알아보기"
   },
 
   "ngmodule-faq": {
-    "title": "Angular Module FAQs",
-    "intro": "Answers to frequently asked questions about @NgModule"
+    "title": "Angular 모듈 FAQ",
+    "intro": "@NgModule에 관한 자주 묻는 질문과 답변"
   },
 
   "component-communication": {
-    "title": "Component Interaction",
-    "intro": "Share information between different directives and components"
+    "title": "컴포넌트 상호작용",
+    "intro": "서로 다른 지시자와 컴포넌트 간에 정보 공유"
   },
 
   "component-relative-paths": {
-    "title": "Component-relative Paths",
-    "intro": "Use relative URLs for component templates and styles."
+    "title": "컴포넌트 관련 경로",
+    "intro": "컴포넌트 템플릿과 스타일에 상대적 URL 사용하기"
   },
 
   "dependency-injection": {
-    "title": "Dependency Injection",
-    "intro": "Techniques for Dependency Injection"
+    "title": "종속성 주입",
+    "intro": "종속성 주입 테크닉"
   },
 
   "dynamic-form": {
-    "title": "Dynamic Forms",
-    "intro": "Render dynamic forms with FormGroup"
+    "title": "동적 폼",
+    "intro": "FormGroup을 사용한 동적 폼 렌더링"
   },
 
   "form-validation": {
-    "title": "Form Validation",
-    "intro": "Validate user's form entries"
+    "title": "폼 유효성",
+    "intro": "사용자의 폼 항목 유효성 검사"
   },
 
   "i18n": {
-    "title": "Internationalization (i18n)",
-    "intro": "Translate the app's template text into multiple languages."
+    "title": "국제화 (i18n)",
+    "intro": "앱의 템플릿 텍스트를 여러 언어로 번역하기"
   },
 
   "set-document-title": {
-    "title": "Set the Document Title",
-    "intro": "Setting the document or window title using the Title service."
+    "title": "문서 제목 설정",
+    "intro": "Title 서비스를 사용하여 문서 또는 창 제목 설정하기"
   },
 
   "ts-to-js": {
-    "title": "TypeScript to JavaScript",
-    "intro": "Convert Angular TypeScript examples into ES6 and ES5 JavaScript"
+    "title": "TypeScript에서 JavaScript로",
+    "intro": "Angular TypeScript 예제를 ES6 및 ES5 JavaScript로 변환하기"
   },
 
   "visual-studio-2015": {
-    "title": "Visual Studio 2015 QuickStart",
-    "intro": "Use Visual Studio 2015 with the QuickStart files"
+    "title": "Visual Studio 2015의 빠른 시작",
+    "intro": "Visual Studio 2015를 QuickStart 파일과 함께 사용하기"
   }
 }
