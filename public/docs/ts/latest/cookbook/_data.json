@@ -1,8 +1,8 @@
 {
   "index": {
-    "title": "해설서(Cookbook)",
+    "title": "요리책(Cookbook)",
     "navTitle": "개요",
-    "intro": "일반적인 Angular 애플리케이션 시나리오를 위한 레시피 컬렉션"
+    "intro": "일반적인 Angular 애플리케이션 시나리오를 위한 요리법(recipe) 컬렉션"
   },
 
   "aot-compiler": {
@@ -32,8 +32,8 @@
   },
 
   "dependency-injection": {
-    "title": "종속성 주입",
-    "intro": "종속성 주입 테크닉"
+    "title": "의존성 주입",
+    "intro": "의존성 주입 테크닉"
   },
 
   "dynamic-form": {

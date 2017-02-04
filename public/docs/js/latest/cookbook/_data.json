@@ -1,8 +1,8 @@
 {
   "index": {
-    "title": "해설서(Cookbook)",
+    "title": "요리책(Cookbook)",
     "navTitle": "개요",
-    "intro": "일반적인 Angular 애플리케이션 시나리오를 위한 레시피 컬렉션"
+    "intro": "일반적인 Angular 애플리케이션 시나리오를 위한 요리법(recipe) 컬렉션"
   },
 
   "a1-a2-quick-reference": {
