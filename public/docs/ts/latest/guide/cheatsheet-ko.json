@@ -26,7 +26,7 @@
           "bold": [
             "platformBrowserDynamic().bootstrapModule"
           ],
-          "description": "<p>Bootstraps the app, using the root component from the specified <code>NgModule</code>. </p>\n"
+          "description": "<p><code>NgModule</code>에서 정의한 최상위 컴포넌트로 앱을 실행(bootstrap)</p>\n"
         }
       ],
       "index": 0
@@ -40,42 +40,42 @@
           "bold": [
             "NgModule"
           ],
-          "description": "<p>Defines a module that contains components, directives, pipes, and providers.</p>\n"
+          "description": "<p>컴포넌트, 지시자, 파이프, 제공자를 포함한 모듈 정의</p>\n"
         },
         {
           "syntax": "declarations: [MyRedComponent, MyBlueComponent, MyDatePipe]",
           "bold": [
             "declarations:"
           ],
-          "description": "<p>List of components, directives, and pipes that belong to this module.</p>\n"
+          "description": "<p>이 모듈에 속한 컴포넌트, 지시자, 파이프의 목록</p>\n"
         },
         {
           "syntax": "imports: [BrowserModule, SomeOtherModule]",
           "bold": [
             "imports:"
           ],
-          "description": "<p>List of modules to import into this module. Everything from the imported modules\nis available to <code>declarations</code> of this module.</p>\n"
+          "description": "<p>이 모듈에 임포트할 모듈의 목록. 임포트한 모듈의 모든 것은 이 모듈의 <code>declarations</code>에서 사용 가능.</p>\n"
         },
         {
           "syntax": "exports: [MyRedComponent, MyDatePipe]",
           "bold": [
             "exports:"
           ],
-          "description": "<p>List of components, directives, and pipes visible to modules that import this module.</p>\n"
+          "description": "<p>이 모듈을 임포트하는 모듈에 보여줄 컴포넌트, 지시자, 파이프의 목록.</p>\n"
         },
         {
-          "syntax": "providers: [MyService, { provide: ... }]",
+          "syntax": "providers: [MyService, { provide: ... }]",
           "bold": [
             "providers:"
           ],
-          "description": "<p>List of dependency injection providers visible both to the contents of this module and to importers of this module.</p>\n"
+          "description": "<p>이 모듈의 내용과 이 모듈을 임포트하는 것에 보여줄 의존성 주입 제공자의 목록.</p>\n"
         },
         {
           "syntax": "bootstrap: [MyAppComponent]",
           "bold": [
             "bootstrap:"
           ],
-          "description": "<p>List of components to bootstrap when this module is bootstrapped.</p>\n"
+          "description": "<p>이 모듈이 실행(bootstrap)될 때 실행할 컴포넌트의 목록.</p>\n"
         }
       ],
       "index": 1
@@ -89,56 +89,56 @@
           "bold": [
             "[value]"
           ],
-          "description": "<p>Binds property <code>value</code> to the result of expression <code>firstName</code>.</p>\n"
+          "description": "<p><code>value</code> 프로퍼티를 <code>firstName</code> 표현식 결과에 바인딩.</p>\n"
         },
         {
           "syntax": "<div [attr.role]=\"myAriaRole\">",
           "bold": [
             "[attr.role]"
           ],
-          "description": "<p>Binds attribute <code>role</code> to the result of expression <code>myAriaRole</code>.</p>\n"
+          "description": "<p><code>role</code> 속성을 <code>myAriaRole</code> 표현식 결과에 바인딩.</p>\n"
         },
         {
           "syntax": "<div [class.extra-sparkle]=\"isDelightful\">",
           "bold": [
             "[class.extra-sparkle]"
           ],
-          "description": "<p>Binds the presence of the CSS class <code>extra-sparkle</code> on the element to the truthiness of the expression <code>isDelightful</code>.</p>\n"
+          "description": "<p>엘리먼트의 <code>extra-sparkle</code> CSS 클래스 존재여부를 <code>isDelightful</code> 표현식의 참 여부에 바인딩.</p>\n"
         },
         {
           "syntax": "<div [style.width.px]=\"mySize\">",
           "bold": [
             "[style.width.px]"
           ],
-          "description": "<p>Binds style property <code>width</code> to the result of expression <code>mySize</code> in pixels. Units are optional.</p>\n"
+          "description": "<p><code>width</code> 스타일 프로퍼티를 <code>mySize</code> 표현식의 결과에 픽셀 단위로 바인딩. 단위는 옵션.</p>\n"
         },
         {
           "syntax": "<button (click)=\"readRainbow($event)\">",
           "bold": [
             "(click)"
           ],
-          "description": "<p>Calls method <code>readRainbow</code> when a click event is triggered on this button element (or its children) and passes in the event object.</p>\n"
+          "description": "<p>버튼 엘리먼트(또는 버튼의 자식)에 클릭 이벤트가 발생 시 <code>readRainbow</code> 메소드 호출하고 event 객체에 전달.</p>\n"
         },
         {
           "syntax": "<div title=\"Hello {{ponyName}}\">",
           "bold": [
             "{{ponyName}}"
           ],
-          "description": "<p>Binds a property to an interpolated string, for example, &quot;Hello Seabiscuit&quot;. Equivalent to:\n<code>&lt;div [title]=&quot;&#39;Hello &#39; + ponyName&quot;&gt;</code></p>\n"
+          "description": "<p>프로퍼티를 삽입된(interpolated) 문자열에 바인딩, 예를 들어, &quot;Hello Seabiscuit&quot;. 는 다음과 동일:\n<code>&lt;div [title]=&quot;&#39;Hello &#39; + ponyName&quot;&gt;</code></p>\n"
         },
         {
           "syntax": "<p>Hello {{ponyName}}</p>",
           "bold": [
             "{{ponyName}}"
           ],
-          "description": "<p>Binds text content to an interpolated string, for example, &quot;Hello Seabiscuit&quot;.</p>\n"
+          "description": "<p>텍스트 내용을 삽입된(interpolated) 문자열에 바인딩, 예를 들어, &quot;Hello Seabiscuit&quot;.</p>\n"
         },
         {
           "syntax": "<my-cmp [(title)]=\"name\">",
           "bold": [
             "[(title)]"
           ],
-          "description": "<p>Sets up two-way data binding. Equivalent to: <code>&lt;my-cmp [title]=&quot;name&quot; (titleChange)=&quot;name=$event&quot;&gt;</code></p>\n"
+          "description": "<p>양방향 바인딩 설정. 다음과 동일: <code>&lt;my-cmp [title]=&quot;name&quot; (titleChange)=&quot;name=$event&quot;&gt;</code></p>\n"
         },
         {
           "syntax": "<video #movieplayer ...>\n  <button (click)=\"movieplayer.play()\">\n</video>",
@@ -146,42 +146,42 @@
             "#movieplayer",
             "(click)"
           ],
-          "description": "<p>Creates a local variable <code>movieplayer</code> that provides access to the <code>video</code> element instance in data-binding and event-binding expressions in the current template.</p>\n"
+          "description": "<p>데이터 바인딩 시 <code>video</code> 엘리먼트 인스턴스에 접근할 수 있는 <code>movieplayer</code> 로컬 변수 생성과 현재 템플릿의 이벤트 바인딩 표현식.</p>\n"
         },
         {
           "syntax": "<p *myUnless=\"myExpression\">...</p>",
           "bold": [
             "*myUnless"
           ],
-          "description": "<p>The <code>*</code> symbol turns the current element into an embedded template. Equivalent to:\n<code>&lt;template [myUnless]=&quot;myExpression&quot;&gt;&lt;p&gt;...&lt;/p&gt;&lt;/template&gt;</code></p>\n"
+          "description": "<p>현재 엘리먼트를 임베드 템플릿으로 변환하는 <code>*</code> 기호. 다음과 동일:\n<code>&lt;template [myUnless]=&quot;myExpression&quot;&gt;&lt;p&gt;...&lt;/p&gt;&lt;/template&gt;</code></p>\n"
         },
         {
           "syntax": "<p>Card No.: {{cardNumber | myCardNumberFormatter}}</p>",
           "bold": [
             "{{cardNumber | myCardNumberFormatter}}"
           ],
-          "description": "<p>Transforms the current value of expression <code>cardNumber</code> via the pipe called <code>myCardNumberFormatter</code>.</p>\n"
+          "description": "<p><code>cardNumber</code> 표현식의 현재 값을 <code>myCardNumberFormatter</code> 파이프로 변환.</p>\n"
         },
         {
           "syntax": "<p>Employer: {{employer?.companyName}}</p>",
           "bold": [
             "{{employer?.companyName}}"
           ],
-          "description": "<p>The safe navigation operator (<code>?</code>) means that the <code>employer</code> field is optional and if <code>undefined</code>, the rest of the expression should be ignored.</p>\n"
+          "description": "<p>안전 내비게이션 연산자 (<code>?</code>): <code>employer</code>는 선택적이며 만약 <code>undefined</code>인 경우 표현식의 나머지 부분은 무시됨.</p>\n"
         },
         {
           "syntax": "<svg:rect x=\"0\" y=\"0\" width=\"100\" height=\"100\"/>",
           "bold": [
             "svg:"
           ],
-          "description": "<p>An SVG snippet template needs an <code>svg:</code> prefix on its root element to disambiguate the SVG element from an HTML component.</p>\n"
+          "description": "<p>SVG 관련 템플릿은 HTML 컴포넌트와 SVG 엘리먼트와 구별을 위해 최상위 엘리먼트에 <code>svg:</code> 접두어 필요.</p>\n"
         },
         {
           "syntax": "<svg>\n  <rect x=\"0\" y=\"0\" width=\"100\" height=\"100\"/>\n</svg>",
           "bold": [
             "svg"
           ],
-          "description": "<p>An <code>&lt;svg&gt;</code> root element is detected as an SVG element automatically, without the prefix.</p>\n"
+          "description": "<p><code>&lt;svg&gt;</code> 최상위 엘리먼트는 접두어 없이 자동으로 SVG 엘리먼트로 인식됨.</p>\n"
         }
       ],
       "index": 2
@@ -195,14 +195,14 @@
           "bold": [
             "*ngIf"
           ],
-          "description": "<p>Removes or recreates a portion of the DOM tree based on the <code>showSection</code> expression.</p>\n"
+          "description": "<p><code>showSection</code> 표현식에 기반하여 DOM 트리의 특정 부분을 제거하거나 재생성.</p>\n"
         },
         {
           "syntax": "<li *ngFor=\"let item of list\">",
           "bold": [
             "*ngFor"
           ],
-          "description": "<p>Turns the li element and its contents into a template, and uses that to instantiate a view for each item in list.</p>\n"
+          "description": "<p>li 엘리먼트와 컨텐츠를 템플릿으로 변환하고 리스트의 각 아이템을 뷰에 인스턴스화 하기 위해 사용.</p>\n"
         },
         {
           "syntax": "<div [ngSwitch]=\"conditionExpression\">\n  <template [ngSwitchCase]=\"case1Exp\">...</template>\n  <template ngSwitchCase=\"case2LiteralString\">...</template>\n  <template ngSwitchDefault>...</template>\n</div>",
@@ -212,14 +212,14 @@
             "ngSwitchCase",
             "ngSwitchDefault"
           ],
-          "description": "<p>Conditionally swaps the contents of the div by selecting one of the embedded templates based on the current value of <code>conditionExpression</code>.</p>\n"
+          "description": "<p><code>conditionExpression</code>의 현재 값에 기반하여 임베드 템플릿의 하나를 선택함으로써 div의 컨텐츠를 조건부로 교환.</p>\n"
         },
         {
           "syntax": "<div [ngClass]=\"{active: isActive, disabled: isDisabled}\">",
           "bold": [
             "[ngClass]"
           ],
-          "description": "<p>Binds the presence of CSS classes on the element to the truthiness of the associated map values. The right-hand expression should return {class-name: true/false} map.</p>\n"
+          "description": "<p>엘리먼트의 CSS 클래스 존재여부를 연관된 맵 값의 참 여부에 바인딩. 오른쪽 표현식은 반드시 {class-name: true/false} 맵을 반환해야 함.</p>\n"
         }
       ],
       "index": 3
@@ -233,7 +233,7 @@
           "bold": [
             "[(ngModel)]"
           ],
-          "description": "<p>Provides two-way data-binding, parsing, and validation for form controls.</p>\n"
+          "description": "<p>양방향 데이터 바인딩, 파싱, 폼 컨트롤 유효성 검사 제공.</p>\n"
         }
       ],
       "index": 4
@@ -247,28 +247,28 @@
           "bold": [
             "@Component({...})"
           ],
-          "description": "<p>Declares that a class is a component and provides metadata about the component.</p>\n"
+          "description": "<p>클래스가 컴포넌트임을 선언하고 그 컴포넌트의 메타데이터를 제공</p>\n"
         },
         {
           "syntax": "@Directive({...})\nclass MyDirective() {}",
           "bold": [
             "@Directive({...})"
           ],
-          "description": "<p>Declares that a class is a directive and provides metadata about the directive.</p>\n"
+          "description": "<p>클래스가 지시자임을 선언하고 그 지시자의 메타데이터를 제공.</p>\n"
         },
         {
           "syntax": "@Pipe({...})\nclass MyPipe() {}",
           "bold": [
             "@Pipe({...})"
           ],
-          "description": "<p>Declares that a class is a pipe and provides metadata about the pipe.</p>\n"
+          "description": "<p>클래스가 파이프임을 선언하고 그 파이프의 메타데이터를 제공.</p>\n"
         },
         {
           "syntax": "@Injectable()\nclass MyService() {}",
           "bold": [
             "@Injectable()"
           ],
-          "description": "<p>Declares that a class has dependencies that should be injected into the constructor when the dependency injector is creating an instance of this class.\n\n</p>\n"
+          "description": "<p>의존성이 있는 클래스라는 것을 선언. 의존성 주입기가 클래스 인스턴스를 만들 때 의존성이 생성자에 주입되어야만 함.\n\n</p>\n"
         }
       ],
       "index": 5
@@ -282,14 +282,14 @@
           "bold": [
             "selector:"
           ],
-          "description": "<p>Specifies a CSS selector that identifies this directive within a template. Supported selectors include <code>element</code>,\n<code>[attribute]</code>, <code>.class</code>, and <code>:not()</code>.</p>\n<p>Does not support parent-child relationship selectors.</p>\n"
+          "description": "<p>템플릿에서 이 지시자를 식별할 수 있는 CSS 선택자를 지정. 지원하는 선택자는 <code>엘리먼트</code>,\n<code>[속성]</code>, <code>.클래스</code>, 그리고 <code>:not()</code>.</p>\n<p>부모-자식 관계 선택자는 지원하지 않음.</p>\n"
         },
         {
-          "syntax": "providers: [MyService, { provide: ... }]",
+          "syntax": "providers: [MyService, { provide: ... }]",
           "bold": [
             "providers:"
           ],
-          "description": "<p>List of dependency injection providers for this directive and its children.</p>\n"
+          "description": "<p>이 지시자와 그 자식의 의존성 주입 제공자 목록.</p>\n"
         }
       ],
       "index": 6
@@ -303,14 +303,14 @@
           "bold": [
             "moduleId:"
           ],
-          "description": "<p>If set, the <code>templateUrl</code> and <code>styleUrl</code> are resolved relative to the component.</p>\n"
+          "description": "<p>만약 설정을 하면, <code>templateUrl</code> 과 <code>styleUrl</code> 은 컴포넌트에 상대적으로 검색.</p>\n"
         },
         {
-          "syntax": "viewProviders: [MyService, { provide: ... }]",
+          "syntax": "viewProviders: [MyService, { provide: ... }]",
           "bold": [
             "viewProviders:"
           ],
-          "description": "<p>List of dependency injection providers scoped to this component&#39;s view.</p>\n"
+          "description": "<p>이 컴포넌트의 뷰 영역(scope)에서의 의존성 주입 제공자 목록.</p>\n"
         },
         {
           "syntax": "template: 'Hello {{name}}'\ntemplateUrl: 'my-component.html'",
@@ -318,7 +318,7 @@
             "template:",
             "templateUrl:"
           ],
-          "description": "<p>Inline template or external template URL of the component&#39;s view.</p>\n"
+          "description": "<p>컴포넌트 뷰의 인라인 템플릿 또는 외부 템플릿 URL.</p>\n"
         },
         {
           "syntax": "styles: ['.primary {color: red}']\nstyleUrls: ['my-component.css']",
@@ -326,7 +326,7 @@
             "styles:",
             "styleUrls:"
           ],
-          "description": "<p>List of inline CSS styles or external stylesheet URLs for styling the component’s view.</p>\n"
+          "description": "<p>컴포넌트 뷰 스타일링을 위한 인라인 CSS 또는 스타일시트 URL 목록.</p>\n"
         }
       ],
       "index": 7
@@ -340,56 +340,56 @@
           "bold": [
             "@Input()"
           ],
-          "description": "<p>Declares an input property that you can update via property binding (example:\n<code>&lt;my-cmp [myProperty]=&quot;someExpression&quot;&gt;</code>).</p>\n"
+          "description": "<p>프로퍼티 바인딩으로 업데이트 할 수 있는 input 프로퍼티 선언 (예:\n<code>&lt;my-cmp [myProperty]=&quot;someExpression&quot;&gt;</code>).</p>\n"
         },
         {
           "syntax": "@Output() myEvent = new EventEmitter();",
           "bold": [
             "@Output()"
           ],
-          "description": "<p>Declares an output property that fires events that you can subscribe to with an event binding (example: <code>&lt;my-cmp (myEvent)=&quot;doSomething()&quot;&gt;</code>).</p>\n"
+          "description": "<p>이벤트 바인딩으로 구독할 수 있는 이벤트를 방출하는 output 프로퍼티 선언 (예: <code>&lt;my-cmp (myEvent)=&quot;doSomething()&quot;&gt;</code>).</p>\n"
         },
         {
           "syntax": "@HostBinding('class.valid') isValid;",
           "bold": [
             "@HostBinding('class.valid')"
           ],
-          "description": "<p>Binds a host element property (here, the CSS class <code>valid</code>) to a directive/component property (<code>isValid</code>).</p>\n"
+          "description": "<p>호스트 엘리먼트 프로퍼티 (여기서는 CSS 클래스 <code>valid</code>)를 지시자/컴포넌트 프로퍼티에 바인딩 (<code>isValid</code>).</p>\n"
         },
         {
           "syntax": "@HostListener('click', ['$event']) onClick(e) {...}",
           "bold": [
             "@HostListener('click', ['$event'])"
           ],
-          "description": "<p>Subscribes to a host element event (<code>click</code>) with a directive/component method (<code>onClick</code>), optionally passing an argument (<code>$event</code>).</p>\n"
+          "description": "<p>호스트 엘리먼트 이벤트 (<code>click</code>)를 지시자/컴포넌트 메소드 (<code>onClick</code>)에 바인딩, 선택적으로 (<code>$event</code>) 파라미터 전달.</p>\n"
         },
         {
           "syntax": "@ContentChild(myPredicate) myChildComponent;",
           "bold": [
             "@ContentChild(myPredicate)"
           ],
-          "description": "<p>Binds the first result of the component content query (<code>myPredicate</code>) to a property (<code>myChildComponent</code>) of the class.</p>\n"
+          "description": "<p>컴포넌트 컨텐츠 쿼리의 첫번째 결과를 (<code>myPredicate</code>) 클래스의 프로퍼티 (<code>myChildComponent</code>) 에 바인딩 .</p>\n"
         },
         {
           "syntax": "@ContentChildren(myPredicate) myChildComponents;",
           "bold": [
             "@ContentChildren(myPredicate)"
           ],
-          "description": "<p>Binds the results of the component content query (<code>myPredicate</code>) to a property (<code>myChildComponents</code>) of the class.</p>\n"
+          "description": "<p>컴포넌트 컨튼츠 쿼리의 결과를 (<code>myPredicate</code>) 클래스의 프로퍼티 (<code>myChildComponents</code>) 에 바인딩. </p>\n"
         },
         {
           "syntax": "@ViewChild(myPredicate) myChildComponent;",
           "bold": [
             "@ViewChild(myPredicate)"
           ],
-          "description": "<p>Binds the first result of the component view query (<code>myPredicate</code>) to a property (<code>myChildComponent</code>) of the class. Not available for directives.</p>\n"
+          "description": "<p>컴포넌트 뷰 쿼리의 첫번째 결과를 (<code>myPredicate</code>) 클래스의 프로퍼티 (<code>myChildComponent</code>) 에 바인딩. 지시자에는 사용불가.</p>\n"
         },
         {
           "syntax": "@ViewChildren(myPredicate) myChildComponents;",
           "bold": [
             "@ViewChildren(myPredicate)"
           ],
-          "description": "<p>Binds the results of the component view query (<code>myPredicate</code>) to a property (<code>myChildComponents</code>) of the class. Not available for directives.</p>\n"
+          "description": "<p>컴포넌트 뷰 쿼리의 결과를 (<code>myPredicate</code>) 클래스의 프로퍼티 (<code>myChildComponents</code>) 에 바인딩. 지시자에는 사용불가.</p>\n"
         }
       ],
       "index": 8
@@ -403,63 +403,63 @@
           "bold": [
             "constructor(myService: MyService, ...)"
           ],
-          "description": "<p>Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.</p>\n"
+          "description": "<p>다른 어떤 라이프사이클 훅 전에 호출됨. 의존성을 주입하기 위해 사용하세요. 그러나 무거운 작업은 금물.</p>\n"
         },
         {
           "syntax": "ngOnChanges(changeRecord) { ... }",
           "bold": [
             "ngOnChanges(changeRecord)"
           ],
-          "description": "<p>Called after every change to input properties and before processing content or child views.</p>\n"
+          "description": "<p>input 프로퍼티의 모든 변경 후 또는 컨텐츠나 자식 뷰 처리 전에 호출됨.</p>\n"
         },
         {
           "syntax": "ngOnInit() { ... }",
           "bold": [
             "ngOnInit()"
           ],
-          "description": "<p>Called after the constructor, initializing input properties, and the first call to <code>ngOnChanges</code>.</p>\n"
+          "description": "<p>생성자 다음 호출. input 프로퍼티를 초기화한 다음 <code>ngOnChanges</code>를 첫번째로 호출.</p>\n"
         },
         {
           "syntax": "ngDoCheck() { ... }",
           "bold": [
             "ngDoCheck()"
           ],
-          "description": "<p>Called every time that the input properties of a component or a directive are checked. Use it to extend change detection by performing a custom check.</p>\n"
+          "description": "<p>컴포넌트나 지시자의 input 프로퍼티가 체크될 때마다 호출. 사용자 정의 체크를 수행하여 변경 감지를 확장하기 위해 사용.</p>\n"
         },
         {
           "syntax": "ngAfterContentInit() { ... }",
           "bold": [
             "ngAfterContentInit()"
           ],
-          "description": "<p>Called after <code>ngOnInit</code> when the component&#39;s or directive&#39;s content has been initialized.</p>\n"
+          "description": "<p>컴포넌트나 지시자의 컨텐츠가 초기화 되면 <code>ngOnInit</code> 다음 호출.</p>\n"
         },
         {
           "syntax": "ngAfterContentChecked() { ... }",
           "bold": [
             "ngAfterContentChecked()"
           ],
-          "description": "<p>Called after every check of the component&#39;s or directive&#39;s content.</p>\n"
+          "description": "<p>컴포넌트나 지시자의 모든 체크 후에 호출</p>\n"
         },
         {
           "syntax": "ngAfterViewInit() { ... }",
           "bold": [
             "ngAfterViewInit()"
           ],
-          "description": "<p>Called after <code>ngAfterContentInit</code> when the component&#39;s view has been initialized. Applies to components only.</p>\n"
+          "description": "<p>컴포넌트의 뷰가 초기화 되면 <code>ngAfterContentInit</code> 다음 호출. 컴포넌트에만 적용.</p>\n"
         },
         {
           "syntax": "ngAfterViewChecked() { ... }",
           "bold": [
             "ngAfterViewChecked()"
           ],
-          "description": "<p>Called after every check of the component&#39;s view. Applies to components only.</p>\n"
+          "description": "<p>컴포넌트 뷰의 모든 체크 후에 호출. 컴포넌트에만 적용.</p>\n"
         },
         {
           "syntax": "ngOnDestroy() { ... }",
           "bold": [
             "ngOnDestroy()"
           ],
-          "description": "<p>Called once, before the instance is destroyed.</p>\n"
+          "description": "<p>인스턴스가 소멸되기 전에 한번 호출.</p>\n"
         }
       ],
       "index": 9
@@ -474,7 +474,7 @@
             "provide",
             "useClass"
           ],
-          "description": "<p>Sets or overrides the provider for <code>MyService</code> to the <code>MyMockService</code> class.</p>\n"
+          "description": "<p><code>MyService</code> 제공자를 <code>MyMockService</code> 클래스로 설정하거나 오버라이드.</p>\n"
         },
         {
           "syntax": "{ provide: MyService, useFactory: myFactory }",
@@ -482,7 +482,7 @@
             "provide",
             "useFactory"
           ],
-          "description": "<p>Sets or overrides the provider for <code>MyService</code> to the <code>myFactory</code> factory function.</p>\n"
+          "description": "<p><code>MyService</code> 제공자를 <code>myFactory</code> 팩토리 함수로 설정하거나 오버라이드.</p>\n"
         },
         {
           "syntax": "{ provide: MyValue, useValue: 41 }",
@@ -490,7 +490,7 @@
             "provide",
             "useValue"
           ],
-          "description": "<p>Sets or overrides the provider for <code>MyValue</code> to the value <code>41</code>.</p>\n"
+          "description": "<p><code>MyValue</code> 제공자를 <code>41</code> 값으로 설정하거나 오버라이드.</p>\n"
         }
       ],
       "index": 10
@@ -504,7 +504,7 @@
           "bold": [
             "Routes"
           ],
-          "description": "<p>Configures routes for the application. Supports static, parameterized, redirect, and wildcard routes. Also supports custom route data and resolve.</p>\n"
+          "description": "<p>애플리케이션 route 설정. static, parameterized, redirect, 와 wildcard route 지원. 사용자 정의 route 데이터와 </p>\n"
         },
         {
           "syntax": "\n<router-outlet></router-outlet>\n<router-outlet name=\"aux\"></router-outlet>\n",
