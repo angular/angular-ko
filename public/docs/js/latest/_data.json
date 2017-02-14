@@ -15,6 +15,13 @@
     "banner": "빠른시작 가이드는 간단한 Angular 애플리케이션을 만들고, 실행하는 방법을 보여줍니다."
   },
 
+  "cli-quickstart": {
+    "icon": "query-builder",
+    "title": "CLI를 이용한 빠른시작",
+    "subtitle": "TypeScript",
+    "description": "CLI 도구를 이용하게 빠르게 Angular 애플리케이션을 만들어 보세요"
+  },
+
   "tutorial": {
     "icon": "list",
     "title": "튜토리얼",
