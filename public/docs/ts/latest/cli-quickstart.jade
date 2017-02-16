@@ -1,278 +1,555 @@
 include _util-fns
   
 :marked
+  좋은 도구를 사용하면 모든 것을 손으로 처리하는 것보다
+  애플리케이션 개발을 보다 쉽고 빠르게 유지관리 할 수 있습니다.
+
   Good tools make application development quicker and easier to maintain than
-  if we did everything by hand.
+  if you did everything by hand.
   
+  [**Angular-CLI**](https://cli.angular.io/)는 프로젝트를 만들고 파일을 추가하고
+  테스트, 번들링 및 배포하는 것과 같은 지속적인 개발을 수행 할 수
+  있도록 해주는 **_명령줄 인터페이스_** 도구입니다.
+
   The [**Angular-CLI**](https://cli.angular.io/) is a **_command line interface_** tool
   that can create a project, add files, and perform a variety of on-going development tasks such 
   as testing, bundling, and deployment.
-  
-  Our goal in this CLI QuickStart chapter is to build and run a super-simple Angular 
+
+  이 CLI 빠른시작 챕터의 목표는 Angular-CLI를 사용하여
+  TypeScript에서 매우 단순한 Angular 애플리케이션을 빌드하고 실행하는 것입니다.
+  각 Angular 프로젝트에 도움이 되는 [스타일 가이드](./guide/style-guide.html)
+  권장 사항을 따르세요.
+
+  The goal in this CLI QuickStart chapter is to build and run a super-simple Angular 
   application in TypeScript, using Angular-CLI 
   while adhering to the [Style Guide](./guide/style-guide.html) recommendations that
   benefit _every_ Angular project.
   
-  By the end of the chapter, we'll have a basic understanding of development with the CLI
-  and a foundation for both these documentation samples and our real world applications.
+  이 챕터의 끝 부분에서는 CLI를 사용하여 개발하는 방법에 대한
+  기본 지식을 얻고 이 문서의 샘플과 실제 애플리케이션의 기초를 마련 할 것입니다.
 
-  We'll pursue these ends in the following high-level steps:
+  By the end of the chapter, you'll have a basic understanding of development with the CLI
+  and a foundation for both these documentation samples and for real world applications.
+
+  다음과 같은 개괄적인 단계로 이러한 목표를 추구 할 것입니다.
+
+  You'll pursue these ends in the following high-level steps:
   
+  1. 개발 환경 [셋업](#devenv)
+
   1. [Set up](#devenv) the development environment
+
+  2. 새로운 프로젝트와 애플리케이션 골격 [생성](#create-proj)
+
   2. [Create](#create-proj) a new project and skeleton application
+
+  3. 애플리케이션 [실행](#serve)
+
   3. [Serve](#serve) the application
+
+  4. 애플리케이션 [수정](#first-component)
+
   4. [Edit](#first-component) the application
 
 
 .l-main-section
+h2#devenv Step 1. 개발환경 셋업
 h2#devenv Step 1. Set up the Development Environment
 :marked
-  We need to set up our development environment before we can do anything.
-   
+  무엇이든 하기 전에 개발 환경을 설정해야합니다.
+
+  You need to set up your development environment before you can do anything.
+
+  컴퓨터에 설치되어 있지 않은 경우
+  **[Node.js® 및 npm]을 설치(https://nodejs.org/en/download/)하세요**.
+
   Install **[Node.js® and npm](https://nodejs.org/en/download/)**
   if they are not already on your machine.
 .l-sub-section
   :marked
-    **Verify that you are running node `v4.x.x` and npm `3.x.x`**
+    **node `v4.x.x`와 npm `3.x.x`를 실행하고 있는지 확인하세요**
+    터미널/콘솔 창에서 `node -v`와 `npm -v`를 실행하면 됩니다.
+    이전 버전에서는 오류가 발생합니다.
+
+    **Verify that you are running at least node `4.x.x` and npm `3.x.x`**
     by running `node -v` and `npm -v` in a terminal/console window.
-    Older versions produce errors.
+    Older versions produce errors, but newer versions are fine.
 :marked
+  그런 다음 **[Angular-CLI](https://github.com/angular/angular-cli)**를 global로 설치하세요.
+
   Then **install the [Angular-CLI](https://github.com/angular/angular-cli)** globally.
   
-code-example(format="").
-  npm install -g angular-cli
+code-example(language="sh" class="code-shell").
+  npm install -g @angular/cli
   
 .l-main-section
+h2#create-project Step 2. 프로젝트 생성
 h2#create-project Step 2. Create a new project
 :marked
+  터미널 창을 엽니다.
+
   Open a terminal window.
-  
-.alert.is-important
-  :marked
-    _Windows Developers_: open a console window _as an **administrator**_.
-    The Angular-CLI build steps later in this tutorial 
-    create <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa365680(v=vs.85).aspx" target="_blank"><i>symbolic links</i></a> 
-    to various directories. These so-called _symlinks_ save time and space.
-    But it takes administrator rights under Windows to create them.
 
 :marked
+  다음 명령을 실행하여 새 프로젝트 및 애플리케이션 골격을 생성합니다.
+
   Generate a new project and skeleton application by running the following commands:
 
-code-example(format="").
-  ng new cli-quickstart
+code-example(language="sh" class="code-shell").
+  ng new my-app
 
 .l-sub-section
   :marked
+    인내심 가지세요.
+    새 프로젝트를 설정하는 데 시간이 걸리는데, 대부분 npm 패키지를 설치하는 데 소요됩니다.
+
     Patience please. 
     It takes time to set up a new project, most of it spent installing npm packages.
 
 .l-main-section
+h2#serve Step 3: 애플리케이션 실행
 h2#serve Step 3: Serve the application
 :marked
+  프로젝트 디렉토리로 이동하여 서버를 실행하세요.
+
   Go to the project directory and launch the server.
-code-example(format="").
-  cd cli-quickstart
+
+code-example(language="sh" class="code-shell").
+  cd my-app
   ng serve
-:marked
-  The `ng serve` command launches the server, watches our files, 
-  and rebuilds the app as we make changes to the files.
   
-  Open a browser on `http://localhost:4200/`; the app greets us with a message:
+:marked
+  `ng serve` 명령은 서버를 시작하고 파일을 감시하며
+  파일이 변경될 때마다 앱을 다시 빌드합니다.
+
+  The `ng serve` command launches the server, watches your files, 
+  and rebuilds the app as you make changes to those files.
+  
+  브라우저에서 `http://localhost:4200/`를 여세요; 앱이 다음 메시지와 함께 맞이해줄겁니다:
+
+  Open a browser on `http://localhost:4200/`; the app greets you with a message:
   
 figure.image-display
-  img(src='/resources/images/devguide/cli-quickstart/app-works.png' alt="Our app works!")
+  img(src='/resources/images/devguide/cli-quickstart/app-works.png' alt="The app works!")
 
 .l-main-section
-h2#first-component Step 4: Edit our first Angular component
+h2#first-component Step 4: 첫번째 Angular 컴포넌트 수정
+h2#first-component Step 4: Edit your first Angular component
 :marked
-  The CLI created our first Angular component for us. 
-  This is the _root component_ and it is named after the project. We created the project
-  with the name `cli-quickstart` so our component is `CliQuickstartAppComponent` and 
-  it's in the file `/src/app/cli-quickstart.component.ts`
-.l-sub-section
-  :marked
-    _CliQuickstartAppComponent_ is a _horrible name_. Almost everyone renames it to _AppComponent_ ...
-    and renames all of the associated files to _app.component.??_ as we do throughout the documentation.
-    We'll leave that step as an exercise.
+  CLI가 첫 번째 Angular 컴포넌트를 만들었습니다.
+  이것은 _최상위 컴포넌트_ 이며 프로젝트 이름을 따서 지정됩니다. 우리는 `cli-quickstart`라는
+  이름으로 프로젝트를 만들었으므로 컴포넌트는 `CliQuickstartAppComponent`이고
+  `/src/app/cli-quickstart.component.ts` 파일에 있습니다.
+
+  The CLI created the first Angular component for you. 
+  This is the _root component_ and it is named `app-root`.
+  You can find it in `./src/app/app.component.ts`.
 
 :marked
-  Open the component file and change the `title` property from _cli-quickstart works!_ to _My First Angular App_:
+  컴포넌트 파일을 열고 _cli-quickstart works!_에서 _My First Angular App_으로 `title` 프로퍼티를 변경하세요!:
+
+  Open the component file and change the `title` property from _app works!_ to _My First Angular App_:
   
-+makeExample('cli-quickstart/ts/src/app/cli-quickstart.component.ts', 'title', 'src/app/cli-quickstart.component.ts')(format=".")
++makeExample('cli-quickstart/ts/src/app/app.component.ts', 'title', 'src/app/app.component.ts')(format=".")
 
 :marked
+  브라우저가 자동으로 다시 로드되고 수정 된 제목이 표시됩니다. 멋지게 되었지만 더 잘 보이게 할 수 있습니다.
+
   The browser reloads automatically and we see the revised title. That's nice, but we can make it look better.
   
-  Open `src/app/cli-quickstart.component.css` and give our component some style 
+  `src/app/cli-quickstart.component.css` 파일을 열고 우리의 컴포넌트에 약간의 스타일을 부여하세요.
 
-+makeExample('cli-quickstart/ts/src/app/cli-quickstart.component.css', null, 'src/app/cli-quickstart.component.css')(format=".")
+  Open `src/app/cli-quickstart.component.css` and give the component some style 
+
++makeExample('cli-quickstart/ts/src/app/app.component.css', null, 'src/app/app.component.css')(format=".")
 
 figure.image-display
-  img(src='/resources/images/devguide/cli-quickstart/hello-angular.png' alt="Output of QuickStart app")  
+  img(src='/resources/images/devguide/cli-quickstart/my-first-app.png' alt="Output of QuickStart app")  
   
 :marked
+  보기 좋군요!
+  
   Looking good!
 
 .l-main-section
 :marked
-  ## What's next?
-  Our first application doesn't do much. It's basically "Hello, World" for Angular.
+  ## 다음 계획
+  ## What's next? 
+  여기까지가 "Hello, World"앱에서 기대하는 모든 것입니다.
 
-  We kept it simple in our first pass: we wrote our first Angular application using the angular CLI
-  and modified our first component. That's about all we'd expect to do for a "Hello, World" app.
+  That's about all you'd expect to do in a "Hello, World" app.
 
-  **We have greater ambitions!**
-:marked
-  We're about to take the next step and build a small application that
-  demonstrates the great things we can build with Angular.
+  이제 여러분은 [Tour of Heroes 튜토리얼](./tutorial)을 시작하여
+  Angular로 구축 할 수 있는 훌륭한 것들을 보여주는 작은 애플리케이션을 만들 준비가 되었습니다.
 
-  Join us on the [Tour of Heroes Tutorial](./tutorial)!
+  You're ready to take the [Tour of Heroes Tutorial](./tutorial) and build
+  a small application that demonstrates the great things you can build with Angular.
 
-  Or stick around a bit longer to learn a few things about what we just did.
-<br><br>
+  또는 새로운 프로젝트의 파일에 대해 더 배우기 위해 잠시만 더 살펴보세요.
+
+  Or you can stick around a bit longer to learn about the files in your brand new project.
+
 .l-main-section
-h1#behind-the-code Behind the code
 :marked
-  ### CliQuickstartAppComponent is the root of the application
+  ## 프로젝트 파일 검토
+  ## Project file review
 
-  Every Angular app has at least one **root component**, that hosts the client user experience.
-  Components are the basic building blocks of Angular applications.
-  A component controls a portion of the screen &mdash; a *view* &mdash; through its associated template.
+  Angular-CLI 프로젝트는 빠른 실험과 엔터프라이즈 솔루션의 기초입니다.
 
-  This QuickStart has only one, extremely simple component.
-  But it has the essential structure of every component we'll ever write:
+  An Angular-CLI project is the foundation for both quick experiments and enterprise solutions.
 
-  * one or more [import](#component-import)
-  statements to reference the things we need.
-  * a [@Component decorator](#component-decorator)
-  that tells Angular what template to use and how to create the component.
-  * a [component class](#component-class)
-  that controls the appearance and behavior of a view through its template.
+  확인해야 할 첫 번째 파일은 `README.md`입니다.
+  CLI 명령을 사용하는 방법에 대한 몇 가지 기본 정보가 있습니다.
+  Angular-CLI가 어떻게 작동하는지 자세히 알고 싶다면 언제든지
+  [Angular-CLI 저장소](https://github.com/angular /angular-cli) 및
+  [Wiki](https://github.com/angular/angular-cli/wiki)를 방문하세요.
 
-a#component-import
-:marked
-  ### Import
+  The first file you should check out is `README.md`.
+  It has some basic information on how to use CLI commands.
+  Whenever you want to know more about how Angular-CLI works make sure to visit 
+  [the Angular-CLI repository](https://github.com/angular/angular-cli) and 
+  [Wiki](https://github.com/angular/angular-cli/wiki).
 
-  Angular apps are modular. They consist of many files, each dedicated to a purpose.
+  생성 된 파일 중 일부는 생소 할 수 있습니다.
 
-  Angular itself is modular. It is a collection of library modules
-  consisting of several, related features that we'll use to build our application.
+  Some of the generated files might be unfamiliar to you. 
 
-  When we need something from a module or library, we import it.
-  Here we import the `Component` decorator from the Angular **_core_** library 
-  that we'll use as a decorator (`@Component`) to attach metadata to our component class.
-  .
+block src-files
+  :marked
+    ### `src` 폴더
+    ### The `src` folder
+    앱은 `src` 폴더에 있습니다.
 
-+makeExcerpt('src/app/cli-quickstart.component.ts', 'import')
+    Your app lives in the `src` folder.
 
-h3#component-decorator @Component decorator
-:marked
-  `Component` is a *decorator* function that associates Angular *metadata* with a
-  component class.
-  The metadata tell Angular how to create and display instances of this component.
+    모든 Angular 컴포넌트, 템플릿, 스타일, 이미지 및 앱에 필요한 기타 사항은 여기에 있습니다.
+    이 폴더 외부의 모든 파일은 앱 구축을 지원하기 위한 것입니다.
 
-  We apply this function to the component class by prefixing the function name with the
-  **@** symbol and invoking it with a metadata object, just above the class.
+    All Angular components, templates, styles, images and anything else your app needs go here.
+    Any files outside of this folder are meant to support building your app.
 
-+makeExcerpt('src/app/cli-quickstart.component.ts', 'metadata')
+.filetree
+  .file src
+  .children
+    .file app
+    .children
+      .file app.component.css
+      .file app.component.html
+      .file app.component.spec.ts
+      .file app.component.ts
+      .file app.module.ts
+    .file assets
+    .children
+      .file .gitkeep
+    .file environments
+    .children
+      .file environment.prod.ts
+      .file environment.ts
+    .file favicon.ico
+    .file index.html
+    .file main.ts
+    .file polyfills.ts
+    .file styles.css
+    .file test.ts
+    .file tsconfig.json
 
-:marked
-  This particular metadata object has four fields, a `moduleId`, a `selector` a `templateUrl` and an array of `styleUrls`.
-  
-  The **moduleId** specifies the location of _this_ component definition file
-  so that Angular can find the corresponding _template_ and _style_ files with URLs that
-  are relative to this component file. 
-  The module loader sets the value of `module.id` at runtime;
-  we're using that value to set the metadata `moduleId` property.
+style td, th {vertical-align: top}
+table(width="100%")
+  col(width="20%")
+  col(width="80%")
+  tr
+    th 
+      File
+      파일
+    th 
+      Purpose
+      목적
+  tr
+    td <code>app/app.component.{ts,html,css,spec.ts}</code>
+    td
+      :marked
+        HTML 템플릿, CSS 스타일시트 및 단위 테스트와 함께 `AppComponent`를 정의합니다.
+        애플리케이션이 진화함에 따라 
+        중첩 된 컴포넌트의 트리가 되는 **최상위** 컴포넌트입니다.
 
-  The **selector** is a [CSS selector](https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Getting_Started/Selectors) 
-  identifying the HTML element that represents this component.
+        Defines the `AppComponent` along with an HTML template, CSS stylesheet and a unit test.
+        It is the **root** component of what will become a tree of nested components
+        as the application evolves. 
+  tr
+    td <code>app/app.module.ts</code>
+    td
+      :marked
+        애플리케이션을 조립하는 방법을 Angular에게 알려주는 [최상위 모듈](guide/appmodule.html "AppModule: 최상위 모듈")인 `AppModule`을 정의합니다.
+        지금은 `AppComponent` 만 선언합니다.
+        곧 더 많은 컴포넌트가 선언 될 것입니다.
 
-  The element tag name for this component is `cli-quickstart-app`.
-  Angular creates and displays an instance of our `CliQuickstartAppComponent`
-  wherever it encounters a `<cli-quickstart-app>` element in the host HTML.
+        Defines `AppModule`, the [root module](guide/appmodule.html "AppModule: the root module") that tells Angular how to assemble the application.
+        Right now it declares only the `AppComponent`.
+        Soon there will be more components to declare.
+  tr
+    td <code>assets/*</code>
+    td
+      :marked
+        애플리케이션을 만들 때 이미지와 다른 것을 넣을 수 있는 폴더입니다.
+        
+        A folder where you can put images and anything else you need to be copied wholesale 
+        when you build your application.
+  tr
+    td <code>environments/*</code>
+    td
+      :marked
+        이 폴더는 각 대상 환경별로 하나의 파일을 가지고 있으며,
+        각 파일은 애플리케이션에서 사용할 간단한 설정 변수를 내보냅니다.
+        파일은 애플리케이션을 빌드할 때 즉시 바뀝니다.
+        상용이 아닌 개발용으로 다른 API 엔드포인트를 사용할 수도 있습니다.
+        또는 다른 분석 토큰 일 수도 있습니다.
+        어떤 모의 서비스일지도 모릅니다.
+        어느 쪽이든, CLI가 관리해줍니다.
 
-  The **templateUrl** locates the component's companion template HTML file.
-  The template tells Angular how to render this component's view.
-  
-  Our template is a single `<h1>` element surrounding some peculiar Angular data binding syntax.
-+makeExample('src/app/cli-quickstart.component.html', null, 'src/app/cli-quickstart.component.html')(format='.')
-:marked
-  The `{{title}}` is an _interpolation_ binding that causes Angular to display the component's
-  `title` property. After out edit, Angular displays "Hello Angular".
-  We'll learn more about data binding as we read through the documentation.
-  
-  The **styleUrls** array specifies the location(s) of the component's private CSS style file(s).
-  The CLI generated an empty file for us and we added styles to it.
+        This folder contains one file for each of your destination environments,
+        each exporting simple configuration variables to use on your application.
+        The files will be replaced on-the-fly when you build your app.
+        You might use a different API endpoint for development than you do for production.
+        Or maybe different analytics tokens.
+        Maybe even some mock services.
+        Either way, the CLI has you covered.
+  tr
+    td <code>favicon.ico</code>
+    td
+      :marked
+        모든 사이트는 북마크 바에서 잘 보이길 원합니다.
+        아주 독특한 Angular 아이콘으로 시작하십시오.
 
-:marked
-  ### Component class
-  At the bottom of the component definition file is the component class named `CliQuickstartAppComponent`.
-+makeExcerpt('cli-quickstart/ts/src/app/cli-quickstart.component.ts', 'class')
-:marked
-  This class contains the `title` property that we're displaying in our template.
-  We can expand this class with more properties and application logic.
+        Every site wants to look good on the bookmark bar.
+        Get started with your very own Angular icon.
+  tr
+    td <code>index.html</code>
+    td
+      :marked
+        누군가 여러분의 사이트를 방문 할 때 보이는 주요 html 페이지입니다.
+        대부분의 경우 편집 할 필요가 없습니다.
+        CLI는 앱을 빌드 할 때 모든 `js`와 `css` 파일을 자동으로 추가하므로
+        수동으로 여기에 어떠한 `<script>` 또는 `<link>` 태그도 추가 할 필요가 없습니다.
 
-  We **export** `CliQuickstartAppComponent` so that we can **import** it elsewhere in our application ... as we're about to do.
+        The main html page that is served when someone visits your site.
+        Most of the time you'll never need to edit it.
+        The CLI will automatically add all `js` and `css` files when building your app so you 
+        never need to add any `<script>` or `<link>` tags here manually.
+  tr
+    td <code>main.ts</code>
+    td
+      :marked
+        앱의 주 진입점.
+        [JIT 컴파일러](glossary.html#jit)로 애플리케이션을 컴파일합니다.
+        애플리케이션의 최상위 모듈 (`AppModule`)을 실행(bootstrap)하여 브라우저에서 실행합니다.
+        `--aot`를 `ng build` 또는 `ng serve`에 넘겨 코드를 변경하지 않고 
+        [AoT 컴파일러](glossary.html # ahead-of-time-aot-compilation)을 사용할 수도 있습니다.
 
-:marked
-  ### The *main.ts* file
-  
-  How does Angular know what to do with our component?  We have to tell it. 
-  We _bootstrap_ our application in the file `main.ts`.
-  
-+makeExcerpt('src/main.ts', 'important')
+        The main entry point for your app.
+        Compiles the application with the [JIT compiler](glossary.html#jit)
+        and bootstraps the application's root module (`AppModule`) to run in the browser.
+        You can also use the [AoT compiler](glossary.html#ahead-of-time-aot-compilation)
+        without changing any code by passing on `--aot` to `ng build` or `ng serve`.
+  tr
+    td <code>polyfills.ts</code>
+    td
+      :marked
+        서로 다른 브라우저는 웹 표준에 대한 지원 수준이 다릅니다.
+        Polyfills는 이러한 차이를 표준화하는 데 도움이 됩니다.
+        `core-js`와 `zone.js'를 사용하면 꽤 안전해야 하지만 확인해야 합니다.
+        자세한 내용은 [브라우저 지원 가이드](guide/browser-support.html)를 참조하세요.
 
-:marked
-  We import the two things we need to launch the application:
+        Different browsers have different levels of support of the web standards.
+        Polyfills help normalize those differences.
+        You should be pretty safe with `core-js` and `zone.js`, but be sure to check out
+        the [Browser Support guide](guide/browser-support.html) for more information.
+  tr
+    td <code>styles.css</code>
+    td
+      :marked
+        전역 스타일을 여기에 둡니다.
+        대부분 유지 관리를 위해 컴포넌트에 로컬 스타일을 갖추기를 원하지만
+        모든 앱에 영향을 미치는 스타일은 중심 위치에 있어야 합니다.
 
-  1. Angular's browser `bootstrap` function
-  1. The application root component, `CliQuickstartAppComponent`.
+        Your global styles go here. 
+        Most of the time you'll want to have local styles in your components for easier maintenance,
+        but styles that affect all of your app need to be in a central place.
+  tr
+    td <code>test.ts</code>
+    td
+      :marked
+        이것은 단위 테스트를 위한 주 진입점입니다.
+        익숙하지 않을 수도 있는 사용자 정의 설정이 있지만,
+        여러분이 수정할 필요는 없습니다.
 
-  Then we call `bootstrap` with `CliQuickstartAppComponent`.
+        This is the main entry point for your unit tests.
+        It has some custom configuration that might be unfamiliar, but it's not something you'll
+        need to edit.
+  tr
+    td <code>tsconfig.json</code>
+    td
+      :marked
+        TypeScript 컴파일러 설정.
 
-  ### Bootstrapping is platform-specific
-  Notice that we import the `bootstrap` function from `@angular/platform-browser-dynamic`,
-  not `@angular/core`.
-  Bootstrapping isn't core because there isn't a single way to bootstrap the app.
-  True, most applications that run in a browser call the bootstrap function from
-  this library.
+        Configuration for the TypeScript compiler.
 
-  But it is possible to load a component in a different environment.
-  We might load it on a mobile device with [Apache Cordova](https://cordova.apache.org/) or [NativeScript](https://www.nativescript.org/).
-  We might wish to render the first page of our application on the server
-  to improve launch performance or facilitate
-  [SEO](http://www.google.com/webmasters/docs/search-engine-optimization-starter-guide.pdf).
-  These targets require a different kind of bootstrap function that we'd import from a different library.
 
-  ### Why create a *main.ts* file?
+block root-files
+  :marked
+    ### 최상위 폴더
+    ### The root folder
+    `src/` 폴더는 프로젝트의 최상위 폴더 안의 항목들 중 하나 일뿐입니다.
+    다른 파일들은 애플리케이션을 빌드, 테스트, 유지 관리, 문서화 및 배포하는 데 도움이 됩니다.
+    이런 파일들은 `src/` 옆의 최상위 폴더에 있습니다.
 
-  Both `main.ts` and the application component files are tiny.
-  This is just a QuickStart.
-  We could have merged these two files into one
-  and spared ourselves some complexity.
+    The `src/` folder is just one of the items inside the project's root folder. 
+    Other files help you build, test, maintain, document, and deploy the app. 
+    These files go in the root folder next to `src/`.
 
-  We'd rather demonstrate the proper way to structure an Angular application.
-  App bootstrapping is a separate concern from presenting a view.
-  Mixing concerns creates difficulties down the road.
-  We might launch the `CliQuickstartAppComponent` in multiple environments with different bootstrappers.
-  Testing the component is much easier if it doesn't also try to run the entire application.
-  Let's make the small extra effort to do it *the right way*.
-  
-  ### Loading the application with SystemJS
-  
-  The CLI uses `System.js` to load the application. We just need to call `System.import` and pass it our `main.ts`
-  file to boot our application.
-  
-+makeExcerpt('src/index.html', 'import')
+.filetree
+  .file my-app
+  .children
+    .file e2e
+    .children
+      .file app.e2e-spec.ts
+      .file app.po.ts
+      .file tsconfig.json
+    .file node_modules/...
+    .file src/...
+    .file .editorconfig
+    .file .gitignore
+    .file angular-cli.json
+    .file karma.conf.js
+    .file package.json
+    .file protractor.conf.js
+    .file README.md
+    .file tslint.json        
 
-:marked
-  ### Displaying the root component 
-  
-  When Angular calls the `bootstrap` function in `main.ts`, it reads the `CliQuickstartAppComponent`
-  metadata, finds the `cli-quickstart-app` selector, locates an element tag named `cli-quickstart-app`
-  in the `<body>` tag of the `index.html`, and renders our application's view between those tags.
-+makeExcerpt('src/index.html', 'body')
-:marked
-  This is just a taste of Angular develoment. There's much more to learn. Now really is the time to
-  head over to the [Tour of Heroes Tutorial](./tutorial)!
+style td, th {vertical-align: top}
+table(width="100%")
+  col(width="20%")
+  col(width="80%")
+  tr
+    th 
+      파일
+      File      
+    th 
+      목적
+      Purpose
+  tr
+    td <code>e2e/*</code>
+    td
+      :marked
+        `e2e/` 안에는 end-to-end 테스트가 있습니다.
+        e2e 테스트는 실제로는 주 앱을 테스트 해야 하는 별개의 앱이므로
+        'src/` 안에 있으면 안됩니다.
+        그래서 그들은 그들 자신의 `tsconfig.json`을 가지고 있습니다.
+
+        Inside `e2e/` live the End-to-End tests. 
+        They shouldn't be inside `src/` because e2e tests are really a separate app that
+        just so happens to test your main app. 
+        That's why they even have their own `tsconfig.json`.
+  tr
+    td <code>node_modules/...</code>
+    td
+      :marked
+        `Node.js`는 이 폴더를 생성하고 그 안에 `package.json`에 
+        나열된 모든 3rd party 모듈을 넣습니다.
+
+        `Node.js` creates this folder and puts all third party modules listed in 
+        `package.json` inside of it.
+  tr
+    td <code>.editorconfig</code>
+    td
+      :marked
+        프로젝트를 사용하는 모든 사람이
+        같은 기본 설정을 가지고 있도록 하는 간단한 설정 파일.
+        대부분의 에디터는 `.editorconfig` 파일을 지원합니다.
+        자세한 내용은 http://editorconfig.org 를 참조하세요.
+
+        Simple configuration for your editor to make sure everyone that uses your project
+        has the same basic configuration.
+        Most editors support an `.editorconfig` file.
+        See http://editorconfig.org for more information.
+  tr
+    td <code>.gitignore</code>
+    td
+      :marked
+        자동 생성 된 파일이 소스 제어에 커밋되지 않도록하는 Git 설정파일.
+
+        Git configuration to make sure autogenerated files are not commited to source control.
+  tr
+    td <code>angular-cli.json</code>
+    td
+      :marked
+        Angular-CLI를 위한 설정.
+        이 파일에서 몇 가지 기본값을 설정하고 프로젝트가 빌드 될 때 
+        포함할 파일을 설정할 수 있습니다.
+        더 많은 것을 알고 싶다면 공식 문서를 확인하세요.
+
+        Configuration for Angular-CLI.
+        In this file you can set several defaults and also configure what files are included
+        when your project is build.
+        Check out the official documentation if you want to know more.
+  tr
+    td <code>karma.conf.js</code>
+    td
+      :marked
+        [Karma 테스트 러너](https://karma-runner.github.io)의 단위 테스트 설정으로
+        `ng test`를 실행할 때 사용됩니다.
+
+        Unit test configuration for the [Karma test runner](https://karma-runner.github.io),
+        used when running `ng test`.
+  tr
+    td <code>package.json</code>
+    td
+      :marked
+        `npm` 설정은 프로젝트가 사용하는 3rd party 패키지를 나열합니다.
+        나만의 [custom scripts](https://docs.npmjs.com/misc/scripts)를 여기에 추가 할 수도 있습니다.
+
+        `npm` configuration listing the third party packages your project uses.
+        You can also add your own [custom scripts](https://docs.npmjs.com/misc/scripts) here.
+  tr
+    td <code>protractor.conf.js</code>
+    td
+      :marked
+        `ng e2e`를 실행할 때 사용되는 [Protractor](http://www.protractortest.org/)의 
+        end-to-end 테스트 설정파일.
+
+        End-to-end test configuration for [Protractor](http://www.protractortest.org/),
+        used when running `ng e2e`.
+  tr
+    td <code>README.md</code>
+    td
+      :marked
+        CLI 명령 정보를 미리 입력한 프로젝트의 기본 설명서.
+        repo를 체크아웃하는 모든 사용자가 앱을 빌드 할 수 있도록
+        프로젝트 문서를 통해 이를 향상 시켜야 합니다!
+
+        Basic documentation for your project, pre-filled with CLI command information.
+        Make sure to enhance it with project documentation so that anyone
+        checking out the repo can build your app!
+  tr
+    td <code>tslint.json</code>
+    td
+      :marked
+        `ng lint`를 실행할 때 사용되는 [Codelyzer](http://codelyzer.com/)와 함께
+        [TSLint](https://palantir.github.io/tslint/)의 Linting 설정.
+        Linting은 코드 스타일을 일관되게 유지하는 데 도움이 됩니다.
+
+        Linting configuration for [TSLint](https://palantir.github.io/tslint/) together with
+        [Codelyzer](http://codelyzer.com/), used when running `ng lint`.
+        Linting helps keep your code style consistent.
+        
+.l-sub-section
+  :marked
+    ### 다음 단계
+    ### Next Step
+
+    Angular를 처음 접하는 경우에는 
+    [learning path](guide/learning-angular.html "Angular 학습 경로")를 따라가는 것이 좋습니다.
+    이미 Angular-CLI 설정을 사용 중이므로 "설정" 챕터는 건너뛰어도 됩니다.
+
+    If you're new to Angular, we recommend staying on the 
+    [learning path](guide/learning-angular.html "Angular learning path").        
+    You can skip the "Setup" chapter since you're already using the Angular-CLI setup.

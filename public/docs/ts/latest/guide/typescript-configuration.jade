@@ -29,6 +29,7 @@ a(id="tsconfig")
 .l-main-section
 :marked
   ## *tsconfig.json*
+  ## *tsconfig.json*
   일반적으로 TypeScript 설정 파일 (`tsconfig.json`)을
   프로젝트에 추가하여 컴파일러가 JavaScript 파일을 생성 할 때 이를 안내합니다.
 
@@ -98,7 +99,7 @@ code-example(format=".").
   "suppressImplicitAnyIndexErrors":true
 
 :marked
-  이 문서 설정에서도 이 플래그를 'true'로 설정했습니다.
+  이 문서 설정에서도 이 플래그를 `true`로 설정했습니다.
 
   The documentation setup sets this flag to `true` as well.
 
@@ -137,6 +138,7 @@ a(id="typings")
 
   **You need do nothing to get *typings* files for library packages that include `d.ts` files&mdash;as all Angular packages do.**
 
+  ### lib.d.ts
   ### lib.d.ts
 
   TypeScript는 `lib.d.ts` 라는 특별한 선언 파일을 포함합니다. 이 파일에는 JavaScript 런타임 및 DOM에 있는 다양한 공통 JavaScript 구문에 대한 ambient 선언(역주: non-TypeScript 파일에 정의된 변수를 선언)이 포함되어 있습니다.
@@ -185,7 +187,7 @@ code-example(format=".")
 
   QuickStart identified two *typings* (`d.ts`) files:
 
-  * Jasmine 테스트 프레임워크를 위해 [jasmine](http://jasmine.github.io/) typings
+  * Jasmine 테스트 프레임워크를 위한 [jasmine](http://jasmine.github.io/) typings
 
   * [jasmine](http://jasmine.github.io/) typings for the Jasmine test framework
 

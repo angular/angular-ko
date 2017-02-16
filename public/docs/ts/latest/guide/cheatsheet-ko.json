@@ -89,7 +89,7 @@
           "bold": [
             "[value]"
           ],
-          "description": "<p><code>value</code> 프로퍼티를 <code>firstName</code> 표현식 결과에 바인딩.</p>\n"
+          "description": "<p>프로퍼티 <code>value</code>를 <code>firstName</code> 표현식 결과에 바인딩.</p>\n"
         },
         {
           "syntax": "<div [attr.role]=\"myAriaRole\">",
@@ -138,7 +138,7 @@
           "bold": [
             "[(title)]"
           ],
-          "description": "<p>양방향 바인딩 설정. 다음과 동일: <code>&lt;my-cmp [title]=&quot;name&quot; (titleChange)=&quot;name=$event&quot;&gt;</code></p>\n"
+          "description": "<p>양방향 데이터 바인딩 설정. 다음과 동일: <code>&lt;my-cmp [title]=&quot;name&quot; (titleChange)=&quot;name=$event&quot;&gt;</code></p>\n"
         },
         {
           "syntax": "<video #movieplayer ...>\n  <button (click)=\"movieplayer.play()\">\n</video>",
@@ -375,7 +375,7 @@
           "bold": [
             "@ContentChildren(myPredicate)"
           ],
-          "description": "<p>컴포넌트 컨튼츠 쿼리의 결과를 (<code>myPredicate</code>) 클래스의 프로퍼티 (<code>myChildComponents</code>) 에 바인딩. </p>\n"
+          "description": "<p>컴포넌트 컨텐츠 쿼리의 결과를 (<code>myPredicate</code>) 클래스의 프로퍼티 (<code>myChildComponents</code>) 에 바인딩. </p>\n"
         },
         {
           "syntax": "@ViewChild(myPredicate) myChildComponent;",
@@ -504,61 +504,61 @@
           "bold": [
             "Routes"
           ],
-          "description": "<p>애플리케이션 route 설정. static, parameterized, redirect, 와 wildcard route 지원. 사용자 정의 route 데이터와 </p>\n"
+          "description": "<p>애플리케이션 route 설정. static, parameterized, redirect, 와 wildcard route 지원. 사용자 정의 route 데이터와 결정 지원.</p>\n"
         },
         {
           "syntax": "\n<router-outlet></router-outlet>\n<router-outlet name=\"aux\"></router-outlet>\n",
           "bold": [
             "router-outlet"
           ],
-          "description": "<p>Marks the location to load the component of the active route.</p>\n"
+          "description": "<p>활성화된 route의 컴포넌트를 로딩할 위치를 지정.</p>\n"
         },
         {
           "syntax": "\n<a routerLink=\"/path\">\n<a [routerLink]=\"[ '/path', routeParam ]\">\n<a [routerLink]=\"[ '/path', { matrixParam: 'value' } ]\">\n<a [routerLink]=\"[ '/path' ]\" [queryParams]=\"{ page: 1 }\">\n<a [routerLink]=\"[ '/path' ]\" fragment=\"anchor\">\n",
           "bold": [
             "[routerLink]"
           ],
-          "description": "<p>Creates a link to a different view based on a route instruction consisting of a route path, required and optional parameters, query parameters, and a fragment. To navigate to a root route, use the <code>/</code> prefix; for a child route, use the <code>./</code>prefix; for a sibling or parent, use the <code>../</code> prefix.</p>\n"
+          "description": "<p>route 경로, 필수/선택 파라미터와 쿼리 파라미터, fragment로 구성된 route 명령을 기반으로 다른 뷰에 대한 링크를 생성. 최상위 route로 이동하려면 <code>/</code> 접두어를 사용; 자식 route는 <code>./</code>접두어 사용; 형제 또는 부모는 <code>../</code> 접두어 사용.</p>\n"
         },
         {
           "syntax": "<a [routerLink]=\"[ '/path' ]\" routerLinkActive=\"active\">",
           "bold": [],
-          "description": "<p>The provided classes are added to the element when the <code>routerLink</code> becomes the current active route.</p>\n"
+          "description": "<p><code>routerLink</code> 가 현재 활성 route가 되면 지정 클래스를 엘리먼트에 추가.</p>\n"
         },
         {
           "syntax": "class CanActivateGuard implements CanActivate {\n    canActivate(\n      route: ActivatedRouteSnapshot,\n      state: RouterStateSnapshot\n    ): Observable<boolean>|Promise<boolean>|boolean { ... }\n}\n\n{ path: ..., canActivate: [CanActivateGuard] }",
           "bold": [
             "CanActivate"
           ],
-          "description": "<p>An interface for defining a class that the router should call first to determine if it should activate this component. Should return a boolean or an Observable/Promise that resolves to a boolean.</p>\n"
+          "description": "<p>이 컴포넌트를 활성화해야하는지 결정하기 위해 라우터가 먼저 호출해야만 하는 클래스를 정의하는 인터페이스. boolean 이나 boolean으로 결정되는 Observable/Promise를 반환해야함 .</p>\n"
         },
         {
           "syntax": "class CanDeactivateGuard implements CanDeactivate<T> {\n    canDeactivate(\n      component: T,\n      route: ActivatedRouteSnapshot,\n      state: RouterStateSnapshot\n    ): Observable<boolean>|Promise<boolean>|boolean { ... }\n}\n\n{ path: ..., canDeactivate: [CanDeactivateGuard] }",
           "bold": [
             "CanDeactivate"
           ],
-          "description": "<p>An interface for defining a class that the router should call first to determine if it should deactivate this component after a navigation. Should return a boolean or an Observable/Promise that resolves to a boolean.</p>\n"
+          "description": "<p>내비게이션 후에 이 컴포넌트를 비활성화해야하는지 결정하기 위해 라우터가 먼저 호출해야만 하는 클래스를 정의하는 인터페이스. boolean 이나 boolean으로 결정되는 Observable/Promise를 반환해야함.</p>\n"
         },
         {
           "syntax": "class CanActivateChildGuard implements CanActivateChild {\n    canActivateChild(\n      route: ActivatedRouteSnapshot,\n      state: RouterStateSnapshot\n    ): Observable<boolean>|Promise<boolean>|boolean { ... }\n}\n\n{ path: ..., canActivateChild: [CanActivateGuard],\n    children: ... }",
           "bold": [
             "CanActivateChild"
           ],
-          "description": "<p>An interface for defining a class that the router should call first to determine if it should activate the child route. Should return a boolean or an Observable/Promise that resolves to a boolean.</p>\n"
+          "description": "<p>자식 route를 활성화해야하는지 결정하기 위해 라우터가 먼저 호출해야만 하는 클래스를 정의하는 인터페이스. boolean 이나 boolean으로 결정되는 Observable/Promise를 반환해야함.</p>\n"
         },
         {
           "syntax": "class ResolveGuard implements Resolve<T> {\n    resolve(\n      route: ActivatedRouteSnapshot,\n      state: RouterStateSnapshot\n    ): Observable<any>|Promise<any>|any { ... }\n}\n\n{ path: ..., resolve: [ResolveGuard] }",
           "bold": [
             "Resolve"
           ],
-          "description": "<p>An interface for defining a class that the router should call first to resolve route data before rendering the route. Should return a value or an Observable/Promise that resolves to a value.</p>\n"
+          "description": "<p>route를 렌더링하기 전에 route 데이터를 결정하기 위해 라우터가 먼저 호출해야만 하는 클래스를 정의하는 인터페이스. 값이나 값으로 결정되는 Observable/Promise를 반환해야함.</p>\n"
         },
         {
           "syntax": "class CanLoadGuard implements CanLoad {\n    canLoad(\n      route: Route\n    ): Observable<boolean>|Promise<boolean>|boolean { ... }\n}\n\n{ path: ..., canLoad: [CanLoadGuard], loadChildren: ... }",
           "bold": [
             "CanLoad"
           ],
-          "description": "<p>An interface for defining a class that the router should call first to check if the lazy loaded module should be loaded. Should return a boolean or an Observable/Promise that resolves to a boolean.</p>\n"
+          "description": "<p>게으른 로딩 모듈(lazy loaded module)이 로드되야 하는지 결정하기 위해 라우터가 먼저 호출해야만 하는 클래스를 정의하는 인터페이스. boolean 이나 boolean으로 결정되는 Observable/Promise를 반환해야함. </p>\n"
         }
       ],
       "index": 11
