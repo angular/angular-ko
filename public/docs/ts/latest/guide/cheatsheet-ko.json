@@ -303,7 +303,7 @@
           "bold": [
             "moduleId:"
           ],
-          "description": "<p>만약 설정을 하면, <code>templateUrl</code> 과 <code>styleUrl</code> 은 컴포넌트에 상대적으로 검색.</p>\n"
+          "description": "<p>만약 설정을 하면, <code>templateUrl</code> 과 <code>styleUrl</code> 은 컴포넌트에 상대경로로 검색.</p>\n"
         },
         {
           "syntax": "viewProviders: [MyService, { provide: ... }]",
@@ -347,7 +347,7 @@
           "bold": [
             "@Output()"
           ],
-          "description": "<p>이벤트 바인딩으로 구독할 수 있는 이벤트를 방출하는 output 프로퍼티 선언 (예: <code>&lt;my-cmp (myEvent)=&quot;doSomething()&quot;&gt;</code>).</p>\n"
+          "description": "<p>이벤트 바인딩으로 구독할 수 있는 이벤트를 발생시키는 output 프로퍼티 선언 (예: <code>&lt;my-cmp (myEvent)=&quot;doSomething()&quot;&gt;</code>).</p>\n"
         },
         {
           "syntax": "@HostBinding('class.valid') isValid;",
