@@ -7,19 +7,18 @@
     "banner": "Angular의 최신버전은 <b>2.4</b>입니다. <a href='guide/change-log.html' title='Documentation change log'>업데이트 내용</a>을 확인할 수 있습니다.또한 Angular의 변경, 개선 및 수정사항이 포함된 <a href='https://github.com/angular/angular/blob/master/CHANGELOG.md' target='_blank' title='Angular Product Changes'>Angular 업데이트 기록</a>을 볼 수 있습니다."
   },
 
-  "cli-quickstart": {
-    "icon": "query-builder",
-    "title": "CLI를 이용한 빠른시작",
-    "subtitle": "TypeScript",
-    "description": "CLI 도구를 이용하게 빠르게 Angular 애플리케이션을 만들어 보세요",
-    "hide": true
-  },
-
   "quickstart": {
     "icon": "query-builder",
     "title": "빠른시작",
     "subtitle": "TypeScript",
     "banner": "Angular 기초를 빠르게 살펴보세요"
+  },
+
+  "cli-quickstart": {
+    "icon": "query-builder",
+    "title": "CLI를 이용한 빠른시작",
+    "subtitle": "TypeScript",
+    "description": "CLI 도구를 이용하게 빠르게 Angular 애플리케이션을 만들어 보세요"
   },
 
   "tutorial": {

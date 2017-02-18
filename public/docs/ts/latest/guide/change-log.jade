@@ -2,118 +2,234 @@ block includes
   include ../_util-fns
 
 :marked
+  Angular 문서는 지속적으로 개선된 살아있는 문서입니다.
+  이 로그는 최근의 중요한 변화에 대해 주의를 환기시킵니다.
+
   The Angular documentation is a living document with continuous improvements.
   This log calls attention to recent significant changes.
+
+  ## 라우터: 자세한 내용 (2016-12-21)
+  [라우터] (router.html) 가이드에 아웃렛, 와일드카드 route, 
+  사전로드 전략 섹션을 포함한 정보 추가
 
   ## Router: more detail (2016-12-21)
   Added more information to the [Router](router.html) guide 
   including sections named outlets, wildcard routes, and preload strategies.
 
+  ## HTTP: 기본 요청 헤더 (및 기타 요청 옵션) 설정 방법 (2016-12-14)
+  기본 요청 헤더 (및 다른 요청 옵션)를 설정하는 방법에 대한 섹션을
+  [Http](server-communication.html # override-default-request-options) 가이드에 추가.
+
   ## Http: how to set default request headers (and other request options) (2016-12-14)
   Added section on how to set default request headers (and other request options) to 
   [Http](server-communication.html#override-default-request-options) guide.
 
+  ## 테스팅: 컴포넌트 테스트 plunker 추가 (2016-12-02)
+  _간단한 한 개의 컴포넌트_를 테스트하는 두 개의 plunker를 추가하여 여러분만의 컴포넌트 테스트 plunker를 작성할 수 있습니다: <live-example name="setup" plnkr="quickstart-specs">하나</live-example>는 빠른 시작의 `AppComponent`를 위한 것이고 <live-example name="testing" plnkr="banner-specs">또 하나</live-example>는 테스팅 가이드의 `BannerComponent`를 위한 것입니다.
+  [테스팅](testing.html # live-examples) 및 [Setup 분석](setup-systemjs-anatomy) 가이드에서 이러한 plunker에 연결됩니다.
+
   ## Testing: added component test plunkers (2016-12-02)
   Added two plunkers that each test _one simple component_ so you can write a component test plunker of your own: <live-example name="setup" plnkr="quickstart-specs">one</live-example> for the QuickStart seed's `AppComponent` and <live-example name="testing" plnkr="banner-specs">another</live-example> for the Testing guide's `BannerComponent`. 
   Linked to these plunkers in [Testing](testing.html#live-examples) and [Setup anatomy](setup-systemjs-anatomy) guides.
+
+  ## 국제화: 다원화 및 _select_ (2016-11-30)
+  [국제화 (i18n)](i18n.html) 가이드는 'select'를 사용하여 대체 텍스트의 
+  복수화 및 번역을 처리하는 방법에 대해 설명합니다.  
+  샘플에서는 이러한 기능도 보여줍니다.
 
   ## Internationalization: pluralization and _select_ (2016-11-30)
   The [Internationalization (i18n)](i18n.html) guide explains how to handle pluralization and
   translation of alternative texts with `select`.
   The sample demonstrates these features too.
 
+  ## 테스팅: 카르마 파일 업데이트 (2016-11-30)
   ## Testing: karma file updates (2016-11-30)
+
+  * karma.config + karma-test-shim은 여러 spec 소스 경로를 처리 할 수 있습니다.
+  빠른시작 이슈를 참고하세요: [angular/quickstart#294](https://github.com/angular/quickstart/issues/294)
+
   * karma.config + karma-test-shim can handle multiple spec source paths;
   see quickstart issue: [angular/quickstart#294](https://github.com/angular/quickstart/issues/294)
+
+  * 카르마 실행 브라우저에서 Jasmine Runner output을 표시합니다.
+
   * Displays Jasmine Runner output in the karma-launched browser
 
+  ## 퀵 스타트 다시 쓰기 (2016-11-18)
   ## QuickStart Rewrite (2016-11-18)
+  빠른시작을 재작성 하여 실제로 빨라졌습니다.
+  Plunker에서 실행되는 최소한의 "Hello Angular" 앱을 참조합니다.
+  새로운 [셋업](setup.html) 페이지는 로컬 개발 환경을 설치하는 방법을 알려줍니다.
+  빠른시작 github 저장소를 다운로드 (또는 복제)하면됩니다.
+  더이상 설명되지 않은 설치 파일에 코드를 복사하여 붙여 넣으라는 메시지가 표시되지 않습니다.
+
   The QuickStart is completely rewritten so that it actually is quick.
   It references a minimal "Hello Angular" app running in Plunker.
   The new [Setup](setup.html) page tells you how to install a local development environment
   by downloading (or cloning) the QuickStart github repository.
   You are no longer asked to copy-and-paste code into setup files that were not explained anyway.
 
+  ## Angular v.2.2.0과 동기화 (2016-11-14)
   ## Sync with Angular v.2.2.0 (2016-11-14)
+  Angular v.2.2.0에서 테스트 된 문서 및 코드 샘플 업데이트
+
   Docs and code samples updated and tested with Angular v.2.2.0 
 
+  ## UPDATE : AOT 친화적인 _upgrade/static_ 모듈 (2016-11-14)을 위한 NgUpgrade 가이드
   ## UPDATE: NgUpgrade Guide for the AOT friendly _upgrade/static_ module (2016-11-14)
+  업데이트 된 [NgUpgrade Guide] (upgrade.html) 가이드는
+  Angular 1에서 Angular 2로 마이그레이션 할 때 권장되는 
+  새로운 v2.2.0의 AOT 친화적인 `upgrade/static` 모듈을 다룹니다.
+  v.2.2.0 이전 버전의 설명서가 제거되었습니다.
+
   The updated [NgUpgrade Guide](upgrade.html) guide covers the 
   new AOT friendly `upgrade/static` module 
   released in v.2.2.0, which is the recommended
   facility for migrating from Angular 1 to Angular 2.
   The documentation for the version prior to v.2.2.0 has been removed.
 
+  ## "TypeScript에서 JavaScript로"에서 설명 된 ES6 (2016-11-14)
   ## ES6  described in "TypeScript to JavaScript" (2016-11-14)
+  업데이트 된 "[TypeScript에서 JavaScript로](../ cookbook / ts-to-js.html)" 요리책은 
+  TypeScript 문서 예제 (및 웹의 다른 곳)에서 
+  일반적인 관용구를 ES6 / 7 및 ES5로 변환하여
+  이제 ES6/7에서 앱을 작성하는 방법을 설명합니다.
+
   The updated "[TypeScript to JavaScript](../cookbook/ts-to-js.html)" cookbook 
   now explains how to write apps in ES6/7
   by translating the common idioms in the TypeScript documentation examples
   (and elsewhere on the web) to ES6/7 and ES5.
 
+  ## Angular v.2.1.1과 동기화 (2016-10-21)
   ## Sync with Angular v.2.1.1 (2016-10-21)
+  Angular v.2.1.0에서 테스트 된 문서 및 코드 샘플 업데이트
+
   Docs and code samples updated and tested with Angular v.2.1.0 
 
+  ## npm _@types_ 패키지 대체 _typings_ (2016-10-20)
   ## npm _@types_ packages replace _typings_ (2016-10-20)
+  이제 문서 샘플은 _typings_ 도구 대신 npm `@types` 패키지에서 3rd party 라이브러리에 
+  대한 TypeScript 타입 정보를 얻습니다.
+  `typings.json` 파일은 없어졌습니다.
+
   Documentation samples now get TypeScript type information for 3rd party libraries
   from npm `@types` packages rather than with the _typings_ tooling.
   The `typings.json` file is gone.
+
+  "[Angular 1 업그레이드] (upgrade.html)" 가이드는 이러한 변화를 반영합니다.
+  `package.json`은 업그레이드를 지원하기 위해 `@types/angular`와 여러 종류의 `@types/angular-...` 패키지를 설치합니다; 
+  이들은 순수한 Angular 2 개발에 필요하지 않습니다.
 
   The "[Angular 1 Upgrade](upgrade.html)" guide reflects this change.
   The `package.json` installs `@types/angular` and several `@types/angular-...`
   packages in support of upgrade; these are not needed for pure Angular 2 development.
 
+  ## "템플릿 구문"은 양방향 데이터 바인딩 구문을 설명합니다. (2016-10-20)
   ## "Template Syntax" explains two-way data binding syntax (2016-10-20)
+  커스텀 Angular 컴포넌트에 양방향 데이터를 바인딩하는 방법을 보여주고
+  기본 `[()]` 구문에 대해 `[(ngModel)]`을 다시 설명합니다.
+
   Demonstrates how to two-way data bind to a custom Angular component and
   re-explains `[(ngModel)]` in terms of the basic `[()]` syntax.
 
+  ## BREAKING CHANGE : esm umd로 전달 된 'in-memory-web-api'(v.0.1.11) (2016-10-19)
   ## BREAKING CHANGE: `in-memory-web-api` (v.0.1.11) delivered as esm umd (2016-10-19)
+  이 변경은 ES6 개발자를 지원하고 일반적인 Angular 라이브러리와 보다 잘 어울립니다.
+  모듈의 API에는 영향을 미치지 않지만 로드 및 임포트 방법에는 영향을 줍니다.
+  <a href="https://github.com/angular/in-memory-web-api/blob/master/CHANGELOG.md#0113-2016-10-20" target="_blank">변경 노트</a>에 대해
+  'in-memory-web-api' repo에서 확인하세요.
+
   This change supports ES6 developers and aligns better with typical Angular libraries.
   It does not affect the module's API but it does affect how you load and import it.
   See the <a href="https://github.com/angular/in-memory-web-api/blob/master/CHANGELOG.md#0113-2016-10-20" target="_blank">change note</a>
   in the `in-memory-web-api` repo.
 
+  ## "Router" _preload_ 구문 및 _:enter_/_:leave_ 애니메이션 (2016-10-19)  
   ## "Router" _preload_ syntax and _:enter_/_:leave_ animations (2016-10-19)
+  라우터는 체감 성능을 향상시키기 위해 
+  앱을 시작하고 사용자가 모듈을 탐색하기 전까지 _모듈 로딩을_ 지연할 수 있습니다.
+
   The router can lazily _preload_ modules _after_ the app starts and
   _before_ the user navigates to them for improved perceived performance.
   
+  새로운 `:enter`와 `:leave` 별칭은 애니메이션을 보다 자연스럽게 합니다.
+
   New `:enter` and `:leave` aliases make animation more natural. 
 
+  ## Angular v.2.1.0과 동기화 (2016-10-12)
   ## Sync with Angular v.2.1.0 (2016-10-12)
+  Angular v.2.1.0에서 테스트 된 문서 및 코드 샘플 업데이트
+
   Docs and code samples updated and tested with Angular v.2.1.0 
 
+  ## 새로운 "Ahead of time (AOT) 편집" 요리책 (2016-10-11)   
   ## NEW "Ahead of time (AOT) Compilation" cookbook (2016-10-11)
+  새로운 [Ahead of Time(AOT) 편집](../cookbook/aot-compiler.html) 요리책은 
+  AOT 컴파일이 무엇이고 왜 그것이 필요한지 설명합니다. 
+  빠른시작 앱의 기초와 Tour of Heroes 
+  컴파일 및 번들링에 대한 고급 고려사항을 설명합니다.
+
   The NEW [Ahead of time (AOT) Compilation](../cookbook/aot-compiler.html) cookbook
   explains what AOT compilation is and why you'd want it.
   It demonstrates the basics with a QuickStart app
   followed by the more advanced considerations of compiling and bundling the Tour of Heroes.
 
-  ## Sync with Angular v.2.0.2 (2016-10-6)
+  ## Angular v2.0.2 동기화 (2016-10-6)
+  ## Sync with Angular v.2.0.2 (2016-10-6)  
+  Angular v2.0.2에서 테스트 된 문서 및 코드 샘플 업데이트
+
   Docs and code samples updated and tested with Angular v.2.0.2 
 
+  ## _Router Module_에 대한 "라우팅 및 내비게이션" 가이드 (2016-10-5)
   ## "Routing and Navigation" guide with the _Router Module_ (2016-10-5)
+  [라우팅 및 내비게이션](router.html) 가이드는 _Routing Module_에서 
+  라우트 구성을 찾습니다.
+  _Routing Module_은 'ModuleWithProviders'와 관련된 이전 _라우팅 객체_를 대신합니다.
+
   The [Routing and Navigation](router.html) guide now locates route configuration
   in a _Routing Module_. 
   The _Routing Module_ replaces the previous _routing object_ involving the `ModuleWithProviders`.
+
+  라우팅이 있는 모든 가이드 샘플은 _Routing Module_을 사용하고 산문 내용은 업데이트 되었습니다.
+  [NgModule](ngmodule.html) 가이드 및 [NgModule FAQ](../cookbook/ngmodule-faq.html) 
+  요리책 부분이 가장 눈에 띄게 업데이트 되었습니다.
 
   All guided samples with routing use the _Routing Module_ and prose content has been updated,
   most conspicuously in the 
   [NgModule](ngmodule.html) guide and [NgModule FAQ](../cookbook/ngmodule-faq.html) cookbook.
 
+  ## 새로운 "국제화" 요리책 (2016-09-30)
   ## New "Internationalization" Cookbook (2016-09-30)
+  Angular "i18n" 기능을 사용하여 템플릿 텍스트를 여러 언어로 번역하는 방법을 보여주는 
+  새로운 [Internationalization (i18n)](../cookbook/i18n.html) 요리책을 추가했습니다.
 
   Added a new [Internationalization (i18n)](../cookbook/i18n.html) cookbook that shows how
   to use Angular "i18n" facilities to translate template text into multiple languages.
 
+  ## "angular-in-memory-web-api" 패키지 이름변경 (2016-09-27)
   ## "angular-in-memory-web-api" package rename (2016-09-27)
+
+  많은 샘플은 원격 서버를 시뮬레이션하기 위해 `angular-in-memory-web-api`를 사용합니다.
+  이 라이브러리는 초기 개발 중에 대화 할 서버가 마련되기 전에 유용합니다.
 
   Many samples use the `angular-in-memory-web-api` to simulate a remote server.
   This library is also useful to you during early development before you have a server to talk to.
+
+  패키지 이름이 "angular2-in-memory-web-api"에서 변경되었으며, 여전히 npm에 등록되어 있습니다.
+  새로운 "angular-in-memory-web-api"는 새로운 기능을 가지고 있습니다.
+  <a href="https://github.com/angular/in-memory-web-api/blob/master/README.md" target="_blank">github에서 알아보세요.</a>.
 
   The package name was changed from "angular2-in-memory-web-api" which is still frozen-in-time on npm.
   The new "angular-in-memory-web-api" has new features. 
   <a href="https://github.com/angular/in-memory-web-api/blob/master/README.md" target="_blank">Read about them on github</a>.
 
+  ## _NgModules_의 "스타일 가이드" (2016-09-27)
   ## "Style Guide" with _NgModules_ (2016-09-27)
+
+  [스타일 가이드](style-guide.html)는 Angular 모듈 (NgModule)에 대한 우리의 권장 규칙을 설명합니다.
+  배럴(Barrel)은 이제 훨씬 덜 유용하고 스타일 가이드에서 제거 되었습니다.
+  그들은 가치가 있지만 Angular 스타일의 문제가 아닙니다.
+  또한 `@Component.host` 프로퍼티를 사용하지 않도록 하는 규칙을 완화했습니다.
 
   [StyleGuide](style-guide.html) explains our recommended conventions for Angular modules (NgModule).
   Barrels now are far less useful and have been removed from the style guide;
@@ -121,15 +237,26 @@ block includes
   We also relaxed the rule that discouraged use of the `@Component.host` property.
 
   ## _moduleId: module.id_ everywhere (2016-09-25)
+  ## _moduleId: module.id_ everywhere (2016-09-25)
+  `templateUrl` 또는 `styleUrls`에서 템플릿이나 스타일을 얻는 샘플 컴포넌트의
+  URL이 _module-기반_으로 변경되었습니다.
+  '@Component` 메타데이터에 `moduleId: module.id` 프로퍼티와 값을 추가했습니다.
 
   Sample components that get their templates or styles with `templateUrl` or `styleUrls`
   have been converted to _module-relative_ URLs.
   We added the `moduleId: module.id` property-and-value to their `@Component` metadata.
+  
+  이 변경은 현재 샘플과 같이 앱이 SystemJS로 모듈을 로드한다면
+  AOT 컴파일러를 사용한 컴파일에 필요합니다.  
   
   This change is a requirement for compilation with AOT compiler when the app loads
   modules with SystemJS as the samples currently do.
 
+  ## "라이프사이클 훅" 가이드 단순화 (2016-09-24)
   ## "Lifecycle Hooks" guide simplified (2016-09-24)
+
+  [라이프사이클 훅](lifecycle-hooks.html) 가이드는 더 짧고 간단해졌으며,
+  Angular가 훅을 호출하는 순서에 더 많은 주의를 기울였습니다.
 
   The [Lifecycle Hooks](lifecycle-hooks.html) guide is shorter, simpler, and 
   draws more attention to the order in which Angular calls the hooks.

@@ -3,6 +3,8 @@ block includes
   - var _at_angular = '@angular'
 
 :marked
+  Angular는 가장 최근의 브라우저를 지원합니다. 다음과 같은 특정 버전이 포함됩니다.
+  
   Angular supports most recent browsers. This includes the following specific versions:
 
 table
@@ -55,38 +57,64 @@ table
     
 .l-sub-section
   :marked
+    Angular의 지속적 통합 프로세스는 모든 pull request에 대해
+    <a href="https://saucelabs.com/" target="_blank">SauceLabs</a> 및
+    <a href="https://www.browserstack.com" target="_blank">Browserstack</a>을 사용해
+    모든 브라우저에서 프레임워크의 단위 테스트를 실행합니다.
+
     Angular's continuous integration process runs unit tests of the framework on all of these browsers for every pull request, 
     using <a href="https://saucelabs.com/" target="_blank">SauceLabs</a> and 
     <a href="https://www.browserstack.com" target="_blank">Browserstack</a>.
 
 :marked
   ## Polyfills #
+  ## Polyfills #
+  Angular는 웹 플랫폼의 최신 표준을 기반으로 만들어졌습니다.
+  이렇게 광범위한 브라우저를 대상으로 하는 것은 최신 브라우저의 모든 기능을 지원하지는 않기 때문에 도전적인 일입니다.
+
   Angular is built on the latest standards of the web platform.
   Targeting such a wide range of browsers is challenging because they do not support all features of modern browsers.
   
+  JavaScript에서 누락 된 기능을 구현하는 호스트 웹 페이지 (`index.html`)에 
+  polyfill 스크립트("polyfills")를 로드하여 보정합니다.
+
   You compensate by loading polyfill scripts ("polyfills") on the host web page (`index.html`)
   that implement missing features in JavaScript.
 +makeExample('quickstart/ts/index.html', 'polyfills')(format='.')
 :marked
+  일부 브라우저는 _임의의_ Angular 애플리케이션을 실행하기 위해 하나 이상의 polyfill이 필요할 수 있습니다.
+  특정 기능을 위해 추가 polyfill이 필요할 수 있습니다.
+
   A particular browser may require at least one polyfill to run _any_ Angular application. 
   You may need additional polyfills for specific features.
+
+  아래 표는 대상 브라우저 및 사용하는 기능에 따라 로드 할 polyfill을 결정하는 데 도움이 됩니다.
 
   The tables below will help you determine which polyfills to load, depending on the browsers you target and the features you use.
   
 .alert.is-important
   :marked
+    제안 polyfill들은 완전한 Angular 어플리케이션을 실행하는데 필요한 것입니다.
+    이 목록에서 다루지 않는 기능을 지원하려면 추가 polyfill이 필요할 수 있습니다.
+    polyfill은 오래되고 느린 브라우저를 마술처럼 근사하고 빠른 것으로 변환 할 수 없다는 것에 주의하세요.
+
     The suggested polyfills are the ones we know will run full Angular applications.
     You may need additional polyfills to support features not covered by this list.
     Note that polyfills cannot magically transform an old, slow browser into a modern, fast one.
   
 :marked
+  ### 필수 polyfills ##
   ### Mandatory polyfills ##
+  다음은 각 지원 브라우저에서 Angular 애플리케이션을 실행하는 데 필요한 polyfill입니다.
+
   These are the polyfills required to run an Angular application on each supported browser:
   
 table
   tr(style="vertical-align: top") 
     th Browsers (desktop & mobile)
-    th Polyfills required
+    th 
+      p 필요한 Polyfill
+      p Polyfills required
   tr(style="vertical-align: top") 
     td Chrome, Firefox, Edge, Safari 9+
     td None
@@ -102,12 +130,20 @@ table
         [ES6<br>classList](#classlist)
 
 :marked
+  ### 선택적 브라우저 기능을 위한 polyfill ##
   ### Optional browser features to polyfill ##
+  Angular의 일부 기능은 추가 polyfill이 필요할 수 있습니다.
+
   Some features of Angular may require additional polyfills.
-  
+
+  예를 들어, 애니메이션 라이브러리는 표준 웹 애니메이션 API를 사용합니다. 이 API는 현재 Chrome 및 Firefox에서만 사용할 수 있습니다.
+  다른 브라우저에서 애니메이션을 사용하려면 polyfill이 필요합니다.
+
   For example, the animations library relies on the standard web animation API, which is only available in Chrome and Firefox today.
   You'll need a polyfill to use animations in other browsers.
   
+  다음은 추가 polyfill이 필요할 수있는 기능입니다.
+
   Here are the features which may require additional polyfills:
 
 table
@@ -122,7 +158,9 @@ table
     td
       :marked
         [Web Animations](#web-animations)
-    td All but Chrome and Firefox<br>Not supported in IE9
+    td 
+      p Chrome 과 Firefox외 모든 브라우저<br>IE9에서는 미지원
+      p All but Chrome and Firefox<br>Not supported in IE9
   tr(style="vertical-align: top") 
     td
       a(href="../api/common/index/DatePipe-pipe.html" target="_blank") Date
@@ -136,7 +174,10 @@ table
     td
       :marked
         [Intl API](#intl)
-    td All but Chrome, Firefox, Edge, IE11 and Safari 10
+    td 
+      p Chrome, Firefox, Edge, IE11 와 Safari 10 외 모든 브라우저
+
+      p All but Chrome, Firefox, Edge, IE11 and Safari 10
   tr(style="vertical-align: top") 
     td 
       a(href="../api/common/index/NgClass-directive.html" target="_blank") NgClass
@@ -155,7 +196,10 @@ table
     td IE 9
 
 :marked
+  ### 추천 polyfill ##
   ### Suggested polyfills ##
+  다음은 프레임워크 자체를 테스트하는 데 사용되는 polyfill들입니다. 애플리케이션의 좋은 출발점입니다.
+
   Below are the polyfills which are used to test the framework itself. They are a good starting point for an application. 
 
 table
@@ -200,4 +244,6 @@ table
     td 0.4KB
 
 :marked
+  수치는 코드 최소화 및 gzip 압축을 위해 <a href="http://closure-compiler.appspot.com/home" target="_blank">클로저 컴파일러</a>로 계산한 것입니다.
+
   \* Figures are for minified and gzipped code, computed with the <a href="http://closure-compiler.appspot.com/home" target="_blank">closure compiler</a>

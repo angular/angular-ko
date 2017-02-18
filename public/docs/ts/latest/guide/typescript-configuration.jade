@@ -1,51 +1,96 @@
 include ../_util-fns
 
 :marked
+  TypeScript는 Angular 애플리케이션 개발을 위한 기본 언어입니다. 타입 안전성 및 도구를 위한 디자인 타임 지원 기능을 갖춘 JavaScript의 방언입니다.
+
   TypeScript is a primary language for Angular application development. It is a dialect of JavaScript with design-time support for type-safety and tooling.
-  
+
+  브라우저는 TypeScript를 직접 실행할 수 없습니다. Typescript는 *tsc* 컴파일러를 사용하여 JavaScript로 "transpile" 되야 하며,
+  일부 설정이 필요합니다.
+
   Browsers can't execute TypeScript directly. Typescript must be "transpiled" into JavaScript using the *tsc* compiler,
   which requires some configuration.
-  
+
+  이 페이지는 다음 파일에 대한 세부 정보를 포함하여 Angular 개발자에게 중요한
+  TypeScript 설정 및 TypeScript 환경의 몇 가지 측면을 다룹니다.  
+
   This page covers some aspects of TypeScript configuration and the TypeScript environment
   that are important to Angular developers, including details about the following files:
-  
+
+  * [tsconfig.json](#tsconfig) - TypeScript 컴파일러 설정.
+
   * [tsconfig.json](#tsconfig) - TypeScript compiler configuration.
+
+  * [typings](#typings) - TypesScript 선언 파일.
+
   * [typings](#typings) - TypesScript declaration files.
 
 a(id="tsconfig")
 .l-main-section
 :marked
   ## *tsconfig.json*
+  ## *tsconfig.json*
+  일반적으로 TypeScript 설정 파일 (`tsconfig.json`)을
+  프로젝트에 추가하여 컴파일러가 JavaScript 파일을 생성 할 때 이를 안내합니다.
+
   Typically, you add a TypeScript configuration file (`tsconfig.json`) to your project to
   guide the compiler as it generates JavaScript files.
 .l-sub-section
   :marked
+    `tsconfig.json`에 대한 자세한 내용은, 공식
+    [TypeScript 위키](http://www.typescriptlang.org/docs/handbook/tsconfig-json.html)를 보세요.
+
     For details about `tsconfig.json`, see the official
     [TypeScript wiki](http://www.typescriptlang.org/docs/handbook/tsconfig-json.html).
 :marked
+  [셋업](setup.html)에서 다음 `tsconfig.json`을 생성합니다:
+
   We created the following `tsconfig.json` during [Setup](setup.html):
 +makeJson('quickstart/ts/tsconfig.1.json', null, 'tsconfig.json')(format=".")
 :marked
+  이 파일에는 Angular 애플리케이션에 필수적인 옵션과 플래그가 들어 있습니다.
+
   This file contains options and flags that are essential for Angular applications.
-  
+
   <a id="noImplicitAny"></a>
+  ### *noImplicitAny* 및 *suppressImplicitAnyIndexErrors*
   ### *noImplicitAny* and *suppressImplicitAnyIndexErrors*
+
+  TypeScript 개발자들은 `noImplicitAny` 플래그가 `true` 또는 `false`여야만 한다는 것에 동의하지 않습니다.
+  정답이 없으므로 나중에 플래그를 변경할 수 있습니다.
+  그러나 이 선택이 큰 프로젝트에서는 차이를 만들 수 있으므로 토론의 가치가 있습니다.
 
   TypeScript developers disagree about whether the `noImplicitAny` flag should be `true` or `false`.
   There is no correct answer and you can change the flag later.
   But your choice now can make a difference in larger projects, so it merits discussion.
 
+  `noImplicitAny` 플래그가 `false` (기본값)이고, 만약 컴파일러가 사용 방법에 따라 변수 타입을 유추 할 수 없다면,
+  컴파일러는 자동으로 해당 타입을 'any'라는 기본값으로 설정합니다.
+  이것이 *암묵적인 `any`*가 의미하는 것입니다.
+
   When the `noImplicitAny` flag is `false` (the default), and if
   the compiler cannot infer the variable type based on how it's used, 
   the compiler silently defaults the type to `any`. That's what is meant by *implicit `any`*.
-  
+
+  이 문서 설정은 `noImplicitAny` 플래그를 `true`로 설정합니다.
+  `noImplicitAny` 플래그가 `true`이고 TypeScript 컴파일러가 타입을 추론 할 수 없는 경우에도
+  JavaScript 파일을 생성하지만 **오류를 보고**합니다.
+  많은 노련한 개발자들은 컴파일 시 타입 검사가 의도하지 않은 오류를 잡기 때문에
+  이보다 엄격한 설정을 선호합니다.
+
   The documentation setup sets the `noImplicitAny` flag to `true`.
   When the `noImplicitAny` flag is `true` and the TypeScript compiler cannot infer
   the type, it still generates the JavaScript files, but it also **reports an error**.
   Many seasoned developers prefer this stricter setting because type checking catches more
   unintentional errors at compile time.
-  
+
+  `noImplicitAny` 플래그가 `true` 인 경우에도 변수의 타입을 `any`로 설정할 수 있습니다.
+
   You can set a variable's type to `any` even when the `noImplicitAny` flag is `true`.
+
+  `noImplicitAny` 플래그가 `true`이면, *암시적 인덱스 에러* 를 얻을 수도 있습니다.
+  대부분의 개발자는 *이 특별한 오류*가 도움이 되는 것보다 성가시다고 생각합니다.
+  다음 추가 플래그로 이러한 기능을 사용하지 않을 수 있습니다.
 
   When the `noImplicitAny` flag is `true, you may get *implicit index errors* as well.
   Most developers feel that *this particular error* is more annoying than helpful.
@@ -54,32 +99,57 @@ code-example(format=".").
   "suppressImplicitAnyIndexErrors":true
 
 :marked
+  이 문서 설정에서도 이 플래그를 `true`로 설정했습니다.
+
   The documentation setup sets this flag to `true` as well.
 
 a(id="typings")
 .l-main-section
 :marked
   ## TypeScript Typings
+  jQuery, Jasmine 테스트 라이브러리 및 Angular와 같은 많은 JavaScript 라이브러리는 
+  TypeScript 컴파일러가 기본적으로 인식하지 못하는 
+  기능 및 구문을 사용하여 JavaScript 환경을 확장합니다.
+  컴파일러가 무언가를 인식하지 못하면 오류가 발생합니다.
+
   Many JavaScript libraries, such as jQuery, the Jasmine testing library, and Angular,
   extend the JavaScript environment with features and syntax
   that the TypeScript compiler doesn't recognize natively.
   When the compiler doesn't recognize something, it throws an error. 
-  
+
+  컴파일러에게 로드하는 라이브러리에 대해 알려주려면
+  [TypeScript 타입 정의 파일](https://www.typescriptlang.org/docs/handbook/writing-declaration-files.html)&mdash;`d.ts 파일'을 사용하세요.
+
   Use [TypeScript type definition files](https://www.typescriptlang.org/docs/handbook/writing-declaration-files.html)&mdash;`d.ts files`&mdash;to tell the compiler about the libraries you load.
-  
+
+  TypeScript를 인식하는 편집기는 이러한 정의 파일을 활용하여 라이브러리 기능에 대한 타입 정보를 표시합니다.
+
   TypeScript-aware editors leverage these same definition files to display type information about library features.
-  
+
+  많은 라이브러리는 TypeScript 컴파일러와 편집기가 모두 찾을 수 있는 
+  npm 패키지에 정의 파일을 포함합니다. Angular는 그러한 라이브러리 중 하나입니다.
+  Angular 애플리케이션의 `node_modules/@angular/core/` 폴더에는 Angular의 일부를 설명하는 여러 개의 `d.ts` 파일이 들어 있습니다.
+
   Many libraries include definition files in their npm packages where both the TypeScript compiler and editors
   can find them. Angular is one such library. 
   The `node_modules/@angular/core/` folder of any Angular application contains several `d.ts` files that describe parts of Angular.
-  
+
+  **여러분이 Angular 패키지처럼 `d.ts` 파일을 포함하는 라이브러리 패키지의 *typings* 파일을 가져올 필요는 없습니다.**
+
   **You need do nothing to get *typings* files for library packages that include `d.ts` files&mdash;as all Angular packages do.**
 
   ### lib.d.ts
+  ### lib.d.ts
+
+  TypeScript는 `lib.d.ts` 라는 특별한 선언 파일을 포함합니다. 이 파일에는 JavaScript 런타임 및 DOM에 있는 다양한 공통 JavaScript 구문에 대한 ambient 선언(역주: non-TypeScript 파일에 정의된 변수를 선언)이 포함되어 있습니다.
 
   TypeScript includes a special declaration file called `lib.d.ts`. This file contains the ambient declarations for various common JavaScript constructs present in JavaScript runtimes and the DOM.
 
+  `--target`을 기반으로, TypeScript는 우리의 목표가 `es6`라면 `Promise`와 같은 _추가적인_ ambient 선언을 추가합니다.
+
   Based on the `--target`, TypeScript adds _additional_ ambient declarations like `Promise` if our target is `es6`.
+
+  빠른시작은 `es5`를 타겟으로 하고 있기 때문에, 포함할 선언 파일 목록을 덮어쓸 수 있습니다:
 
   Since the QuickStart is targeting `es5`, we can override the list of declaration files to be included:
 
@@ -87,25 +157,46 @@ code-example(format=".")
   "lib": ["es2015", "dom"]
 
 :marked
+  이것 때문에 `es5`를 타겟으로 해도 모든 `es6` typings를 가지고 있습니다.
+
   Thanks to that, we have all the `es6` typings even when targeting `es5`.
 
+  ### 설치 가능한 typings 파일
   ### Installable typings files
+  많은 라이브러리들&mdash;jQuery, Jasmine, Lodash&mdash;는 npm 패키지에 `d.ts` 파일을 포함하지 않았습니다.
+  다행히도 저자 또는 커뮤니티 기여자들은 이 라이브러리에 대해 별도의 `d.ts` 파일을 작성하고
+  잘 알려진 위치에 게시했습니다.
+
   Many libraries&mdash;jQuery, Jasmine, and Lodash among them&mdash;do *not* include `d.ts` files in their npm packages.
   Fortunately, either their authors or community contributors have created separate `d.ts` files for these libraries and 
   published them in well-known locations.
 
-  We can install these typings via `npm` using the 
-  [`@types/*` scoped package](http://www.typescriptlang.org/docs/handbook/declaration-files/consumption.html) 
+  이러한 typings는 [`@types/*` 영역의 패키지](http://www.typescriptlang.org/docs/handbook/declaration-files/consumption.html)를 사용해 설치할 수 있고
+  TypeScript (2.0 이후)는 자동으로 이것을 인식합니다.
+
+  We can install these typings via `npm` using the
+  [`@types/*` scoped package](http://www.typescriptlang.org/docs/handbook/declaration-files/consumption.html)
   and Typescript (starting at 2.0) will automatically recognize them.
+
+  예를 들어 `jasmine`의 typings를 설치하기 위해서 `npm install @types/jasmine --save-dev`를 하면 됩니다.
 
   For instance, to install typings for `jasmine` we could do `npm install @types/jasmine --save-dev`.
 
 :marked
+  빠른시작은 2개의 *typings* (`d.ts`) 파일을 식별합니다:
+
   QuickStart identified two *typings* (`d.ts`) files:
 
+  * Jasmine 테스트 프레임워크를 위한 [jasmine](http://jasmine.github.io/) typings
+
   * [jasmine](http://jasmine.github.io/) typings for the Jasmine test framework
-  
+
+  * *nodejs* 환경의 객체를 참조하는 코드를 위해 [node](https://www.npmjs.com/package/@types/node);
+  [웹팩](./webpack.html) 페이지에서 예제를 볼 수 있습니다.
+
   * [node](https://www.npmjs.com/package/@types/node) for code that references objects in the *nodejs* environment; 
   You can view an example in the [webpack](./webpack.html) page.
-  
+
+  빠른시작은 이러한 typings를 필요로 하지 않지만 상당수의 샘플은 이것을 필요로 합니다.
+
   QuickStart doesn't require these typings but many of the samples do.
