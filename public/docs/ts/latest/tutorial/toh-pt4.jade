@@ -45,19 +45,21 @@ include ../_util-fns
 .filetree
   .file angular-tour-of-heroes
   .children
-    .file app
+    .file src
     .children
-      .file app.component.ts
-      .file app.module.ts
-      .file hero.ts
-      .file hero-detail.component.ts
+      .file app
+      .children
+        .file app.component.ts
+        .file app.module.ts
+        .file hero.ts
+        .file hero-detail.component.ts
       .file main.ts
+      .file index.html
+      .file styles.css
+      .file systemjs.config.js
+      .file tsconfig.json
     .file node_modules ...
-    .file index.html
     .file package.json
-    .file styles.css
-    .file systemjs.config.js
-    .file tsconfig.json
 
 :marked
   ### 지속적인 앱 트랜스파일링과 실행
@@ -128,7 +130,7 @@ code-example(language="sh" class="code-shell").
 
   We name the class `HeroService` and export it for others to import.
 
-+makeExample('toh-4/ts/app/hero.service.1.ts', 'empty-class', 'app/hero.service.ts (starting point)')(format=".")
++makeExample('toh-4/ts/src/app/hero.service.1.ts', 'empty-class', 'src/app/hero.service.ts (starting point)')(format=".")
 
 :marked
   ### 주입 가능한 서비스
@@ -164,7 +166,7 @@ code-example(language="sh" class="code-shell").
   `getHeroes` 메소드 코드조각을 추가합니다.
 
   Add a `getHeroes` method stub.
-+makeExample('toh-4/ts/app/hero.service.1.ts', 'getHeroes-stub', 'app/hero.service.ts (getHeroes stub)')(format=".")
++makeExample('toh-4/ts/src/app/hero.service.1.ts', 'getHeroes-stub', 'src/app/hero.service.ts (getHeroes stub)')(format=".")
 :marked
   잠시 중요한 부분을 짚어보기 위해 구현부를 살펴보겠습니다.
 
@@ -204,7 +206,7 @@ code-example(language="sh" class="code-shell").
   Cut the `HEROES` array from `app.component.ts` and paste it to a new file in the `app` folder named `mock-heroes.ts`.
   We copy the `import {Hero} ...` statement as well because the heroes array uses the `Hero` class.
 
-+makeExample('toh-4/ts/app/mock-heroes.ts', null, 'app/mock-heroes.ts')
++makeExample('toh-4/ts/src/app/mock-heroes.ts', null, 'src/app/mock-heroes.ts')
 :marked
   `HEROES` 상수를 익스포트했으므로 다른 곳 &mdash; `HeroService` 같은 곳에서도 임포트 할 수 있습니다.
 
@@ -215,7 +217,7 @@ code-example(language="sh" class="code-shell").
 
   Meanwhile, back in `app.component.ts` where we cut away the `HEROES` array, 
   we leave behind an uninitialized `heroes` property:
-+makeExample('toh-4/ts/app/app.component.1.ts', 'heroes-prop', 'app/app.component.ts (heroes property)')(format=".")
++makeExample('toh-4/ts/src/app/app.component.1.ts', 'heroes-prop', 'src/app/app.component.ts (heroes property)')(format=".")
 :marked
   ### 샘플 히어로 반환하기
   ### Return Mocked Heroes
@@ -225,7 +227,7 @@ code-example(language="sh" class="code-shell").
 
   Back in the `HeroService`  we import the mock `HEROES` and return it from the `getHeroes` method.
   Our `HeroService` looks like this:
-+makeExample('toh-4/ts/app/hero.service.1.ts', 'full', 'app/hero.service.ts')(format=".")
++makeExample('toh-4/ts/src/app/hero.service.1.ts', 'full', 'src/app/hero.service.ts')(format=".")
 :marked
   ### 히어로 서비스 사용하기
   ### Use the Hero Service
@@ -237,7 +239,7 @@ code-example(language="sh" class="code-shell").
   언제나처럼 사용하고 싶은 `HeroService`를 임포트하며 시작합니다.
 
   We begin, as usual, by importing the thing we want to use, the `HeroService`.
-+makeExcerpt('toh-4/ts/app/app.component.ts', 'hero-service-import')
++makeExcerpt('toh-4/ts/src/app/app.component.ts', 'hero-service-import')
 :marked
   서비스를 임포트하면 코드에서 *참조*가 가능합니다.
   어떻게 `AppComponent`는 `HeroService`의 구체화된 런타임 인스턴스를 얻을 수 있을까요?
@@ -251,7 +253,7 @@ code-example(language="sh" class="code-shell").
   `new` 를 통해 `HeroService`의 새로운 인스턴스를 만들 수도 있습니다.
 
   We could create a new instance  of the `HeroService` with `new` like this:
-+makeExample('toh-4/ts/app/app.component.1.ts', 'new-service')(format=".")
++makeExample('toh-4/ts/src/app/app.component.1.ts', 'new-service')(format=".")
 :marked
   이것은 몇 가지 이유에서 안 좋은 생각입니다.
 
@@ -307,6 +309,12 @@ code-example(language="sh" class="code-shell").
   Two lines replace the one line that created with *new*:
   1. We add a constructor that also defines a private property.
   1. We add to the component's `providers` metadata.
+<<<<<<< HEAD
+=======
+  
+  Here's the constructor:
++makeExample('toh-4/ts/src/app/app.component.1.ts', 'ctor', 'src/app/app.component.ts (constructor)')
+>>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 :marked
   생성자 자체는 아무것도 하지 않습니다. 파라미터는 private `heroService`  프로퍼티를 정의함과 동시에
   `HeroService` 주입 위치로 확인 됩니다.
@@ -339,7 +347,7 @@ code-example(format="nocode").
   Do that by adding the following `providers` array property to the bottom of the component metadata
   in the `@Component` call.
 
-+makeExcerpt('toh-4/ts/app/app.component.1.ts', 'providers')
++makeExcerpt('toh-4/ts/src/app/app.component.1.ts', 'providers')
 :marked
   `providers` 배열은 Angular 에게 `AppComponent`를 생성 시 새로운 `HeroService` 인스턴스를 요청합니다.
   `AppComponent`가 히어로를 얻기 위해 이 서비스를 사용할 수 있고, 컴포넌트 트리의 하위에 있는 모든 컴포넌트에서도 사용할 수 있습니다.
@@ -358,12 +366,12 @@ a#child-component
   잠시만 생각해보겠습니다. 서비스를 호출하고 데이터를 가져오는 것을 한 줄에 할 수 있습니다.
 
   We pause to think. We can call the service and get the data in one line.
-+makeExample('toh-4/ts/app/app.component.1.ts', 'get-heroes')(format=".")
++makeExample('toh-4/ts/src/app/app.component.1.ts', 'get-heroes')(format=".")
 :marked
   사실 한줄로 쓰여진 전용의 메소드가 필요하지는 않습니다. 일단 써보겠습니다.
   
   We don't really need a dedicated method to wrap one line.  We write it anyway:
-+makeExcerpt('toh-4/ts/app/app.component.1.ts', 'getHeroes')
++makeExcerpt('toh-4/ts/src/app/app.component.1.ts', 'getHeroes')
 
 <a id="oninit"></a>
 :marked
@@ -415,14 +423,14 @@ a#child-component
   여기 `OnInit` 인터페이스의 주요 아웃라인이 있습니다.
 
   Here's the essential outline for the `OnInit` interface:
-+makeExample('toh-4/ts/app/app.component.1.ts', 'on-init', 'app/app.component.ts (ngOnInit stub)')(format=".")
++makeExample('toh-4/ts/src/app/app.component.1.ts', 'on-init', 'src/app/app.component.ts (ngOnInit stub)')(format=".")
 :marked
   `ngOnInit` 메소드에 초기화 로직을 작성하고 Angular가 적절한 시점에 호출할 수 있도록 합니다.
   우리는 `getHeroes`를 호출하여 초기화 하겠습니다.
  
   We write an `ngOnInit` method with our initialization logic inside and leave it to Angular to call it
   at the right time. In our case, we initialize by calling `getHeroes`.
-+makeExcerpt('toh-4/ts/app/app.component.1.ts', 'ng-on-init')
++makeExcerpt('toh-4/ts/src/app/app.component.1.ts', 'ng-on-init')
 :marked
   애플리케이션이 예상대로 동작하고, 히어로 목록을 보여주고 사용자가 히어로 이름을 선택하면
   히어로 상세 뷰를 보여줘야 합니다.
@@ -443,7 +451,7 @@ a#child-component
 
   Our `HeroService` returns a list of mock heroes immediately. 
   Its `getHeroes` signature is synchronous
-+makeExample('toh-4/ts/app/app.component.1.ts', 'get-heroes')(format=".")
++makeExample('toh-4/ts/src/app/app.component.1.ts', 'get-heroes')(format=".")
 :marked
   히어로를 요청하면 바로 결과를 반환합니다.
 
@@ -486,7 +494,7 @@ a#child-component
   `getHeroes` 메소드가 !{_Promise}를 반환하도록 `HeroService`를 수정하세요:
 
   Update the `HeroService` with this !{_Promise}-returning `getHeroes` method:
-+makeExample('toh-4/ts/app/hero.service.ts', 'get-heroes', 'app/hero.service.ts (excerpt)')(format=".")
++makeExample('toh-4/ts/src/app/hero.service.ts', 'get-heroes', 'src/app/hero.service.ts (excerpt)')(format=".")
 :marked
   아직 샘플 데이터를 사용합니다. 샘플 히어로를 결과로 반환하는
   **즉시 처리 !{_Promise}**를 사용하여 초고속, 무지연 서버를 시뮬레이션했습니다.
@@ -500,7 +508,7 @@ a#child-component
   `AppComponent`로 돌아와 `getHeroes` 메소드를 보니 여전히 아래처럼 되어 있습니다.
 
   Returning to the `AppComponent` and its `getHeroes` method, we see that it still looks like this:
-+makeExample('toh-4/ts/app/app.component.1.ts', 'getHeroes', 'app/app.component.ts (getHeroes - old)')(format=".")
++makeExample('toh-4/ts/src/app/app.component.1.ts', 'getHeroes', 'src/app/app.component.ts (getHeroes - old)')(format=".")
 :marked
   `HeroService` 를 변경했으니, 이제 `this.heroes`에 히어로 배열이 아니라 Promise를 할당하겠습니다.
 
@@ -515,7 +523,7 @@ a#child-component
   !{_Promise}의 **then** 메소드 인자로 콜백함수를 전달합니다.
 
   We pass our callback function as an argument to the !{_Promise}'s **then** method:
-+makeExample('toh-4/ts/app/app.component.ts', 'get-heroes', 'app/app.component.ts (getHeroes - revised)')(format=".")
++makeExample('toh-4/ts/src/app/app.component.ts', 'get-heroes', 'src/app/app.component.ts (getHeroes - revised)')(format=".")
 .l-sub-section
   :marked
     콜백 함수의 [ES2015 화살표 함수](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
@@ -549,34 +557,36 @@ a#child-component
 .filetree
   .file angular-tour-of-heroes
   .children
-    .file app
+    .file src
     .children
-      .file app.component.ts
-      .file app.module.ts
-      .file hero.ts
-      .file hero-detail.component.ts
-      .file hero.service.ts
-      .file main.ts      
-      .file mock-heroes.ts
+      .file app
+      .children
+        .file app.component.ts
+        .file app.module.ts
+        .file hero.ts
+        .file hero-detail.component.ts
+        .file hero.service.ts
+        .file mock-heroes.ts
+      .file main.ts
+      .file index.html
+      .file styles.css
+      .file systemjs.config.js
+      .file tsconfig.json
     .file node_modules ...   
-    .file index.html
     .file package.json
-    .file styles.css
-    .file systemjs.config.js
-    .file tsconfig.json
 :marked
   이번 챕터에서 논의한 코드 파일 목록입니다.
 
   Here are the code files we discussed in this chapter.
 
 +makeTabs(`
-  toh-4/ts/app/hero.service.ts,
-  toh-4/ts/app/app.component.ts,
-  toh-4/ts/app/mock-heroes.ts
+  toh-4/ts/src/app/hero.service.ts,
+  toh-4/ts/src/app/app.component.ts,
+  toh-4/ts/src/app/mock-heroes.ts
   `,'',`
-  app/hero.service.ts,
-  app/app.component.ts,
-  app/mock-heroes.ts
+  src/app/hero.service.ts,
+  src/app/app.component.ts,
+  src/app/mock-heroes.ts
   `)
 :marked
   ## 지나온 여정
@@ -629,7 +639,7 @@ a#child-component
   `Hero` 를 임포트하고 `HeroService`에 아래 `getHeroesSlowly` 메소드를 추가하세요.
 
   Import the `Hero` symbol and add the following `getHeroesSlowly` method to the `HeroService`
-+makeExample('toh-4/ts/app/hero.service.ts', 'get-heroes-slowly', 'app/hero.service.ts (getHeroesSlowly)')(format=".")
++makeExample('toh-4/ts/src/app/hero.service.ts', 'get-heroes-slowly', 'src/app/hero.service.ts (getHeroesSlowly)')(format=".")
 :marked
   `getHeroes`처럼 이것도 !{_Promise}를 반환합니다.
   그러나 이번 !{_Promise}는 샘플 히어로 결과를 반환할 때 2초의 지연이 있습니다.

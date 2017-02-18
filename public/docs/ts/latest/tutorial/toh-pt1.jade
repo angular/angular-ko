@@ -17,17 +17,19 @@ include ../_util-fns
 .filetree
   .file angular-tour-of-heroes
   .children
-    .file app
+    .file src
     .children
-      .file app.component.ts
-      .file app.module.ts
+      .file app
+      .children
+        .file app.component.ts
+        .file app.module.ts
       .file main.ts
+      .file index.html
+      .file styles.css
+      .file systemjs.config.js
+      .file tsconfig.json
     .file node_modules ... 
-    .file index.html
     .file package.json
-    .file styles.css
-    .file systemjs.config.js
-    .file tsconfig.json
 :marked
   첫번째 에피소드를 끝내면, 다음과 같은 앱이 실행됩니다 <live-example></live-example>.
   
@@ -66,7 +68,7 @@ code-example(language="sh" class="code-shell").
 
     Update the `AppComponent` so it has two properties: &nbsp; a `title` property for the application name and a `hero` property for a hero named "Windstorm".
 
-  +makeExample('toh-1/ts-snippets/app.component.snippets.pt1.ts', 'app-component-1', 'app.component.ts (AppComponent class)')(format=".")
+  +makeExample('toh-1/ts-snippets/app.component.snippets.pt1.ts', 'app-component-1', 'src/app/app.component.ts (AppComponent class)')(format=".")
 
   :marked
     이제 `@Component` 데코레이션의 템플릿에 이 새로운 속성들에 대한 데이터 바인딩을 추가합니다.
@@ -106,7 +108,7 @@ code-example(language="sh" class="code-shell").
   Create a `Hero` class with `id` and `name` properties.
   For now put this near the top of the `app.component.ts` file, just below the import statement.
 
-+makeExample('toh-1/ts/app/app.component.ts', 'hero-class-1', 'app.component.ts (Hero class)')(format=".")
++makeExample('toh-1/ts/src/app/app.component.ts', 'hero-class-1', 'src/app/app.component.ts (Hero class)')(format=".")
 
 :marked
   이제 `Hero` 클래스가 있으니 컴포넌트의 `hero` 속성이 `Hero` 타입의 인스턴스가 되도록 합니다.
@@ -115,7 +117,7 @@ code-example(language="sh" class="code-shell").
   Now that we have a `Hero` class, let’s refactor our component’s `hero` property to be of type `Hero`.
   Then initialize it with an id of `1` and the name, "Windstorm".
 
-+makeExample('toh-1/ts/app/app.component.ts', 'hero-property-1', 'app.component.ts (hero property)')(format=".")
++makeExample('toh-1/ts/src/app/app.component.ts', 'hero-property-1', 'src/app/app.component.ts (hero property)')(format=".")
 
 :marked
   히어로를 문자열에서 객체로 변경했기 때문에 템플릿 내에서 히어로의 `name` 속성을 참조하는 바인딩을 업데이트해야 합니다.
@@ -163,7 +165,7 @@ code-example(language="sh" class="code-shell").
   Change the quotes around the template to back-ticks and
   put the `<h1>`, `<h2>` and `<div>` elements on their own lines.
 
-+makeExample('toh-1/ts-snippets/app.component.snippets.pt1.ts', 'multi-line-strings', 'app.component.ts (AppComponent\'s template)')
++makeExample('toh-1/ts-snippets/app.component.snippets.pt1.ts', 'multi-line-strings', 'src/app/app.component.ts (AppComponent\'s template)')
 
   .callout.is-important
     header A back-tick is not a single quote
@@ -193,7 +195,7 @@ code-example(language="sh" class="code-shell").
 
   Refactor the hero name `<label>` with `<label>` and `<input>` elements as shown below:
 
-+makeExample('toh-1/ts-snippets/app.component.snippets.pt1.ts', 'editing-Hero', 'app.component.ts (input element)')
++makeExample('toh-1/ts-snippets/app.component.snippets.pt1.ts', 'editing-Hero', 'src/appapp.component.ts (input element)')
 :marked
   이제 브라우저의 `<input>` 텍스트박스에 히어로의 이름이 나타납니다.
   하지만 뭔가 찜찜한데요. 이름을 바꿔도 `<h2>`에 반영이 안 되고 있네요.
@@ -224,7 +226,7 @@ code-example(language="sh" class="code-shell").
   of external modules used by our application.
   Now we have included the forms package which includes `ngModel`.
 
-+makeExample('toh-1/ts/app/app.module.ts', '', 'app.module.ts (FormsModule import)')
++makeExample('toh-1/ts/src/app/app.module.ts', '', 'src/app/app.module.ts (FormsModule import)')
 
 .l-sub-section
   :marked
@@ -283,7 +285,7 @@ code-example(language="html").
 
   Here's the complete `app.component.ts` as it stands now:
 
-+makeExample('toh-1/ts/app/app.component.ts', 'pt1', 'app.component.ts')
++makeExample('toh-1/ts/src/app/app.component.ts', 'pt1', 'src/app/app.component.ts')
 
 .l-main-section
 :marked

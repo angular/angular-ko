@@ -16,7 +16,7 @@ include ../_util-fns
   The [setup](setup.html) instructions produce a new project with the following minimal `AppModule`.
   You'll evolve this module as your application grows.
 
-+makeExample('setup/ts/app/app.module.ts','', 'app/app.module.ts')(format='.')
++makeExample('setup/ts/src/app/app.module.ts','', 'src/app/app.module.ts')(format='.')
 
 :marked
   `import`문 다음에 `@NgModule` [_데코레이터_](glossary.html#decorator '"Decorator" explain')로 꾸며진 클래스가 옵니다.
@@ -42,10 +42,14 @@ include ../_util-fns
 
     **_bootstrap_** &mdash; the _root_ component that Angular creates and inserts into the `index.html` host web page.
  
+<<<<<<< HEAD
   [Angular 모듈 (NgModules)](ngmodule.html) 가이드는 Angular 모듈의 세부 사항을 자세히 설명합니다.
   이 세 가지 속성에 대한 몇 가지 기본 사항이 현재 알아야 하는 전부입니다.
 
   The [Angular Modules (NgModules)](ngmodule.html) guide dives deeply into the details of Angular modules.
+=======
+  The [Angular Modules (NgModule)](ngmodule.html) guide dives deeply into the details of Angular modules.
+>>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   All you need to know at the moment is a few basics about these three properties.  
 
 a#imports
@@ -78,6 +82,7 @@ a#imports
   Other guide and cookbook pages will tell you when you need to add additional modules to this array.
 
 .alert.is-important
+<<<<<<< HEAD
   :marked
     **오직 `NgModule`클래스만 ** `imports` 배열에 있을 수 있습니다. `imports'에 다른 종류의 클래스를 넣지 마세요.
 
@@ -90,23 +95,39 @@ a#imports
 
     Don't confuse the `import` statements at the top of the file with the Angular module's `imports` array.
     They have different jobs.
+=======
+   :marked
+     **Only `NgModule` classes** go in the `imports` array. Do not put any other kind of class in `imports`.
+
+.l-sub-section
+  :marked
+    The `import` statements at the top of the file and the Angular module's `imports` array
+    are unrelated and have completely different jobs.
+>>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
     _JavaScript_ `import`문은 다른 파일들에 의해 _호출_된 기호들에 접근 할 수 있게 해주므로 _이_ 파일 내에서 그들을 참조 할 수 있습니다.
     JavaScript의 `import`문은 Angular와 아무 관련이 없으며, Angular는 그것들에 대해 아무것도 알지 못합니다.
 
     The _JavaScript_ `import` statements give you access to symbols _exported_ by other files
-    so you can reference them within _this_ file. 
+    so you can reference them within _this_ file.
+    You add `import` statements to almost every application file. 
     They have nothing to do with Angular and Angular knows nothing about them.
 
+<<<<<<< HEAD
     _module_의 `imports` 배열은 애플리케이션이 제대로 동작하는데 필요한 특정 Angular 모듈 &mdash; `@NgModule`로 장식 된 클래스들 &mdash;을 Angular에 알려줍니다.
 
     The _module's_ `imports` array tells Angular about specific Angular modules &mdash; classes decorated with `@NgModule` &mdash;
+=======
+    The _module's_ `imports` array appears _exclusively_ in the `@NgModule` metadata object.
+    It tells Angular about specific _other_ Angular modules &mdash; all of them classes decorated with `@NgModule` &mdash;
+>>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
     that the application needs to function properly.
 a#declarations
 :marked
   ### _선언(declarations)_ 배열
   ### The _declarations_ array
   
+<<<<<<< HEAD
   _모든_ 컴포넌트를 하나의 (그리고 유일한) `NgModule` 클래스에 선언해야합니다.
   모듈의 `declarations`배열에 나열함으로써 어떤 컴포넌트가 `AppModule`에 속하는지 Angular에게 알려줍니다.
   더 많은 컴포넌트를 만들 때, 그 컴포넌트를 `declarations`배열에 추가해야 합니다.
@@ -116,6 +137,13 @@ a#declarations
   As you create more components, you'll add them to `declarations`.
   
   앞으로 `declarations`에 추가하게 될 2개의 다른 클래스 &mdash; [지시자](attribute-directives.html)와 [파이프](pipes.html) &mdash; 를 배울 겁니다.
+=======
+  You tell Angular which components belong to the `AppModule` by listing it in the module's `declarations` array.
+  As you create more components, you'll add them to `declarations`.
+  
+  You must declare _every_ component in an `NgModule` class. 
+  If you use a component without declaring it, you'll see a clear error message in the browser console.
+>>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
   You'll learn to create two other kinds of classes &mdash; 
   [directives](attribute-directives.html) and [pipes](pipes.html) &mdash;
@@ -123,11 +151,16 @@ a#declarations
 
 .alert.is-important
    :marked
+<<<<<<< HEAD
       **_선언가능한 것들만_** &mdash; _컴포넌트_, _지시자_ 및 _파이프_ &mdash; `declarations` 배열에 속합니다. &nbsp;
       다른 종류의 클래스를 `declarations`에 넣지 마세요; `NgModule` 클래스 _안됨_, 서비스 클래스 _안됨_, 모델 클래스 _안됨_
 
       **Only _declarables_** &mdash; _components_, _directives_ and _pipes_ &mdash; belong in the `declarations` array. &nbsp;
       Don't put any other kind of class in `declarations`; _not_ `NgModule` classes, _not_ service classes, _not_ model classes.
+=======
+      **Only _declarables_** &mdash; _components_, _directives_ and _pipes_ &mdash; belong in the `declarations` array. 
+      Do not put any other kind of class in `declarations`; _not_ `NgModule` classes, _not_ service classes, _not_ model classes.
+>>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 a#bootstrap-array
 :marked
@@ -182,8 +215,8 @@ l-main-section
   실시간(JIT) 컴파일된 브라우저 애플리케이션을 실행(bootstrap)하기위한 권장 장소는 `app/main.ts`라는 이름의 `app` 폴더에 있는 별도의 파일입니다.
 
   The recommended place to bootstrap a JIT-compiled browser application is in a separate file 
-  in the `app` folder named `app/main.ts`
-+makeExample('setup/ts/app/main.ts','','app/main.ts')(format='.')
+  in the `src` folder named `src/main.ts`
++makeExample('setup/ts/src/main.ts','','src/main.ts')(format='.')
 :marked
   이 코드는 동적 (JIT) 컴파일을 위한 브라우저 플랫폼을 생성하고, 위에서 설명한 `AppModule`을 실행(bootstrap)합니다.
 
@@ -193,14 +226,14 @@ l-main-section
   _실행(bootstrap)_ 프로세스는 실행 환경을 설정하고, 모듈의 `bootstrap` 배열에서 _최상위_ `AppComponent`를 파고, 컴포넌트의 인스턴스를 생성하고, 컴포넌트의 `selector`로 식별되는 요소 태그 안에 삽입하는 것 입니다.
 
   The _bootstrapping_ process sets up the execution environment,
-  digs the _root_ `AppComponent` out of the module's `bootstrap` array, &nbsp;
+  digs the _root_ `AppComponent` out of the module's `bootstrap` array, 
   creates an instance of the component and inserts it within the element tag identified by the component's `selector`.
 
   `AppComponent` 셀렉터 & mdash; 이 곳과 대부분의 문서 샘플에서 볼 수 있습니다. &mdash;는 `my-app`이므로 Angular는 아래와 같은 `index.html`에서`<my-app>`태그를 찾습니다.
 
   The `AppComponent` selector &mdash; here and in most documentation samples &mdash; is `my-app` 
   so Angular looks for a `<my-app>` tag in the `index.html` like this one ...
-+makeExample('setup/ts/index.html','my-app')(format='.')
++makeExample('setup/ts/src/index.html','my-app')(format='.')
 :marked
   ... 그리고 거기에 `AppComponent`를 표시합니다.
 
@@ -210,9 +243,9 @@ l-main-section
 
   This file is very stable. Once you've set it up, you may never change it again.
 
-a#quickstart-appmodule
 l-main-section
 :marked
+<<<<<<< HEAD
   ## 빠른시작의 _AppModule_
   ## QuickStart's _AppModule_
 
@@ -236,3 +269,13 @@ l-main-section
 
   Remove the following `<script>` tag from the `index.html` and see _your_ work in action.
 +makeExample('quickstart/ts/index.html','autobootstrap','Remove this script tag from "index.html"')(format='.')
+=======
+  ## More about Angular Modules
+
+  Your initial app has only a single module, the _root_ module.
+  As your app grows, you'll consider subdividing it into multiple "feature" modules,
+  so of which can be loaded later ("lazy loaded") if and when the user chooses
+  to visit those features.
+
+  When you're ready to explore these possibilities, visit the [Angular Modules (NgModule)](ngmodule.html) guide.
+>>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
