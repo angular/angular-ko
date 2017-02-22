@@ -84,12 +84,9 @@ a#aot
 a#attribute-directive
 a#attribute-directives
 :marked
-<<<<<<< HEAD
   ## 속성 지시자 (Attribute Directive)
-  ## Attribute directive
-=======
   ## Attribute directives
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
+
 .l-sub-section
   :marked
     다른 HTML 엘리먼트, 속성, 프로퍼티와 컴포넌트들의 행동을 탐지하고 변경할 수 있는
@@ -103,6 +100,8 @@ a#attribute-directives
     CSS 클래스명을 추가 또는 제거하는 `ngClass` 지시자가 속성 지시자의 좋은 예시입니다.
 
     A good example of an attribute directive is the `ngClass` directive for adding and removing CSS class names.
+
+    [_속성 지시자(Attribute Directives)_](!{docsLatest}/guide/attribute-directives.html) 가이드에서 자세히 알아보세요.
 
     Learn about them in the [_Attribute Directives_](!{docsLatest}/guide/attribute-directives.html) guide.
 
@@ -472,17 +471,11 @@ a#directives
     An Angular class responsible for creating, re-shaping, and interacting with HTML elements
     in the browser DOM. Directives are Angular's most fundamental feature.
 
-<<<<<<< HEAD
     지시자는 거의 항상 HTML 엘리먼트 또는 속성과 연동됩니다.
-    보통 이런 엘리먼트나 속성 자체를 지시자라고 합니다.
     Angular가 HTML 템플릿에서 지시자를 찾으면 그에 일치하는 지시자 클래스의 인스턴스를 만들고
     그 인스턴스에 브라우저 DOM 중 해당하는 부분의 컨트롤을 넘겨줍니다.
     
-    A Directive is almost always associated with an HTML element or attribute.
-    We often refer to such an element or attribute as the directive itself.
-=======
     A directive is almost always associated with an HTML element or attribute.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
     When Angular finds a directive in an HTML template,
     it creates the matching directive class instance
     and gives the instance control over that portion of the browser DOM.
@@ -496,47 +489,30 @@ a#directives
     as if you were writing native HTML. In this way, directives become extensions of
     HTML itself.
 
-<<<<<<< HEAD
     지시자는 다음 세 카테고리 중 하나에 속합니다:
-    
-    Directives fall into one of three categories:
 
-    * [컴포넌트](#component).
-    애플리케이션 로직과 HTML 템플릿을 결합하여 애플리케이션 [뷰]를 렌더합니다.
+    Directives fall into three categories:
+
+    1. [컴포넌트](#component)는 애플리케이션 로직과 HTML 템플릿을 결합하여 애플리케이션 [뷰]를 렌더합니다.
     컴포넌트는 보통 HTML 엘리먼트들로 표현됩니다.
     Angular 앱의 중요한 구성요소로 아주 많이 사용하게 될 것입니다.
-    * Components that combine application logic with an HTML template to
-    render application [views]. Components are usually represented as HTML elements.
-    They are the building blocks of an Angular application and the
-    developer can expect to write a lot of them.
-
-    * [속성 지시자](#attribute-directive).
-    다른 HTML 엘리먼트, 속성, 프로퍼티와 컴포넌트들의 행동을 탐지하고 변경할 수 있습니다.
-    보통 HTML 속성으로 표현하기 때문에 이런 이름을 갖게 되었습니다.
-    * [Attribute directives](#attribute-directive) that can listen to and modify the behavior of
-    other HTML elements, attributes, properties, and components. They are usually represented
-    as HTML attributes, hence the name.
-
-    * [구조형 지시자](#structural-directive).
-    일반적으로 HTML의 요소나 자식요소들을 더하거나, 빼거나, 조작하여 HTML 레이아웃을 만들거나 수정할 때 사용합니다.
-    * [Structural directives](#structural-directive), a directive responsible for
-    shaping or reshaping HTML layout, typically by adding, removing, or manipulating
-    elements and their children.
-=======
-    Directives fall into three categories:
 
     1. [Components](#component) that combine application logic with an HTML template to
     render application [views](#view). Components are usually represented as HTML elements.
     They are the building blocks of an Angular application and the
     developer can expect to write a lot of them.
 
+    1. [속성 지시자](#attribute-directive)는 다른 HTML 엘리먼트, 속성, 프로퍼티와 컴포넌트들의 행동을 탐지하고 변경할 수 있습니다.
+    보통 HTML 속성으로 표현하기 때문에 이런 이름을 갖게 되었습니다.
+
     1. [Attribute directives](#attribute-directive) that can listen to and modify the behavior of
     HTML elements, components, and other directives. They are usually represented
     as HTML attributes, hence the name.
 
+    1. [구조형 지시자](#structural-directive)는 일반적으로 HTML의 요소나 자식요소들을 더하거나, 빼거나, 조작하여 HTML 레이아웃을 만들거나 수정할 때 사용합니다.
+
     1. [Structural directives](#structural-directive) that
     shape or reshape HTML layout, typically by adding and removing elements in the DOM.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 .l-main-section#E
 
@@ -1064,12 +1040,9 @@ a#snake-case
 a#structural-directive
 a#structural-directives
 :marked
-<<<<<<< HEAD
   ## 구조형 지시자 (Structural Directive)
-  ## Structural directive
-=======
   ## Structural directives
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
+
 .l-sub-section
   :marked
     [지사자](#directive) 유형 중 하나로 일반적으로 HTML의 요소나 자식요소들을 더하거나, 빼거나, 
@@ -1079,13 +1052,9 @@ a#structural-directives
     shape or reshape HTML layout, typically by adding and removing elements in the DOM.
     The `ngIf` "conditional element" directive and the `ngFor` "repeater" directive are well-known examples.
 
-<<<<<<< HEAD
-    추가적인 내용은 [구조형 지시자](!{docsLatest}/guide/structural-directives.html)페이지를 참고하세요.
-=======
-    Read more in the [_Structural Directives_](!{docsLatest}/guide/structural-directives.html) guide.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
+    추가적인 내용은 [_구조형 지시자_](!{docsLatest}/guide/structural-directives.html)가이드를 참고하세요.
 
-    Read more in the [Structural Directives](!{docsLatest}/guide/structural-directives.html) page.
+    Read more in the [_Structural Directives_](!{docsLatest}/guide/structural-directives.html) guide.
     
 .l-main-section#T
 :marked
@@ -1175,17 +1144,12 @@ a#structural-directives
     A version of JavaScript that supports most [ECMAScript 2015](#es2015)
     language features such as [decorators](#decorator).
 
-<<<<<<< HEAD
     타입스크립트의 주목할 만한 점은 컴파일 시점의 타입검사를 할 수 있는 타입 시스템을 선택할 수 있다는 점과
     "IntelliSense, 코드 자동완성, 리팩토링, 인텔리젠트 검색과 같은 강력한 지원도구를 제공한다는 점입니다.
     대다수 코드 에디터나 IDE는 타입스크립트를 기본으로 지원하거나 플러그인 형태로 사용할 수 있습니다.
 
-    TypeScript is also noteable for its optional typing system, which gives
-    us compile-time type checking and strong tooling support (for example, "intellisense",
-=======
     TypeScript is also noteable for its optional typing system, which enables
     compile-time type checking and strong tooling support (for example, "intellisense",
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
     code completion, refactoring, and intelligent search). Many code editors
     and IDEs support TypeScript either natively or with plugins.
 

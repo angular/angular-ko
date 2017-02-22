@@ -144,13 +144,8 @@
   },
 
   "upgrade": {
-<<<<<<< HEAD
-    "title": "1.x에서의 업그레이드",
-    "intro": "Angular 1 애플리케이션은 점진적으로 Angular 2로 업그레이드 할 수 있습니다."
-=======
-    "title": "Upgrading to Angular",
-    "intro": "AngularJS applications can be incrementally upgraded to Angular."
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
+    "title": "Angular로 업그레이드",
+    "intro": "AngularJS 애플리케이션을 점진적으로 Angular로 업그레이드 할 수 있습니다."
   },
 
   "webpack": {

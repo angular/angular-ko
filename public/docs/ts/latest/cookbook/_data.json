@@ -10,17 +10,10 @@
     "intro": "사전(Ahead-of-time) 컴파일 사용법 배우기"
   },
 
-<<<<<<< HEAD
-  "a1-a2-quick-reference": {
-    "title": "Angular1에서 Angular2로의 빠른 참조",
-    "navTitle": "Angular1에서 Angular2로의 빠른 참조",
-    "intro": "Angular1 개념과 기법이 Angular2에 어떻게 매핑되는 알아보기"
-=======
   "ajs-quick-reference": {
-    "title": "AngularJS to Angular Quick Reference",
-    "navTitle": "AngularJS to Angular",
-    "intro": "Learn how AngularJS concepts and techniques map to Angular"
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
+    "title": "AngularJS에서 Angular로의 빠른 참조",
+    "navTitle": "AngularJS에서 Angular로의 빠른 참조",
+    "intro": "AngularJS 개념과 기법이 Angular에 어떻게 매핑되는 알아보기"
   },
 
   "ngmodule-faq": {

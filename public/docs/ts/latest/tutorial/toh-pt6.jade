@@ -670,12 +670,9 @@ block observables-section-intro
   ### 이름으로 검색하기
   ### Search-by-name
 
-<<<<<<< HEAD
   Tour of Heroes에 *히어로 검색* 기능을 추가하겠습니다.
   사용자가 검색상자에 이름을 입력하면, 해당 이름으로 히어로를 걸러내기 위해 반복적으로 HTTP 요청을 생성합니다.
 
-=======
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   We're going to add a *hero search* feature to the Tour of Heroes.
   As the user types a name into a search box, we'll make repeated HTTP requests for heroes filtered by that name.
 
@@ -692,34 +689,23 @@ block observables-section-intro
   The `!{_priv}http.get()` call in `HeroSearchService` is similar to the one
   in the `HeroService`, although the URL now has a query string.
 
-<<<<<<< HEAD
-  <span if-docs="ts">또 다른 눈에띄는 차이점은: 이제 더 이상 `toPromise`를 호출하지 않습니다.
-  대신에 `http.get`에서 *observable*을 반환하고,
-  그 뒤에 또 다른 RxJS 연산자인 map에 연결(chain)한 후,
-  히어로 데이터를 추출합니다.</span>
-
-  <span if-docs="ts">A more important difference: we no longer call `toPromise`.
-  Instead we return the *observable* from the the `htttp.get`, 
-  after chaining it to another RxJS operator, <code>map</code>, 
-  to extract heroes from the response data.
-
-  RxJS 연산자 연결은 응답 절차를 간단하고 읽기 쉽게 합니다.
-  [아래쪽의 연산자에 대한 토론](#rxjs-imports)을 보세요.
-
-  RxJS operator chaining makes response processing easy and readable.
-  See the [discuss below about operators](#rxjs-imports).
-  </span>
-=======
 +ifDocsFor('ts')
   :marked
+    또 다른 눈에띄는 차이점은: 이제 더 이상 `toPromise`를 호출하지 않습니다.
+    대신에 `http.get`에서 *observable*을 반환하고,
+    그 뒤에 또 다른 RxJS 연산자인 <code>map</code>에 연결(chain)한 후,
+    히어로 데이터를 추출합니다.
+
     A more important difference: we no longer call `toPromise`.
     Instead we return the *observable* from the the `htttp.get`, 
     after chaining it to another RxJS operator, <code>map</code>, 
     to extract heroes from the response data.
 
+    RxJS 연산자 연결은 응답 절차를 간단하고 읽기 쉽게 합니다.
+    [아래쪽의 연산자에 대한 토론](#rxjs-imports)을 보세요.
+
     RxJS operator chaining makes response processing easy and readable.
     See the [discuss below about operators](#rxjs-imports).
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 :marked
   ### HeroSearchComponent
@@ -890,12 +876,9 @@ block observable-transformers
     ### RxJS 연산자 임포트
     ### Import RxJS operators
 
-<<<<<<< HEAD
     대부분의 RxJS 연산자는 Angular의 `Observable` 구현에 포함되어 있지 않습니다.
     기본 구현에는 오직 Angular 자체에 필요한 것만 포함되어 있습니다.
 
-=======
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
     Most RxJS operators are not included in Angular's base `Observable` implementation.
     The base implementation includes only what Angular itself requires.
 

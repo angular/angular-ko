@@ -309,12 +309,11 @@ code-example(language="sh" class="code-shell").
   Two lines replace the one line that created with *new*:
   1. We add a constructor that also defines a private property.
   1. We add to the component's `providers` metadata.
-<<<<<<< HEAD
-=======
-  
+
+  이것은 생성자입니다:
+
   Here's the constructor:
 +makeExample('toh-4/ts/src/app/app.component.1.ts', 'ctor', 'src/app/app.component.ts (constructor)')
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 :marked
   생성자 자체는 아무것도 하지 않습니다. 파라미터는 private `heroService`  프로퍼티를 정의함과 동시에
   `HeroService` 주입 위치로 확인 됩니다.

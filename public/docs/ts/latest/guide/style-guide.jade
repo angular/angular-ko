@@ -88,17 +88,13 @@ a(id='toc')
     1. [코딩 컨벤션](#coding-conventions)
 
     1. [Coding conventions](#coding-conventions)
-<<<<<<< HEAD
 
-    1. [앱 구조와 Angular 모듈](#app-structure-and-angular-modules)
+    1. [앱 구조와 Angular 모듈](#application-structure-and-angular-modules)
 
-    1. [App structure and Angular modules](#app-structure-and-angular-modules)
+    1. [App structure and Angular modules](#application-structure-and-angular-modules)
 
     1. [컴포넌트](#components)
 
-=======
-    1. [App structure and Angular modules](#application-structure-and-angular-modules)
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
     1. [Components](#components)
 
     1. [지시자](#directives)
@@ -1305,29 +1301,20 @@ a(href="#toc") Back to top
 
   Have a near-term view of implementation and a long-term vision. Start small but keep in mind where the app is heading down the road.
 
-<<<<<<< HEAD
-  모든 앱의 코드는 `app` 폴더에 넣습니다.
+  모든 앱의 코드는 `src` 폴더에 넣습니다.
   모든 기능 영역은 각자의 Angular 모듈과 함께 각자의 폴더에 넣습니다.
 
-  All of the app's code goes in a folder named `app`.
-  All feature areas are in their own folder, with their own Angular module.
-
-  모든 컨텐츠는 파일 당 하나의 자원입니다. 각 컴포넌트, 서비스, 파이프는 각자의 파일에 있습니다.
-  모든 타사(3rd party vendor) 스크립트는 다른 폴더에 넣고 `app` 폴더에 넣지 않습니다.
-  여러분이 작성한 것도 아니고 그것들이 `app`을 어지럽히길 원하지 않습니다.
-  파일명은 이 페이지의 네이밍 컨벤션을 사용하세요.
-
-  All content is one asset per file. Each component, service, and pipe is in its own file.
-  All third party vendor scripts are stored in another folder and not in the `app` folder.
-  You didn't write them and you don't want them cluttering `app`.
-=======
   All of the app's code goes in a folder named `src`. 
   All feature areas are in their own folder, with their own Angular module. 
   
+  모든 컨텐츠는 파일 당 하나의 자원입니다. 각 컴포넌트, 서비스, 파이프는 각자의 파일에 있습니다.
+  모든 타사(3rd party vendor) 스크립트는 다른 폴더에 넣고 `app` 폴더에 넣지 않습니다.
+  여러분이 작성한 것도 아니고 그것들이 `src`을 어지럽히길 원하지 않습니다.
+  파일명은 이 페이지의 네이밍 컨벤션을 사용하세요.
+
   All content is one asset per file. Each component, service, and pipe is in its own file. 
   All third party vendor scripts are stored in another folder and not in the `src` folder. 
   You didn't write them and you don't want them cluttering `src`. 
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   Use the naming conventions for files in this guide.
 
 a(href="#toc") Back to top
@@ -1540,13 +1527,9 @@ a(href="#toc") Back to top
 
 .s-rule.do
   :marked
-<<<<<<< HEAD
-    **필수** `app` 폴더에 모든 앱의 코드를 넣으세요.
+    **필수** `src` 폴더에 모든 앱의 코드를 넣으세요.
 
-    **Do** put all of the app's code in a folder named `app`.
-=======
     **Do** put all of the app's code in a folder named `src`.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 .s-rule.consider
   :marked
@@ -1716,13 +1699,9 @@ a(href="#toc") Back to top
 
 .s-rule.do
   :marked
-<<<<<<< HEAD
-    **필수** 앱의 최상위 폴더 (예: `/app`) 안에 Angular 모듈을 만드세요.
+    **필수** 앱의 최상위 폴더 (예: `/src/app`) 안에 Angular 모듈을 만드세요.
 
-    **Do** create an Angular module in the app's root folder (e.g., in `/app`).
-=======
     **Do** create an Angular module in the app's root folder (e.g., in `/src/app`).
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 .s-why
   :marked
@@ -2346,13 +2325,7 @@ a(href="#toc") Back to top
 
     **Why?** The `./` prefix is standard syntax for relative URLs; don't depend on Angular's current ability to do without that prefix.
 
-<<<<<<< HEAD
-
-+makeExample('style-guide/ts/05-04/app/heroes/heroes.component.avoid.ts', 'example', 'app/heroes/heroes.component.ts')(avoid=1)
-=======
-  
 +makeExample('style-guide/ts/src/05-04/app/heroes/heroes.component.avoid.ts', 'example', 'app/heroes/heroes.component.ts')(avoid=1)
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 :marked
 
 +makeTabs(
