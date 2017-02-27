@@ -10,10 +10,17 @@
     "intro": "사전(Ahead-of-time) 컴파일 사용법 배우기"
   },
 
+<<<<<<< HEAD
   "a1-a2-quick-reference": {
     "title": "Angular1에서 Angular2로의 빠른 참조",
     "navTitle": "Angular1에서 Angular2로의 빠른 참조",
     "intro": "Angular1 개념과 기법이 Angular2에 어떻게 매핑되는 알아보기"
+=======
+  "ajs-quick-reference": {
+    "title": "AngularJS to Angular Quick Reference",
+    "navTitle": "AngularJS to Angular",
+    "intro": "Learn how AngularJS concepts and techniques map to Angular"
+>>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   },
 
   "ngmodule-faq": {
@@ -34,6 +41,11 @@
   "dependency-injection": {
     "title": "의존성 주입",
     "intro": "의존성 주입 테크닉"
+  },
+
+  "dynamic-component-loader": {
+    "title": "Dynamic Component Loader",
+    "intro": "Load components dynamically"
   },
 
   "dynamic-form": {

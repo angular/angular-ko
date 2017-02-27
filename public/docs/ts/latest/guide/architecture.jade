@@ -106,9 +106,13 @@ block angular-modules
 
   <br class="l-clear-both"><br>
   :marked
+<<<<<<< HEAD
     모든 Angular앱은 최소 하나 이상의 Angular 모듈 클래스를 가지며, 그것은 보통 "AppModule"이라는 이름의 [_최상위 모듈_](appmodule.html "AppModule : 최상위 모듈")입니다.
 
     Every Angular app has at least one Angular module class, [the _root module_](appmodule.html "AppModule: the root module"), 
+=======
+    Every Angular app has at least one Angular module class, [the _root module_](appmodule.html "AppModule: the root module"),  
+>>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
     conventionally named `AppModule`.
 
     작은 앱에서 _최상위 모듈 _이 유일한 모듈 일 수 있지만 대부분의 앱은 애플리케이션 도메인, 워크 플로우 또는 밀접하게 엮여있는 기능 세트의 전용 코드 모음으로 이루어진 많은 _기능 모듈_을 갖고 있습니다.
@@ -167,7 +171,7 @@ block angular-modules
     여기 간단한 최상위 모듈이 있습니다:
 
     Here's a simple root module:
-  +makeExample('app/mini-app.ts', 'module', 'app/app.module.ts')(format='.')
+  +makeExample('src/app/mini-app.ts', 'module', 'src/app/app.module.ts')(format='.')
 
   .l-sub-section
     :marked
@@ -181,7 +185,7 @@ block angular-modules
     Launch an application by _bootstrapping_ its root module. 
     During development you're likely to bootstrap the `AppModule` in a `main.ts` file like this one.
       
-  +makeExample('app/main.ts', '', 'app/main.ts')(format='.')
+  +makeExample('src/main.ts', '', 'src/main.ts')(format='.')
 
   :marked
     ### Angular 모듈 vs. JavaScript 모듈
@@ -205,8 +209,8 @@ block angular-modules
     The module declares some objects to be public by marking them with the `export` key word. 
     Other JavaScript modules use *import statements* to access public objects from other modules.
 
-  +makeExample('app/app.module.ts', 'imports', '')(format='.')
-  +makeExample('app/app.module.ts', 'export', '')(format='.')
+  +makeExample('src/app/app.module.ts', 'imports', '')(format='.')
+  +makeExample('src/app/app.module.ts', 'export', '')(format='.')
     
   .l-sub-section
     :marked
@@ -242,17 +246,17 @@ block angular-libraries
     예를 들어 Angular의 `Component` 데코레이터를 `@angular/core` 라이브러리에서 다음과 같이 가져옵니다 :
 
     For example, import Angular's `Component` decorator from the `@angular/core` library like this:
-  +makeExample('app/app.component.ts', 'import', '')(format='.')
+  +makeExample('src/app/app.component.ts', 'import', '')(format='.')
   :marked
     또한 JavaScript import문을 사용하여 Angular _라이브러리_에서 Angular _모듈_을 가져옵니다.
 
     You also import Angular _modules_ from Angular _libraries_ using JavaScript import statements:
-  +makeExample('app/mini-app.ts', 'import-browser-module', '')(format='.')
+  +makeExample('src/app/mini-app.ts', 'import-browser-module', '')(format='.')
   :marked
     위의 간단한 최상위 모듈 예제에서, 애플리케이션 모듈은 그 `BrowserModule` 내에서 요소가 필요합니다. 해당 요소에 접근하려면 다음과 같이 이 항목을 `@NgModule`메타데이터 `imports`에 추가하세요.
 
     In the example of the simple root module above, the application module needs material from within that `BrowserModule`. To access that material, add it to the `@NgModule` metadata `imports` like this.
-  +makeExample('app/mini-app.ts', 'ngmodule-imports', '')(format='.')
+  +makeExample('src/app/mini-app.ts', 'ngmodule-imports', '')(format='.')
   :marked
     이 방법으로 Angular와 JavaScript 모듈 시스템을 _함께_ 사용합니다.
 
@@ -315,7 +319,7 @@ figure
   that it acquires from a service.
   `HeroListComponent` also has a `selectHero()` method that sets a `selectedHero` property when the user clicks to choose a hero from that list.
 
-+makeExcerpt('app/hero-list.component.ts', 'class')
++makeExcerpt('src/app/hero-list.component.ts', 'class')
 :marked
   Angular는 사용자가 애플리케이션을 이동할 때 컴포넌트를 작성, 업데이트 및 삭제합니다.
   앱은 위에서 선언한 `ngOnInit ()`과 같은 선택적 [라이프사이클-훅](lifecycle-hooks.html)을 통해이 라이프사이클의 모든 순간에 액션을 취할 수 있습니다.
@@ -343,7 +347,7 @@ figure
   A template looks like regular HTML, except for a few differences. Here is a
   template for our `HeroListComponent`:
 
-+makeExample('app/hero-list.component.html')
++makeExample('src/app/hero-list.component.html')
 
 :marked
   이 템플릿은 `<h2>`와`<p>`같은 전형적인 HTML 요소를 사용하지만 약간의 차이점이 있습니다.
@@ -409,7 +413,7 @@ figure
   Here's some metadata for `HeroListComponent`:
   
 
-+makeExcerpt('app/hero-list.component.ts', 'metadata')
++makeExcerpt('src/app/hero-list.component.ts', 'metadata')
 
 :marked
   여기 바로 아래에 있는 클래스를 컴포넌트 클래스로 식별하는 `@Component` !{_데코레이터}가 있습니다.
@@ -513,7 +517,7 @@ figure
 
   The `HeroListComponent` [example](#templates) template has three forms:
 
-+makeExcerpt('app/hero-list.component.1.html', 'binding')
++makeExcerpt('src/app/hero-list.component.1.html', 'binding')
 
 :marked
   * `{{hero.name}}` [*보간법(interpolation)*](displaying-data.html#interpolation)은 컴포넌트의 `hero.name` 속성값을 `<li>`요소 안에 표시합니다.
@@ -537,7 +541,7 @@ figure
   that combines property and event binding in a single notation, using the `ngModel` directive.
   Here's an example from the `HeroDetailComponent` template:
 
-+makeExcerpt('app/hero-detail.component.html', 'ngModel')
++makeExcerpt('src/app/hero-detail.component.html', 'ngModel')
 
 :marked
   양방향 바인딩에서 데이터 속성값은 속성 바인딩과 마찬가지로 컴포넌트의 입력 상자로 이동합니다.
@@ -615,7 +619,7 @@ figure
 
   The [example template](#templates) uses two built-in structural directives:
 
-+makeExcerpt('app/hero-list.component.1.html', 'structural')
++makeExcerpt('src/app/hero-list.component.1.html', 'structural')
 
 :marked
   * [`*ngFor`](displaying-data.html#ngFor)는 Angular가 `히어로` 목록에서 히어로 당 한 개의 `<li>`을 깎아 내도록 이야기합니다.
@@ -643,7 +647,7 @@ block dart-bool
   an existing element (typically an `<input>`)
   by setting its display value property and responding to change events.
 
-+makeExcerpt('app/hero-detail.component.html', 'ngModel')
++makeExcerpt('src/app/hero-detail.component.html', 'ngModel')
 :marked
   Angular에는 레이아웃 구조를 변경하거나 (예 : [ngSwitch](template-syntax.html#ngSwitch)) 컴포넌트 및 DOM 요소 측면을 수정하는 몇 가지 지시자가 있습니다 (예 : [ngStyle](template-syntax.html#ngStyle) 및 [ngClass](template-syntax.html#ngClass)).
 
@@ -716,7 +720,7 @@ figure
 
   Here's an example of a service class that logs to the browser console:
 
-+makeExcerpt('app/logger.service.ts', 'class')
++makeExcerpt('src/app/logger.service.ts', 'class')
 
 :marked
   다음은 PromiseLinked를 사용하여 히어로를 불러오는 `HeroService`입니다.
@@ -725,7 +729,7 @@ figure
   Here's a `HeroService` that uses a !{_PromiseLinked} to fetch heroes.
   The `HeroService` depends on the `Logger` service and another `BackendService` that handles the server communication grunt work.
 
-+makeExcerpt('app/hero.service.ts', 'class')
++makeExcerpt('src/app/hero.service.ts', 'class')
 
 :marked
   서비스는 어디에나 있습니다.
@@ -783,7 +787,7 @@ figure
   Angular can tell which services a component needs by looking at the types of its constructor parameters.
   For example, the constructor of your `HeroListComponent` needs a `HeroService`:
 
-+makeExcerpt('app/hero-list.component.ts (constructor)', 'ctor')
++makeExcerpt('src/app/hero-list.component.ts (constructor)', 'ctor')
 
 :marked
   Angular가 컴포넌트를 만들면 먼저 구성 요소에 필요한 서비스에 대해 ** 인젝터(injector) **를 묻습니다.
@@ -830,14 +834,14 @@ block registering-providers
     In general, add providers to the [root module](#module) so that
     the same instance of a service is available everywhere.
 
-  +makeExcerpt('app/app.module.ts (module providers)', 'providers')
+  +makeExcerpt('src/app/app.module.ts (module providers)', 'providers')
 
 :marked
   또는, `@Component` 메타데이터의 `providers`속성에 컴포넌트 레벨로 등록하세요 :
 
   Alternatively, register at a component level in the `providers` property of the `@Component` metadata:
 
-+makeExcerpt('app/hero-list.component.ts (component providers)', 'providers')
++makeExcerpt('src/app/hero-list.component.ts (component providers)', 'providers')
 
 :marked
   컴포넌트 레벨에 등록하면 해당 컴포넌트의 새로운 인스턴스가 나올 때마다 서비스의 새 인스턴스를 얻게 됩니다.

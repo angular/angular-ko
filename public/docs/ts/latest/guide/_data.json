@@ -33,7 +33,6 @@
     "basics": true
   },
 
-
   "appmodule": {
     "title": "AppModule: 최상위 모듈",
     "navTitle": "최상위 모듈",
@@ -127,10 +126,20 @@
     "intro": "컴포넌트에 CSS스타일 적용하는 방법을 배우세요."
   },
 
+  "deployment": {
+    "title": "Deployment",
+    "intro": "Learn how to deploy your Angular app."
+  },
+
   "hierarchical-dependency-injection": {
     "title": "계층적 의존성 주입기",
     "navTitle": "계층적 의존성 주입기",
     "intro": "Angular'의 계층적 의존성 주입기(Hierarchical Dependency Injectors) 시스템은 컴포넌트 트리와 병렬로 중첩 된 주입기를 지원합니다."
+  },
+
+  "reactive-forms": {
+    "title": "Reactive Forms",
+    "intro": "Create a reactive form using FormBuilder, groups, and arrays."
   },
 
   "server-communication": {
@@ -184,8 +193,13 @@
   },
 
   "upgrade": {
+<<<<<<< HEAD
     "title": "1.x에서의 업그레이드",
     "intro": "Angular 1 애플리케이션은 점진적으로 Angular 2로 업그레이드 할 수 있습니다."
+=======
+    "title": "Upgrading from AngularJS",
+    "intro": "Incrementally upgrade an AngularJS application to Angular."
+>>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   },
 
   "webpack": {

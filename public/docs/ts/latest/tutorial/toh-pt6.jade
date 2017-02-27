@@ -102,7 +102,7 @@ block http-providers
     So we register them all by adding `HttpModule` to the `imports` list of the `AppModule` where we
     bootstrap the application and its root `AppComponent`.
 
-  +makeExample('app/app.module.ts', 'v1','app/app.module.ts (v1)')
+  +makeExample('src/app/app.module.ts', 'v1','src/app/app.module.ts (v1)')
 
   :marked
     최상위 ngModule인 `AppModule`의 임포트 배열에 `!{_HttpModule}`을 추가한 것에 유의하세요.
@@ -170,7 +170,7 @@ block backend
     The `forRoot` configuration method takes an `InMemoryDataService` class
     that primes the in-memory database as follows:
 
-+makeExample('app/in-memory-data.service.ts', 'init')(format='.')
++makeExample('src/app/in-memory-data.service.ts', 'init')(format='.')
 
 p 이 파일은 #[code #[+adjExPath('mock-heroes.ts')]]를 대체합니다. #[code #[+adjExPath('mock-heroes.ts')]]는 삭제해도 좋습니다.
 
@@ -203,7 +203,7 @@ block dont-be-distracted-by-backend-subst
 
   Look at our current `HeroService` implementation
 
-+makeExcerpt('toh-4/ts/app/hero.service.ts (old getHeroes)', 'get-heroes')
++makeExcerpt('toh-4/ts/src/app/hero.service.ts (old getHeroes)', 'get-heroes')
 
 :marked
   샘플 히어로로 결정(resolve)되는 !{_Promise}를 반환했습니다.
@@ -218,14 +218,14 @@ block dont-be-distracted-by-backend-subst
 
   That day has arrived! Let's convert `getHeroes()` to use HTTP.
 
-+makeExcerpt('app/hero.service.ts (updated getHeroes and new class members)', 'getHeroes')
++makeExcerpt('src/app/hero.service.ts (updated getHeroes and new class members)', 'getHeroes')
 
 :marked
   업데이트 된 임포트 구문은 다음과 같습니다:
 
   Our updated import statements are now:
 
-+makeExcerpt('app/hero.service.ts (updated imports)', 'imports')
++makeExcerpt('src/app/hero.service.ts (updated imports)', 'imports')
 
 - var _h3id = `http-${_promise}`
 :marked
@@ -256,7 +256,7 @@ block get-heroes-details
     For *now* we get back on familiar ground by immediately
     converting that `Observable` to a `Promise` using the `toPromise` operator.
 
-  +makeExcerpt('app/hero.service.ts', 'to-promise', '')
+  +makeExcerpt('src/app/hero.service.ts', 'to-promise', '')
 
   :marked
     안타깝게도, Angular `Observable`은 `toPromise` 연산자가 없습니다 ... 바로 사용할 수 없군요.
@@ -274,7 +274,7 @@ block get-heroes-details
     If we want those capabilities, we have to add the operators ourselves.
     That's as easy as importing them from the RxJS library like this:
 
-  +makeExcerpt('app/hero.service.ts', 'rxjs', '')
+  +makeExcerpt('src/app/hero.service.ts', 'rxjs', '')
 
   .l-sub-section
     :marked
@@ -290,7 +290,7 @@ block get-heroes-details
 
     In the *promise*'s `then` callback we call the `json` method of the HTTP `Response` to extract the
     data within the response.
-  +makeExcerpt('app/hero.service.ts', 'to-data', '')
+  +makeExcerpt('src/app/hero.service.ts', 'to-data', '')
 
 :marked
   응답 JSON은 한개의 `data` 프로퍼티를 가지고 있습니다.
@@ -329,7 +329,7 @@ block get-heroes-details
 
   At the end of `getHeroes()` we `catch` server failures and pass them to an error handler:
 
-+makeExcerpt('app/hero.service.ts', 'catch', '')
++makeExcerpt('src/app/hero.service.ts', 'catch', '')
 
 :marked
   이것은 중요한 단계입니다!
@@ -338,7 +338,7 @@ block get-heroes-details
   This is a critical step!
   We must anticipate HTTP failures as they happen frequently for reasons beyond our control.
 
-+makeExcerpt('app/hero.service.ts', 'handleError', '')
++makeExcerpt('src/app/hero.service.ts', 'handleError', '')
 
 - var rejected_promise = _docsFor == 'dart' ? 'propagated exception' : 'rejected promise';
 :marked
@@ -373,7 +373,7 @@ block get-heroes-details
 
   Update the `HeroService.getHero` method to make a _get-by-id_ request,
   applying what we just learned to write `getHeroes`:
-+makeExcerpt('app/hero.service.ts', 'getHero', '')
++makeExcerpt('src/app/hero.service.ts', 'getHero', '')
 :marked
   `getHeros`와 거의 비슷합니다.
   URL은 히어로 id를 `api/hero/:id` 형태에 일치하는 URL로 인코딩하여,
@@ -448,7 +448,7 @@ block get-heroes-details
   to the end of the hero detail template, a save button with a `click` event
   binding that invokes a new component method named `save`:
 
-+makeExcerpt('app/hero-detail.component.html', 'save')
++makeExcerpt('src/app/hero-detail.component.html', 'save')
 
 :marked
   `save` 메소드는 히어로 서비스의 업데이트 메소드를 사용해 변경사항을 보관하고 이전화면으로 이동합니다.
@@ -456,7 +456,7 @@ block get-heroes-details
   The `save` method persists hero name changes using the hero service
   `update` method and then navigates back to the previous view:
 
-+makeExcerpt('app/hero-detail.component.ts', 'save')
++makeExcerpt('src/app/hero-detail.component.ts', 'save')
 
 :marked
   ### 히어로 서비스의 `update` 메소드
@@ -469,7 +469,7 @@ block get-heroes-details
   `getHeroes`, although we'll use an HTTP _put_ to persist changes
   server-side:
 
-+makeExcerpt('app/hero.service.ts', 'update')
++makeExcerpt('src/app/hero.service.ts', 'update')
 
 :marked
   우리는 URL의 히어로 id를 인코딩하여 서버에 업데이트 할 히어로를 식별할 수 있습니다.
@@ -501,7 +501,7 @@ block get-heroes-details
   Insert the following into the heroes component HTML, first thing after
   the heading:
 
-+makeExcerpt('app/heroes.component.html', 'add')
++makeExcerpt('src/app/heroes.component.html', 'add')
 
 :marked
   클릭 이벤트에 반응하여, 컴포넌트의 클릭 핸들러를 호출하고,
@@ -510,7 +510,7 @@ block get-heroes-details
   In response to a click event, we call the component's click handler and then
   clear the input field so that it will be ready to use for another name.
 
-+makeExcerpt('app/heroes.component.ts', 'add')
++makeExcerpt('src/app/heroes.component.ts', 'add')
 
 :marked
   주어진 이름이 비어있지 않다면, 핸들러는 이름이 붙여진 히어로를 히어로 서비스에 위임하고
@@ -522,7 +522,7 @@ block get-heroes-details
   마침내, `HeroService` 클래스에 `create` 메소드를 구현했습니다.
 
   Finally, we implement the `create` method in the `HeroService` class.
-+makeExcerpt('app/hero.service.ts', 'create')
++makeExcerpt('src/app/hero.service.ts', 'create')
 
 :marked
   브라우저를 새로고침하여 새로운 히어로를 생성해보세요!
@@ -545,14 +545,14 @@ block get-heroes-details
   Add this button element to the heroes component HTML, right after the hero
   name in the repeated `<li>` tag:
 
-+makeExcerpt('app/heroes.component.html', 'delete', '')
++makeExcerpt('src/app/heroes.component.html', 'delete', '')
 
 :marked
   `<li>` 엘리먼트는 다음과 같이 보여야 합니다:
 
   The `<li>` element should now look like this:
 
-+makeExcerpt('app/heroes.component.html', 'li-element')
++makeExcerpt('src/app/heroes.component.html', 'li-element')
 
 :marked
   컴포넌트의 `delete` 메소드를 호출하는 것뿐만 아니라, 삭제 버튼의
@@ -569,7 +569,7 @@ block get-heroes-details
 
   The logic of the `delete` handler is a bit trickier:
 
-+makeExcerpt('app/heroes.component.ts', 'delete')
++makeExcerpt('src/app/heroes.component.ts', 'delete')
 
 :marked
   물론, 우리는 히어로 삭제를 히어로 서비스에 위임했습니다. 그러나
@@ -587,7 +587,7 @@ block get-heroes-details
   We want our delete button to be placed at the far right of the hero entry.
   This extra CSS accomplishes that:
 
-+makeExcerpt('app/heroes.component.css', 'additions')
++makeExcerpt('src/app/heroes.component.css', 'additions')
 
 :marked
   ### 히어로 서비스의 `delete` 메소드
@@ -597,7 +597,7 @@ block get-heroes-details
 
   The hero service's `delete` method uses the _delete_ HTTP method to remove the hero from the server:
 
-+makeExcerpt('app/hero.service.ts', 'delete')
++makeExcerpt('src/app/hero.service.ts', 'delete')
 
 :marked
   브라우저를 새로고침하여 새로운 삭제 기능을 사용해보세요.
@@ -670,9 +670,12 @@ block observables-section-intro
   ### 이름으로 검색하기
   ### Search-by-name
 
+<<<<<<< HEAD
   Tour of Heroes에 *히어로 검색* 기능을 추가하겠습니다.
   사용자가 검색상자에 이름을 입력하면, 해당 이름으로 히어로를 걸러내기 위해 반복적으로 HTTP 요청을 생성합니다.
 
+=======
+>>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   We're going to add a *hero search* feature to the Tour of Heroes.
   As the user types a name into a search box, we'll make repeated HTTP requests for heroes filtered by that name.
 
@@ -680,7 +683,7 @@ block observables-section-intro
 
   We start by creating `HeroSearchService` that sends search queries to our server's web api.
 
-+makeExample('app/hero-search.service.ts')
++makeExample('src/app/hero-search.service.ts')
 
 :marked
   `HeroSearchService`의 `!{_priv}http.get()` 호출은 `HeroService`의 것과 비슷합니다.
@@ -689,6 +692,7 @@ block observables-section-intro
   The `!{_priv}http.get()` call in `HeroSearchService` is similar to the one
   in the `HeroService`, although the URL now has a query string.
 
+<<<<<<< HEAD
   <span if-docs="ts">또 다른 눈에띄는 차이점은: 이제 더 이상 `toPromise`를 호출하지 않습니다.
   대신에 `http.get`에서 *observable*을 반환하고,
   그 뒤에 또 다른 RxJS 연산자인 map에 연결(chain)한 후,
@@ -705,7 +709,19 @@ block observables-section-intro
   RxJS operator chaining makes response processing easy and readable.
   See the [discuss below about operators](#rxjs-imports).
   </span>
+=======
++ifDocsFor('ts')
+  :marked
+    A more important difference: we no longer call `toPromise`.
+    Instead we return the *observable* from the the `htttp.get`, 
+    after chaining it to another RxJS operator, <code>map</code>, 
+    to extract heroes from the response data.
 
+    RxJS operator chaining makes response processing easy and readable.
+    See the [discuss below about operators](#rxjs-imports).
+>>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
+
+:marked
   ### HeroSearchComponent
   ### HeroSearchComponent
 
@@ -717,12 +733,12 @@ block observables-section-intro
 
   The component template is simple &mdash; just a text box and a list of matching search results.
 
-+makeExample('app/hero-search.component.html')
++makeExample('src/app/hero-search.component.html')
 :marked
   우리는 또한 새로운 컴포넌트에 스타일을 더하길 원하고 있습니다.
 
   We'll also want to add styles for the new component.
-+makeExample('app/hero-search.component.css')
++makeExample('src/app/hero-search.component.css')
 :marked
   사용자가 검색 상자에 입력을 하면, *keyup* 이벤트 바인딩은
   새로운 검색어와 함께 컴포넌트의 `search` 메소드를 호출합니다.
@@ -748,7 +764,7 @@ block observables-section-intro
 
   Time to create the `HeroSearchComponent` class and metadata.
 
-+makeExample('app/hero-search.component.ts')
++makeExample('src/app/hero-search.component.ts')
 
 :marked
   #### 검색어
@@ -758,7 +774,7 @@ block observables-section-intro
 
   Let's focus on the `!{_priv}searchTerms`:
 
-+makeExcerpt('app/hero-search.component.ts', 'searchTerms', '')
++makeExcerpt('src/app/hero-search.component.ts', 'searchTerms', '')
 
 block search-criteria-intro
   :marked
@@ -786,7 +802,7 @@ block search-criteria-intro
   We're going to turn the stream
   of search terms into a stream of `Hero` !{_array}s and assign the result to the `heroes` property.
 
-+makeExcerpt('app/hero-search.component.ts', 'search', '')
++makeExcerpt('src/app/hero-search.component.ts', 'search', '')
 
 :marked
   만약 모든 사용자 키입력을 직접 `HeroSearchService`에 전달한다면,
@@ -874,9 +890,12 @@ block observable-transformers
     ### RxJS 연산자 임포트
     ### Import RxJS operators
 
+<<<<<<< HEAD
     대부분의 RxJS 연산자는 Angular의 `Observable` 구현에 포함되어 있지 않습니다.
     기본 구현에는 오직 Angular 자체에 필요한 것만 포함되어 있습니다.
 
+=======
+>>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
     Most RxJS operators are not included in Angular's base `Observable` implementation.
     The base implementation includes only what Angular itself requires.
 
@@ -886,7 +905,7 @@ block observable-transformers
     If we want more RxJS features, we have to extend  `Observable` by *importing* the libraries in which they are defined.
     Here are all the RxJS imports _this_ component needs:
 
-  +makeExample('app/hero-search.component.ts','rxjs-imports','app/hero-search.component.ts (rxjs imports)')(format='.')
+  +makeExample('src/app/hero-search.component.ts','rxjs-imports','src/app/hero-search.component.ts (rxjs imports)')(format='.')
 
   :marked
     `import 'rxjs/add/...'` 구문은 익숙하지 않을 것입니다.
@@ -912,10 +931,10 @@ block observable-transformers
 
   We add the hero search HTML element to the bottom of the `DashboardComponent` template.
 
-+makeExample('app/dashboard.component.html')(format='.')
++makeExample('src/app/dashboard.component.html')(format='.')
 
 - var _declarations = _docsFor == 'dart' ? 'directives' : 'declarations'
-- var declFile = _docsFor == 'dart' ? 'app/dashboard.component.ts' : 'app/app.module.ts'
+- var declFile = _docsFor == 'dart' ? 'src/app/dashboard.component.ts' : 'src/app/app.module.ts'
 :marked
   마침내 <span ngio-ex>hero-search.component.ts</span>에서
   `HeroSearchComponent`를 임포트하고 `declarations`에 추가했습니다.
@@ -951,35 +970,37 @@ block filetree
   .filetree
     .file angular-tour-of-heroes
     .children
-      .file app
+      .file src
       .children
-        .file app.component.ts
-        .file app.component.css
-        .file app.module.ts
-        .file app-routing.module.ts
-        .file dashboard.component.css
-        .file dashboard.component.html
-        .file dashboard.component.ts
-        .file hero.ts
-        .file hero-detail.component.css
-        .file hero-detail.component.html
-        .file hero-detail.component.ts
-        .file hero-search.component.html (new)
-        .file hero-search.component.css (new)
-        .file hero-search.component.ts (new)
-        .file hero-search.service.ts (new)
-        .file hero.service.ts
-        .file heroes.component.css
-        .file heroes.component.html
-        .file heroes.component.ts
+        .file app
+        .children
+          .file app.component.ts
+          .file app.component.css
+          .file app.module.ts
+          .file app-routing.module.ts
+          .file dashboard.component.css
+          .file dashboard.component.html
+          .file dashboard.component.ts
+          .file hero.ts
+          .file hero-detail.component.css
+          .file hero-detail.component.html
+          .file hero-detail.component.ts
+          .file hero-search.component.html (new)
+          .file hero-search.component.css (new)
+          .file hero-search.component.ts (new)
+          .file hero-search.service.ts (new)
+          .file hero.service.ts
+          .file heroes.component.css
+          .file heroes.component.html
+          .file heroes.component.ts
+          .file in-memory-data.service.ts (new)
         .file main.ts
-        .file in-memory-data.service.ts (new)
+        .file index.html
+        .file styles.css
+        .file systemjs.config.js
+        .file tsconfig.json
       .file node_modules ...
-      .file index.html
       .file package.json
-      .file styles.css
-      .file systemjs.config.js
-      .file tsconfig.json
 
 .l-main-section
 :marked
@@ -1020,15 +1041,15 @@ block filetree
 
 block file-summary
   +makeTabs(
-    `toh-6/ts/app/app.component.ts,
-     toh-6/ts/app/app.module.ts,
-     toh-6/ts/app/heroes.component.ts,
-     toh-6/ts/app/heroes.component.html,
-     toh-6/ts/app/heroes.component.css,
-     toh-6/ts/app/hero-detail.component.ts,
-     toh-6/ts/app/hero-detail.component.html,
-     toh-6/ts/app/hero.service.ts,
-     toh-6/ts/app/in-memory-data.service.ts`,
+    `toh-6/ts/src/app/app.component.ts,
+     toh-6/ts/src/app/app.module.ts,
+     toh-6/ts/src/app/heroes.component.ts,
+     toh-6/ts/src/app/heroes.component.html,
+     toh-6/ts/src/app/heroes.component.css,
+     toh-6/ts/src/app/hero-detail.component.ts,
+     toh-6/ts/src/app/hero-detail.component.html,
+     toh-6/ts/src/app/hero.service.ts,
+     toh-6/ts/src/app/in-memory-data.service.ts`,
     ',,,,,,,,',
     `app.comp...ts,
      app.mod...ts,
@@ -1042,10 +1063,10 @@ block file-summary
   )
 
   +makeTabs(
-    `toh-6/ts/app/hero-search.service.ts,
-    toh-6/ts/app/hero-search.component.ts,
-    toh-6/ts/app/hero-search.component.html,
-    toh-6/ts/app/hero-search.component.css`,
+    `toh-6/ts/src/app/hero-search.service.ts,
+    toh-6/ts/src/app/hero-search.component.ts,
+    toh-6/ts/src/app/hero-search.component.html,
+    toh-6/ts/src/app/hero-search.component.css`,
     null,
     `hero-search.service.ts,
     hero-search.component.ts,

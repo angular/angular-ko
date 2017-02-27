@@ -23,17 +23,19 @@ include ../_util-fns
 .filetree
   .file angular-tour-of-heroes
   .children
-    .file app
+    .file src
     .children
-      .file app.component.ts
-      .file app.module.ts
+      .file app
+      .children
+        .file app.component.ts
+        .file app.module.ts
       .file main.ts
+      .file index.html
+      .file styles.css
+      .file systemjs.config.js
+      .file tsconfig.json
     .file node_modules ...   
-    .file index.html
     .file package.json
-    .file styles.css
-    .file systemjs.config.js
-    .file tsconfig.json
 :marked
   ### 지속적인 앱 트랜스파일링과 실행
   ### Keep the app transpiling and running
@@ -85,7 +87,7 @@ code-example(language="sh" class="code-shell").
 
   Add a new file named `hero-detail.component.ts` to the `app` folder and create `HeroDetailComponent` as follows.
 
-+makeExample('toh-3/ts/app/hero-detail.component.ts', 'v1', 'app/hero-detail.component.ts (initial version)')(format=".")
++makeExample('toh-3/ts/src/app/hero-detail.component.ts', 'v1', 'src/app/hero-detail.component.ts (initial version)')(format=".")
 .l-sub-section
   :marked
     ### 작명 규칙
@@ -152,7 +154,7 @@ code-example(language="sh" class="code-shell").
   So we replace `selectedHero` with `hero` everywhere in our new template. That's our only change.
   The result looks like this:
 
-+makeExample('toh-3/ts/app/hero-detail.component.ts', 'template', 'app/hero-detail.component.ts (template)')(format=".")
++makeExample('toh-3/ts/src/app/hero-detail.component.ts', 'template', 'src/app/hero-detail.component.ts (template)')(format=".")
 
 :marked
   이제 히어로 상세 레이아웃은 `HeroDetailComponent`에만 존재합니다.
@@ -165,7 +167,7 @@ code-example(language="sh" class="code-shell").
   앞서 얘기한 `hero` 프로퍼티를 컴포넌트 클래스에 추가합니다.
 
   Let’s add that `hero` property we were talking about to the component class.
-+makeExample('toh-3/ts/app/hero-detail.component.ts', 'hero')
++makeExample('toh-3/ts/src/app/hero-detail.component.ts', 'hero')
 :marked
   앗. `hero` 프로퍼티를 `Hero` 타입으로 선언했지만 `Hero` 클래스는 `app.component.ts` 파일에 있습니다.
   두개의 콤포넌트가 각각의 파일에 있으므로 `Hero` 클래스를 참조해야 합니다.
@@ -177,7 +179,7 @@ code-example(language="sh" class="code-shell").
 
   We solve the problem by relocating the `Hero` class from `app.component.ts` to its own `hero.ts` file.
 
-+makeExample('toh-3/ts/app/hero.ts', '', 'app/hero.ts')(format=".")
++makeExample('toh-3/ts/src/app/hero.ts', '', 'src/app/hero.ts')(format=".")
 
 :marked
   양쪽 컴포넌트 파일에서 참조를 해야 하므로 `hero.ts`의 `Hero` 클래스를 익스포트합니다.
@@ -186,7 +188,7 @@ code-example(language="sh" class="code-shell").
   We export the `Hero` class from `hero.ts` because we'll need to reference it in both component files.
   Add the following import statement near the top of **both `app.component.ts` and `hero-detail.component.ts`**.
 
-+makeExample('toh-3/ts/app/hero-detail.component.ts', 'hero-import')
++makeExample('toh-3/ts/src/app/hero-detail.component.ts', 'hero-import')
 
 :marked
   #### *히어로*는 ***인풋*** 프로퍼티
@@ -233,8 +235,13 @@ code-example(language="html").
 
   There are a couple of ways we can declare that `hero` is an *input*.
   We'll do it the way we *prefer*, by annotating the `hero` property with the `@Input` decorator that we imported earlier.
+<<<<<<< HEAD
 +makeExample('toh-3/ts/app/hero-detail.component.ts', 'hero-input')(format='.')
 
+=======
++makeExample('toh-3/ts/src/app/hero-detail.component.ts', 'hero-input')(format='.')
+  
+>>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 .l-sub-section
   :marked
     `@Input()` 데코레이터에 대해 
@@ -256,7 +263,7 @@ code-example(language="html").
 
   We begin by importing the `HeroDetailComponent` so we can refer to it.
 
-+makeExample('toh-3/ts/app/app.module.ts', 'hero-detail-import')
++makeExample('toh-3/ts/src/app/app.module.ts', 'hero-detail-import')
 
 :marked
   다음으로 `NgModule` 데코레이터의 `declarations` 배열에 `HeroDetailComponent`를 추가합니다.
@@ -266,7 +273,7 @@ code-example(language="html").
   This array contains the list of all components, pipes, and directives that we created
   and that belong in our application's module.
 
-+makeExample('toh-3/ts/app/app.module.ts', 'declarations')
++makeExample('toh-3/ts/src/app/app.module.ts', 'declarations')
 
 .l-main-section
 :marked
@@ -300,7 +307,7 @@ code-example(language="html").
 
   The `AppComponent`’s template should now look like this
 
-+makeExample('toh-3/ts/app/app.component.ts', 'hero-detail-template', 'app.component.ts (template)')(format='.')
++makeExample('toh-3/ts/src/app/app.component.ts', 'hero-detail-template', 'app.component.ts (template)')(format='.')
 :marked
   바인딩을 한 덕분에 `HeroDetailComponent`는 `AppComponent`에서 히어로를 받고 목록 아래쪽에 표시 할 수 있습니다.
   사용자가 새로운 히어로를 선택할 때마다 상세 부분이 업데이트 됩니다.
@@ -338,31 +345,35 @@ code-example(language="html").
 .filetree
   .file angular-tour-of-heroes
   .children
-    .file app
+    .file src
     .children
-      .file app.component.ts
-      .file app.module.ts
-      .file hero.ts
-      .file hero-detail.component.ts
+      .file app
+      .children
+        .file app.component.ts
+        .file app.module.ts
+        .file hero.ts
+        .file hero-detail.component.ts
       .file main.ts
+      .file index.html
+      .file styles.css
+      .file systemjs.config.js
+      .file tsconfig.json
     .file node_modules ...
-    .file index.html
     .file package.json
-    .file tsconfig.json
 :marked
   이번 챕터에서 논의한 코드 파일들입니다.
   Here are the code files we discussed in this chapter.
 
 +makeTabs(`
-  toh-3/ts/app/hero-detail.component.ts,
-  toh-3/ts/app/app.component.ts,
-  toh-3/ts/app/hero.ts,
-  toh-3/ts/app/app.module.ts
+  toh-3/ts/src/app/hero-detail.component.ts,
+  toh-3/ts/src/app/app.component.ts,
+  toh-3/ts/src/app/hero.ts,
+  toh-3/ts/src/app/app.module.ts
   `,'',`
-  app/hero-detail.component.ts,
-  app/app.component.ts,
-  app/hero.ts,
-  app/app.module.ts
+  src/app/hero-detail.component.ts,
+  src/app/app.component.ts,
+  src/app/hero.ts,
+  src/app/app.module.ts
  `)
 
 .l-main-section
