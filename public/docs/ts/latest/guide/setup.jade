@@ -31,17 +31,6 @@ a#develop-locally
   Setting up a new project on your machine is quick and easy with the **QuickStart seed**,
   maintained [on github](!{_qsRepo} "Install the github QuickStart repo"). 
 
-<<<<<<< HEAD
-.l-sub-section
-  :marked
-    <live-example title="QuickStart Seed in Plunker">빠른시작 시드 라이브 예제</live-example>는
-    빠른시작에 예제를 보다 풍부하게 해주는 `app.module.ts`와 `main.ts` 애플리케이션 파일([아래에서 설명](#app-files "QuickStart application files"))을 _추가_합니다.
-
-    The <live-example title="QuickStart Seed in Plunker">QuickStart seed live-example</live-example> is QuickStart
-    _plus_ the `app.module.ts` and `main.ts` application files ([described below](#app-files "QuickStart application files")) that facilitate richer application examples.
-
-=======
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 :marked
   [!{_prereq_ko}이 설치](#install-prerequisites "What if you don't have !{_prereq}?")되어 있는지 확인하십시오. 그리고 ...
 
@@ -165,13 +154,9 @@ block qs-seed
 block core-files
   a#app-files
   :marked
-<<<<<<< HEAD
-    **`/app`** 폴더에 있는 다음 3개의 TypeScript (`.ts`) 파일에 주목하세요.
+    **`/src`** 폴더에 있는 다음 3개의 TypeScript (`.ts`) 파일에 주목하세요.
 
-    Focus on the following three TypeScript (`.ts`) files in the **`/app`** folder.
-=======
     Focus on the following three TypeScript (`.ts`) files in the **`/src`** folder.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
   .filetree
     .file src
@@ -193,24 +178,28 @@ block core-files
     `)(format='.')
 
 :marked
-<<<<<<< HEAD
   모든 가이드와 해설서는 _최소 3개의 코어 파일_이 있습니다. 각 파일은 고유한 목적을 가지고 있으며
   애플리케이션이 커짐에 따라 독립적으로 진화합니다.
 
-  All guides and cookbooks have _at least these core files_. Each file has a distinct purpose and evolves independently as the application grows.
-=======
   All guides and cookbooks have _at least these core files_. 
   Each file has a distinct purpose and evolves independently as the application grows.
 
+  `src/` 외부 파일은 앱을 빌드, 배포 및 테스트하는 데 관련된 것입니다.
+  그 파일은 설정 파일들과 외부 종속성이 포함됩니다.
+
   Files outside `src/` concern building, deploying, and testing your app.
   They include configuration files and external dependencies.
+
+  `src/` 내부 파일은 앱에 "속합니다."
+  새로운 Typescript, HTML, CSS 파일을 `src/`디렉토리 안에 추가하세요. 별도로 지정하지 않으면 대부분 `src/app` 안에 들어 있습니다.
 
   Files inside `src/` "belong" to your app.
   Add new Typescript, HTML and CSS files inside the `src/` directory, most of them inside `src/app`,
   unless told to do otherwise.
 
+  다음은 모두 `src/`에 있습니다
+
   The following are all in `src/`
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 style td, th {vertical-align: top}
 table(width="100%")
@@ -233,7 +222,6 @@ table(width="100%")
     td <code>app/app.module.ts</code>
     td
       :marked
-<<<<<<< HEAD
         [최상위 모듈](appmodule.html "AppModule: the root module")인 `AppModule`을 정의합니다.
         `AppModule`은 Angular에게 애플리케이션을 어떻게 조립하는지 알려줍니다.
         지금은 단지 `AppComponent`만 선언합니다.
@@ -242,31 +230,21 @@ table(width="100%")
         Defines `AppModule`, the [root module](appmodule.html "AppModule: the root module") that tells Angular how to assemble the application.
         Right now it declares only the `AppComponent`. 
         Soon there will be more components to declare. 
-=======
-        Defines `AppModule`, the  [root module](appmodule.html "AppModule: the root module") that tells Angular how to assemble the application.
-        Right now it declares only the `AppComponent`.
-        Soon there will be more components to declare.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
+
   tr
     td <ngio-ex>main.ts</ngio-ex>
     td
       :marked
-<<<<<<< HEAD
         [실시간(JIT) 컴파일러](../glossary.html#jit)로 애플리케이션을 컴파일하고
-        브라우저에서 실행할 수 있도록 애플리케이션을 [시작(bootstrap)](appmodule.html#main "bootstrap the application")합니다.
-        이것은 대부분의 프로젝트 개발 중에 합리적인 선택이고
+        브라우저에서 실행할 수 있도록 애플리케이션의 메인 모듈(`AppModule`)을 [시작(bootstrap)](appmodule.html#main "bootstrap the application")합니다.
+        실시간 컴파일러는 대부분의 프로젝트 개발 중에 합리적인 선택이고
         Plunker 같은 _라이브-코딩_ 환경에서 샘플을 실행할 경우 실행 가능한 유일한 선택지입니다.
         나중에 문서에서 다른 컴파일과 배포 옵션에 대해 배울 것입니다.
 
-        Compiles the application with the [JIT compiler](../glossary.html#jit)
-        and [bootstraps](appmodule.html#main "bootstrap the application") the application to run in the browser.
-        That's a reasonable choice for the development of most projects and
-=======
         Compiles the application with the [JIT compiler](../glossary.html#jit) and
         [bootstraps](appmodule.html#main "bootstrap the application") 
         the application's main module (`AppModule`) to run in the browser.
         The JIT compiler is a reasonable choice during the development of most projects and
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
         it's the only viable choice for a sample running in a _live-coding_ environment like Plunker.
         You'll learn about alternative compiling and [deployment](deployment.html) options later in the documentation.
 

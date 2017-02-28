@@ -205,16 +205,10 @@ block keep-app-running
 
   The initial steps are:
 
-<<<<<<< HEAD
-  * <span ngio-ex>app/app.component.ts</span> 파일 생성
+  * <span ngio-ex>src/app/app.component.ts</span> 파일 생성
 
-  * Create the file <span ngio-ex>app/app.component.ts</span>.
-
-  * <span if-docs="ts">익스포트 할</span> `AppComponent` 클래스 정의
-
-=======
   * Create the file <span ngio-ex>src/app/app.component.ts</span>.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
+
   * Define an <span if-docs="ts">exported</span> `AppComponent` class.
 
   * `@Component` !{_데코레이터}를 클래스 상단에 추가하고 셀렉터는 `my-app`으로 지정
@@ -303,28 +297,6 @@ block angular-router
     and a configuration (`Routes`). We'll configure our routes first.
 
 :marked
-<<<<<<< HEAD
-  ### base 태그 추가하기
-  ### Add the base tag
-
-  `index.html` 파일을 열고 `<base href="/">` 를 `<head>` 영역의 상단에 추가합니다.
-
-  Open `index.html` and add `<base href="/">` at the top of the `<head>` section.
-
-+makeExcerpt('index.html', 'base-href')
-
-.callout.is-important
-  header base href 부분이 중요합니다.
-  header base href is essential
-  :marked
-    이 부분이 왜 중요한지 확인하려면 [Router](../guide/router.html#base-href)
-    챕터에서 확인하세요.
-
-    See the *base href* section of the [Router](../guide/router.html#base-href)
-    chapter to learn why this matters.
-
-=======
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 a#configure-routes
 block router-config-intro
   :marked
@@ -1027,13 +999,8 @@ block extract-id
   
   To achieve this effect, reopen the `dashboard.component.html` and replace the repeated `<div *ngFor...>` tags
   with `<a>` tags. The opening `<a>` tag looks like this:
-<<<<<<< HEAD
-  
-+makeExample('app/dashboard.component.html', 'click', 'app/dashboard.component.html (repeated <a> tag)')
-=======
 
 +makeExample('src/app/dashboard.component.html', 'click', 'src/app/dashboard.component.html (repeated <a> tag)')
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 +ifDocsFor('dart')
   .alert.is-important

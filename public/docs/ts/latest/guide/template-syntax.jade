@@ -15,136 +15,115 @@ style.
   h4 .syntax { font-size: 100%; }
 
 :marked
-<<<<<<< HEAD
-  우리의 Angular 애플리케이션은 Component 클래스 인스턴스(*컴포넌트*)와 사용자가 접하는 템플릿과의 상호작용을 통해 사용자가 보는 것과 할 수 있는 것을 관리합니다.
+  Angular 애플리케이션은 Component 클래스 인스턴스(*컴포넌트*)와 사용자가 접하는 템플릿과의 상호작용을 통해 사용자가 보는 것과 할 수 있는 것을 관리합니다.
 
-  Our Angular application manages what the user sees and can do, achieving this through the interaction of a Component class instance (the *component*) and its user-facing template.
-
-  대부분의 사람들은 모델-뷰-컨트롤러 (MVC)나 모델-뷰-뷰모델 (MVVM)의 경험을 통해 컴포넌트/템플릿의 이중성에 익숙합니다. Angular에서는 컴포넌트가 컨트롤러/뷰모델 역할을 하고, 템플릿이 뷰를 표현합니다.
-
-  Many of us are familiar with the component/template duality from our experience with model-view-controller (MVC) or model-view-viewmodel (MVVM). In Angular,  the component plays the part of the controller/viewmodel, and the template represents the view.
-
-  뷰를 위한 템플릿을 작성하기 위해 무엇이 필요한지 알아보겠습니다. 템플릿 구문의 기본 요소는 다음과 같습니다:
-
-  Let’s find out what it takes to write a template for our view. We’ll cover these basic elements of template syntax:
-
-  * [HTML](#html)
-  * [HTML](#html)
-  * [삽입식(interpolation)](#interpolation)
-  * [Interpolation](#interpolation)
-  * [템플릿 표현식(expression)](#template-expressions)
-=======
   The Angular application manages what the user sees and can do, achieving this through the interaction of a 
   component class instance (the *component*) and its user-facing template.
+
+  모델-뷰-컨트롤러(MVC) 또는 모델-뷰-뷰모델(MVVM)에 대한 경험으로 얻은 컴포넌트/템플릿 이중성에 대해 잘 알고 있을 것입니다.
+  Angular에서 컴포넌트는 컨트롤러/뷰 모델의 일부이며, 템플릿은 뷰를 나타냅니다.
 
   You may be familiar with the component/template duality from your experience with model-view-controller (MVC) or model-view-viewmodel (MVVM). 
   In Angular, the component plays the part of the controller/viewmodel, and the template represents the view.
 
 a#toc
 :marked
+  ### 컨텐츠 테이블
   ### Table of contents
+  이 가이드는 Angular 템플릿 구문의 기본 요소, 뷰를 구성하는 데 필요한 요소를 다룹니다.
+
   This guide covers the basic elements of the Angular template syntax, elements you'll need to construct the view:
 
+  * [템플릿 내 HTML](#html)
   * [HTML in templates](#html)
+  * [삽입법 ( <span class="syntax">{&#xfeff;{...}}</span> )](#interpolation)
   * [Interpolation ( <span class="syntax">{&#xfeff;{...}}</span> )](#interpolation)
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   * [Template expressions](#template-expressions)
   * [템플릿 명령문(statement)](#template-statements)
   * [Template statements](#template-statements)
   * [바인딩 문법](#binding-syntax)
   * [Binding syntax](#binding-syntax)
-<<<<<<< HEAD
-  * [프러퍼티 바인딩](#property-binding)
-  * [Property binding](#property-binding)
+  * [프러퍼티 바인딩( <span class="syntax">[property]</span> )](#property-binding)
+  * [Property binding ( <span class="syntax">[property]</span> )](#property-binding)
   * [속성, 클래스, 스타일 바인딩](#other-bindings)
   * [Attribute, class, and style bindings](#other-bindings)
-  * [이벤트 바인딩](#event-binding)
-  * [Event binding](#event-binding)
-  * [양방향 데이터 바인딩](#two-way)
-  * [Two-way data binding](#two-way)
-  * [`NgModel`을 사용한 양방향 데이터 바인딩](#ngModel)
-  * [Two-way data binding with `NgModel`](#ngModel)
+  * [이벤트 바인딩 ( <span class="syntax">(event)</span> )](#event-binding)
+  * [Event binding ( <span class="syntax">(event)</span> )](#event-binding)
+  * [양방향 데이터 바인딩 ( <span class="syntax">[(...)]</span> )](#two-way)
+  * [Two-way data binding ( <span class="syntax">[(...)]</span> )](#two-way)
   * [내장 지시자](#directives)
+  * [Built-in directives](#directives)
+    
+    * [속성 지시자](#attribute-directives)
+    
+      [Attribute directives](#attribute-directives)
 
-    [Built-in directives](#directives)
+      * [NgClass](#ngClass)
 
-    * [NgClass](#ngClass)
+        [NgClass](#ngClass)
 
-      [NgClass](#ngClass)
+      * [NgStyle](#ngStyle)
 
-    * [NgStyle](#ngStyle)
+        [NgStyle](#ngStyle)
 
-      [NgStyle](#ngStyle)
+      * [NgModel (<span class="syntax">[(ngModel)]</span>) ](#ngModel)
 
-    * [NgIf](#ngIf)
+        [NgModel (<span class="syntax">[(ngModel)]</span>) ](#ngModel)
 
-      [NgIf](#ngIf)
+    * [구조 지시자](#structural-directives)
 
-    * [NgSwitch](#ngSwitch)
+      [Structural directives](#structural-directives)
 
-      [NgSwitch](#ngSwitch)
+      * [NgIf](#ngIf)
 
-    * [NgFor](#ngFor)
+        [NgIf](#ngIf)
+      
+      * [NgFor](#ngFor)
 
-      [NgFor](#ngFor)
-  * [* 와 &lt;template>](#star-template)
-  * [* and &lt;template>](#star-template)
-  * [템플릿 참조 변수](#ref-vars)
-  * [Template reference variables](#ref-vars)
-  * [인풋, 아웃풋 프로퍼티](#inputs-outputs)
-  * [Input and output properties](#inputs-outputs)
+        [NgFor](#ngFor)
+
+        * [템플릿 입력 변수](#template-input-variables)
+
+          [Template input variables](#template-input-variables)
+        
+        * [세부구문](#microsyntax)
+
+          [microsyntax](#microsyntax)
+      
+      * [NgSwitch 지시자](#ngSwitch)
+
+        [The NgSwitch directives](#ngSwitch)
+
+  * [템플릿 참조 변수 ( <span class="syntax">#var</span> )](#ref-vars)
+  * [Template reference variables ( <span class="syntax">#var</span> )](#ref-vars)
+  * [인풋, 아웃풋 프로퍼티 ( <span class="syntax">@Input</span> and <span class="syntax">@Output</span> )](#inputs-outputs)
+  * [Input and output properties ( <span class="syntax">@Input</span> and <span class="syntax">@Output</span> )](#inputs-outputs)
   * [템플릿 표현식 연산자](#expression-operators)
 
     [Template expression operators](#expression-operators)
 
-    * [파이프](#pipe)
+    * [파이프 ( <span class="syntax">|</span> )](#pipe)
 
-      [pipe](#pipe)
+      [pipe ( <span class="syntax">|</span> )](#pipe)
 
-    * [안전 내비게이션 연산자 (?.)](#safe-navigation-operator)
+    * [안전 내비게이션 연산자 ( <span class="syntax">?.</span> )](#safe-navigation-operator)
 
-      [safe navigation operator (?.)](#safe-navigation-operator)
+      [safe navigation operator ( <span class="syntax">?.</span> )](#safe-navigation-operator)
 
   <live-example></live-example>는 이번 챕터에서 설명하는 코드조각과 구문의 모든 것을 설명하고 있습니다.
-=======
-  * [Property binding ( <span class="syntax">[property]</span> )](#property-binding)
-  * [Attribute, class, and style bindings](#other-bindings)
-  * [Event binding ( <span class="syntax">(event)</span> )](#event-binding)
-  * [Two-way data binding ( <span class="syntax">[(...)]</span> )](#two-way)
-  * [Built-in directives](#directives)
-    * [Attribute directives](#attribute-directives)
-      * [NgClass](#ngClass)
-      * [NgStyle](#ngStyle)
-      * [NgModel (<span class="syntax">[(ngModel)]</span>) ](#ngModel)
-    * [Structural directives](#structural-directives)    
-      * [NgIf](#ngIf)
-      * [NgFor](#ngFor)
-        * [Template input variables](#template-input-variables)
-        * [microsyntax](#microsyntax)
-      * [The NgSwitch directives](#ngSwitch)
-  * [Template reference variables ( <span class="syntax">#var</span> )](#ref-vars)
-  * [Input and output properties ( <span class="syntax">@Input</span> and <span class="syntax">@Output</span> )](#inputs-outputs)
-  * [Template expression operators](#expression-operators)
-    * [pipe ( <span class="syntax">|</span> )](#pipe)
-    * [safe navigation operator ( <span class="syntax">?.</span> )](#safe-navigation-operator)
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
-  The <live-example></live-example>
+  The <live-example></live-example> 
   demonstrates all of the syntax and code snippets described in this guide.
 
 .l-hr
 a#html
 :marked
-<<<<<<< HEAD
-  ## HTML
-  ## HTML
+  ## 템플릿 내 HTML
+  ## HTML in templates
 
   HTML은 Angular 템플릿 언어입니다.
   [빠른시작](../quickstart.html) 애플리케이션은 순수 HTML 템플릿을 사용했습니다:
 
-=======
-  ## HTML in templates
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   HTML is the language of the Angular template. 
   The [QuickStart](../quickstart.html) application has a template that is pure HTML:
 
@@ -152,61 +131,49 @@ code-example(language="html" escape="html").
   <h1>Hello Angular</h1>
 
 :marked
-<<<<<<< HEAD
-  거의 모든 HTML 구문이 유효한 템플릿 구문입니다. `<script>` 엘리먼트는 주요 예외사항입니다; 스크립트 삽입(injection) 공격의 위험을 없애기 위해 금지되어 있습니다. (실제로, `<script>`는 그저 무시됩니다.)
+  거의 모든 HTML 구문이 유효한 템플릿 구문입니다. 
+  `<script>` 엘리먼트는 주요 예외사항입니다; 
+  스크립트 삽입(injection) 공격의 위험을 없애기 위해 금지되어 있습니다. 
+  실제로, `<script>`는 그저 무시됩니다.
 
-  Almost all HTML syntax is valid template syntax. The `<script>` element is a notable exception; it is forbidden, eliminating the risk of script injection attacks. (In practice, `<script>` is simply ignored.)
-
-  일부 합법적인 HTML은 템플릿에서 별 의미가 없습니다. `<html>`, `<body>`, 그리고 `<base>` 엘리먼트는 우리의 레퍼토리에서 유용한 역할을 못합니다. 그 외 대부분은 사용 가능한 대상입니다.
-
-  Some legal HTML doesn’t make much sense in a template. The `<html>`, `<body>`, and `<base>` elements have no useful role in our repertoire. Pretty much everything else is fair game.
-
-  새로운 엘리먼트와 속성처럼 보이는 컴포넌트와 지시자로 템플릿의 HTML 어휘(vocabulary)를 확장할 수 있습니다. 다음 섹션에서는 데이터 바인딩을 통해 어떻게 동적으로 DOM (Document Object Model) 값을 가져오고 설정하는지 배워보겠습니다.
-
-  We can extend the HTML vocabulary of our templates with components and directives that appear as new elements and attributes. In the following sections we are going to learn how to get and set DOM (Document Object Model) values dynamically through data binding.
-
-  템플릿 HTML이 얼마나 풍부해 질 수 있는지 보기 위해 데이터 바인딩의 첫번째 형식 &mdash; 삽입식 &mdash;을 살펴보겠습니다.
-
-  Let’s turn to the first form of data binding &mdash; interpolation &mdash; to see how much richer template HTML can be.
-=======
   Almost all HTML syntax is valid template syntax. 
   The `<script>` element is a notable exception; 
   it is forbidden, eliminating the risk of script injection attacks.
   In practice, `<script>` is ignored and a warning appears in the browser console.
 
+  일부 합법적인 HTML은 템플릿에서 별 의미가 없습니다. 
+  `<html>`, `<body>`, 그리고 `<base>` 엘리먼트는 우리의 레퍼토리에서 유용한 역할을 못합니다. 
+  그 외 대부분은 사용 가능한 대상입니다.
+
   Some legal HTML doesn't make much sense in a template. 
   The `<html>`, `<body>`, and `<base>` elements have no useful role. 
   Pretty much everything else is fair game.
 
+  새로운 엘리먼트와 속성처럼 보이는 컴포넌트와 지시자로 템플릿의 HTML 어휘(vocabulary)를 확장할 수 있습니다. 
+  다음 섹션에서는 데이터 바인딩을 통해 어떻게 동적으로 DOM (Document Object Model) 값을 가져오고 설정하는지 배워보겠습니다.
+
   You can extend the HTML vocabulary of your templates with components and directives that appear as new elements and attributes. 
   In the following sections, you'll learn how to get and set DOM (Document Object Model) values dynamically through data binding.
+
+  템플릿 HTML이 얼마나 풍부해 질 수 있는지 보기 위해 데이터 바인딩의 첫번째 형식 &mdash; 삽입식 &mdash;을 살펴보겠습니다.
 
   Begin with the first form of data binding&mdash;interpolation&mdash;to see how much richer template HTML can be.
 
 a(href="#toc") back to top
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 .l-hr
 a#interpolation
 :marked
-<<<<<<< HEAD
-  ## 삽입식
-  ## Interpolation
-  앞서 우리는 Angular 교육 중에 삽입식의 이중 중괄호, `{{`와 `}}`,를 보았습니다.
-
-  We met the double-curly braces of interpolation, `{{` and `}}`, early in our Angular education.
-+makeExample('template-syntax/ts/app/app.component.html', 'first-interpolation')(format=".")
-:marked
-  삽입식을 사용해 계산된 문자열을 HTML 엘리먼트 태그 사이나 속성 할당 안에 끼워 넣습니다.
-
-  We use interpolation to weave calculated strings into the text between HTML element tags and within attribute assignments.
-=======
+  ## 삽입식 ( <span class="syntax">{&#xfeff;{...}}</span> )
   ## Interpolation ( <span class="syntax">{&#xfeff;{...}}</span> )
+  앞서 Angular 교육 중에 삽입식의 이중 중괄호, `{{`와 `}}`,를 보았습니다.
+
   You met the double-curly braces of interpolation, `{{` and `}}`, early in your Angular education.
 +makeExample('template-syntax/ts/src/app/app.component.html', 'first-interpolation')(format=".")
 :marked
+  삽입식을 사용해 계산된 문자열을 HTML 엘리먼트 태그 사이나 속성 할당 안에 끼워 넣습니다.
+
   You use interpolation to weave calculated strings into the text between HTML element tags and within attribute assignments.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 +makeExample('template-syntax/ts/src/app/app.component.html', 'title+image')(format=".")
 :marked
@@ -225,15 +192,10 @@ a#interpolation
   and then **converts to a string**. The following interpolation illustrates the point by adding the two numbers within braces:
 +makeExample('template-syntax/ts/src/app/app.component.html', 'sum-1')(format=".")
 :marked
-<<<<<<< HEAD
   표현식은 `getValue()`를 사용한 것처럼, 주인 컴포넌트의 메소드를 호출할 수 있습니다:
 
-  The expression can invoke methods of the host component, as we do here with `getVal()`:
-+makeExample('template-syntax/ts/app/app.component.html', 'sum-2')(format=".")
-=======
   The expression can invoke methods of the host component with `getVal()` as seen here:
 +makeExample('template-syntax/ts/src/app/app.component.html', 'sum-2')(format=".")
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 :marked
   Angular는 이중 중괄호의 모든 표현식을 평가하고, 표현식의 결과를 문자열로 변환하고, 이웃 리터럴 문자열에 연결합니다.
   최종적으로, 이 복합 삽입 결과를 **엘리먼트나 지시자 속성**에 할당합니다.
@@ -241,19 +203,14 @@ a#interpolation
   Angular evaluates all expressions in double curly braces, converts the expression results to strings, and links them with neighboring literal strings. Finally,
   it assigns this composite interpolated result to an **element or directive property**.
 
-<<<<<<< HEAD
   마치 엘리먼트 태그 사이에 결과를 삽입하고 속성에 할당하는 것으로 보입니다.
   그렇게 생각하는 것이 편리하며, 실수로 고통을 겪지 않을 수 있습니다.
   비록 이것이 정확한 사실은 아니지만요. 삽입식은 Angular가
   [프로퍼티 바인딩](#property-binding)으로 변환하는 특별한 구문이며,
   아래에 설명되어 있습니다.
 
-  We appear to be inserting the result between element tags and assigning it to attributes.
-  It's convenient to think so, and we rarely suffer for this mistake.
-=======
   You appear to be inserting the result between element tags and assigning it to attributes.
   It's convenient to think so, and you rarely suffer for this mistake.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   Though this is not exactly true. Interpolation is a special syntax that Angular converts into a
   [property binding](#property-binding), and is explained below.
 
@@ -277,26 +234,18 @@ a#template-expressions
   Angular executes the expression and assigns it to a property of a binding target;
   the target might be an HTML element, a component, or a directive.
 
-<<<<<<< HEAD
-  `{{1 + 1}}`을 썼을 때 템플릿 표현식을 삽입식 중괄호 사이에 놓았습니다.
-  [프로퍼티 바인딩](#property-binding) 섹션에서 템플릿 표현식을 다시 볼 것입니다.
-  `[프로퍼티]="표현식"` 처럼 `=` 기호의 오른쪽에 따옴표로 묶인 부분입니다.
+  `{{1 + 1}}`에서 삽입식 중괄호는 템플릿 표현식 `1 + 1`을 둘러쌉니다.
+  아래의 [프로퍼티 바인딩](#property-binding) 섹션에서,
+  템플릿 표현식은 `[프로퍼티]="표현식"` 처럼 `=` 기호의 오른쪽에 따옴표로 묶인 부분입니다.
 
-  We put a template expression within the interpolation braces when we wrote `{{1 + 1}}`.
-  We’ll see template expressions again in the [property binding](#property-binding) section,
-  appearing in quotes to the right of the `=` symbol as in `[property]="expression"`.
-
-  템플릿 표현식은 #{_JavaScript}처럼 보이는 언어로 작성합니다.
-  대부분의 #{_JavaScript} 표현식이 템플릿 표현식에서 유효합니다, 전부는 아니지만요.
-
-  We write template expressions in a language that looks like #{_JavaScript}.
-=======
   The interpolation braces in `{{1 + 1}}` surround the template expression `1 + 1`.
   In the [property binding](#property-binding) section below, 
   a template expression appears in quotes to the right of the&nbsp;`=` symbol as in `[property]="expression"`.
 
+  템플릿 표현식은 #{_JavaScript}처럼 보이는 언어로 작성합니다.
+  대부분의 #{_JavaScript} 표현식이 템플릿 표현식에서 유효합니다, 전부는 아니지만요.
+
   You write these template expressions in a language that looks like #{_JavaScript}.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   Many #{_JavaScript} expressions are legal template expressions, but not all.
 
   다음과 같이 부작용을 가지고 있거나 부작용을 유발하는 #{_JavaScript} 표현식은
@@ -339,66 +288,36 @@ block notable-differences
 h3#expression-context 표현식 컨텍스트
 h3#expression-context Expression context
 :marked
+  *표현식 컨텍스트*는 일반적으로 _컴포넌트_ 인스턴스입니다. 
+  다음 스니펫에서 이중 중괄호 안에 있는 `title`과 따옴표 안의 `isUnchanged`는 `AppComponent`의 속성을 참조합니다.
+
   The *expression context* is typically the _component_ instance.
   In the following snippets, the `title`  within double-curly braces and the
   `isUnchanged` in quotes refer to properties of the `AppComponent`.
 
-<<<<<<< HEAD
-block template-expressions-cannot
-  :marked
-    어쩌면 더욱 놀랍게도, 템플릿 표현식은 전역 네임스페이스 안의 어떤 것도
-    참조할 수 없습니다. `window`나 `document` 같은 것을 참조할 수 없습니다.
-    `console.log`나 `Math.max` 같은 것을 호출 할 수 없습니다. 표현식 컨텍스트의
-    멤버만 참조하도록 제한되어 있습니다.
-
-    Perhaps more surprising, template expressions cannot refer to anything in
-    the global namespace. They can’t refer to `window` or `document`. They
-    can’t call `console.log` or `Math.max`. They are restricted to referencing
-    members of the expression context.
-
-:marked
-  *표현식 컨텍스트*는 일반적으로 바인딩 값의 소스가 되는
-  **컴포넌트 인스턴스**입니다.
-
-  The *expression context* is typically the **component instance**, which is
-  the source of binding values.
-
-  이중 중괄호안에 포함된 *title*을 보면, `{{title}}`,
-  `title`이 데이터형(data-bound) 컴포넌트의 프로퍼티임을 알 수 있습니다.
-  `[disabled]="isUnchanged"`에서 *isUnchanged*를 보면,
-  컴포넌트의 `isUnchanged` 프로퍼티를 참조하는 것을 알 수 있습니다.
-
-  When we see *title* wrapped in double-curly braces, `{{title}}`,
-  we know that `title` is a property of the data-bound component.
-  When we see *isUnchanged* in `[disabled]="isUnchanged"`,
-  we know we are referring to that component's `isUnchanged` property.
-
-  컴포넌트 자체가 보통 표현식의 컨텍스트입니다.
-  이 경우 템플릿 표현식은 대게 해당 컴포넌트를 참조합니다.
-
-  The component itself is usually the expression *context*, in which case
-  the template expression usually references that component.
-
-  표현식 컨텍스트에 컴포넌트가 아닌 객체를 포함할 수도 있습니다.
-  [템플릿 참조 변수](#ref-vars)는 이러한 대체 컨텍스트 객체의 하나입니다.
-
-  The expression context can include objects other than the component.
-  A [template reference variable](#ref-vars) is one such alternative context object.
-=======
 +makeExample('template-syntax/ts/src/app/app.component.html', 'context-component-expression')(format=".")
 :marked
+  표현식은 [템플릿 입력 변수](#template-input-variable) (`let hero`) 또는 [템플릿 참조 변수](#ref-vars) (` # heroInput`)와 같은 템플릿 컨텍스트의 속성을 참조할 수도 있습니다.
+
   An expression may also refer to properties of the _template's_ context
   such as a [template input variable](#template-input-variable) (`let hero`)
   or a [template reference variable](#ref-vars) (`#heroInput`).
 +makeExample('template-syntax/ts/src/app/app.component.html', 'context-var')(format=".")
 :marked
+  표현식에서 용어에 대한 컨텍스트는 _템플릿 변수_, 지시문의 _컨텍스트_ 객체 및 컴포넌트의 _구성요소_를 혼합한 것입니다.
+  이러한 네임 스페이스 중 둘 이상에 속하는 이름을 참조하는 경우, 템플릿 변수 이름이 우선하며 그 뒤에 지시자의 _컨텍스트_에서 이름이오고 마지막으로 컴포넌트의 멤버 이름이 옵니다.
+
   The context for terms in an expression is a blend of the _template variables_, 
   the directive's _context_ object (if it has one), and the component's _members_.
   If you reference a name that belongs to more than one of these namespaces,
-  the tempate variable name takes precedence, followed by a name in the directive's' _context_,
+  the template variable name takes precedence, followed by a name in the directive's' _context_,
   and, lastly, the component's member names.
 
-  The previous example presents such a name collision. The component has a `hero` property and the `*ngFor` defines a `hero` template variable. The `hero` in `{{hero}}` refers to the template input variable, not the component's property.
+  앞의 예는 이러한 이름 충돌을 나타냅니다. 구성 요소에는 `hero` 속성이 있고 `*ngFor`는 `hero` 템플릿 변수를 정의합니다. 
+  `{{hero}}`의 `hero`는 템플릿의 입력 변수를 나타내며 컴포넌트의 속성은 참조하지 않습니다.
+
+  The previous example presents such a name collision. 
+  The component has a `hero` property and the `*ngFor` defines a `hero` template variable. The `hero` in `{{hero}}` refers to the template input variable, not the component's property.
 
 block template-expressions-cannot
   :marked
@@ -406,18 +325,18 @@ block template-expressions-cannot
     the global namespace. They can't refer to `window` or `document`. They
     can't call `console.log` or `Math.max`. They are restricted to referencing
     members of the expression context.
+    
+    Template expressions cannot refer to anything in
+    the global namespace. They can't refer to `window` or `document`. They
+    can't call `console.log` or `Math.max`. They are restricted to referencing
+    members of the expression context.
 
 a(href="#toc") back to top
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 a#no-side-effects
 a#expression-guidelines
 :marked
-<<<<<<< HEAD
-  <a id="no-side-effects"></a>
   ### 표현식 가이드라인
-=======
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   ### Expression guidelines
 
   템플릿 표현식은 애플리케이션을 완성할 수도 깨지게 할 수도 있습니다.
@@ -465,34 +384,24 @@ a#expression-guidelines
 
   #### 빠른 실행
   #### Quick execution
-<<<<<<< HEAD
+  Angular는 모든 변화 감지 사이클 후에 템플릿 표현식을 실행합니다.
+  변화 감지 사이클은 프로미스 해결, http 결과, 타이머 이벤트, 키 누르기 및 마우스 이동과 같은 많은 비동기 활동에 의해 트리거됩니다.
 
-  Angular는 우리가 생각하는 것보다 자주 템플릿 표현식을 실행합니다.
-  모든 키 입력과 마우스 이동 후에 호출될 수 있습니다.
-  표현식은 빨리 끝나야만 합니다. 그렇지 않으면 사용자는 특히 느린 기기에서 지연을 느낄 수 있습니다.
-  계산 비용이 비쌀 경우 다른 값에서 계산된 값을 캐시하는 것을 고려해보세요.
-
-  Angular executes template expressions more often than we think.
-  They can be called after every keypress or mouse move.
-=======
   Angular executes template expressions after every change detection cycle.
   Change detection cycles are triggered by many asynchronous activities such as 
   promise resolutions, http results, timer events, keypresses and mouse moves.
 
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
+  표현식은 빠르게 끝나야하며, 특히 느린 기기의 경우 사용자 경험이 좋지 않을 수 있습니다.
+  계산결과가 비쌀 때 다른 값에서 계산된 캐시값을 고려하세요.
+
   Expressions should finish quickly or the user experience may drag, especially on slower devices.
   Consider caching values computed from other values when the computation is expensive.
 
   #### 단순함 
   #### Simplicity
-<<<<<<< HEAD
+  비록 매우 복잡한 템플릿 표현식을 작성할 수는 있지만, 그렇게 하지 않아야 합니다.
 
-  비록 매우 복잡한 템플릿 표현식을 작성할 수 있지만, 그렇게 하지 않아야만 합니다.
-
-  Although it's possible to write quite complex template expressions, we really shouldn't.
-=======
   Although it's possible to write quite complex template expressions, you should avoid them.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
   프로퍼티 이름이나 메소드 호출은 표준을 따라야 합니다.
   때때로 사용하는 불리언 부정 (`!`)은 괜찮습니다.
@@ -538,51 +447,36 @@ a#template-statements
   ## Template statements
 
   템플릿 **명령문**은 엘리먼트, 컴포넌트, 또는 지시자와 같은
-  바인딩 타겟에서 발생하는 **이벤트**에 반응합니다. 
+  바인딩 타겟에서 발생하는 **이벤트**에 반응합니다.
+  [이벤트 바인딩](#event-binding) 섹션에서 템플릿 명령문을 살펴볼 것입니다.
+  `(event)="statement"`처럼 `=` 기호의 오른쪽에 따옴표로 묶인 부분입니다.
 
   A template **statement** responds to an **event** raised by a binding target
   such as an element, component, or directive.
   You'll see template statements in the [event binding](#event-binding) section,
   appearing in quotes to the right of the `=`&nbsp;symbol as in `(event)="statement"`.
 
-<<<<<<< HEAD
-  [이벤트 바인딩](#event-binding) 섹션에서 템플릿 명령문을 살펴볼 것입니다.
-  `(event)="statement"`처럼 `=` 기호의 오른쪽에 따옴표로 묶인 부분입니다.
 
-  We’ll see template statements in the [event binding](#event-binding) section,
-  appearing in quotes to the right of the `=` symbol as in `(event)="statement"`.
-
-  템플릿 명령문은 *부작용을 가지고 있습니다*.
-  이것을 활용해 사용자 입력으로부터 애플리케이션 상태를 업데이트 합니다.
-  그렇지 않으면 이벤트에 응답할 방법이 없습니다.
-
-=======
 +makeExample('template-syntax/ts/src/app/app.component.html', 'context-component-statement')(format=".")
 :marked
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
+  템플릿 명령문에는 *부작용*이 있습니다.
+  그것이 사건의 핵심입니다.
+  사용자 동작에서 응용 프로그램 상태를 업데이트하는 방법입니다.
+
   A template statement *has a side effect*.
   That's the whole point of an event.
   It's how you update application state from user action.
 
-<<<<<<< HEAD
-.l-sub-section
-  :marked
-    이벤트에 응답하는 것은 Angular의 "단방향성 데이터 흐름"의 또 다른 측면입니다.
-    이벤트 루프의 이 단계 중에는 어떤 것이든, 어디서든 자유롭게 변경할 수 있습니다.
+  이벤트에 응답하는 것은 Angular의 "단방향성 데이터 흐름"의 또 다른 측면입니다.
+  이벤트 루프의 이 단계 중에는 어떤 것이든, 어디서든 자유롭게 변경할 수 있습니다.
 
-    Responding to events is the other side of Angular's "unidirectional data flow".
-    We're free to change anything, anywhere, during this turn of the event loop.
+  Responding to events is the other side of Angular's "unidirectional data flow".
+  You're free to change anything, anywhere, during this turn of the event loop.
 
-:marked
   템플릿 표현식처럼, 템플릿 *명령문*은 #{_JavaScript}처럼 보이는 언어를 사용합니다.
   템플릿 명령문 파서는 템플릿 표현식 파서와 다릅니다.
   특히 기본 할당 (`=`)과 표현식 연결 (!{__chaining_op}을 사용)을 지원합니다.
 
-=======
-  Responding to events is the other side of Angular's "unidirectional data flow".
-  You're free to change anything, anywhere, during this turn of the event loop.
-
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   Like template expressions, template *statements* use a language that looks like #{_JavaScript}.
   The template statement parser is different than the template expression parser and
   specifically supports both basic assignment (`=`) and chaining expressions 
@@ -616,22 +510,23 @@ a#template-statements
   ### 명령문 컨텍스트
   ### Statement context
 
-<<<<<<< HEAD
-  표현식처럼, 명령문은 오직 명령문 컨텍스트 안에 있는 것만 참조할 수 있습니다. —
-  명령문 컨텍스트는 전형적으로 이벤트를 바인딩하는 **컴포넌트 인스턴스** 입니다.
+  표현식과 같이 명령문은 오직 명령문 컨텍스트 안에 있는 것(컴포넌트 인스턴스의 이벤트 핸들링 메소드 등)만 참조할 수 있습니다.
 
-  As with expressions, statements can refer only to what's in the statement context — typically the
-  **component instance** to which we're binding the event.
-=======
   As with expressions, statements can refer only to what's in the statement context
   such as an event handling method of the component instance.
 
 :marked
+  *명령문 컨텍스트*는 일반적으로 컴포넌트 인스턴스입니다.
+  `(click)="deleteHero()"`의 *deleteHero*는 데이터 바인딩된 컴포넌트의 메소드입니다.
+
   The *statement context* is typically the component instance. 
   The *deleteHero* in `(click)="deleteHero()"` is a method of the data-bound component.
 +makeExample('template-syntax/ts/src/app/app.component.html', 'context-component-statement')(format=".")
 
 :marked
+  명령 컨텍스트는 템플릿 자체 컨텍스트의 특성을 참조 할 수도 있습니다. 
+  다음 예에서, 템플릿 `$event` 객체, [템플릿 입력 변수](# 템플릿 입력 변수) (`let hero`), [템플릿 참조 변수](#ref-vars) (`#heroForm`)는 컴포넌트의 이벤트 처리 메소드에 전달됩니다.
+
   The statement context may also refer to properties of the template's own context.
   In the following examples, the template `$event` object,
   a [template input variable](#template-input-variable) (`let hero`),
@@ -639,9 +534,11 @@ a#template-statements
   are passed to an event handling method of the component.
 +makeExample('template-syntax/ts/src/app/app.component.html', 'context-var-statement')(format=".")
 :marked
+  템플릿 컨텍스트 이름은 컴포넌트 컨텍스트 이름보다 우선합니다.
+  위의 `deleteHero(hero)`에서 `hero`는 템플릿 입력 변수이고, 컴포넌트의 `hero` 속성은 아닙니다.
+
   Template context names take precedence over component context names.
   In `deleteHero(hero)` above, the `hero` is the template input variable, not the component's `hero` property.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 block statement-context
   :marked
@@ -654,24 +551,7 @@ block statement-context
     They can't call `console.log` or `Math.max`.
 
 :marked
-<<<<<<< HEAD
-  `(click)="onSave()"`의 *onSave*는 데이터형(data-bound) 컴포넌트 인스턴스의 메소드임이 확실합니다.
-
-  The *onSave* in `(click)="onSave()"` is sure to be a method of the data-bound component instance.
-
-  명령문 컨텍스트는 컴포넌트가 아닌 객체를 포함할 수도 있습니다.
-  [템플릿 참조 변수](#ref-vars)는 이러한 대체 컨텍스트 객체의 하나입니다.
-  이벤트 바인딩 명령문에서 발생 이벤트의 "메시지"나 "payload"를 나타내는
-  예약 기호 `$event`를 자주 볼 수 있습니다.
-
-  The statement context may include an object other than the component.
-  A [template reference variable](#ref-vars) is one such alternative context object.
-  We'll frequently see the reserved `$event` symbol in event binding statements,
-  representing the "message" or "payload" of the raised event.
-
   ### 명령문 가이드라인
-=======
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   ### Statement guidelines
 
   표현식과 마찬가지로, 복잡한 템플릿 명령문을 피하세요.
@@ -680,27 +560,18 @@ block statement-context
   As with expressions, avoid writing complex template statements.
   A method call or simple property assignment should be the norm.
 
-<<<<<<< HEAD
   이제 우리는 템플릿 표현식과 명령문의 맛을 보았으므로,
   삽입식을 넘어 다양한 데이터 바인딩 구문을 배울 준비가 되었습니다.
 
-  Now that we have a feel for template expressions and statements,
-  we’re ready to learn about the varieties of data binding syntax beyond interpolation.
-=======
   Now that you have a feel for template expressions and statements,
   you're ready to learn about the varieties of data binding syntax beyond interpolation.
 
 a(href="#toc") back to top
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 .l-hr
 a#binding-syntax
 :marked
-<<<<<<< HEAD
-  <a id="binding-syntax"></a>
   ## 바인딩 구문: 개요 
-=======
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   ## Binding syntax: An overview
 
   데이터 바인딩은 사용자가 보는 것을 애플리케이션 데이터 값으로 조정하기 위한 메커니즘입니다.
@@ -709,40 +580,18 @@ a#binding-syntax
   우리는 그저 바인딩할 소스와 타겟 HTML 엘리먼트 사이에 바인딩을 선언하고 프레임워크가 일을 하게 하면 됩니다.
 
   Data binding is a mechanism for coordinating what users see with application data values.
-<<<<<<< HEAD
-  While we could push values to and pull values from HTML,
-  the application is easier to write, read, and maintain if we turn these chores over to a binding framework.
-  We simply declare bindings between binding sources and target HTML elements and let the framework do the work.
-
-  Angular는 다양한 데이터 바인딩을 제공하고, 이번 챕터에서 각각에 대해 논의하겠습니다.
-  우선 Angular 데이터 바인딩과 그 구문에 대해 개괄적으로 살펴보겠습니다.
-
-  Angular provides many kinds of data binding, and we’ll discuss each of them in this chapter.
-  First we'll take a high-level view of Angular data binding and its syntax.
-
-  모든 바인딩은 데이터가 흐르는 방향에 따라 세 가지 카테고리로 나눌 수 있습니다.
-  각 카테고리는 그것만의 고유한 구문을 가지고 있습니다:
-
-  We can group all bindings into three categories by the direction in which data flows.
-  Each category has its distinctive syntax:
-table
-  tr
-    th
-      p 데이터 방향
-      p Data direction
-    th
-      p 구문
-      p Syntax
-    th
-      p 바인딩 유형
-      p Binding type
-=======
   While you could push values to and pull values from HTML,
   the application is easier to write, read, and maintain if you turn these chores over to a binding framework.
   You simply declare bindings between binding sources and target HTML elements and let the framework do the work.
 
+  Angular는 다양한 데이터 바인딩을 제공합니다.
+  이 가이드에서는 Angular 데이터 바인딩 및 구문에 대한 고급 수준을 설명한 후 대부분을 다루고 있습니다.
+
   Angular provides many kinds of data binding. 
   This guide covers most of them, after a high-level view of Angular data binding and its syntax.
+
+  바인딩 타입은 데이터 흐름 방향에 따라 구별되는 세 가지 범주로 그룹화 할 수 있습니다.
+  _source-to-view_, _view-to-source_ 및 양방향 시퀀스: _view-to-source-to-view_.
 
   Binding types can be grouped into three categories distinguished by the direction of data flow:
   from the _source-to-view_, from _view-to-source_, and in the two-way sequence: _view-to-source-to-view_.
@@ -753,10 +602,15 @@ table(width="100%")
   col(width="50%")
   col(width="20%")
   tr
-    th Data direction
-    th Syntax
-    th Type
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
+    th
+      p 데이터 방향
+      p Data direction
+    th
+      p 구문
+      p Syntax
+    th
+      p 유형
+      p Type
   tr
     td
       p 단방향
@@ -815,110 +669,73 @@ table(width="100%")
   Binding types other than interpolation have a **target name** to the left of the equal sign,
   either surrounded by punctuation (`[]`, `()`) or preceded by a prefix (`bind-`, `on-`, `bindon-`).
 
-<<<<<<< HEAD
-  그것들의 타겟은 무엇일까요? 이 질문에 답하기 전에, 템플릿 HTML을 새로운 방식으로 이해하는 도전을 해야합니다.
+  대상 이름은 _프로퍼티_의 이름입니다. 그것은 _속성_의 이름처럼 보일지 모르지만 그것은 결코 존재하지 않습니다.
+  차이점을 이해하려면 템플릿 HTML에 대해 생각해 볼 수있는 새로운 방법을 개발해야합니다.
 
-  What is that target? Before we can answer that question, we must challenge ourselves to look at template HTML in a new way.
-=======
   The target name is the name of a _property_. It may look like the name of an _attribute_ but it never is.
   To appreciate the difference, you must develop a new way to think about template HTML.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
   ### 새로운 멘탈 모델 (역주: 사용자가 제품을 이해하는 방식을 뜻하는 용어)
   ### A new mental model
 
-<<<<<<< HEAD
   모든 데이터 바인딩과 사용자 정의 마크업으로 HTML 어휘를 확장하는 능력을 보면,
   템플릿 HTML을 *HTML Plus*로 생각할 수 있습니다.
-
-  With all the power of data binding and our ability to extend the HTML vocabulary
+  
+  With all the power of data binding and the ability to extend the HTML vocabulary
   with custom markup, it is tempting to think of template HTML as *HTML Plus*.
 
   그렇습니다. 그것은 HTML Plus *입니다*.
   그러나 그것은 또한 우리가 사용해왔던 HTML과는 완전히 다릅니다.
-  우리는 정말로 완전히 새로운 멘탈 모델이 필요합니다.
-
-  Well, it *is* HTML Plus.
-  But it’s also significantly different than the HTML we’re used to.
-  We really need a new mental model.
-
-  일반적인 HTML 개발 과정에서, 우리는 HTML 엘리먼트로 비주얼 구조를 만들고,
-  엘리먼트 속성에 문자열 상수를 설정하여 그러한 엘리먼트를 수정합니다.
-
-  In the normal course of HTML development, we create a visual structure with HTML elements, and
-  we modify those elements by setting element attributes with string constants.
-=======
-  With all the power of data binding and the ability to extend the HTML vocabulary
-  with custom markup, it is tempting to think of template HTML as *HTML Plus*.
+  우리는 새로운 멘탈 모델이 필요합니다.
 
   It really *is* HTML Plus.
   But it's also significantly different than the HTML you're used to.
   It requires a new mental model.
 
+  일반적인 HTML 개발 과정에서, 우리는 HTML 엘리먼트로 비주얼 구조를 만들고,
+  엘리먼트 속성에 문자열 상수를 설정하여 그러한 엘리먼트를 수정합니다.
+
   In the normal course of HTML development, you create a visual structure with HTML elements, and
   you modify those elements by setting element attributes with string constants.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 +makeExample('template-syntax/ts/src/app/app.component.html', 'img+button')(format=".")
 :marked
-<<<<<<< HEAD
-  우리는 여전히 Angular 템플릿에서 구조를 만들고 속성 값을 초기화 합니다.
-
-  We still create a structure and initialize attribute values this way in Angular templates.
+  여전히 Angular 템플릿에서 구조를 만들고 속성 값을 초기화 합니다.
+  
+  You still create a structure and initialize attribute values this way in Angular templates.
 
   그런 다음, HTML을 캡슐화하는 컴포넌트로 새로운 엘리먼트를 만들고
   마치 그것들이 네이티브 HTML 엘리먼트인 것처럼 템플릿에 놓았습니다.
-
-  Then we learn to create new elements with components that encapsulate HTML
-  and drop them into our templates as if they were native HTML elements.
-+makeExample('template-syntax/ts/app/app.component.html', 'hero-detail-1')(format=".")
-:marked
-  이것이 HTML Plus 입니다.
-
-  That’s HTML Plus.
-
-  이제 데이터 바인딩을 배워보겠습니다. 첫 번째 만날 바인딩은 다음과 같습니다:
-
-  Now we start to learn about data binding. The first binding we meet might look like this:
-=======
-  You still create a structure and initialize attribute values this way in Angular templates.
 
   Then you learn to create new elements with components that encapsulate HTML
   and drop them into templates as if they were native HTML elements.
 +makeExample('template-syntax/ts/src/app/app.component.html', 'hero-detail-1')(format=".")
 :marked
+  이것이 HTML Plus 입니다.
+
   That's HTML Plus.
 
+  이제 데이터 바인딩을 배워보겠습니다. 첫 번째 만날 바인딩은 다음과 같습니다:
+
   Then you learn about data binding. The first binding you meet might look like this:
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 +makeExample('template-syntax/ts/src/app/app.component.html', 'disabled-button-1')(format=".")
 :marked
-<<<<<<< HEAD
   특유의 대괄호 표기법을 잠깐 살펴보겠습니다. 그것을 넘어서,
   우리는 직감으로는 버튼의 `disabled` 속성에 바인딩하고,
   그것을 `isUnchanged` 컴포넌트 프로퍼티의 현재 값으로 설정할 것 같습니다.
-
-  We’ll get to that peculiar bracket notation in a moment. Looking beyond it,
-  our intuition tells us that we’re binding to the button's `disabled` attribute and setting
-  it to the current value of the component’s `isUnchanged` property.
+  
+  You'll get to that peculiar bracket notation in a moment. Looking beyond it,
+  your intuition suggests that you're binding to the button's `disabled` attribute and setting
+  it to the current value of the component's `isUnchanged` property.
 
   우리의 직감이 틀렸습니다! 일상적인 HTML 멘탈 모델이 우리를 오해하게 만들었습니다.
   사실, 데이터 바인딩을 시작하면 더 이상 HTML *속성*과 작업을 하지 않습니다. 우리는 속성을 설정하지 않습니다.
   우리는 DOM 엘리먼트, 컴포넌트, 그리고 지시자의 *속성*을 설정합니다.
 
-  Our intuition is wrong! Our everyday HTML mental model is misleading us.
-  In fact, once we start data binding, we are no longer working with HTML *attributes*. We aren't setting attributes.
-  We are setting the *properties* of DOM elements, components, and directives.
-=======
-  You'll get to that peculiar bracket notation in a moment. Looking beyond it,
-  your intuition suggests that you're binding to the button's `disabled` attribute and setting
-  it to the current value of the component's `isUnchanged` property.
-
   Your intuition is incorrect! Your everyday HTML mental model is misleading.
   In fact, once you start data binding, you are no longer working with HTML *attributes*. You aren't setting attributes.
   You are setting the *properties* of DOM elements, components, and directives.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 .l-sub-section
   :marked
@@ -945,19 +762,13 @@ table(width="100%")
 
     * Some DOM properties don't have corresponding attributes. `textContent` is one example.
 
-<<<<<<< HEAD
     * 많은 HTML 속성은 프로퍼티에 대응됩니다 ... 그러나 우리가 생각하는 방식은 아닙니다.
 
-    * Many HTML attributes appear to map to properties ... but not in the way we might think!
-
-    마지막 카테고리는 특히 헷갈릴 수 있습니다 ... 이런 일반적인 규칙을 이해하기 전까지는요:
-
-    That last category can be especially confusing ... until we understand this general rule:
-=======
     * Many HTML attributes appear to map to properties ... but not in the way you might think!
 
+    이런 일반적인 규칙을 이해하기 전까지 마지막 카테고리는 특히 헷갈릴 수 있습니다:
+
     That last category is confusing until you grasp this general rule:
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
     **속성은 DOM 프로퍼티를 *초기화* 한 다음 완료됩니다.
     프로퍼티 값은 변합니다; 속성 값은 그렇지 않습니다.**
@@ -1010,16 +821,12 @@ table(width="100%")
     **The HTML attribute and the DOM property are not the same thing, even when they have the same name.**
 
 :marked
-<<<<<<< HEAD
-  이것은 매우 중요합니다. 다시 한번 말하겠습니다.
-  
-  This is so important, we’ll say it again.
+  이 사실은 반복됩니다:
+
+  This fact bears repeating:
 
   **템플릿 바인딩은 *프로퍼티*와 *이벤트*로 동작합니다, *속성*이 아닙니다.**
 
-=======
-  This fact bears repeating:
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   **Template binding works with *properties* and *events*, not *attributes*.**
 
 .callout.is-helpful
@@ -1034,13 +841,9 @@ table(width="100%")
     When you write a data binding, you're dealing exclusively with properties and events of the target object.
     HTML attributes effectively disappear.
 :marked
-<<<<<<< HEAD
-  이러한 모델을 확실하게 염두에 두고, 바인딩 타겟에 대해 배워보겠습니다.
+  이러한 모델을 확실하게 염두에 두고, 바인딩 타겟에 대해 알아보려면 계속 읽으세요.
 
-  With this model firmly in mind, let's learn about binding targets.
-=======
   With this model firmly in mind, read on to learn about binding targets.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
   ### 바인딩 타겟
   ### Binding targets
@@ -1063,21 +866,15 @@ table(width="100%")
   col(width="15%")
   col(width="75%")
   tr
-<<<<<<< HEAD
     th
-      p 바인딩 유형
-      p Binding type
+      p 유형
+      p Type
     th
       p 타겟
       p Target
     th
       p 예
       p Examples
-=======
-    th Type
-    th Target
-    th Examples
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   tr
     td
       p 프로퍼티
@@ -1145,33 +942,22 @@ table(width="100%")
 </div>
 
 :marked
-<<<<<<< HEAD
-  설계 단계(architectural clouds)에서 내려와 바인딩 유형을 구체적으로 살펴보겠습니다.
+  이 넓은 관점을 염두하고, 바인딩 유형을 자세하게 볼 준비가 되었습니다.
 
-  Let’s descend from the architectural clouds and look at each of these binding types in concrete detail.
-=======
   With this broad view in mind, you're ready to look at binding types in detail.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 a(href="#toc") back to top
 
 .l-hr
 a#property-binding
 :marked
-<<<<<<< HEAD
-  ## 프로퍼티 바인딩
-  ## Property binding
-
-  뷰 엘리먼트의 프로퍼티를 [템플릿 표현식](#template-expressions) 값에 설정하고 싶을 때
-  템플릿 **프로퍼티 바인딩**을 사용했습니다.
-
-  We write a template **property binding** when we want to set a property of a view element to the value of
-  a [template expression](#template-expressions).
-=======
+  ## 프로퍼티 바인딩 ( <span class="syntax">[property]</span> )
   ## Property binding ( <span class="syntax">[property]</span> )
+  템플릿 **속성 바인딩**을 작성하여 뷰 요소의 속성을 설정합니다.
+  바인딩은 속성을 [템플릿 표현식](# template-expressions)의 값으로 설정합니다.
+
   Write a template **property binding** to set a property of a view element.
   The binding sets the property to the value of a [template expression](#template-expressions).
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
   가장 일반적인 프로퍼티 바인딩은 엘리먼트 프로퍼티를 컴포넌트 프로퍼티 값으로 설정하는 것입니다.
   예제는 이미지 엘리먼트의 `src` 프로퍼티를 컴포넌트의 `heroImageUrl` 프로퍼티에 바인딩합니다:
@@ -1206,22 +992,21 @@ a#property-binding
   People often describe property binding as *one-way data binding* because it flows a value in one direction,
   from a component's data property into a target element property.
 
-<<<<<<< HEAD
-  우리는 프로퍼티 바인딩을 사용하여 타겟 엘리먼트에서 값을 가져올 수 없습니다.
-  우리는 타겟 엘리먼트의 프로퍼티를 읽기 위해 바인딩 할 수 없습니다. 오직 설정할 수만 있습니다.
+  프로퍼티 바인딩을 사용하여 타겟 엘리먼트에서 값을 가져올 수 없습니다.
+  타겟 엘리먼트의 프로퍼티를 _읽기_ 위해 바인딩 할 수 없습니다. 오직 _설정할_ 수만 있습니다.
 
-  We cannot use property binding to pull values *out* of the target element.
-  We can't bind to a property of the target element to read it. We can only set it.
+  You cannot use property binding to pull values *out* of the target element.
+  You can't bind to a property of the target element to _read_ it. You can only _set_ it.
 
 .l-sub-section
   :marked
-    또한 프로퍼티 바인딩을 사용해 타겟 엘리먼트의 메소드를 *호출*할 수도 없습니다.
+    유사하게, 프로퍼티 바인딩을 사용해 타겟 엘리먼트의 메소드를 *호출*할 수 없습니다.
 
-    Nor can we use property binding to *call* a method on the target element.
+    Similarly, you cannot use property binding to *call* a method on the target element.
 
     만약 엘리먼트에서 이벤트가 발생하면, [이벤트 바인딩](#event-binding)으로 그것들을 들을 수 있습니다.
 
-    If the element raises events we can listen to them with an [event binding](#event-binding).
+    If the element raises events, you can listen to them with an [event binding](#event-binding).
 
     만약 타겟 엘리먼트 속성을 읽어야 하거나 그것의 메소드를 호출해야 한다면,
     다른 기술이 필요합니다.
@@ -1229,21 +1014,8 @@ a#property-binding
     [ContentChild](../api/core/index/ContentChild-decorator.html)에 있는
     API 참조설명을 보세요.
 
-    If we must read a target element property or call one of its methods,
-    we'll need a different technique.
-=======
-  You cannot use property binding to pull values *out* of the target element.
-  You can't bind to a property of the target element to _read_ it. You can only _set_ it.
-
-.l-sub-section
-  :marked
-    Similarly, you cannot use property binding to *call* a method on the target element.
-
-    If the element raises events, you can listen to them with an [event binding](#event-binding).
-
     If you must read a target element property or call one of its methods,
     you'll need a different technique.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
     See the API reference for
     [ViewChild](../api/core/index/ViewChild-decorator.html) and
     [ContentChild](../api/core/index/ContentChild-decorator.html).
@@ -1251,14 +1023,9 @@ a#property-binding
 :marked
   ### 바인딩 타겟
   ### Binding target
-<<<<<<< HEAD
-
   닫혀 있는 대괄호 사이의 엘리먼트 프로퍼티는 타겟 프로퍼티를 식별합니다. 다음 코드의 타겟 프로퍼티는 이미지 엘리먼트의 `src` 프로퍼티입니다.
 
-  An element property between enclosing square brackets identifies the target property. The target property in the following code is the image element’s `src` property.
-=======
   An element property between enclosing square brackets identifies the target property. The target property in the following code is the image element's `src` property.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 +makeExample('template-syntax/ts/src/app/app.component.html', 'property-binding-1')(format=".")
 :marked
@@ -1267,14 +1034,11 @@ a#property-binding
   Some people prefer the `bind-` prefix alternative, known as the *canonical form*:
 +makeExample('template-syntax/ts/src/app/app.component.html', 'property-binding-5')(format=".")
 :marked
-<<<<<<< HEAD
-  타겟 이름은 다른 것의 이름으로 보이지만 항상 프로퍼티의 이름입니다. `src`를 보면 아마 속성의 이름이라고 생각할 것입니다. 아닙니다. 그것은 이미지 엘리먼트 프로퍼티의 이름입니다.
+  타겟 이름은 다른 것의 이름으로 보이지만 항상 프로퍼티의 이름입니다. 
+  `src`를 보면 아마 속성의 이름이라고 생각할 것입니다. 아닙니다. 그것은 이미지 엘리먼트 프로퍼티의 이름입니다.
 
-  The target name is always the name of a property, even when it appears to be the name of something else. We see `src` and may think it’s the name of an attribute. No. It’s the name of an image element property.
-=======
   The target name is always the name of a property, even when it appears to be the name of something else. 
   You see `src` and may think it's the name of an attribute. No. It's the name of an image element property.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
   엘리먼트 프로퍼티가 보다 일반적인 타겟일 것입니다.
   그러나 다음 예제에 있는 것처럼 Angular는
@@ -1301,38 +1065,29 @@ a#property-binding
 
   ### 부작용 회피
   ### Avoid side effects
-<<<<<<< HEAD
-
   이미 논의한 것처럼, 템플릿 표현식 평가는 표시 부작용이 없어야 합니다.
   표현식 언어 자체는 우리를 안전하게 지켜주는 역할을 합니다.
   프로퍼티 바인딩 표현식의 어떤 것에도 값을 할당할 수 없고 증감 연산자도 사용할 수 없습니다.
-  
-  As we've already discussed, evaluation of a template expression should have no visible side effects. The expression language itself does its part to keep us safe. We can’t assign a value to anything in a property binding expression nor use the increment and decrement operators.
 
-  물론, 표현식은 부작용이 있는 프러퍼티나 메소드를 호출 할 수 있습니다. Angular가 이것을 알고 멈추게할 방법은 없습니다.
-
-  Of course, our expression might invoke a property or method that has side effects. Angular has no way of knowing that or stopping us.
-
-  표현식은 `getFoo()`같은 것을 호출할 수 있습니다. 오직 우리만 `getFoo()`가 무엇을 하는지 알고 있습니다.
-  만약 `getFoo()`가 무엇인가를 변경하고 그 무엇에 바인딩하면, 안 좋은 경험을 할 위험이 있습니다.
-  Angular는 변경된 값을 표시할 수도 표시하지 않을 수도 있습니다. Angular는 변경을 감지하고
-  경고 에러를 던질 수도 있습니다. 일반적인 조언: 데이터 프로퍼티와 값을 반환하고 아무것도 하지 않는 메소드 사용을 고수하세요.
-
-  The expression could call something like `getFoo()`. Only we know what `getFoo()` does.
-  If `getFoo()` changes something and we happen to be binding to that something, we risk an unpleasant experience. Angular may or may not display the changed value. Angular may detect the change and throw a warning error. Our general advice: stick to data properties and to methods that return values and do no more.
-=======
   As mentioned previously, evaluation of a template expression should have no visible side effects. 
   The expression language itself does its part to keep you safe. 
   You can't assign a value to anything in a property binding expression nor use the increment and decrement operators.
 
+  물론, 표현식은 부작용이 있는 프러퍼티나 메소드를 호출 할 수 있습니다.
+  Angular가 이것을 알고 멈추게할 방법은 없습니다.
+
   Of course, the expression might invoke a property or method that has side effects. 
   Angular has no way of knowing that or stopping you.
+
+  표현식은 `getFoo()`같은 것을 호출할 수 있습니다. 오직 당신만 `getFoo()`가 무엇을 하는지 알고 있습니다.
+  만약 `getFoo()`가 무엇인가를 변경하고 그 무엇에 바인딩하면, 안 좋은 경험을 할 위험이 있습니다.
+  Angular는 변경된 값을 표시할 수도 표시하지 않을 수도 있습니다. Angular는 변경을 감지하고 경고 에러를 던질 수도 있습니다.
+  일반적으로 데이터 프로퍼티와 값을 반환하고 아무것도 하지 않는 메소드 사용을 고수하세요.
 
   The expression could call something like `getFoo()`. Only you know what `getFoo()` does.
   If `getFoo()` changes something and you happen to be binding to that something, you risk an unpleasant experience. 
   Angular may or may not display the changed value. Angular may detect the change and throw a warning error. 
   In general, stick to data properties and to methods that return values and do no more.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
   ### 적절한 타입을 반환
   ### Return the proper type
@@ -1347,16 +1102,10 @@ a#property-binding
   Return a number if the target property expects a number.
   Return an object if the target property expects an object.
 
-<<<<<<< HEAD
-  `HeroDetail` 컴포넌트의 `hero` 프로퍼티는 `Hero` 객체를 기대합니다.
-  이것이 정확히 프로퍼티 바인딩에서 보내는 것입니다:
+  `HeroDetail` 컴포넌트의 `hero` 프로퍼티는 `Hero` 객체를 기대합니다. 이것이 정확히 프로퍼티 바인딩에서 보내는 것입니다:
 
-  The `hero` property of the `HeroDetail` component expects a `Hero` object, which is exactly what we’re sending in the property binding:
-+makeExample('template-syntax/ts/app/app.component.html', 'property-binding-4')(format=".")
-=======
   The `hero` property of the `HeroDetail` component expects a `Hero` object, which is exactly what you're sending in the property binding:
 +makeExample('template-syntax/ts/src/app/app.component.html', 'property-binding-4')(format=".")
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 block dart-type-exceptions
   //- N/A
@@ -1386,11 +1135,9 @@ a(id="one-time-initialization")
 :marked
   ### 일회성 문자열 초기화
   ### One-time string initialization
-<<<<<<< HEAD
-
   다음이 모두 참인 경우 대괄호를 제거 *해야만* 합니다:
 
-  We *should* omit the brackets when all of the following are true:
+  You *should* omit the brackets when all of the following are true:
 
   * 타겟 프로퍼티가 문자열 값을 받음.
 
@@ -1398,7 +1145,7 @@ a(id="one-time-initialization")
 
   * 문자열이 템플릿 안에서 처리 가능한 고정된 값임.
 
-  * The string is a fixed value that we can bake into the template.
+  * The string is a fixed value that you can bake into the template.
 
   * 초기 값이 절대 변경되지 않음.
 
@@ -1409,15 +1156,7 @@ a(id="one-time-initialization")
   다음 예제는 `HeroDetailComponent`의 `prefix` 속성을 템플릿 표현식이 아닌 고정된 문자열로 초기화 합니다.
   Angular는 그것을 셋팅하고 잊어버립니다.
 
-  We routinely initialize attributes this way in standard HTML, and it works
-=======
-  You *should* omit the brackets when all of the following are true:
-  * The target property accepts a string value.
-  * The string is a fixed value that you can bake into the template.
-  * This initial value never changes.
-
   You routinely initialize attributes this way in standard HTML, and it works
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   just as well for directive and component property initialization.
   The following example initializes the `prefix` property of the `HeroDetailComponent` to a fixed string,
   not a template expression. Angular sets it and forgets about it.
@@ -1429,14 +1168,10 @@ a(id="one-time-initialization")
 
   ### 프로퍼티 바인딩? 삽입식?
   ### Property binding or interpolation?
-<<<<<<< HEAD
   종종 삽입식과 프로퍼티 바인딩 사이에서 선택을 해야 합니다.
   다음 바인딩 쌍은 같은 역할을 합니다:
 
-  We often have a choice between interpolation and property binding. 
-=======
   You often have a choice between interpolation and property binding. 
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   The following binding pairs do the same thing:
 +makeExample('template-syntax/ts/src/app/app.component.html', 'property-binding-vs-interpolation')(format=".")
 :marked
@@ -1486,17 +1221,13 @@ figure.image-display
   img(src='/resources/images/devguide/template-syntax/evil-title.png' alt="evil title made safe" width='500px')
 
 :marked
-<<<<<<< HEAD
-  <a id="other-bindings"></a>
-  ## 속성, 클래스, 스타일 바인딩
-=======
   &nbsp;
 a(href="#toc") back to top
 
 .l-hr
 a#other-bindings
 :marked
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
+  ## 속성, 클래스, 스타일 바인딩
   ## Attribute, class, and style bindings
   템플릿 구문은 프로퍼티 바인딩이 적합하지 않은 시나리오를 위해 특화된 단방향 바인딩을 제공합니다.
 
@@ -1504,14 +1235,11 @@ a#other-bindings
 
   ### 속성 바인딩
   ### Attribute binding
-<<<<<<< HEAD
 
   **속성 바인딩**으로 직접 속성의 값을 설정할 수 있습니다.
 
-  We can set the value of an attribute directly with an **attribute binding**.
-=======
   You can set the value of an attribute directly with an **attribute binding**.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
+
 .l-sub-section
   :marked
     이것은 바인딩이 타겟 프로퍼티를 셋팅한다는 규칙에 대한 유일한 예외사항입니다. 이것은 속성을 생성하고 설정하는 유일한 바인딩입니다.
@@ -1519,19 +1247,13 @@ a#other-bindings
     This is the only exception to the rule that a binding sets a target property. This is the only binding that creates and sets an attribute.
 
 :marked
-<<<<<<< HEAD
   이번 챕터에서는 프로퍼티 바인딩으로 엘리먼트 프로퍼티를 설정하는 것이 문자열로 속성을 설정하는 것보다 항상 좋다고 강조했습니다. Angular는 왜 속성 바인딩을 제공할까요?
 
-  We have stressed throughout this chapter that setting an element property with a property binding is always preferred to setting the attribute with a string. Why does Angular offer attribute binding?
+  This guide stresses repeatedly that setting an element property with a property binding is always preferred to setting the attribute with a string. Why does Angular offer attribute binding?
 
   **바인딩 할 엘리먼트 프로퍼티가 없을 경우에는 반드시 속성 바인딩을 사용해야 합니다.**
 
-  **We must use attribute binding when there is no element property to bind.**
-=======
-  This guide stresses repeatedly that setting an element property with a property binding is always preferred to setting the attribute with a string. Why does Angular offer attribute binding?
-
   **You must use attribute binding when there is no element property to bind.**
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
   [ARIA](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA),
   [SVG](https://developer.mozilla.org/en-US/docs/Web/SVG), 그리고
@@ -1545,23 +1267,17 @@ a#other-bindings
   They do not correspond to element properties, and they do not set element properties.
   There are no property targets to bind to.
 
-<<<<<<< HEAD
-  다음과 같은 것을 작성하려고 하면 이 사실을 어렵게 알 수 있습니다.
+  이 사실은 이와 비슷한 것을 쓸 때 매우 명백해집니다.
 
-  We become painfully aware of this fact when we try to write something like this:
-=======
   This fact becomes painfully obvious when you write something like this.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
+
 code-example(language="html").
   &lt;tr&gt;&lt;td colspan="{{1 + 1}}"&gt;Three-Four&lt;/td&gt;&lt;/tr&gt;
 :marked
-<<<<<<< HEAD
-  이런 에러가 발생합니다:
+  그리고 이런 에러가 발생합니다:
 
-  We get this error:
-=======
   And you get this error:
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
+
 code-example(format="nocode").
   Template parse errors:
   Can't bind to 'colspan' since it isn't a known native property
@@ -1574,13 +1290,9 @@ code-example(format="nocode").
   It has the "colspan" *attribute*, but
   interpolation and property binding can set only *properties*, not attributes.
 
-<<<<<<< HEAD
   이러한 속성을 생성하고 바인딩하려면 속성 바인딩이 필요합니다.
 
-  We need attribute bindings to create and bind to such attributes.
-=======
   You need attribute bindings to create and bind to such attributes.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
   속성 바인딩 구문은 프로퍼티 바인딩과 비슷합니다.
   대괄호 사이의 엘리먼트 프로퍼티 대신에, **`attr`**로 시작하고,
@@ -1592,15 +1304,11 @@ code-example(format="nocode").
   followed by a dot (`.`) and the name of the attribute. 
   You then set the attribute value, using an expression that resolves to a string.
 
-<<<<<<< HEAD
   `[attr.colspan]`을 계산된 값에 바인딩했습니다:
 
-  Here we bind `[attr.colspan]` to a calculated value:
-+makeExample('template-syntax/ts/app/app.component.html', 'attrib-binding-colspan')(format=".")
-=======
   Bind `[attr.colspan]` to a calculated value:
 +makeExample('template-syntax/ts/src/app/app.component.html', 'attrib-binding-colspan')(format=".")
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
+
 :marked
   다음은 테이블을 렌더링하는 방법입니다:
 
@@ -1624,14 +1332,10 @@ a(href="#toc") back to top
   ### 클래스 바인딩
   ### Class binding
 
-<<<<<<< HEAD
   **클래스 바인딩**으로 엘리먼트의 `class` 속성에서 
   CSS 클래스 이름을 추가하거나 제거할 수 있습니다.
 
-  We can add and remove CSS class names from an element’s `class` attribute with
-=======
   You can add and remove CSS class names from an element's `class` attribute with
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   a **class binding**.
 
   클래스 바인딩 구문은 프로퍼티 바인딩과 비슷합니다.
@@ -1649,25 +1353,17 @@ a(href="#toc") back to top
   with class bindings.  Here's how to set the attribute without binding:
 +makeExample('template-syntax/ts/src/app/app.component.html', 'class-binding-1')(format=".")
 :marked
-<<<<<<< HEAD
   이것을 원하는 클래스 이름의 문자열에 바인딩할 수도 있습니다; 이렇게 하면 전부 바인딩 되거나 아무것도 바인딩 되지 않습니다.
 
-  We can replace that with a binding to a string of the desired class names; this is an all-or-nothing, replacement binding.
-+makeExample('template-syntax/ts/app/app.component.html', 'class-binding-2')(format=".")
+  You can replace that with a binding to a string of the desired class names; this is an all-or-nothing, replacement binding.
++makeExample('template-syntax/ts/src/app/app.component.html', 'class-binding-2')(format=".")
 
 :marked
   마지막으로 특별한 클래스 이름에 바인딩할 수 있습니다.
   Angular는 템플릿 표현식이 #{_truthy_ko}으로 평가될 때 클래스를 더합니다.
   표현식이 #{_falsey_ko}인 경우 클래스를 제거합니다.
 
-  Finally, we can bind to a specific class name.
-=======
-  You can replace that with a binding to a string of the desired class names; this is an all-or-nothing, replacement binding.
-+makeExample('template-syntax/ts/src/app/app.component.html', 'class-binding-2')(format=".")
-
-:marked
   Finally, you can bind to a specific class name.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   Angular adds the class when the template expression evaluates to #{_truthy}.
   It removes the class when the expression is #{_falsy}.
 +makeExample('template-syntax/ts/src/app/app.component.html', 'class-binding-3')(format=".")
@@ -1687,13 +1383,9 @@ a(href="#toc") back to top
   ### 스타일 바인딩
   ### Style binding
 
-<<<<<<< HEAD
   **스타일 바인딩**으로 인라인 스타일을 설정할 수 있습니다.
 
-  We can set inline styles with a **style binding**.
-=======
   You can set inline styles with a **style binding**.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
   스타일 바인딩 구문은 프로퍼티 바인딩과 비슷합니다.
   대괄호 사이에 엘리먼트 프로퍼티 대신에, `style`로 시작하고,
@@ -1705,16 +1397,12 @@ a(href="#toc") back to top
 
 +makeExample('template-syntax/ts/src/app/app.component.html', 'style-binding-1')(format=".")
 :marked
-<<<<<<< HEAD
-  어떤 스타일 바인딩의 스타일은 단위 확장자가 있습니다. 다음은 조건에 따라 글꼴 크기를 “em” 및 “%”로 설정합니다.
+  어떤 스타일 바인딩의 스타일은 단위 확장자가 있습니다. 
+  다음의 예에서는 조건에 따라 글꼴 크기를 “em” 및 “%”로 설정합니다.
 
-  Some style binding styles have unit extension. Here we conditionally set the font size in  “em” and “%” units .
-+makeExample('template-syntax/ts/app/app.component.html', 'style-binding-2')(format=".")
-=======
   Some style binding styles have a unit extension. 
   The following example conditionally sets the font size in  “em” and “%” units .
 +makeExample('template-syntax/ts/src/app/app.component.html', 'style-binding-2')(format=".")
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 .l-sub-section
   :marked
@@ -1742,24 +1430,18 @@ a(href="#toc") back to top
 .l-hr
 a#event-binding
 :marked
-<<<<<<< HEAD
-  ## 이벤트 바인딩
-  ## Event binding
+  ## 이벤트 바인딩  ( <span class="syntax">(event)</span> )
+  ## Event binding  ( <span class="syntax">(event)</span> )
+  
   지금껏 살펴본 바인딩은 데이터가 한 방향으로 흘렀습니다: **컴포넌트에서 엘리먼트로**.
 
-  The bindings we’ve met so far flow data in one direction: **from a component to an element**.
+  The bindings directives you've met so far flow data in one direction: **from a component to an element**.
 
   사용자가 화면을 응시만 하는 것은 아닙니다. 그들은 입력 상자에 텍스트를 입력합니다. 그들은 리스트에서 아이템을 선택합니다.
   그들은 버튼을 클릭합니다. 이러한 사용자 액션은 데이터가 반대편 방향으로 흐르게 합니다:
   **엘리먼트에서 컴포넌트로**.
 
-  Users don’t just stare at the screen. They enter text into input boxes. They pick items from lists.
-=======
-  ## Event binding  ( <span class="syntax">(event)</span> )
-  The bindings directives you've met so far flow data in one direction: **from a component to an element**.
-
   Users don't just stare at the screen. They enter text into input boxes. They pick items from lists.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   They click buttons. Such user actions may result in a flow of data in the opposite direction:
   **from an element to a component**.
 
@@ -1857,38 +1539,25 @@ a#event-binding
 +makeExample('template-syntax/ts/src/app/app.component.html', 'without-NgModel')(format=".")
 
 :marked
-<<<<<<< HEAD
   이 코드는 `firstName` 프로퍼티 값을 `value` 프로퍼티에 바인딩합니다. 값의 변경을 감지하기 위해, 입력 상자의 `input` 이벤트에 바인딩합니다.
   사용자가 변화를 일으키면, `input` 이벤트가 발생하고, 바인딩은 `$event` DOM 이벤트 객체를 포함하는 객체 안에서 명령문을 실행합니다.
 
-  This code sets the input box `value` property by binding to the `firstName` property. To listen for changes to the value, the code binds to the input box's `input` event.
+  This code sets the input box `value` property by binding to the `name` property. To listen for changes to the value, the code binds to the input box's `input` event.
   When the user makes changes, the `input` event is raised, and the binding executes the statement within a context that includes the DOM event object, `$event`.
 
   `firstName` 프로퍼티를 업데이트 하기 위해 `$event.target.value` 경로를 따라 변경 텍스트를 가져옵니다.
 
-  To update the `firstName` property, the changed text is retrieved by following the path `$event.target.value`.
-=======
-  This code sets the input box `value` property by binding to the `name` property. To listen for changes to the value, the code binds to the input box's `input` event.
-  When the user makes changes, the `input` event is raised, and the binding executes the statement within a context that includes the DOM event object, `$event`.
-
   To update the `name` property, the changed text is retrieved by following the path `$event.target.value`.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
   만약 이벤트가 지시자에 속한다면 (컴포넌트는 지시자였던 것을 기억하세요), `$event`는 지시자가 생성하기로 결정한 어떤 형태가 됩니다.
 
   If the event belongs to a directive (recall that components are directives), `$event` has whatever shape the directive decides to produce.
 
-<<<<<<< HEAD
-  <a id="eventemitter"></a>
-  <a id="custom-event"></a>
-  ### *EventEmitter*를 사용한 커스텀 이벤트
-  ### Custom events with *EventEmitter*
-=======
 a#eventemitter
 a#custom-event
 :marked
+  ### <span class="syntax">EventEmitter</span>를 사용한 커스텀 이벤트
   ### Custom events with <span class="syntax">EventEmitter</span>
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
   지시자는 일반적으로 Angular [EventEmitter](../api/core/index/EventEmitter-class.html)
   를 사용해 커스텀 이벤트를 발생시킵니다.
@@ -1987,17 +1656,12 @@ a(href="#toc") back to top
 .l-hr
 a#two-way
 :marked
-<<<<<<< HEAD
-  ## 양방향 바인딩
-  ## Two-way binding
+  ## 양방향 바인딩 ( <span class="syntax">[(...)]</span> )
+  ## Two-way binding ( <span class="syntax">[(...)]</span> )
 
   우리는 종종 데이터 프로퍼티를 표시하고 사용자가 변경을 하면 그 프로퍼티를 업데이트하고 싶어 합니다.
 
-  We often want to both display a data property and update that property when the user makes changes.
-=======
-  ## Two-way binding ( <span class="syntax">[(...)]</span> )
   You often want to both display a data property and update that property when the user makes changes.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
   엘리먼트 측면에서보면 특정 엘리먼트 프로퍼티로 설정하는 것과
   엘리먼트의 변경 이벤트를 듣는 것을 조합해야 합니다.
@@ -2079,149 +1743,21 @@ a#two-way
 
   Clearly the two-way binding syntax is a great convenience compared to separate property and event bindings.
 
-<<<<<<< HEAD
-  `<input>`과 `<select>` 같은 HTML 폼 엘리먼트에 양방향 바인딩을 사용하고 싶어합니다.
-  애석하게도 어떠한 네이티브 HTML 엘리먼트도 `x` 값과 `xChange` 이벤트 패턴을 따르지 않습니다.
+  `<input>`과 `<select>` 같은 HTML 폼 엘리먼트에 양방향 바인딩을 사용하는 것은 편리합니다.
+  하지만 어떠한 네이티브 HTML 엘리먼트도 `x` 값과 `xChange` 이벤트 패턴을 따르지 않습니다.
 
-  We'd like to use two-way binding with HTML form elements like `<input>` and `<select>`.
-  Sadly, no native HTML element follows the `x` value and `xChange` event pattern.
-=======
   It would be convenient to use two-way binding with HTML form elements like `<input>` and `<select>`.
   However, no native HTML element follows the `x` value and `xChange` event pattern.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
   다행히도 Angular [_NgModel_](#ngModel) 지시자는 폼 엘리먼트가 양방향 바인딩을 가능하게 하는 가교 역할을 합니다.
 
   Fortunately, the Angular [_NgModel_](#ngModel) directive is a bridge that enables two-way binding to form elements.
 
-<<<<<<< HEAD
-a#ngModel
-.l-main-section
-:marked
-  ## NgModel을 사용한 양방향 바인딩
-  ## Two-way binding with NgModel
-  데이터 입력 폼을 개발할 때, 종종 데이터 프로퍼티를 보여주고 사용자가 변경을 하면 그 프로퍼티를 업데이트 하기를 원합니다.
-
-  When developing data entry forms, we often want to both display a data property and update that property when the user makes changes.
-
-  `NgModel` 지시자를 사용한 양방향 데이터 바인딩은 이것을 쉽게 해줍니다. 다음은 그 예입니다:
-
-  Two-way data binding with the `NgModel` directive makes that easy. Here's an example:
-+makeExcerpt('app/app.component.html', 'NgModel-1', '')
-
-+ifDocsFor('ts|js')
-  .callout.is-important
-    header ngModel을 사용하려면 FormsModule이 필요합니다.
-    header FormsModule is Required to use ngModel
-    :marked
-      양방향 데이터 바인딩에서 `ngModel` 지시자를 사용하기 전에,
-      `FormsModule`을 임포트해야 하고 Angular 모듈의 `imports` 목록에 추가해야합니다.
-      `FormsModule` 과 `ngModel`에 대해
-      [폼](../guide/forms.html#ngModel) 챕터에서 더 자세히 알아보세요.
-
-      Before we can use the `ngModel` directive in a two-way data binding,
-      we must import the `FormsModule` and add it to the Angular module's `imports` list.
-      Learn more about the `FormsModule` and `ngModel` in the
-      [Forms](../guide/forms.html#ngModel) chapter.
-  :marked
-    다음은 `[(ngModel)]`을 가능하게 하는 `FormsModule`을 임포트 하는 방법입니다.
-
-    Here's how to import the `FormsModule` to make `[(ngModel)]` available.
-  +makeExcerpt('app/app.module.1.ts (FormsModule import)', '')
-=======
 a(href="#toc") back to top
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 .l-hr
 a#directives
 :marked
-<<<<<<< HEAD
-  ### `[(ngModel)]` 내부
-  ### Inside `[(ngModel)]`
-  `firstName` 바인딩을 되돌아 보면 `<input>` 엘리먼트의 `value` 프로퍼티와
-  `input` 이벤트에 각각 바인딩하여 같은 결과를 얻을 수 있다는 것을 
-  기억하는 것이 중요합니다.
-
-  Looking back at the `firstName` binding, it's important to note that
-  we could have achieved the same result with separate bindings to
-  the `<input>` element's  `value` property and `input` event.
-+makeExample('template-syntax/ts/app/app.component.html', 'without-NgModel')(format=".")
-:marked
-  성가신 일이군요. 어떤 엘리먼트 프로퍼티를 설정해야 하고 어떤 엘리먼트 이벤트가 사용자 변경사항을 방출하는지 누가 기억할 수 있을까요?
-  어떻게 입력 상자에서 현재 표시된 텍스트를 가져와서 데이터 프로퍼티를 업데이트 할 수 있을까요?
-  누가 매번 그걸 살펴보길 원할까요?
-
-  That’s cumbersome. Who can remember which element property to set and which element event emits user changes?
-  How do we extract the currently displayed text from the input box so we can update the data property?
-  Who wants to look that up each time?
-
-  `ngModel` 지시자는 자체의 `ngModel` 인풋과 `ngModelChange` 아웃풋 프로퍼티 뒤에 이러한 번거로운 세부사항을 숨깁니다.
-
-  That `ngModel` directive hides these onerous details behind its own  `ngModel` input and `ngModelChange` output properties.
-+makeExample('template-syntax/ts/app/app.component.html', 'NgModel-3')(format=".")
-.l-sub-section
-  :marked
-    `ngModel` 데이터 프로퍼티는 엘리먼트의 값 프로퍼티를 설정하고 `ngModelChange` 이벤트 프로퍼티는
-    엘리먼트 값의 변경사항을 듣고 있습니다.    
-
-    The `ngModel` data property sets the element's value property and the `ngModelChange` event property
-    listens for changes to the element's value.
-    
-    세부사항은 각각의 엘리먼트 종류에 따라 다르므로 `NgModel` 지시자는, 
-    [ControlValueAccessor](../api/forms/index/ControlValueAccessor-interface.html)에서 지원하는 입력 텍스트 상자와 같은, 오직 특정 폼 엘리먼트에만 작동합니다.
-
-    The details are specific to each kind of element and therefore the `NgModel` directive only works for specific form elements,
-    such as the input text box, that are supported by a [ControlValueAccessor](../api/forms/index/ControlValueAccessor-interface.html).
-
-    이번 챕터의 범위를 벗어나는 기술인 *값 접근자(value accessor)*를 작성하지 않는 이상 `[(ngModel)]`을 커스텀 컴포넌트에 적용할 수는 없습니다.
-    이것은 제어할 수 없는 API를 가진 Angular 컴포넌트나 WebComponent에 대해 하고자 하는 작업일 것입니다.
-
-    We can't apply `[(ngModel)]` to a custom component until we write a suitable *value accessor*,
-    a technique that is beyond the scope of this chapter.
-    That's something we might want to do for an Angular component or a WebComponent whose API we can't control.
-    
-    _제어_ 가능한 Angular 컴포넌트에게는 전혀 필요없는 일입니다 ... 왜냐하면 
-    Angular의 기본 [양방향 바인딩 구문](#two-way)에 적합하도록 값과 이벤트 프로퍼티의 이름을 정하여 완전히 `NgModel`을 건너뛸수 있기 때문입니다.
-
-    It's completely unnecessary for an Angular component that we _do_ control ... because we can name the value and event properties
-    to suit Angular's basic [two-way binding syntax](#two-way) and skip `NgModel` altogether.
-
-:marked
-  분리된 `ngModel` 바인딩은 엘리먼트의 네이티브 프로퍼티에 바인딩하는 것 보다 개선된 기능입니다. 더 개선할 수 있습니다.
-
-  Separate `ngModel` bindings is an improvement over binding to the element's native properties. We can do better.
-
-  데이터 프로퍼티를 두번 언급하지 않아도 됩니다. Angular는 컴포넌트의 데이터 프로퍼티를 캡쳐하여
-  단일 선언으로 설정할 수 있어야 합니다. 이것은 `[(ngModel)]` 구문으로 할 수 있습니다.
-
-  We shouldn't have to mention the data property twice. Angular should be able to capture the component’s data property and set it
-  with a single declaration &mdash; which it can with the `[(ngModel)]` syntax:
-+makeExample('template-syntax/ts/app/app.component.html', 'NgModel-1')(format=".")
-:marked
-  우리가 필요한 것은 `[(ngModel)]`이 전부일까요? 확장된 형태로 돌아가야할 이유가 있기는 할까요?
-
-  Is `[(ngModel)]` all we need? Is there ever a reason to fall back to its expanded form?
-
-  `[(ngModel)]` 구문은 오직 데이터형(data-bound) 프로퍼티를 _설정_할 수 있습니다.
-  만약 무엇인가 더 필요하거나 무엇인가 다른게 필요하다면, 우리 스스로 확장된 형태로 작성해야 합니다.
-
-  The `[(ngModel)]` syntax can only _set_ a data-bound property.
-  If we need to do something more or something different, we need to write the expanded form ourselves.
-
-  입력 값을 대문자로 강제하는 것과 같은 간단한 것을 해보겠습니다:
-
-  Let's try something silly like forcing the input value to uppercase:
-+makeExample('template-syntax/ts/app/app.component.html', 'NgModel-4')(format=".")
-:marked
-  여기에는 uppercase를 사용한 버전을 포함하여 다양한 버전이 있습니다.
-
-  Here are all variations in action, including the uppercase version:
-figure.image-display
-    img(src='/resources/images/devguide/template-syntax/ng-model-anim.gif' alt="NgModel variations")
-
-.l-main-section
-:marked
-  <a id="directives"></a>
   ## 내장 지시자
   ## Built-in directives
 
@@ -2237,37 +1773,20 @@ figure.image-display
   상당 부분은 보다 기능적이고 표현력 있는 Angular 바인딩 시스템으로 동일한 결과를 얻을 수 있습니다.
   왜 다음과 같은 간단한 바인딩을 작성할 때 클릭 처리 지시자를 만들까요?
 
-  We don’t need many of those directives in Angular.
-  Quite often we can achieve the same results with the more capable and expressive Angular binding system.
-  Why create a directive to handle a click when we can write a simple binding such as this?
-+makeExample('template-syntax/ts/app/app.component.html', 'event-binding-1')(format=".")
-:marked
-  복잡한 작업을 간략화하는 지시자로부터 혜택을 볼 수 있습니다.
-  Angular는 그렇게 많지는 않지만 여전히 내장 지시자를 배포하고 있습니다.
-  우리 자신만의 지시자를 몇개 만들어 보겠습니다.
-
-  We still benefit from directives that simplify complex tasks.
-  Angular still ships with built-in directives; just not as many.
-  We'll write our own directives, just not as many.
-
-  이 세그먼트에서는 가장 자주 사용되는 내장 지시자를 살펴보겠습니다.
-
-  This segment reviews some of the most frequently used built-in directives.
-=======
-  ## Built-in directives
-
-  Earlier versions of Angular included over seventy built-in directives.
-  The community contributed many more, and countless private directives
-  have been created for internal applications.
-
   You don't need many of those directives in Angular.
   You can often achieve the same results with the more capable and expressive Angular binding system.
   Why create a directive to handle a click when you can write a simple binding such as this?
 +makeExample('template-syntax/ts/src/app/app.component.html', 'event-binding-1')(format=".")
 :marked
+  복잡한 작업을 간략화하는 지시자로부터 혜택을 볼 수 있습니다.
+  Angular는 그렇게 많지는 않지만 여전히 내장 지시자를 배포하고 있습니다.
+  우리 자신만의 지시자를 몇개 만들어 보겠습니다.
+
   You still benefit from directives that simplify complex tasks.
   Angular still ships with built-in directives; just not as many.
   You'll write your own directives, just not as many.
+
+  이 세그먼트에는 [_속성_ 지시자(attribute directives)](#attribute-directives)또는 [_구조_ 지시자(structural directives)](#structural-directives)로 분류되는 가장 많이 사용되는 내장 지시자를 살펴보겠습니다.
 
   This segment reviews some of the most frequently used built-in directives,
   classified as either [_attribute_ directives](#attribute-directives) or [_structural_ directives](#structural-directives).
@@ -2275,23 +1794,38 @@ figure.image-display
 .l-hr
 a#attribute-directives
 :marked
+  ## 내장 _속성_ 지시자
   ## Built-in _attribute_ directives
+
+  속성 지시자는 다른 HTML 요소, 속성, 프로퍼티 및 컴포넌트의 동작을 수신하고 수정합니다.
+  일반적으로 HTML 속성 인 것처럼 요소에 적용되므로, 이름이 적용됩니다.
 
   Attribute directives listen to and modify the behavior of
   other HTML elements, attributes, properties, and components. 
   They are usually applied to elements as if they were HTML attributes, hence the name.
+
+  많은 세부 사항은 [_Attribute Directives_](attribute-directives.html) 가이드에서 다룹니다.
+  [`RouterModule`](router.html "Routing and Navigation")과 [`FormsModule`](forms.html "Forms")과 같은 Angular 모듈에는 고유 한 속성 지시자가 있습니다.
+  이 섹션은 가장 일반적으로 사용되는 속성 지시자에 대한 소개입니다: 
 
   Many details are covered in the [_Attribute Directives_](attribute-directives.html) guide.
   Many Angular modules such the [`RouterModule`](router.html "Routing and Navigation") 
   and the [`FormsModule`](forms.html "Forms") have their own attribute directives.
   This section is an introduction to the most commonly used attribute directives:
 
+  * [`NgClass`](#ngClass) - CSS 클래스 집합 추가 및 제거
+
   * [`NgClass`](#ngClass) - add and remove a set of CSS classes
+
+  * [`NgStyle`](#ngStyle) - HTML 스타일 집합 추가 및 제거
+
   * [`NgStyle`](#ngStyle) - add and remove a set of HTML styles
+
+  * [`NgModel`](#ngModel) - HTML 폼 요소에 양방향 데이터 바인딩
+
   * [`NgModel`](#ngModel) - two-way data binding to an HTML form element
 
 a(href="#toc") back to top
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 .l-hr
 a#ngClass
@@ -2312,51 +1846,32 @@ a#ngClass
   A [class binding](#class-binding) is a good way to add or remove a *single* class.
 +makeExample('template-syntax/ts/src/app/app.component.html', 'class-binding-3a')(format=".")
 :marked
-<<<<<<< HEAD
-  *많은* CSS 클래스를 동시에 추가하거나 제거하는 경우
-  `NgClass` 지시자가 좀 더 좋은 선택입니다.
+  *많은* CSS 클래스를 동시에 추가하거나 제거하기 위해, `NgClass` 지시자가 좀 더 좋은 선택입니다.
 
-  The `NgClass` directive may be the better choice
-  when we want to add or remove *many* CSS classes at the same time.
+  To add or remove *many* CSS classes at the same time, the `NgClass` directive may be the better choice.
 
-  `NgClass`를 적용하는 좋은 방법은 key:value 제어 !{__objectAsMap_ko}에 바인딩하는 것입니다.
+  key:value 제어 !{__objectAsMap_ko}에 `NgClass`를 바인딩하세요.
   각 객체의 키는 CSS 클래스 이름입니다; 그것의 값은 클래스가 추가되어야 할 경우 `true`,
   제거되어야 할 경우 `false`가 됩니다.
 
-  A good way to apply `NgClass` is by binding it to a key:value control !{__objectAsMap}. 
-=======
-  To add or remove *many* CSS classes at the same time, the `NgClass` directive may be the better choice.
-
   Try binding `ngClass` to a key:value control !{__objectAsMap}. 
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   Each key of the object is a CSS class name; its value is `true` if the class should be added, 
   `false` if it should be removed.
 
 :marked
-<<<<<<< HEAD
   컴포넌트 프로퍼티 `currentClasses` 객체를 설정하는 컴포넌트 메소드 `setCurrentClasses`를 생각해보겠습니다.
   이것은 3개의 다른 컴포넌트 프로퍼티의 `true`/`false` 상태에 따라
   3개의 클래스를 추가하거나 제거합니다.
 
-  Consider a 
-  `setCurrentClasses` component method that sets a component property, `currentClasses`
-  with an object that adds or removes three classes based on the 
-  `true`/`false` state of three other component propertes:
-+makeExample('template-syntax/ts/app/app.component.ts', 'setClasses')(format=".")
-:marked
-  다음과 같이 `NgClass` 프로퍼티 바인딩을 추가하여 `currentClasses`가 엘리먼트의 클래스를 설정하도록 하세요:
-
-  Adding an `NgClass` property binding to `currentClasses` sets the element's classes accordingly:  
-+makeExample('template-syntax/ts/app/app.component.html', 'NgClass-1')(format=".")
-=======
   Consider a `setCurrentClasses` component method that sets a component property, 
   `currentClasses` with an object that adds or removes three classes based on the 
   `true`/`false` state of three other component properties:
 +makeExample('template-syntax/ts/src/app/app.component.ts', 'setClasses')(format=".")
 :marked
+  다음과 같이 `NgClass` 프로퍼티 바인딩을 추가하여 `currentClasses`가 엘리먼트의 클래스를 설정하도록 하세요:
+
   Adding an `ngClass` property binding to `currentClasses` sets the element's classes accordingly:  
 +makeExample('template-syntax/ts/src/app/app.component.html', 'NgClass-1')(format=".")
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 .l-sub-section
   :marked
     종속되는 프로퍼티가 변경되거나 초기화 할 때, `setCurrentClasses()`를 호출하는 것은 여러분에게 달려있습니다.
@@ -2369,39 +1884,26 @@ a(href="#toc") back to top
 a#ngStyle
 :marked
   ### NgStyle
-<<<<<<< HEAD
   ### NgStyle
-  우리는 컴포넌트의 상태에 따라 동적으로 인라인 스타일을 설정할 수 있습니다.
+  컴포넌트의 상태에 따라 동적으로 인라인 스타일을 설정할 수 있습니다.
   `NgStyle`에 바인딩하여 많은 인라인 스타일을 동시에 설정할 수 있습니다.
 
-  We can set inline styles dynamically, based on the state of the component.
-  Binding to `NgStyle` lets us set many inline styles simultaneously.
-=======
   You can set inline styles dynamically, based on the state of the component.
   With `NgStyle` you can set many inline styles simultaneously.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
   [스타일 바인딩](#style-binding)은 *단일* 스타일 값을 설정하는 간단한 방법입니다.
 
   A [style binding](#style-binding) is an easy way to set a *single* style value.
 +makeExample('template-syntax/ts/src/app/app.component.html', 'NgStyle-1')(format=".")
 :marked
-<<<<<<< HEAD
-  *많은* CSS 인라인 스타일을 동시에 추가하거나 제거하는 경우
-  `NgStyle` 지시자가 좀 더 좋은 선택입니다.
+  *많은* CSS 인라인 스타일을 동시에 추가하거나 제거하려면, `NgStyle` 지시자가 좀 더 좋은 선택입니다.
 
-  The `NgStyle` directive may be the better choice
-  when we want to set *many* inline styles at the same time.
-
-  `NgStyle`을 적용하는 좋은 방법은 key:value 제어 !{__objectAsMap_ko}에 바인딩하는 것입니다.
-  각 객체의 키는 스타일 이름입니다; 그것의 값은 해당 스타일에 적합한 어떤 것입니다.
-
-  We apply `NgStyle` by binding it to a key:value control !{__objectAsMap}.
-=======
   To set *many* inline styles at the same time, the `NgStyle` directive may be the better choice.
 
+  key:value 제어 !{__objectAsMap_ko}에 `NgStyle`을 바인딩하세요.
+  각 객체의 키는 스타일 이름입니다; 그것의 값은 해당 스타일에 적합한 어떤 것입니다.
+
   Try binding `ngStyle` to a key:value control !{__objectAsMap}.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   Each key of the object is a style name; its value is whatever is appropriate for that style.
 
   컴포넌트 프로퍼티 `currentStyles` 객체를 설정하는 컴포넌트 메소드 `setCurrentStyles`를 생각해보겠습니다.
@@ -2411,15 +1913,10 @@ a#ngStyle
   with an object that defines three styles, based on the state of three other component propertes:
 +makeExample('template-syntax/ts/src/app/app.component.ts', 'setStyles')(format=".")
 :marked
-<<<<<<< HEAD
   다음과 같이 `NgStyle` 프로퍼티 바인딩을 추가하여 `currentStyles`가 엘리먼트의 스타일을 설정하도록 하세요:
 
-  Adding an `NgStyle` property binding to `currentStyles` sets the element's styles accordingly:
-+makeExample('template-syntax/ts/app/app.component.html', 'NgStyle-2')(format=".")
-=======
   Adding an `ngStyle` property binding to `currentStyles` sets the element's styles accordingly:
 +makeExample('template-syntax/ts/src/app/app.component.html', 'NgStyle-2')(format=".")
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 .l-sub-section
   :marked
     종속되는 프로퍼티가 변경되거나 초기화 할 때, `setCurrentStyles()`를 호출하는 것은 여러분에게 달려있습니다.
@@ -2431,104 +1928,73 @@ a(href="#toc") back to top
 .l-hr
 a#ngModel
 :marked
-<<<<<<< HEAD
-  ### NgIf
-  ### NgIf
-  `NgIf` 지시자를 #{_truthy_ko}인 표현식에 바인딩하여 DOM에 엘리먼트 하위트리(엘리먼트와 그 자식들)를 추가할 수 있습니다.
-
-  We can add an element subtree (an element and its children) to the DOM  by binding an `NgIf` directive to a #{_truthy} expression.
-+makeExample('template-syntax/ts/app/app.component.html', 'NgIf-1')(format=".")
-=======
+  ### NgModel - <span class="syntax">[(ngModel)]</span>로 폼 요소에 양방향 바인딩
   ### NgModel - Two-way binding to form elements with <span class="syntax">[(ngModel)]</span>
+  
+  데이터 입력 양식을 개발할 때, 사용자가 변경하면 데이터 프로퍼티를 표시하고 해당 속성을 업데이트하는 경우가 많습니다.
+
   When developing data entry forms, you often both display a data property and 
   update that property when the user makes changes.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
+
+  `NgModel` 지시자와 양방향 데이터 바인딩은 그렇게 쉽게 만듭니다. 다음은 그 예입니다:
 
   Two-way data binding with the `NgModel` directive makes that easy. Here's an example:
 +makeExcerpt('src/app/app.component.html', 'NgModel-1', '')
 
 +ifDocsFor('ts|js')
   :marked
-<<<<<<< HEAD
-    `ngIf` 앞에 별표 (`*`)를 잊지 마세요.
-    보다 자세한 내용은 [\* 와 &lt;template>](#star-template)에서 확인하세요.
-
-    Don't forget the asterisk (`*`) in front of `ngIf`.
-    For more information, see [\* and &lt;template>](#star-template).
-:marked
-  #{_falsey_ko}인 표현식에 바인딩하면 DOM에서 엘리먼트 하위트리를 제거합니다.
-
-  Binding to a #{_falsey} expression removes the element subtree from the DOM.
-+makeExample('template-syntax/ts/app/app.component.html', 'NgIf-2')(format=".")
-=======
+    #### _FormsModule_은 _ngModel_을 사용해야합니다.
     #### _FormsModule_ is required to use _ngModel_
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
+
+    양방향 데이터 바인딩에서 `ngModel`지시자를 사용하기 전에 `FormsModule`을 가져 와서 Angular 모듈의 `imports`리스트에 추가해야합니다.
+    [Forms](../guide/forms.html#ngModel) 가이드의 `FormsModule` 과 `ngModel`에 대해 자세히 알아보세요.
 
     Before using the `ngModel` directive in a two-way data binding,
     you must import the `FormsModule` and add it to the Angular module's `imports` list.
     Learn more about the `FormsModule` and `ngModel` in the
     [Forms](../guide/forms.html#ngModel) guide.
 
+    `FormsModule`을 임포트하여 `[(ngModel)]`을 사용할수 있게하는 방법은 다음과 같습니다.
+
     Here's how to import the `FormsModule` to make `[(ngModel)]` available.
   +makeExcerpt('src/app/app.module.1.ts (FormsModule import)', '')
 
 :marked
-<<<<<<< HEAD
-  #### Visibility와 NgIf는 다릅니다.
-  #### Visibility and NgIf are not the same
-
-  [클래스](#class-binding) 또는 [스타일](#style-binding) 바인딩으로
-  엘리먼트 하위트리(엘리먼트와 그 자식들)을 보이거나 숨길 수 있습니다:
-
-  We can show and hide an element subtree (the element and its children) with a
-  [class](#class-binding) or [style](#style-binding) binding:
-+makeExample('template-syntax/ts/app/app.component.html', 'NgIf-3')(format=".")
-:marked
-  하위트리를 숨기는 것은 `NgIf`로 하위트리를 제외하는 것과는 다릅니다.
-
-  Hiding a subtree is quite different from excluding a subtree with `NgIf`.
-
-  엘리먼트 하위트리를 숨겨도 DOM에는 남아있습니다.
-  하위트리의 컴포넌트들은 그들의 상태정보와 함께 보존됩니다.
-  Angular는 숨겨진 프로퍼티에 대해서도 지속적으로 변경사항을 확인합니다.
-  하위트리는 상당한 메모리와 컴퓨팅 자원을 차지할 수 있습니다.
-
-  When we hide the element subtree, it remains in the DOM.
-  Components in the subtree are preserved, along with their state.
-  Angular may continue to check for changes even to invisible properties.
-  The subtree may tie up substantial memory and computing resources.
-
-  `NgIf`가 `false`인 경우, Angular는 DOM에서 하위트리를 물리적으로 제거합니다.
-  하위트리에서 상태와 함께 컴포넌트를 파괴하고, 상당한 자원을 확보하여
-  사용자에게 더 나은 성능을 제공합니다.
-
-  When `NgIf` is `false`, Angular physically removes the element subtree from the DOM.
-  It destroys components in the subtree, along with their state, potentially freeing up substantial resources and
-  resulting in better performance for the user.
-
-  표시/숨기기 기술을 작은 엘리먼트 트리에 사용할 때는 괜찮을 수 있습니다.
-  큰 트리를 숨길때는 조심해야 합니다; `NgIf`가 보다 안전한 선택일 수 있습니다. 항상 결론을 내기 전에 검증해보세요.
-
-  The show/hide technique is probably fine for small element trees.
-  We should be wary when hiding large trees; `NgIf` may be the safer choice. Always measure before leaping to conclusions.
-=======
+  #### 내부 <span class="syntax">[(ngModel)]</span>
   #### Inside <span class="syntax">[(ngModel)]</span>
+
+  `firstName` 바인딩을 살펴보면,
+  `input`요소의 `value`속성과 `input`이벤트에 대한 별도의 바인딩을 사용하여 동일한 결과를 얻을 수 있었습니다.
+
   Looking back at the `firstName` binding, note that
   you could have achieved the same result with separate bindings to
   the `<input>` element's  `value` property and `input` event.
 +makeExample('template-syntax/ts/src/app/app.component.html', 'without-NgModel')(format=".")
 :marked
+  매우 번거롭죠. 어떤 요소 속성을 설정하고 어떤 요소 이벤트가 사용자 변경 사항을 발생 시키는지 누가 기억할 수 있습니까?
+  어떻게 데이터 속성을 업데이트 할 수 있도록 입력 상자에서 현재 표시된 텍스트를 뽑아낼까요?
+  누가 매번 그걸 보길 원할까요?
+
   That's cumbersome. Who can remember which element property to set and which element event emits user changes?
   How do you extract the currently displayed text from the input box so you can update the data property?
   Who wants to look that up each time?
+
+
+  `ngModel` 지시자는 자신의 `ngModel` 입력과 `ngModelChange` 출력 속성 뒤에 이러한 번거로운 세부 사항을 숨 깁니다.
 
   That `ngModel` directive hides these onerous details behind its own  `ngModel` input and `ngModelChange` output properties.
 +makeExample('template-syntax/ts/src/app/app.component.html', 'NgModel-3')(format=".")
 .l-sub-section
   :marked
+    `ngModel` 데이터 속성은 요소의 값 속성을 설정하고, `ngModelChange` 이벤트 속성은 요소 값의 변경 사항을 수신합니다.
+
     The `ngModel` data property sets the element's value property and the `ngModelChange` event property
     listens for changes to the element's value.
     
+    세부사항은 각 요소의 종류에 따라 다르므로 `NgModel` 지시자는 요소가 프로토콜에 적용하는 [ControlValueAccessor](../api/forms/index/ControlValueAccessor-interface.html)가 지원하는 요소에 대해서만 작동합니다.
+    `<input>`상자는 그 요소 중 하나입니다.
+    Angular는 모든 기본 HTML 폼 요소에 *value accessors*를 제공하고 [_폼_](forms.html) 가이드에는 그것들을 어떻게 바인딩하는지 나와 있습니다.
+
     The details are specific to each kind of element and therefore the `NgModel` directive only works for an element 
     supported by a [ControlValueAccessor](../api/forms/index/ControlValueAccessor-interface.html)
     that adapts an element to this protocol.
@@ -2536,25 +2002,41 @@ a#ngModel
     Angular provides *value accessors* for all of the basic HTML form elements and the
     [_Forms_](forms.html) guide shows how to bind to them.
 
+    이 가이드의 범위를 벗어나는 기술인 적절한 *value accessor*를 작성할 때까지, 폼이 아닌 기본 요소 또는 써드파티 사용자 지정 구성 요소에 `[(ngModel)]`을 적용 할 수 없습니다.
+
     You can't apply `[(ngModel)]` to a non-form native element or a third-party custom component until you write a suitable *value accessor*,
     a technique that is beyond the scope of this guide.
     
+    Angular의 기본 [양방향 바인딩 구문](#two-way)에 맞게하고 `NgModel`을 건너 뛰기 위해 값 및 이벤트 속성의 이름을 지정할 수 있으므로 작성하는 Angular 구성 요소에는 _value accessor_가 필요하지 않습니다.
+    [위의 `sizer`](#two-way)는 이 기술의 한 예입니다.
+
     You don't need a _value accessor_ for an Angular component that you write because you can name the value and event properties
     to suit Angular's basic [two-way binding syntax](#two-way) and skip `NgModel` altogether.
     The [`sizer` shown above](#two-way) is an example of this technique.
 
 :marked
+  별도의 `ngModel` 바인딩은 요소의 네이티브 속성에 바인딩하는 것보다 개선된 기능입니다. 당신은 더 잘 수 있어요.
+
   Separate `ngModel` bindings is an improvement over binding to the element's native properties. You can do better.
+
+  데이터 속성을 두 번 언급하지 않아도 됩니다.
+  Angular는 컴포넌트의 데이터 속성을 캡처하고 `[(ngModel)]` 구문을 사용하여 단일 선언으로 설정할 수 있어야 합니다:
 
   You shouldn't have to mention the data property twice. Angular should be able to capture the component's data property and set it
   with a single declaration, which it can with the `[(ngModel)]` syntax:
 +makeExample('template-syntax/ts/src/app/app.component.html', 'NgModel-1')(format=".")
 :marked
+  `[(ngModel)]`이 모두 필요할까요? 확장 된 형태로 돌아갈 이유가 있을까요?
+
   Is `[(ngModel)]` all you need? Is there ever a reason to fall back to its expanded form?
+
+  `[(ngModel)]` 구문은 데이터 바인딩된 속성 만 가질 수 있습니다.
+  더 많은 것을 하거나 뭔가 다른 것을해야 한다면, 확장된 폼을 작성할 수 있습니다.
 
   The `[(ngModel)]` syntax can only _set_ a data-bound property.
   If you need to do something more or something different, you can write the expanded form.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
+
+  다음의 인위적인 예는 입력값을 대문자로 강제합니다:
 
   The following contrived example forces the input value to uppercase:
 +makeExample('template-syntax/ts/src/app/app.component.html', 'NgModel-4')(format=".")
@@ -2563,85 +2045,6 @@ a#ngModel
 figure.image-display
     img(src='/resources/images/devguide/template-syntax/ng-model-anim.gif' alt="NgModel variations")
 :marked
-<<<<<<< HEAD
-  ### NgSwitch
-  ### NgSwitch
-  어떤 조건에 따라 가능한 엘리먼트 트리의 *세트*에서 *하나*의 엘리먼트 트리(엘리먼트와 그 자식들)를
-  표시하려고 한다면 `NgSwitch`에 바인딩하세요.
-  Angular는 DOM에 오직 *선택된* 엘리먼트 트리만 표시합니다.
-
-  We bind to `NgSwitch` when we want to display *one* element tree (an element and its children)
-  from a *set* of possible element trees, based on some condition.
-  Angular puts only the *selected* element tree into the DOM.
-
-  다음은 그 예입니다:
-
-  Here’s an example:
-+makeExample('template-syntax/ts/app/app.component.html', 'NgSwitch')(format=".")
-:marked
-  부모 `NgSwitch` 지시자를 *switch 값*을 반환하는 표현식에 바인딩합니다.
-  이번 예제에서 값은 문자열입니다, 그러나 값은 어느 타입이라도 가능합니다.
-
-  We bind the parent `NgSwitch` directive to an expression returning a *switch value*.
-  The value is a string in this example, but it can be a value of any type.
-
-  이번 예제에서, 부모 `NgSwitch` 지시자는 자식 `<span>` 엘리먼트를 제어합니다.
-  `<span>`은 *일치하는 값* 표현식 또는 기본 값으로 정해집니다.
-
-  In this example, the parent `NgSwitch` directive controls a set of child `<span>` elements.
-  A `<span>` is either pegged to a *match value* expression or marked as the default.
-
-  **특정 시점에 이 *span*들 중에 하나만 DOM 안에 있게 됩니다.**
-
-  **At any particular moment, at most one of these *spans* is in the DOM.**
-
-  만약 *span*의 *일치하는 값*이 switch 값과 같으면, Angular는 `<span>`을 DOM에 추가합니다.
-  만약 *span* 중에 일치하는 값이 없다면, Angular는 기본 *span*을 DOM에 추가합니다.
-  Angular는 다른 모든 *span*을 제거하고 파괴합니다.
-
-  If the *span*’s *match value* equals the switch value, Angular adds the `<span>` to the DOM.
-  If none of the *spans* is a match, Angular adds the default *span* to the DOM.
-  Angular removes and destroys all other *spans*.
-.l-sub-section
-  :marked
-    이번 예제의 *span*은 어떤 엘리먼트로도 교체 가능합니다.
-    그 엘리먼트는 커다란 하위트리를 가진 `<div>`가 될 수 있습니다.
-    오직 일치하는 `<div>`와 그 하위트리만 DOM에 보이게 됩니다;
-    다른 것들은 제거됩니다.
-
-    We could substitute any element for the *span* in this example.
-    That element could be a `<div>` with a vast subtree of its own elements.
-    Only the matching `<div>` and its subtree would appear in the DOM;
-    the others would be removed.
-:marked
-  여기서 세 가지의 협력 지시자가 동작하고 있습니다:
-
-  Three collaborating directives are at work here:
-
-  1. `ngSwitch`: switch 값을 반환하는 표현식에 바인딩
-
-  1. `ngSwitch`: bound to an expression that returns the switch value
-
-  1. `ngSwitchCase`: 일치하는 값을 반환하는 표현식에 바인딩
-
-  1. `ngSwitchCase`: bound to an expression returning a match value
-
-  1. `ngSwitchDefault`: 기본 엘리먼트 속성 표시자
-
-  1. `ngSwitchDefault`: a marker attribute on the default element
-
-.alert.is-critical
-  :marked
-    `ngSwitch` 앞에 별표 (`*`)를 사용하면 ***안* 됩니다**. 대신에 프로퍼티 바인딩을 사용하세요.
-
-    **Do *not*** put the asterisk (`*`) in front of `ngSwitch`. Use the property binding instead.
-
-    `ngSwitchCase`와 `ngSwitchDefault` 앞에 별표 (`*`)를 **붙이세요**.
-    [\* 와 &lt;template>](#star-template)에서 자세히 알아보세요.
-
-    **Do** put the asterisk (`*`) in front of `ngSwitchCase` and `ngSwitchDefault`.
-    For more information, see [\* and &lt;template>](#star-template).
-=======
   &nbsp;
 
 a(href="#toc") back to top
@@ -2649,32 +2052,65 @@ a(href="#toc") back to top
 .l-hr
 a#structural-directives
 :marked
+  ## 내장 _구조_ 지시문
   ## Built-in _structural_ directives
+
+  구조 지시문은 HTML 레이아웃을 담당합니다.
+  일반적으로 DOM은 호스트 요소를 추가, 제거 및 조작하여 DOM _구조_를 형성하거나 변형합니다.
 
   Structural directives are responsible for HTML layout.
   They shape or reshape the DOM's _structure_, typically by adding, removing, and manipulating
   the host elements to which they are attached.
 
+  구조 지시문에 대한 자세한 내용은 [_구조 지시자_](structural-directives.html) 가이드에서 다룰 것입니다:
+
   The deep details of structural directives are covered in the 
   [_Structural Directives_](structural-directives.html) guide
   where you'll learn:
+
+  * [_지시자 이름앞에 별표(\*)를 붙이는 이유_](structural-directives.html#asterisk "The * in *ngIf")
+  
   * why you 
   [_prefix the directive name with an asterisk_ (\*)](structural-directives.html#asterisk "The * in *ngIf").
+  
+  * 지시자에 적합한 호스트 요소가 없을 때 요소를 그룹화하기 위해 [`<ng-container>`](structural-directives.html#ngcontainer "<ng-container>")를 사용
+
   * to use [`<ng-container>`](structural-directives.html#ngcontainer "<ng-container>")
   to group elements when there is no suitable host element for the directive.
+  
+  * 자신의 구조 지시문 작성 방법
+
   * how to write your own structural directive.
+  
+  * [하나의 구조 지시자](structural-directives.html#one-per-element "one per host element")에만 적용 할 수 있습니다.
+
   * that you can only apply [one structural directive](structural-directives.html#one-per-element "one per host element") to an element.
+
+  _이_ 절은 일반적인 구조 지시자에 대해 소개합니다.
 
   _This_ section is an introduction to the common structural directives:
 
+  * [`NgIf`](#ngIf) - 조건부로 DOM에 요소를 추가하거나 제거합니다.
+
   * [`NgIf`](#ngIf) - conditionally add or remove an element from the DOM
+
+  * [`NgFor`](#ngFor) - 목록의 각 항목에 템플릿을 반복합니다.
+
   * [`NgFor`](#ngFor) - repeat a template for each item in a list
+
+  * [`NgSwitch`](#ngSwitch) - 대체 뷰를 전환하는 지시자 모음입니다.
+
   * [`NgSwitch`](#ngSwitch) - a set of directives that switch among alternative views
 
 .l-hr
 a#ngIf
 :marked
   ### NgIf
+  ### NgIf
+  
+  (_호스트 요소_라고 부르는) 해당 요소에 `NgIf` 지시자를 적용하여 DOM에 요소를 추가하거나 제거 할 수 있습니다.
+  이 예제에서 지시자를 `isActive`와 같은 조건식에 바인딩하세요.
+
   You can add or remove an element from the DOM by applying an `NgIf` directive to
   that element (called the _host elment_).
   Bind the directive to a condition expression like `isActive` in this example.
@@ -2682,31 +2118,22 @@ a#ngIf
 
 .alert.is-critical
   :marked
+    `ngIf` 앞에 별표 (`*`)를 잊지 마세요.
+
     Don't forget the asterisk (`*`) in front of `ngIf`.
 :marked
+  `isActive` 표현식이 #{_truthy} 값을 반환하면, `NgIf`는 `HeroDetailComponent`를 DOM에 추가합니다.
+  표현식이 #{_falsy}인 경우, `NgIf`는 DOM에서 `HeroDetailComponent`를 제거하여 해당 컴포넌트와 모든 하위 컴포넌트를 파괴합니다.
+
   When the `isActive` expression returns a #{_truthy} value, `NgIf` adds the `HeroDetailComponent` to the DOM.
   When the expression is #{_falsy}, `NgIf` removes the `HeroDetailComponent`
   from the DOM, destroying that component and all of its sub-components.
 
 block dart-no-truthy-falsy
   //- N/A
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 :marked
-<<<<<<< HEAD
-  ### NgFor
-  ### NgFor
-
-  `NgFor`는 지시자 _반복기_ 입니다 &mdash;데이터 표시를 사용자 정의하는 방법.
-
-  `NgFor` is a _repeater_ directive &mdash; a way to customize data display.
-
-  우리의 목표는 아이템 목록을 표시하는 것입니다. 단일 아이템이 어떻게 보여야 하는지를 정의하는 HTML 블록을 정의합니다.
-  그리고 Angular에게 목록의 각 아이템을 렌더링하는 템플릿으로 해당 블록을 사용하라고 알려줍니다.
-
-  Our goal is to present a list of items. We define a block of HTML that defines how a single item should be displayed.
-  We tell Angular to use that block as a template for rendering each item in the list.
-=======
+  #### 보여주기/숨기기는 같은 것이 아닙니다.
   #### Show/hide is not the same thing
   You can control the visibility of an element with a
   [class](#class-binding) or [style](#style-binding) binding:
@@ -2740,6 +2167,8 @@ block dart-no-truthy-falsy
 
 .l-sub-section
   :marked
+    아래에 설명한 [_안전한 네비게이션 연산자_](#safe-navigation-operator "Safe naviation operator (?.)")를 참조하세요.
+
     See also the 
     [_safe navigation operator_](#safe-navigation-operator "Safe naviation operator (?.)") 
     described below.
@@ -2750,25 +2179,25 @@ a(href="#toc") back to top
 a#ngFor
 :marked
   ### NgFor
+  ### NgFor
+
+  `NgFor`는 지시자 _반복기_ 입니다 &mdash;데이터 표시를 사용자 정의하는 방법.
+  단일 아이템이 어떻게 보여야 하는지를 정의하는 HTML 블록을 정의합니다.
+  그리고 Angular에게 목록의 각 아이템을 렌더링하는 템플릿으로 해당 블록을 사용하라고 알려줍니다.
+
   `NgFor` is a _repeater_ directive &mdash; a way to present a list of items.
   You define a block of HTML that defines how a single item should be displayed.
   You tell Angular to use that block as a template for rendering each item in the list.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
   다음은 간단한 `<div>`에 적용된 `NgFor`의 예제입니다:
 
   Here is an example of `NgFor` applied to a simple `<div>`:
 +makeExample('template-syntax/ts/src/app/app.component.html', 'NgFor-1')(format=".")
 :marked
-<<<<<<< HEAD
   또한 다음 예제처럼 컴포넌트 엘리먼트에 `NgFor`를 적용할 수도 있습니다:
-  
-  We can also apply an `NgFor` to a component element, as in this example:
-+makeExample('template-syntax/ts/app/app.component.html', 'NgFor-2')(format=".")
-=======
+
   You can also apply an `NgFor` to a component element, as in this example:
 +makeExample('template-syntax/ts/src/app/app.component.html', 'NgFor-2')(format=".")
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 .alert.is-critical
   :marked
@@ -2776,6 +2205,7 @@ a#ngFor
     [\* 와 &lt;template>](#star-template)에서 자세한 내용을 확인하세요.
 
     Don't forget the asterisk (`*`) in front of `ngFor`.
+
 :marked
   `*ngFor`에 할당된 텍스트는 반복기 프로세스를 안내하는 명령문입니다.
 
@@ -2783,282 +2213,148 @@ a#ngFor
 
 a#microsyntax
 :marked
-<<<<<<< HEAD
-  #### NgFor 세부구문(microsyntax)
-  #### NgFor microsyntax
+  #### *NgFor 세부구문(microsyntax)
+  #### *ngFor microsyntax
+
   `*ngFor`에 할당된 문자열은 [템플릿 표현식](#template-expressions)이 아닙니다.
   그것은 *세부구문(microsyntax)* &mdash; Angular가 해석하는 자체의 작은 언어입니다. 이번 예제에서 `"let hero of heroes"` 문자열은 다음을 뜻합니다:
 
-=======
-  #### *ngFor microsyntax
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   The string assigned to `*ngFor` is not a [template expression](#template-expressions).
   It's a *microsyntax* &mdash; a little language of its own that Angular interprets. 
   The string `"let hero of heroes"` means:
 
-<<<<<<< HEAD
-  > *`heroes` #{_array_ko}에서 각각의 히어로를 가져와서 로컬 `hero` 변수에 저장하여 각 반복 템플릿 HTML에서 사용할 수 있도록하라.*
+  > *`히어로` #{_배열}에서 각 히어로를 가져 와서 지역의 `히어로` 루프 변수에 저장하고, 각 반복마다 템플릿 HTML에서 사용할 수 있게 하세요.*
 
-  > *Take each hero in the `heroes` #{_array}, store it in the local `hero` variable, and make it available to the templated HTML for each iteration.*
-
-  Angular는 이 명령을 새로운 엘리먼트와 바인딩 세트로 번역합니다.
-
-  Angular translates this instruction into a new set of elements and bindings.
-
-  앞의 2개의 예에서, `ngFor` 지시자는 부모 컴포넌트의 
-  `heroes` 프로퍼티에 의해 반환된 `heroes` #{_array_ko}을 반복하고, 
-  적용된 변수에 엘리먼트의 인스턴스를 찍어냅니다.
-  Angular는 배열의 각 히어로에 대해 새로운 템플릿 인스턴스를 생성합니다.
-
-  In the two previous examples, the `ngFor` directive iterates over the `heroes` #{_array} returned by the parent component’s `heroes` property,
-  stamping out instances of the element to which it is applied.
-  Angular creates a fresh instance of the template for each hero in the array.
-
-  `hero` 앞의 `let` 키워드는 `hero`라는 템플릿 입력 변수를 생성합니다.
-
-  The `let` keyword before `hero` creates a template input variable called `hero`.
-
-.alert.is-critical
-  :marked
-     템플릿 입력 변수는 [템플릿 참조 변수](#ref-vars)와 **다릅니다**!
-
-     A template input variable is **not** the same as a [template reference variable](#ref-vars)!
-
-:marked
-  삽입식에서 한 것처럼 템플릿에서 히어로의 프로퍼티에 접근하기 위해
-  이 변수를 사용합니다.
-  또한 `hero-detail`에서 한 것처럼 바인딩의 변수를
-  컴포넌트 엘리먼트에 전달할 수도 있습니다.
-
-  We use this variable within the template to access a hero’s properties,
-  as we’re doing in the interpolation.
-  We can also pass the variable in a binding to a component element,
-  as we're doing with `hero-detail`.
-
-:marked
-  #### NgFor 인덱스
-  #### NgFor with index
-  `ngFor` 지시자는 각 반복에서 0부터 배열의 길이만큼 증가하는 선택적 `index`를 지원합니다.
-  템플릿 입력 변수에 인덱스를 가져와 템플릿에서 사용할 수 있습니다.
-
-  The `ngFor` directive supports an optional `index` that increases from 0 to the length of the array for each iteration.
-  We can capture the index in a template input variable and use it in our template.
-
-  다음 예제는 `i` 변수에 인덱스를 가져와서, "1 - Hercules Son of Zeus" 처럼 열을 출력하는데 사용합니다.
-
-  The next example captures the index in a variable named `i`, using it to stamp out rows like "1 - Hercules Son of Zeus".
-+makeExample('template-syntax/ts/app/app.component.html', 'NgFor-3')(format=".")
-.l-sub-section
-  :marked
-    [NgFor API 참조설명](../api/common/index/NgFor-directive.html)에서 
-    `last`, `even`, `odd`와 같은 특별한 *인덱스 비슷한* 값에 대해 알아보세요.
-
-    Learn about other special *index-like* values such as `last`, `even`, and `odd` in the [NgFor API reference](../api/common/index/NgFor-directive.html).
-=======
   > *Take each hero in the `heroes` #{_array}, store it in the local `hero` looping variable, and 
   make it available to the templated HTML for each iteration.*
+
+  Angular는 이 명령어를 호스트 요소 주위의 `<template>`으로 변환합니다. 그 다음 템플릿을 반복적으로 사용하여 목록에 있는 각 `hero`에 대한 새로운 요소와 바인딩 세트를 만듭니다.
 
   Angular translates this instruction into a `<template>` around the host element,
   then uses this template repeatedly to create a new set of elements and bindings for each `hero` 
   in the list.
 
 :marked
+  [_구조 지시자_](structural-directives.html#microsyntax) 가이드의 _세부구문_에 대해 자세히 알아보세요.
+
   Learn about the _microsyntax_ in the [_Structural Directives_](structural-directives.html#microsyntax) guide.
 
-a#template-input-variable
+a#template-input-variable  
 a#template-input-variables
 :marked
+  ### 템플릿 입력 변수
   ### Template input variables
+
+  `hero` 전에 `let` 키워드는 `hero`라고하는 _템플릿 입력 변수_를 만듭니다. 
+  `ngFor` 지시자는 부모 구성 요소의 `heroes` 속성에 의해 반환 된 `heroes` 배열을 반복하고
+  각 반복 동안에 배열의 현재 항목으로 `hero`요소를 설정합니다.
 
   The `let` keyword before `hero` creates a _template input variable_ called `hero`.
   The `ngFor` directive iterates over the `heroes` #{_array} returned by the parent component's `heroes` property
   and sets the `hero` element with the current item from the #{_array} during each iteration.
 
+  히어로의 속성에 액세스하려면 `ngFor` 호스트 요소 (및 그 하위 요소) 내의 `hero` 입력 변수를 참조하세요.
+  여기서는 삽입식에서 처음 참조되고, `<hero-detail>` 컴포넌트의 `hero` 속성에 바인딩되어 전달됩니다.
+
   You reference the `hero` input variable within the `ngFor` host element (and within its descendents) to access the hero's properties.
-  Here it is referenced first in an interpolation
-  and then passed in a binding to the `hero` property of the `<hero-detail>` component.
+  Here it is referenced first in an interpolation and then passed in a binding to the `hero` property of the `<hero-detail>` component.
 +makeExample('template-syntax/ts/src/app/app.component.html', 'NgFor-1-2')(format=".")  
 
 :marked
+  _템플릿 입력 변수_에 대한 자세한 내용은 [구조 지시자](structural-directives.html#template-input-variable) 안내서를 참조하세요.
+
   Learn more about _template input variables_ in the [_Structural Directives_](structural-directives.html#template-input-variable) guide.
 
+  #### *ngFor _색인_
   #### *ngFor with _index_
+
+  `NgFor` 지시자 컨텍스트의 `index` 속성은 각 반복에서 항목의 0부터 시작하는 인덱스를 반환합니다.
+  템플릿 입력 변수에 `index`를 포착하여 템플릿에서 사용할 수 있습니다.
+
   The `index` property of the `NgFor` directive context  returns the zero-based index of the item in each iteration.
   You can capture the `index` in a template input variable and use it in the template.
+
+  다음 예제는 `i`라는 변수에서`index`를 캡쳐하고 이것을 히어로 이름과 함께 표시합니다.
 
   The next example captures the `index` in a variable named `i` and displays it with the hero name like this.
 +makeExample('template-syntax/ts/src/app/app.component.html', 'NgFor-3')(format=".")
 .l-sub-section
   :marked
+    [NgFor API 참조](../api/common/index/NgFor-directive.html)에서 `last`,`even`,`odd`와 같은 다른 `NgFor` 컨텍스트 값에 대해 배웁니다.
+
     Learn about the other `NgFor` context values such as `last`, `even`, and `odd` in the [NgFor API reference](../api/common/index/NgFor-directive.html).
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 a#trackBy
 :marked
-<<<<<<< HEAD
-  #### NgForTrackBy
-  #### NgForTrackBy
-  잠재적으로 `ngFor` 지시자는 특히 큰 목록에 대해 느리게 동작할 수 있습니다.
-  아이템 삭제나 아이템 추가와 같은 하나의 아이템에 대한 작은 변화가 중첩적인 DOM 처리를 유발할 수 있습니다.
-
-  The `ngFor` directive has the potential to perform poorly, especially with large lists.
-  A small change to one item, an item removed, or an item added can trigger a cascade of DOM manipulations.
-
-  예를 들어, 서버에 재조회를 하여 히어로 목록을 새로고침할 수 있습니다.
-  새로운 목록은 아마도 앞서 표시한 히어로의 전부는 아니라도 대부분을 보유하고 있을 것입니다.
-
-  For example, we could refresh the list of heroes by re-querying the server.
-  The refreshed list probably contains most, if not all, of the previously displayed heroes.
-
-  *우리는* 각 히어로의 `id`가 변경되지 않았기 때문에 이것을 알 수 있습니다.
-  그러나 Angular는 새로운 객체 참조의 새로운 목록만을 알고 있습니다.
-  이전 목록을 폐기하고, 해당 DOM 요소를 버리고, 새로운 DOM 요소로 새 목록을 다시 작성할 수밖에 없습니다.
-
-  *We* know this because the `id` of each hero hasn't changed.
-  But Angular sees only a fresh list of new object references.
-  It has no choice but to tear down the old list, discard those DOM elements, and re-build a new list with new DOM elements.
-
-  Angular에게 `hero.id`가 같은 객체는 같은 *히어로*라는 것을 알려주는 
-  *tracking* 함수를 제공하여 이러한 혼란을 피할 수 있습니다. 다음은 이러한 함수입니다.
-
-  Angular can avoid this churn if we give it a *tracking* function that tells it what we know:
-  that two objects with the same `hero.id` are the same *hero*. Here is such a function:
-+makeExample('template-syntax/ts/app/app.component.ts', 'trackByHeroes')(format=".")
-:marked
-  이제 해당 *tracking` 함수에 `NgForTrackBy` 지시자를 설정합니다.
-
-  Now set the `NgForTrackBy` directive to that *tracking* function.
-+makeExample('template-syntax/ts/app/app.component.html', 'NgForTrackBy-2')(format=".")
-:marked
-  *tracking* 함수는 모든 DOM 변경을 제거하지 않습니다.
-  만약 같은 히어로의 *프로퍼티*가 변경되면, Angular는 DOM 엘리먼트를 업데이트해야 합니다.
-  그러나 만약 프로퍼티가 변경되지 않았다면 &mdash; 그리고 대부분 변경되지 않을 것이라면 &mdash;
-  Angular는 이러한 DOM 엘리먼트를 내버려둘 수 있습니다. 리스트 UI는 보다 부드럽고 반응적이 될 것입니다.
-
-  The *tracking* function doesn't eliminate all DOM changes.
-  Angular may have to update the DOM element if the same-hero *properties* have changed.
-  But if the properties haven't changed &mdash; and most of the time they will not have changed &mdash;
-  Angular can leave those DOM elements alone. The list UI will be smoother and more responsive.
-
-  다음은 `NgForTrackBy`의 효과를 설명합니다.
-
-  Here is an illustration of the `NgForTrackBy` effect.
-figure.image-display
-  img(src='/resources/images/devguide/template-syntax/ng-for-track-by-anim.gif' alt="NgForTrackBy")
-=======
+  #### *_trackBy_와 ngFor 
   #### *ngFor with _trackBy_
+  
+  `NgFor` 지시자는 성능이 좋지 않을 수 있으며 특히 큰 목록의 경우 성능이 떨어질 수 있습니다.
+  하나의 항목, 제거 된 항목 또는 추가된 항목에 대한 작은 변경으로 인해 DOM 조작이 계단식으로 실행될 수 있습니다.
+
   The `NgFor` directive may perform poorly, especially with large lists.
   A small change to one item, an item removed, or an item added can trigger a cascade of DOM manipulations.
 
+  예를 들어 서버를 다시 쿼리하면 모든 새로운 히어로 객체로 목록이 재설정 될 수 있습니다.
+
   For example, re-querying the server could reset the list with all new hero objects.
+
+  전부는 대부분 아니지만 이전의 영웅으로 표시됩니다.
+  각 히어로의 `id`가 바뀌지 않았기 때문에 이것을 알 수 있습니다.
+  그러나 Angular는 새로운 객체 참조의 새로운 목록만 봅니다.
+  이전 DOM 요소를 분해하고 모든 새 DOM 요소를 삽입 할 수 밖에 없습니다.
 
   Most, if not all, are previously displayed heroes.
   *You* know this because the `id` of each hero hasn't changed.
   But Angular sees only a fresh list of new object references.
   It has no choice but to tear down the old DOM elements and insert all new DOM elements.
 
+  Angular는`trackBy`를 사용하여 이것을 피할 수 있습니다.
+  `NgFor`가 _추적해야 할_ 값을 리턴하는 메소드를 컴포넌트에 추가하십시오.
+  이 경우, 그 값은 히어로의 `id`입니다.
+
   Angular can avoid this churn with `trackBy`.
   Add a method to the component that returns the value `NgFor` _should_ track.
   In this case, that value is the hero's `id`.
 +makeExample('template-syntax/ts/src/app/app.component.ts', 'trackByHeroes')(format=".")
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 :marked
-<<<<<<< HEAD
-  ## * 와 &lt;template&gt;
-  ## * and &lt;template&gt;
-  `NgFor`, `NgIf`와 `NgSwitch` 내장 지시자를 다시 살펴보면, 지시자 이름 앞에 별표 (`*`)와 같은 이상한 문법을 호출하고 있습니다.
+  세부구문 표현식에서 이 메소드로 `trackBy`를 설정하세요.
 
-  When we reviewed the `NgFor`, `NgIf`, and `NgSwitch` built-in directives, we called out an oddity of the syntax: the asterisk (`*`) that appears before the directive names.
-
-  `*`는 템플릿을 사용하여 HTML 레이아웃을 수정하는 지시자를 읽고 쓰기 쉽도록 해주는 간편 표기법(syntactic sugar)입니다.
-  `NgFor`, `NgIf`, 및 `NgSwitch` 모두 `<template>` 태그로 둘러싸인 엘리먼트 하위트리를 추가하거나 제거합니다.
-  
-  The `*` is a bit of syntactic sugar that makes it easier to read and write directives that modify HTML layout
-  with the help of templates.
-  `NgFor`, `NgIf`, and `NgSwitch` all add and remove element subtrees that are wrapped in `<template>` tags.
-
-  `<template>` 태그는 보지 못했습니다. 왜냐하면 `*` 접두어는 이러한 태그를 건너뛰고
-  우리가 포함하고 제외하고 반복하는 HTML 엘리먼트에 직접 집중하도록 해주기 때문입니다.
-
-  We didn't see the `<template>` tags because the `*` prefix syntax allowed us to skip those tags and
-  focus directly on the HTML element that we are including, excluding, or repeating.
-
-  이번 섹션에서는 내부로 들어가 Angular가 어떻게 `*`를 제거하고
-  HTML을 `<template>` 태그로 확장했는지 살펴보았습니다.
-
-  In this section we go under the hood and see how
-  Angular strips away the `*` and expands the HTML into the `<template>` tags for us.
-=======
   In the microsyntax expression, set `trackBy` to this method.
 +makeExample('template-syntax/ts/src/app/app.component.html', 'trackBy')(format=".")
 
 :marked
+  _trackBy_ 효과를 보여주는 그림입니다.
+  "Reset heroes"는 같은 `hero.id`로 새로운 영웅을 만듭니다.
+  "Change ID"는 새로운 `hero.id`로 새로운 영웅을 만듭니다.
+
   Here is an illustration of the _trackBy_ effect.
   "Reset heroes" creates new heroes with the same `hero.id`s.
   "Change ids" creates new heroes with new `hero.id`s.
+
+  * `trackBy`가 없으면 두 버튼 모두 DOM 요소를 완전히 대체합니다.
+  
   * With no `trackBy`, both buttons trigger complete DOM element replacement.
+  
+  * `trackBy`로, `id`만 변경하면 요소 교체가 시작됩니다.
+
   * With `trackBy`, only changing the `id` triggers element replacement. 
 
 figure.image-display
   img(src='/resources/images/devguide/template-syntax/ng-for-track-by-anim.gif' alt="trackBy")
 
 a(href="#toc") back to top
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 .l-hr
 a#ngSwitch
 :marked
-<<<<<<< HEAD
-  ### `*ngIf` 확장
-  ### Expanding `*ngIf`
-  Angular가 하는 것을 직접 처리하여 `*` 접두어 구문을 템플릿 구문으로 확장할 수 있습니다.
-
-  We can do what Angular does ourselves and expand the `*` prefix syntax to template syntax. Here's some code with `*ngIf`:
-+makeExample('template-syntax/ts/app/app.component.html', 'Template-1')(format=".")
-:marked
-  `currentHero`는 두번 참조됩니다. 처음은 `NgIf`의 true/false 조건으로서,
-  다음은 `HeroDetailComponent`에 전달되는 실제 히어로로서 입니다.
-
-  The `currentHero` is referenced twice, first as the true/false condition for `NgIf` and
-  again as the actual hero passed into the `HeroDetailComponent`.
-
-  처음 확장 단계는 `ngIf` (`*` 접두어 없이)와 해당 컨텐츠를 `template` 지시자에
-  할당된 표현식으로 전송합니다.
-
-  The first expansion step transports the `ngIf` (without the `*` prefix) and its contents
-  into an expression assigned to a `template` directive.
-+makeExample('template-syntax/ts/app/app.component.html', 'Template-2a')(format=".")
-:marked
-  다음이자 마지막 단계는 HTML을 `<template>` 태그와 `[ngIf]` [프로퍼티 바인딩](#property-binding)에 푸는 것입니다.
-
-  The next (and final) step unfolds the HTML into a `<template>` tag and `[ngIf]` [property binding](#property-binding):
-+makeExample('template-syntax/ts/app/app.component.html', 'Template-2')(format=".")
-:marked
-  `[hero]="currentHero"` 바인딩은 템플릿 안의 자식 `<hero-detail>` 엘리먼트에 
-  남아있다는 것에 유의하세요.
-
-  Notice that the `[hero]="currentHero"` binding remains on the child `<hero-detail>`
-  element inside the template.
-
-block remember-the-brackets
-  .callout.is-critical
-    header 대괄호를 기억하세요!
-    header Remember the brackets!
-    :marked
-      `ngIf="currentHero"`로 작성하는 실수를 하지 마세요!
-      이 구문은 `ngIf`에 *문자열* 값인 `"currentHero"`를 할당합니다.
-      JavaScript에서 비어있지 않은 문자열은 참인 값입니다. 그러므로 `ngIf`는
-      항상 `true`이고 Angular는 항상 `hero-detail`을 표시할 것입니다.
-      … 심지어 `currentHero`가 없을 경우에도요!
-
-      Don’t make the mistake of writing `ngIf="currentHero"`!
-      That syntax assigns the *string* value `"currentHero"` to `ngIf`.
-      In JavaScript a non-empty string is a truthy value, so `ngIf` would always be
-      `true` and Angular would always display the `hero-detail`
-      … even when there is no `currentHero`!
-=======
+  ### _NgSwitch_ 지시자
   ### The _NgSwitch_ directives
+
+  *NgSwitch*는 JavaScript의 switch문과 같습니다.
+  _switch 조건 _에 따라 여러 가능한 요소 중 _하나의_ 요소를 표시 할 수 있습니다.
+  Angular는 *선택된* 요소만 DOM에 넣습니다.
 
   *NgSwitch* is like the JavaScript `switch` statement.
   It can display _one_ element from among several possible elements, based on a _switch condition_.
@@ -3067,225 +2363,99 @@ block remember-the-brackets
   *NgSwitch* is actually a set of three, cooperating directives:
   `NgSwitch`, `NgSwitchCase`, and `NgSwitchDefault` as seen in this example.
 +makeExample('template-syntax/ts/src/app/app.component.html', 'NgSwitch')(format=".")
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 figure.image-display
   img(src='/resources/images/devguide/template-syntax/switch-anim.gif' alt="trackBy")
 :marked
-<<<<<<< HEAD
-  ### `*ngSwitch` 확장
-  ### Expanding `*ngSwitch`
-  비슷한 변환을 `*ngSwitch`에도 적용할 수 있습니다. 구문을 우리 스스로 풀 수 있습니다.
-  아래 예는, 처음에는 `*ngSwitchCase`와 `*ngSwitchDefault`를 사용하고 다음에는 `<template>` 태그를 사용했습니다.
+  `NgSwitch`는 컨트롤러 지시자입니다. 그것을 *스위치 값*을 반환하는 표현식에 바인딩합니다.
+  이 예제에서 `emotion` 값은 문자열이지만 스위치 값은 어떤 형태든 될 수 있습니다.
 
-  A similar transformation applies to `*ngSwitch`. We can unfold the syntax ourselves.
-  Here's an example, first with `*ngSwitchCase` and `*ngSwitchDefault` and then again with `<template>` tags:
-+makeExample('template-syntax/ts/app/app.component.html', 'NgSwitch-expanded')(format=".")
-:marked
-  `*ngSwitchCase`와 `*ngSwitchDefault` 확장은 `*ngIf`와 정확히 동일한 방식으로 확장합니다.
-  앞의 엘리먼트를 `<template>` 태그로 감싸고 있습니다.
-
-  The `*ngSwitchCase` and `*ngSwitchDefault` expand in exactly the same manner as `*ngIf`,
-  wrapping their former elements in `<template>` tags.
-
-  이제 왜 `ngSwitch` 자체에는 별표 (*)를 접두어로 붙이지 않는지 이해했습니다.
-  내용을 정의하는 것이 아닙니다. 그것의 역할은 템플릿 컬렉션을 제어하는 것입니다.
-
-  Now we can see why the `ngSwitch` itself is not prefixed with an asterisk (*).
-  It does not define content. It's job is to control a collection of templates.
-
-  이번에는 `ngSwitchCase`와 `NgSwitchDefault` 지시자 2개의 세트를 관리합니다.
-  선택된 템플릿의 값을 두번 표시할 것이라 기대합니다.
-  한번은 (*) 접두어 버전이고 한번은 확장 템플릿 버전입니다.
-  다음 예에서 정확히 확인할 수 있습니다:
-
-  In this case, it governs two sets of `ngSwitchCase` and `NgSwitchDefault` directives.
-  We should expect it to display the values of the selected template twice,
-  once for the (*) prefixed version and once for the expanded template version.
-  That's exactly what we see in this example:
-figure.image-display
-    img(src='/resources/images/devguide/template-syntax/ng-switch-anim.gif' alt="NgSwitch")
-:marked
-  ### `*ngFor` 확장
-  ### Expanding `*ngFor`
-  `*ngFor`는 비슷한 확장을 합니다. `*ngFor` 예로 시작하겠습니다:
-
-  The `*ngFor` undergoes a similar transformation. We begin with an `*ngFor` example:
-+makeExample('template-syntax/ts/app/app.component.html', 'Template-3a')(format=".")
-:marked
-  다음은 `ngFor`를 `template` 지시자로 옮긴 동일한 예입니다:
-
-  Here's the same example after transporting the `ngFor` to the `template` directive:
-+makeExample('template-syntax/ts/app/app.component.html', 'Template-3')(format=".")
-:marked
-  그리고 원래 `<hero-detail>` 엘리먼트를 포장한 `<template>` 태그로 좀 더 확장합니다.
-
-  And here it is expanded further into a `<template>` tag wrapping the original `<hero-detail>` element:
-+makeExample('template-syntax/ts/app/app.component.html', 'Template-4')(format=".")
-:marked
-  `NgFor` 코드는 `NgIf`보다 조금 더 복잡합니다. 왜냐하면 반복기는 보다 움직이는 부분을 가지고 있기 때문입니다.
-  이 경우 목록을 확인하는 `NgForOf` 지시자와 `NgForTrackBy` 지시자를 생성하고 할당해야 합니다.
-  `*ngFor` 구문을 사용하면 스스로 HTML을 확장하는 것보다 훨씬 작성하기가 쉽습니다.
-
-  The `NgFor` code is a bit more complex than `NgIf` because a repeater has more moving parts to configure.
-  In this case, we have to remember to create and assign the `NgForOf` directive that identifies the list and the `NgForTrackBy` directive.
-  Using the `*ngFor` syntax is much easier than writing out this expanded HTML ourselves.
-
-<a id="ref-vars"></a>
-.l-main-section
-:marked
-  ## 템플릿 참조 변수
-  ## Template reference variables
-
-  **템플릿 참조 변수**는 DOM 엘리먼트나 템플릿 안에 있는 지시자의 참조입니다.
-
-  A **template reference variable** is a reference to a DOM element or directive within a template.
-
-  네이티브 DOM 엘리먼트에 사용될 수도 있지만 또한 Angular 컴포넌트에 사용될 수도 있습니다. &mdash; 사실, 이것은 임의의 커스텀 웹 컴포넌트에 대해서도 작동합니다.
-
-  It can be used with native DOM elements but also with Angular components &mdash; in fact, it will work with any custom web component.
-
-:marked
-  ### 템플릿 참조 변수 참조
-  ### Referencing a template reference variable
-
-  템플릿 참조 변수는 현재 템플릿 _어느 곳에서나_ 사용할 수 있습니다.
-
-  We can refer to a template reference variable _anywhere_ in the current template.
-.l-sub-section
-  :marked
-    같은 템플릿에서 한번 이상 같은 변수명을 정의하지 마세요.
-    런타임 값을 예측할 수 없게 됩니다.
-
-    Do not define the same variable name more than once in the same template.
-    The runtime value will be unpredictable.
-=======
   `NgSwitch` is the controller directive. Bind it to an expression that returns the *switch value*.
   The `emotion` value in this example is a string, but the switch value can be of any type.
+
+  **`[ngSwitch]`에 바인딩하세요**. `*ngSwitch`를 설정하려고 하면 오류가 발생할 겁니다.
+  `NgSwitch`는 *구조* 지시ㅏ가 아닌 *속성* 지시자입니다.
+  그것은 동반자 지시자의 동작을 변경합니다.
+  DOM에 직접적으로 영향을주지 않습니다.
 
   **Bind to `[ngSwitch]`**. You'll get an error if you try to set `*ngSwitch`.
   `NgSwitch` is an *attribute* directive, not a *structural* directive.
   It changes the behavior of its companion directives.
   It doesn't touch the DOM directly.
 
+  **`*ngSwitchCase` 및 `*ngSwitchDefault`에 바인딩하세요**.
+  `NgSwitchCase`와 `NgSwitchDefault` 지시자는 DOM에서 요소를 추가하거나 제거하기 때문에 _구조_ 지시자입니다.
+
   **Bind to `*ngSwitchCase` and `*ngSwitchDefault`**.
   The `NgSwitchCase` and `NgSwitchDefault` directives are _structural_ directives
   because they add or remove elements from the DOM.
 
+  * `NgSwitchCase`는 바운드 값이 스위치 값과 같을 때 그 요소를 DOM에 추가합니다.
+
   * `NgSwitchCase` adds its element to the DOM when its bound value equals the switch value.
 
+  * `NgSwitchDefault`는 선택된 `NgSwitchCase`가 없을 때 그 요소를 DOM에 추가합니다.
+
   * `NgSwitchDefault` adds its element to the DOM when there is no selected `NgSwitchCase`.
+
+  스위치 지시자은 *컴포넌트 요소*를 추가 및 제거하는 데 특히 유용합니다.
+  이 예제는 `hero-switch.components.ts` 파일에 정의 된 4개의 "감정적 히어로" 컴포넌트 사이를 전환합니다.
+  각 컴포넌트는 부모 컴포넌트의 `currentHero`에 바인딩 된 `히어로` [입력 속성](#inputs-outputs "Input property")을 가지고 있습니다.
 
   The switch directives are particularly useful for adding and removing *component elements*.
   This example switches among four "emotional hero" components defined in the `hero-switch.components.ts` file.
   Each component has a `hero` [input property](#inputs-outputs "Input property") 
   which is bound to the `currentHero` of the parent component.
 
+  스위치 지시자는 네이티브 요소 및 웹 컴포넌트와도 잘 동작합니다.
+  예를 들어, `<confused-hero>` 스위치의 경우를 다음과 같이 바꿀 수 있습니다.
+
   Switch directives work as well with native elements and web components too.
   For example, you could replace the `<confused-hero>` switch case with the following.
 +makeExample('template-syntax/ts/src/app/app.component.html', 'NgSwitch-div')(format=".")
 
 a(href="#toc") back to top
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 .l-hr
 a#template-reference-variable
 a#ref-vars
 a#ref-var
 :marked
-<<<<<<< HEAD
-  템플릿 참조 변수를 생성하고 사용하는 2개의 다른 예제가 있습니다:
-
-  Here are two other examples of creating and consuming a Template reference variable:
-+makeExample('template-syntax/ts/app/app.component.html', 'ref-phone')(format=".")
-:marked
-  "phone"의 해시 (`#`) 접두어는 `phone` 변수를 정의했음을 의미합니다.
-
-  The hash (`#`) prefix to "phone" means that we're defining a `phone` variable.
-.l-sub-section
-  :marked
-    `#` 문자 사용을 좋아하지 않는 사람은 정규 대안인
-    `ref` 접두어를 사용할 수 있습니다. 예를 들어, `phone` 변수를
-    `#phone`이나 `ref-phone`으로 선언할 수 있습니다.
-
-    Folks who don't like using the `#` character can use its canonical alternative,
-    the `ref-` prefix. For example, we can declare the our `phone` variable using
-    either `#phone` or `ref-phone`.
-
-:marked
-  ### 변수가 값을 얻는 방법
-  ### How a variable gets its value
-
-  Angular는 변수의 값을 그것이 선언된 엘리먼트에 설정합니다.
-  우리는 이러한 변수를 `input` 엘리먼트에 선언했습니다.
-  해당 `input` 엘리먼트 객체를 버튼 엘리먼트에 전달했습니다.
-  이것들은 이벤트 바인딩에서 `call` 메소드의 인자로 사용됩니다.
-
-  Angular sets the variable's value to the element on which it was defined.
-  We defined these variables on the `input` elements.
-  We’re passing those `input` element objects across to the
-  button elements, where they're used in arguments to the `call` methods in the event bindings.
-
-:marked
-  ### NgForm 과 템플릿 참조 변수
-  ### NgForm and template reference variables
-  마지막 예제 하나를 살펴보겠습니다: 템플릿 참조 변수의 전형인 폼입니다.
-
-  Let's look at one final example: a form, the poster child for template reference variables.
-
-  폼 HTML은 [폼](forms.html) 챕터에서 보았던 것처럼 매우 복잡할 수 있습니다.
-  다음은 *간략화 한* 예제입니다. &mdash; 그리고 전혀 간단하지는 않습니다.
-
-  The HTML for a form can be quite involved, as we saw in the [Forms](forms.html) chapter.
-  The following is a *simplified* example &mdash; and it's not simple at all.
-+makeExample('template-syntax/ts/app/app.component.html', 'ref-form')(format=".")
-:marked
-  이번 예제에서 템플릿 참조 변수 `theForm`은 HTML에서 3회나 보이고 있습니다.
-
-  A template reference variable, `theForm`, appears three times in this example, separated
-  by a large amount of HTML.
-+makeExample('template-syntax/ts/app/app.component.html', 'ref-form-a')(format=".")
-:marked
-  `theForm`의 값은 무엇일까요?
-
-  What is the value of `theForm`?
-
-  만약 Angular가 처리하지 않았다면 아마도
-  [HTMLFormElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement)일 것입니다.
-  사실 이것은 네이티브 `HTMLFormElement`를 포장한 Angular의 내장 `NgForm` 지시자 `ngForm`입니다.
-  그리고 이것에 사용자 입력의 유효성을 추적하는 능력과 같은 
-  부가적인 슈퍼파워를 부여합니다.
-  
-  It would be the [HTMLFormElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement)
-  if Angular hadn't taken it over.
-  It's actually `ngForm`, a reference to the Angular built-in `NgForm` directive that wraps the native `HTMLFormElement`
-  and endows it with additional superpowers such as the ability to
-  track the validity of user input.
-
-  이것은 우리가 어떻게 `theForm.form.valid`를 검사하여 submit 버튼을 비활성화 하고
-  풍부한 정보를 가진 객체를 부모 컴포넌트의 `onSubmit` 메소드에 전달하는지 설명해줍니다.
-
-  This explains how we can disable the submit button by checking `theForm.form.valid`
-  and pass an object with rich information to the parent component's `onSubmit` method.
-=======
+  ## 템플릿 참조 변수 ( <span class="syntax">#var</span> )
   ## Template reference variables ( <span class="syntax">#var</span> )
 
 :marked
+  **템플릿 참조 변수**는 템플릿 내의 DOM 요소에 대한 참조인 경우가 많습니다.
+  또한 Angular 컴포넌트나 지시자 또는 <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components" target="_blank" title="MDN: Web Components">웹 컴포넌트</a>에 대한 참조 일 수도 있습니다.
+
   A **template reference variable** is often a reference to a DOM element within a template.
   It can also be a reference to an Angular component or directive or a 
   <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components" target="_blank" title="MDN: Web Components">web component</a>.
+
+  해시 기호(#)를 사용하여 참조 변수를 선언하세요.
+  `#phone`은 `<input>`요소에 `phone` 변수를 선언합니다.
 
   Use the hash symbol (#) to declare a reference variable.
   The `#phone` declares a `phone` variable on an `<input>` element.
 +makeExample('template-syntax/ts/src/app/app.component.html', 'ref-var')(format=".")
 :marked
+  템플릿 참조 변수는 템플릿의 _어느곳_에서나 참조 할 수 있습니다.
+  이 `<input>`에서 선언 된 `phone` 변수는 템플릿의 반대편에 있는 `<button>`에서 사용됩니다
+
   You can refer to a template reference variable _anywhere_ in the template.
   The `phone` variable declared on this `<input>` is 
   consumed in a `<button>` on the other side of the template
 +makeExample('template-syntax/ts/src/app/app.component.html', 'ref-phone')(format=".")
 
 :marked
+  ### 참조 변수가 값을 얻는 방법
   ### How a reference variable gets its value
+
+  대부분의 경우, Angular는 참조 변수의 값을 선언된 요소로 설정합니다.
+  앞의 예에서 `phone`은 _phone number_`<input>` 상자를 가리킵니다.
+  phone button 클릭 핸들러는 _입력_ 값을 컴포넌트의 `callPhone` 메소드에 전달합니다.
+  그러나 지시자는 그 행동을 바꿀 수 있고 값을 그 자체와 같은 다른 것으로 설정할 수 있습니다.
+  `NgForm` 지시자는 그렇게 합니다.
 
   In most cases, Angular sets the reference variable's value to the element on which it was declared.
   In the previous example, `phone` refers to the _phone number_ `<input>` box.
@@ -3293,33 +2463,54 @@ a#ref-var
   But a directive can change that behavior and set the value to something else, such as itself.
   The `NgForm` directive does that.
 
+  다음은 [폼](forms.html) 가이드에 있는 폼 예제의 *단순화 된* 버전입니다.
+
   The following is a *simplified* version of the form example in the [Forms](forms.html) guide.
 +makeExample('template-syntax/ts/src/app/hero-form.component.html')(format=".")
 :marked
+  이 예제에서 3번 나타나는, 템플릿 참조 변수인 `heroForm`은 많은 양의 HTML로 구분됩니다.
+  `heroForm`의 값은 무엇입니까?
+
   A template reference variable, `heroForm`, appears three times in this example, separated
   by a large amount of HTML.
   What is the value of `heroForm`?
+
+  Angular가 `FormsModule`을 가져 왔을 때 그것을 끝내지 않았다면, 그것은 [HTMLFormElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement)가 됩니다.
+  `heroForm`은 실제로 폼의 모든 컨트롤의 값과 유효성을 추적 할 수있는 Angular [NgForm](../api/forms/index/NgForm-directive.html "API: NgForm") 지시자에 대한 참조입니다.
 
   If Angular hadn't taken it over when you imported the `FormsModule`,
   it would be the [HTMLFormElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement).
   The `heroForm` is actually a reference to an Angular [NgForm](../api/forms/index/NgForm-directive.html "API: NgForm") 
   directive with the ability to track the value and validity of every control in the form.
 
+  네이티브 `<form>`요소에는 `form` 속성이 없습니다.
+  그러나 `heroForm.form.valid`가 유효하지 않은 경우 submit 버튼을 어떻게 비활성화시킬 수 있는지 설명해주고 전체 폼 컨트롤 트리를 부모 컴포넌트의 `onSubmit` 메소드로 넘겨주는, `NgForm` 지시자가 있습니다.
+
   The native `<form>` element doesn't have a `form` property.
   But the `NgForm` directive does, which explains how you can disable the submit button 
   if the `heroForm.form.valid` is invalid and pass the entire form control tree 
   to the parent component's `onSubmit` method.
 
+  ### 템플릿 참조 변수 유의사항
   ### Template reference variable warning notes
+
+  템플릿 _참조_ 변수 (`# phone`)는 [`*ngFor`](#template-input-variable)에서 볼 수있는 것과 같은 템플릿 _입력_ 변수 (`let phone`)와 같지 않습니다.
+  [_구조 지시자_](structural-directives.html#template-input-variable) 가이드에서 차이점을 확인해보세요.
 
   A template _reference_ variable (`#phone`) is _not_ the same as a template _input_ variable (`let phone`)
   such as you might see in an [`*ngFor`](#template-input-variable).
   Learn the difference in the [_Structural Directives_](structural-directives.html#template-input-variable) guide.
 
+  참조 변수의 범위는 _전체 템플릿_입니다. 
+  동일한 템플릿에서 동일한 변수 이름을 두 번 이상 정의하지 마세요.
+  런타임 값은 예측할 수 없습니다.
+
   The scope of a reference variable is the _entire template_.
   Do not define the same variable name more than once in the same template.
   The runtime value will be unpredictable.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
+
+  `#` 대신 `ref-`접두어를 사용할 수 있습니다.
+  이 예제는 `fax` 변수를 `#fax` 대신에 `ref-fax`로 선언합니다.
 
   You can use the `ref-` prefix alternative to `#`.
   This example declares the `fax` variable as `ref-fax` instead of `#fax`.
@@ -3330,18 +2521,13 @@ a(href="#toc") back to top
 .l-hr
 a#inputs-outputs
 :marked
-<<<<<<< HEAD
-  ## input과 output 프로퍼티
-  ## Input and output properties
-  아직까지는 주로 *바인딩 선언의 오른쪽*에 있는 
-  템플릿 표현식과 명령문에 있는 컴포넌트 멤버에 바인딩하는 것에 초점을 맞췄습니다.
-  이 위치에 있는 멤버는 데이터 바인딩 **소스**입니다.
-
-  So far, we’ve focused mainly on binding to component members within template expressions and statements
-=======
+  ## 입력과 출력 속성 ( <span class="syntax">@Input</span>과 <span class="syntax">@Output</span> )
   ## Input and output properties ( <span class="syntax">@Input</span> and <span class="syntax">@Output</span> )
+
+  지금까지는 *바인딩 선언의 오른쪽*에 나타나는 템플릿 표현식 및 명령문 내의 컴포넌트 멤버에 주로 바인딩하는 방법을 중점적으로 설명했습니다.
+  해당 위치에 있는 멤버는 데이터 바인딩 **소스**입니다.
+
   So far, you've focused mainly on binding to component members within template expressions and statements
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   that appear on the *right side of the binding declaration*.
   A member in that position is a data binding **source**.
 
@@ -3361,13 +2547,9 @@ a#inputs-outputs
 :marked
 .l-sub-section
   :marked
-<<<<<<< HEAD
     데이터 바인딩 **타겟**과 데이터 바인딩 **소스** 를 뚜렷하게 구별하고 있습니다.
 
-    We're drawing a sharp distinction between a data binding **target** and a data binding **source**.
-=======
     You're drawing a sharp distinction between a data binding **target** and a data binding **source**.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
     바인딩 *타겟*은 `=`의 *왼쪽*에 있습니다.
     *소스*는 `=`의 *오른쪽*에 있습니다.
@@ -3387,42 +2569,29 @@ a#inputs-outputs
     Every member of a **source** directive is automatically available for binding.
     You don't have to do anything special to access a directive member in a template expression or statement.
 
-<<<<<<< HEAD
     **타겟** 지시자의 멤버에 *제한된* 접근을 할 수 있습니다.
     우리는 오직 *input*과 *output*으로 명시적으로 식별된 프로퍼티에만 바인딩할 수 있습니다.    
 
-    We have *limited* access to members of a **target** directive.
-    We can only bind to properties that are explicitly identified as *inputs* and *outputs*.
-:marked
-  다음 예에서 `iconUrl`과 `onSave`는 컴포넌트의 멤버로
-  `=`의 오른쪽에 따옴표 된 구문안에서 참조됩니다.
-
-  In the following example, `iconUrl` and `onSave` are members of a component
-  that are referenced within quoted syntax to the right of the `=`.
-+makeExample('template-syntax/ts/app/app.component.html', 'io-1')(format=".")
-:marked
-  이것들은 컴포넌트의 *input이나 output*이 아닙니다. 이것들은 바인딩의 데이터 소스입니다.
-
-  They are *neither inputs nor outputs* of the component. They are data sources for their bindings.
-
-  이제 *바인딩 타겟*일 경우의 `HeroDetailComponent`를 살펴보겠습니다.
-
-  Now look at `HeroDetailComponent` when it is the **target of a binding**.
-+makeExample('template-syntax/ts/app/app.component.html', 'io-2')(format=".")
-=======
     You have *limited* access to members of a **target** directive.
     You can only bind to properties that are explicitly identified as *inputs* and *outputs*.
 :marked
+  다음 구문에서 `iconUrl`과 `onSave`는 `AppComponent`의 데이터 바인딩된 멤버로 
+  등호&nbsp;(`=`)의 오른쪽에 따옴표 된 구문안에서 참조됩니다.
+
   In the following snippet, `iconUrl` and `onSave` are data-bound members of the `AppComponent`
   and are referenced within quoted syntax to the _right_ of the equals&nbsp;(`=`).
 +makeExample('template-syntax/ts/src/app/app.component.html', 'io-1')(format=".")
 :marked
+  이것들은 컴포넌트의 *input이나 output*이 아닙니다. 이것들은 바인딩의 데이터 소스입니다.
+  대상은 네이티브 `<image>`와`<button>`요소입니다.
+
   They are *neither inputs nor outputs* of the component. They are **sources** for their bindings.
   The targets are the native `<img>` and `<button>` elements.
 
+  이제는 `HeroDetailComponent`가 등호&nbsp;(`=`)의 _왼쪽_에 있는 바인딩의 **대상**이 되는 다른 구문을 살펴보세요.
+
   Now look at a another snippet in which the `HeroDetailComponent` is the **target** of a binding on the _left_ of the equals&nbsp;(`=`).
 +makeExample('template-syntax/ts/src/app/app.component.html', 'io-2')(format=".")
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 :marked
   `HeroDetailComponent.hero`와 `HeroDetailComponent.deleteRequest`는 바인딩 선언의 **왼쪽**에 있습니다.
   `HeroDetailComponent.hero`는 대괄호 안에 있습니다; 이것은 프로퍼티 바인딩의 타겟입니다.
@@ -3439,41 +2608,25 @@ a#inputs-outputs
 
   Target properties must be explicitly marked as inputs or outputs.
 
-<<<<<<< HEAD
-  `HeroDetailComponent` 내부를 살펴보면 이러한 프로퍼티들이 input과 output 프로퍼티
-  데코레이터로 표기된 것을 볼 수 있습니다.
-
-  When we peek inside `HeroDetailComponent`, we see that these properties are marked
-  with decorators as input and output properties.
-+makeExample('template-syntax/ts/app/hero-detail.component.ts', 'input-output-1')(format=".")
-=======
+  `HeroDetailComponent` 내부에, 이러한 속성은 입력과 출력 속성같은 데코레이터로 표시됩니다.
+  
   In the `HeroDetailComponent`, such properties are marked with decorators as input and output properties.
 +makeExample('template-syntax/ts/src/app/hero-detail.component.ts', 'input-output-1')(format=".")
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 :marked
 .l-sub-section
   :marked
-<<<<<<< HEAD
-    또는 다음 예제처럼 지시자 메타데이터의 `inputs` 과 `outputs` #{_array_ko}에
-    멤버로 정의할 수 있습니다.
+    또는 다음 예제처럼 지시자 메타데이터의 `inputs` 과 `outputs` #{_array_ko}에 멤버로 정의할 수 있습니다.
 
-    Alternatively, we can identify members in the `inputs` and `outputs` #{_array}s
-=======
     Alternatively, you can identify members in the `inputs` and `outputs` #{_array}s
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
     of the directive metadata, as in this example:
   +makeExample('template-syntax/ts/src/app/hero-detail.component.ts', 'input-output-2')(format=".")
   <br>
   :marked
-<<<<<<< HEAD
     input/output 프로퍼티를 데코레이터 또는 메타데이터 #{_array_ko} 중 한 가지 방식으로 정의할 수 있습니다.
     두 가지 방식을 모두 사용하면 안 됩니다!
 
-    We can specify an input/output property either with a decorator or in a metadata #{_array}.
-=======
     You can specify an input/output property either with a decorator or in a metadata #{_array}.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
     Don't do both!
 :marked
   ### Input or output?
@@ -3506,13 +2659,9 @@ figure.image-display
 h3#aliasing-io input/output 프로퍼티 별칭
 h3#aliasing-io Aliasing input/output properties
 :marked
-<<<<<<< HEAD
   때로는 input/output 프로퍼티의 외부 이름이 내부 이름과 다르길 원할 때가 있습니다.
 
-  Sometimes we want the public name of an input/output property to be different from the internal name.
-=======
   Sometimes the public name of an input/output property should be different from the internal name.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
   이것은 대부분 [속성 지시자](attribute-directives.html)인 경우입니다.
   지시자 소비자는 지시자의 이름에 바인딩하기를 기대합니다.
@@ -3533,43 +2682,30 @@ h3#aliasing-io Aliasing input/output properties
   The directive name rarely describes what the property does.
   The `myClick` directive name is not a good name for a property that emits click messages.
 
-<<<<<<< HEAD
   다행히도, 내부적으로 다른 이름을 사용하면서도 관습적인 기대를 충족하는 
   외부용 프로퍼티 이름을 가질 수 있습니다.
   바로 위의 예제에서 사실은 `myClick` *별칭*을 *통해서*
   지시자의 자체 `clicks` 프로퍼티에 바인딩했습니다.
 
-  Fortunately, we can have a public name for the property that meets conventional expectations,
-=======
   Fortunately, you can have a public name for the property that meets conventional expectations,
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   while using a different name internally.
   In the example immediately above, you are actually binding *through the* `myClick` *alias* to
   the directive's own `clicks` property.
 
-<<<<<<< HEAD
   다음과 같이 input/output 데코레이더에 전달함으로써 프로퍼티 이름의 별칭을 정의할 수 있습니다:
 
-  We can specify the alias for the property name by passing it into the input/output decorator like this:
-=======
   You can specify the alias for the property name by passing it into the input/output decorator like this:
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 +makeExample('template-syntax/ts/src/app/click.directive.ts', 'output-myClick')(format=".")
 
 .l-sub-section
   :marked
-<<<<<<< HEAD
     또한 `inputs`와 `outputs` #{_array_ko} 안에 프로퍼티 이름의 별칭을 붙일 수도 있습니다.
     *왼쪽*에 지시자 프로퍼티의 이름을 *오른쪽*에 외부용 별칭을 붙인 
     콜론 구분 (`:`) 문자열을 작성합니다.
 
-    We can also alias property names in the `inputs` and `outputs` #{_array}s.
-    We write a colon-delimited (`:`) string with
-=======
     You can also alias property names in the `inputs` and `outputs` #{_array}s.
     You write a colon-delimited (`:`) string with
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
     the directive property name on the *left* and the public alias on the *right*:
   +makeExample('template-syntax/ts/src/app/click.directive.ts', 'output-myClick2')(format=".")
 
@@ -3588,18 +2724,13 @@ a#expression-operators
 
 a#pipe
 :marked
-<<<<<<< HEAD
-  <a id="pipe"></a>
-  ### pipe 연산자 ( | )
-  ### The pipe operator ( | )
+  ### 파이프 연산자 ( <span class="syntax">|</span> )
+  ### The pipe operator ( <span class="syntax">|</span> )
+
   표현식의 결과를 바인딩에 사용하기 전에 일부 변형이 필요할 수 있습니다. 예를 들어 통화 표시, 대문자 강제전환, 목록 필터 후 정렬을 원할 수 있습니다.
 
-  The result of an expression might require some transformation before we’re ready to use it in a binding.  For example, we might want to display a number as a currency, force text to uppercase, or filter a list and sort it.
-=======
-  ### The pipe operator ( <span class="syntax">|</span> )
   The result of an expression might require some transformation before you're ready to use it in a binding.
   For example, you might display a number as a currency, force text to uppercase, or filter a list and sort it.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
   Angular [파이프](./pipes.html)는 이런 작은 변형을 위해 좋은 선택입니다.
   파이프는 입력 값을 받아서 변형된 값을 반환하는 간단한 함수입니다.
@@ -3614,35 +2745,22 @@ a#pipe
 
   The pipe operator passes the result of an expression on the left to a pipe function on the right.
 
-<<<<<<< HEAD
   여러 파이프를 통해 표현식을 연결할 수도 있습니다:
 
-  We can chain expressions through multiple pipes:
-+makeExample('template-syntax/ts/app/app.component.html', 'pipes-2')(format=".")
-:marked
-  그리고 또한 파이프에 [파라미터 적용](./pipes.html#parameterizing-a-pipe)을 할 수 있습니다:
-
-  And we can also [apply parameters](./pipes.html#parameterizing-a-pipe) to a pipe:
-+makeExample('template-syntax/ts/app/app.component.html', 'pipes-3')(format=".")
-
-block json-pipe
-  :marked
-    `json` 파이프는 바인딩을 디버깅 할 때 특히 유용합니다:
-
-    The `json` pipe is particularly helpful for debugging our bindings:
-  +makeExample('template-syntax/ts/app/app.component.html', 'pipes-json')(format=".")
-=======
   You can chain expressions through multiple pipes:
 +makeExample('template-syntax/ts/src/app/app.component.html', 'pipes-2')(format=".")
 :marked
+  그리고 또한 파이프에 [파라미터 적용](./pipes.html#parameterizing-a-pipe)을 할 수 있습니다:
+
   And you can also [apply parameters](./pipes.html#parameterizing-a-pipe) to a pipe:
 +makeExample('template-syntax/ts/src/app/app.component.html', 'pipes-3')(format=".")
 
 block json-pipe
   :marked
+    `json` 파이프는 바인딩을 디버깅 할 때 특히 유용합니다:
+
     The `json` pipe is particularly helpful for debugging bindings:
   +makeExample('template-syntax/ts/src/app/app.component.html', 'pipes-json')(format=".")
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   :marked
     생성된 출력은 다음과 같을 것입니다
 
@@ -3658,13 +2776,8 @@ a(href="#toc") back to top
 .l-hr
 a#safe-navigation-operator
 :marked
-<<<<<<< HEAD
-  <a id="safe-navigation-operator"></a>
-  ### 안전 내비게이션 연산자 ( ?. ) 와 null 프로퍼티 경로
-  ### The safe navigation operator ( ?. ) and null property paths
-=======
+  ### 안전 내비게이션 연산자  <span class="syntax">?.</span> ) 와 null 프로퍼티 경로
   ### The safe navigation operator ( <span class="syntax">?.</span> ) and null property paths
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
   Angular **안전 내비게이션 연산자 (`?.`)**는 프로퍼티 경로에서 null과 undefined 값을 보호하는 강력하고 편리한 방법입니다.
   다음은 `currentHero`가 null인 경우의 뷰 렌더링 실패에 대한 보호입니다.
@@ -3677,26 +2790,15 @@ block dart-safe-nav-op
   //- N/A
 
 :marked
-<<<<<<< HEAD
-  문제를 살펴보고 특별한 해결책을 만들어 봅시다.
-
-  Let’s elaborate on the problem and this particular solution.
-
   아래와 같은 데이터 연동 `title` 프로퍼티가 null일 경우 어떻게 될까요?
 
-=======
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   What happens when the following data bound `title` property is null?
 +makeExample('template-syntax/ts/src/app/app.component.html', 'safe-1')(format=".")
 :marked
-<<<<<<< HEAD
   뷰는 여전히 렌더링 되지만 표시된 값은 비어있습니다; 오직 "The title is" 만이 보입니다.
   이것은 합리적인 행동입니다. 적어도 앱에 crash가 발생하기 전까지는요.
 
-  The view still renders but the displayed value is blank; we see only "The title is" with nothing after it.
-=======
   The view still renders but the displayed value is blank; you see only "The title is" with nothing after it.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   That is reasonable behavior. At least the app doesn't crash.
 
   다음 예제처럼 null 히어로의 `firstName`을 표시하는
@@ -3721,16 +2823,12 @@ block null-deref-example
 
   Worse, the *entire view disappears*.
 
-<<<<<<< HEAD
-  `hero` 프로퍼티가 절대로 null이 아니라고 믿는다면 이것도 합리적인 행동이라고 주장할 수 있습니다.
+  `hero` 프로퍼티가 절대로 null이 될 수 없다면 이것도 합리적인 행동이라고 주장할 수 있습니다.
   만약 절대로 null이 아니어야 하지만 여전히 null인 경우,
   반드시 잡아서 고쳐야 하는 프로그래밍 에러를 만들게 된 것입니다.
   예외를 던지는 것이 올바른 처리방법입니다.
 
-  We could claim that this is reasonable behavior if we believed that the `hero` property must never be null.
-=======
   This would be reasonable behavior if the `hero` property could never be null.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   If it must never be null and yet it is null,
   that's a programming error that should be caught and fixed.
   Throwing an exception is the right thing to do.
@@ -3741,41 +2839,26 @@ block null-deref-example
   On the other hand, null values in the property path may be OK from time to time,
   especially when the data are null now and will arrive eventually.
 
-<<<<<<< HEAD
   데이터를 기다리는 동안, 뷰는 불평 없이 렌더링해야 하고,
   null 프로퍼티 경로는 `title` 프로퍼티가 했던 것처럼 공란으로 보여야 합니다.
 
-  While we wait for data, the view should render without complaint, and
-  the null property path should display as blank just as the `title` property does.
-
-  불행히도 우리의 앱은 `currentHero`가 null인 경우 crash가 발생합니다.
-
-  Unfortunately, our app crashes when the `currentHero` is null.
-
-  [NgIf](#ngIf)로 이 문제를 해결할 수 있습니다.
-
-  We could code around that problem with [NgIf](#ngIf).
-+makeExample('template-syntax/ts/app/app.component.html', 'safe-4')(format=".")
-
-block safe-op-alt
-  :marked
-    또는 처음 null을 만나게 되면 표현식에서 탈출하는 것을 알고 있으므로,
-    `&&`를 사용한 프로퍼티 경로의 일부를 연결할 수 있습니다,
-
-    Or we could try to chain parts of the property path with `&&`, knowing that the expression bails out
-=======
   While waiting for data, the view should render without complaint, and
   the null property path should display as blank just as the `title` property does.
 
+  불행히도 그 앱은 `currentHero`가 null인 경우 crash가 발생합니다.
+
   Unfortunately, the app crashes when the `currentHero` is null.
+
+  [NgIf](#ngIf)로 이 문제를 해결할 수 있습니다.
 
   You could code around that problem with [*ngIf](#ngIf).
 +makeExample('template-syntax/ts/src/app/app.component.html', 'safe-4')(format=".")
 
 block safe-op-alt
   :marked
+    처음 null을 만나게 되면 표현식에서 탈출하는 것을 알고 있으므로, `&&`를 사용한 프로퍼티 경로의 일부를 연결할 수 있습니다,
+
     You could try to chain parts of the property path with `&&`, knowing that the expression bails out
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
     when it encounters the first null.
   +makeExample('template-syntax/ts/src/app/app.component.html', 'safe-5')(format=".")
 
@@ -3804,11 +2887,7 @@ a(href="#toc") back to top
 :marked
   ## 요약
   ## Summary
-<<<<<<< HEAD
+
   방금 템플릿 구문의 탐험을 마쳤습니다. 이제 우리 자신만의 컴포넌트나 지시자를 만들 때 지식을 써먹을 때가 왔습니다.
 
-  We’ve completed our survey of template syntax. Now it's time to put that knowledge to work as we write our own components and directives.
-=======
-  You've completed this survey of template syntax. 
-  Now it's time to put that knowledge to work on your own components and directives.
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
+  You've completed this survey of template syntax. Now it's time to put that knowledge to work on your own components and directives.

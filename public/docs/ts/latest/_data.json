@@ -9,28 +9,16 @@
 
   "quickstart": {
     "icon": "query-builder",
-<<<<<<< HEAD
     "title": "빠른시작",
     "subtitle": "TypeScript",
     "banner": "Angular 기초를 빠르게 살펴보세요"
-=======
-    "title": "Quickstart",
-    "subtitle": "TypeScript",
-    "banner": "A quick look at Angular basics"
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   },
 
   "cli-quickstart": {
     "icon": "query-builder",
-<<<<<<< HEAD
     "title": "CLI를 이용한 빠른시작",
     "subtitle": "TypeScript",
     "description": "CLI 도구를 이용하게 빠르게 Angular 애플리케이션을 만들어 보세요"
-=======
-    "title": "CLI Quickstart",
-    "subtitle": "TypeScript",
-    "banner": "Use the CLI tool to quickly build Angular applications"
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   },
 
   "tutorial": {

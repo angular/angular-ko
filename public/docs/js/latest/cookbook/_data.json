@@ -5,17 +5,10 @@
     "intro": "일반적인 Angular 애플리케이션 시나리오를 위한 요리법(recipe) 컬렉션"
   },
 
-<<<<<<< HEAD
-  "a1-a2-quick-reference": {
+  "ajs-quick-reference": {
     "title": "Angular1에서 Angular2로의 빠른 참조",
     "navTitle": "Angular1에서 Angular2로의 빠른 참조",
     "intro": "Angular1 개념과 기법이 Angular2에 어떻게 매핑되는 알아보기"
-=======
-  "ajs-quick-reference": {
-    "title": "AngularJS to Angular Quick Reference",
-    "navTitle": "AngularJS to Angular Quick Ref",
-    "intro": "Learn how AngularJS concepts and techniques map to Angular"
->>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   },
 
   "ngmodule-faq": {
