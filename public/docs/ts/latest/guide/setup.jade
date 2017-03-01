@@ -31,6 +31,7 @@ a#develop-locally
   Setting up a new project on your machine is quick and easy with the **QuickStart seed**,
   maintained [on github](!{_qsRepo} "Install the github QuickStart repo"). 
 
+<<<<<<< HEAD
 .l-sub-section
   :marked
     <live-example title="QuickStart Seed in Plunker">빠른시작 시드 라이브 예제</live-example>는
@@ -39,6 +40,8 @@ a#develop-locally
     The <live-example title="QuickStart Seed in Plunker">QuickStart seed live-example</live-example> is QuickStart
     _plus_ the `app.module.ts` and `main.ts` application files ([described below](#app-files "QuickStart application files")) that facilitate richer application examples.
 
+=======
+>>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 :marked
   [!{_prereq_ko}이 설치](#install-prerequisites "What if you don't have !{_prereq}?")되어 있는지 확인하십시오. 그리고 ...
 
@@ -129,9 +132,9 @@ a#non-essential
   ### OX/X (bash)
   ### OS/X (bash)
 code-example(language="sh" class="code-shell").
-  xargs -a non-essential-files.txt rm -rf
-  rm app/*.spec*.ts
-  rm non-essential-files.txt
+  xargs rm -rf &lt; non-essential-files.osx.txt
+  rm src/app/*.spec*.ts
+  rm non-essential-files.osx.txt
 
 :marked
   ### 윈도우
@@ -162,32 +165,52 @@ block qs-seed
 block core-files
   a#app-files
   :marked
+<<<<<<< HEAD
     **`/app`** 폴더에 있는 다음 3개의 TypeScript (`.ts`) 파일에 주목하세요.
 
     Focus on the following three TypeScript (`.ts`) files in the **`/app`** folder.
+=======
+    Focus on the following three TypeScript (`.ts`) files in the **`/src`** folder.
+>>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
   .filetree
-    .file app
+    .file src
     .children
-      .file app.component.ts
-      .file app.module.ts
+      .file app
+      .children
+        .file app.component.ts
+        .file app.module.ts
       .file main.ts
 
   +makeTabs(`
-      setup/ts/app/app.component.ts,
-      setup/ts/app/app.module.ts,
-      setup/ts/app/main.ts
+      setup/ts/src/app/app.component.ts,
+      setup/ts/src/app/app.module.ts,
+      setup/ts/src/main.ts
     `, '', `
-      app/app.component.ts,
-      app/app.module.ts,
-      app/main.ts
+      src/app/app.component.ts,
+      src/app/app.module.ts,
+      src/main.ts
     `)(format='.')
 
 :marked
+<<<<<<< HEAD
   모든 가이드와 해설서는 _최소 3개의 코어 파일_이 있습니다. 각 파일은 고유한 목적을 가지고 있으며
   애플리케이션이 커짐에 따라 독립적으로 진화합니다.
 
   All guides and cookbooks have _at least these core files_. Each file has a distinct purpose and evolves independently as the application grows.
+=======
+  All guides and cookbooks have _at least these core files_. 
+  Each file has a distinct purpose and evolves independently as the application grows.
+
+  Files outside `src/` concern building, deploying, and testing your app.
+  They include configuration files and external dependencies.
+
+  Files inside `src/` "belong" to your app.
+  Add new Typescript, HTML and CSS files inside the `src/` directory, most of them inside `src/app`,
+  unless told to do otherwise.
+
+  The following are all in `src/`
+>>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 style td, th {vertical-align: top}
 table(width="100%")
@@ -197,7 +220,7 @@ table(width="100%")
     th File
     th Purpose
   tr
-    td <ngio-ex>app.component.ts</ngio-ex>
+    td <ngio-ex>app/app.component.ts</ngio-ex>
     td
       :marked
         빠른시작 !{_playground_ko}에서처럼 같은 `AppComponent`를 정의합니다.
@@ -207,9 +230,10 @@ table(width="100%")
         It is the **root** component of what will become a tree of nested components
         as the application evolves. 
   tr(if-docs="ts")
-    td <code>app.module.ts</code>
+    td <code>app/app.module.ts</code>
     td
       :marked
+<<<<<<< HEAD
         [최상위 모듈](appmodule.html "AppModule: the root module")인 `AppModule`을 정의합니다.
         `AppModule`은 Angular에게 애플리케이션을 어떻게 조립하는지 알려줍니다.
         지금은 단지 `AppComponent`만 선언합니다.
@@ -218,10 +242,16 @@ table(width="100%")
         Defines `AppModule`, the [root module](appmodule.html "AppModule: the root module") that tells Angular how to assemble the application.
         Right now it declares only the `AppComponent`. 
         Soon there will be more components to declare. 
+=======
+        Defines `AppModule`, the  [root module](appmodule.html "AppModule: the root module") that tells Angular how to assemble the application.
+        Right now it declares only the `AppComponent`.
+        Soon there will be more components to declare.
+>>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   tr
     td <ngio-ex>main.ts</ngio-ex>
     td
       :marked
+<<<<<<< HEAD
         [실시간(JIT) 컴파일러](../glossary.html#jit)로 애플리케이션을 컴파일하고
         브라우저에서 실행할 수 있도록 애플리케이션을 [시작(bootstrap)](appmodule.html#main "bootstrap the application")합니다.
         이것은 대부분의 프로젝트 개발 중에 합리적인 선택이고
@@ -231,8 +261,14 @@ table(width="100%")
         Compiles the application with the [JIT compiler](../glossary.html#jit)
         and [bootstraps](appmodule.html#main "bootstrap the application") the application to run in the browser.
         That's a reasonable choice for the development of most projects and
+=======
+        Compiles the application with the [JIT compiler](../glossary.html#jit) and
+        [bootstraps](appmodule.html#main "bootstrap the application") 
+        the application's main module (`AppModule`) to run in the browser.
+        The JIT compiler is a reasonable choice during the development of most projects and
+>>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
         it's the only viable choice for a sample running in a _live-coding_ environment like Plunker.
-        You'll learn about alternative compiling and deployment options later in the documentation.
+        You'll learn about alternative compiling and [deployment](deployment.html) options later in the documentation.
 
 .l-sub-section
   :marked

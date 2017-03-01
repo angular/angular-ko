@@ -88,6 +88,7 @@ a(id='toc')
     1. [코딩 컨벤션](#coding-conventions)
 
     1. [Coding conventions](#coding-conventions)
+<<<<<<< HEAD
 
     1. [앱 구조와 Angular 모듈](#app-structure-and-angular-modules)
 
@@ -95,6 +96,9 @@ a(id='toc')
 
     1. [컴포넌트](#components)
 
+=======
+    1. [App structure and Angular modules](#application-structure-and-angular-modules)
+>>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
     1. [Components](#components)
 
     1. [지시자](#directives)
@@ -174,7 +178,7 @@ a(id='toc')
 
   The following *negative* example defines the `AppComponent`, bootstraps the app, defines the `Hero` model object, and loads heroes from the server ... all in the same file. *Don't do this*.
 
-+makeExample('style-guide/ts/01-01/app/heroes/hero.component.avoid.ts', '', 'app/heroes/hero.component.ts')(avoid=1)
++makeExample('style-guide/ts/src/01-01/app/heroes/hero.component.avoid.ts', '', 'app/heroes/hero.component.ts')(avoid=1)
 :marked
   컴포넌트와 지원 클래스를 자신만의 지정된 파일로 배포하는 것이
   보다 좋은 습관입니다.
@@ -183,13 +187,13 @@ a(id='toc')
   supporting classes into their own, dedicated files.
 
 +makeTabs(
-  `style-guide/ts/01-01/main.ts,
-  style-guide/ts/01-01/app/app.module.ts,
-  style-guide/ts/01-01/app/app.component.ts,
-  style-guide/ts/01-01/app/heroes/heroes.component.ts,
-  style-guide/ts/01-01/app/heroes/shared/hero.service.ts,
-  style-guide/ts/01-01/app/heroes/shared/hero.model.ts,
-  style-guide/ts/01-01/app/heroes/shared/mock-heroes.ts`,
+  `style-guide/ts/src/01-01/main.ts,
+  style-guide/ts/src/01-01/app/app.module.ts,
+  style-guide/ts/src/01-01/app/app.component.ts,
+  style-guide/ts/src/01-01/app/heroes/heroes.component.ts,
+  style-guide/ts/src/01-01/app/heroes/shared/hero.service.ts,
+  style-guide/ts/src/01-01/app/heroes/shared/hero.model.ts,
+  style-guide/ts/src/01-01/app/heroes/shared/mock-heroes.ts`,
   '',
   `main.ts,
   app/app.module.ts,
@@ -614,7 +618,7 @@ a(href="#toc") Back to top
 
     **Why?** Follows a familiar convention from other technology platforms.
 
-+makeExample('style-guide/ts/02-05/main.ts', '', 'main.ts')
++makeExample('style-guide/ts/src/02-05/main.ts', '', 'main.ts')
 :marked
 
 a(href="#toc") Back to top
@@ -690,16 +694,16 @@ a(href="#toc") Back to top
 
     **Why?** Components are easy to identify in the DOM.
 
-+makeExample('style-guide/ts/02-07/app/heroes/hero.component.avoid.ts', 'example', 'app/heroes/hero.component.ts')(avoid=1)
++makeExample('style-guide/ts/src/02-07/app/heroes/hero.component.avoid.ts', 'example', 'app/heroes/hero.component.ts')(avoid=1)
 :marked
 
-+makeExample('style-guide/ts/02-07/app/users/users.component.avoid.ts', 'example', 'app/users/users.component.ts')(avoid=1)
++makeExample('style-guide/ts/src/02-07/app/users/users.component.avoid.ts', 'example', 'app/users/users.component.ts')(avoid=1)
 :marked
 
-+makeExample('style-guide/ts/02-07/app/heroes/hero.component.ts', 'example', 'app/heroes/hero.component.ts')
++makeExample('style-guide/ts/src/02-07/app/heroes/hero.component.ts', 'example', 'app/heroes/hero.component.ts')
 :marked
 
-+makeExample('style-guide/ts/02-07/app/users/users.component.ts', 'example', 'app/users/users.component.ts')
++makeExample('style-guide/ts/src/02-07/app/users/users.component.ts', 'example', 'app/users/users.component.ts')
 :marked
 
 :marked
@@ -731,10 +735,10 @@ a(href="#toc") Back to top
 
     **Why?** Directives are easily identified.
 
-+makeExample('style-guide/ts/02-08/app/shared/validate.directive.avoid.ts', 'example', 'app/shared/validate.directive.ts')(avoid=1)
++makeExample('style-guide/ts/src/02-08/app/shared/validate.directive.avoid.ts', 'example', 'app/shared/validate.directive.ts')(avoid=1)
 :marked
 
-+makeExample('style-guide/ts/02-08/app/shared/validate.directive.ts', 'example', 'app/shared/validate.directive.ts')
++makeExample('style-guide/ts/src/02-08/app/shared/validate.directive.ts', 'example', 'app/shared/validate.directive.ts')
 :marked
 
 a(href="#toc") Back to top
@@ -1068,10 +1072,10 @@ a(href="#toc") Back to top
     **Why?** Classes can be instantiated and construct an instance.
     By convention, upper camel case indicates a constructable asset.
 
-+makeExample('style-guide/ts/03-01/app/core/exception.service.avoid.ts', 'example', 'app/shared/exception.service.ts')(avoid=1)
++makeExample('style-guide/ts/src/03-01/app/core/exception.service.avoid.ts', 'example', 'app/shared/exception.service.ts')(avoid=1)
 :marked
 
-+makeExample('style-guide/ts/03-01/app/core/exception.service.ts', 'example', 'app/shared/exception.service.ts')
++makeExample('style-guide/ts/src/03-01/app/core/exception.service.ts', 'example', 'app/shared/exception.service.ts')
 :marked
 
 a(href="#toc") Back to top
@@ -1141,7 +1145,7 @@ a(href="#toc") Back to top
     especially in third party modules.
     It is rarely worth the effort to change them at the risk of breaking existing code and documentation.
 
-+makeExample('style-guide/ts/03-02/app/core/data.service.ts', '', 'app/shared/data.service.ts')
++makeExample('style-guide/ts/src/03-02/app/core/data.service.ts', '', 'app/shared/data.service.ts')
 :marked
 
 a(href="#toc") Back to top
@@ -1196,10 +1200,10 @@ a(href="#toc") Back to top
 
     **Why?** An interface-class can be a provider lookup token in Angular dependency injection.
 
-+makeExample('style-guide/ts/03-03/app/core/hero-collector.service.avoid.ts', 'example', 'app/shared/hero-collector.service.ts')(avoid=1)
++makeExample('style-guide/ts/src/03-03/app/core/hero-collector.service.avoid.ts', 'example', 'app/shared/hero-collector.service.ts')(avoid=1)
 :marked
 
-+makeExample('style-guide/ts/03-03/app/core/hero-collector.service.ts', 'example', 'app/shared/hero-collector.service.ts')
++makeExample('style-guide/ts/src/03-03/app/core/hero-collector.service.ts', 'example', 'app/shared/hero-collector.service.ts')
 :marked
 
 a(href="#toc") Back to top
@@ -1240,10 +1244,10 @@ a(href="#toc") Back to top
 
     **Why?** TypeScript tooling makes it easy to identify private vs public properties and methods.
 
-+makeExample('style-guide/ts/03-04/app/core/toast.service.avoid.ts', 'example', 'app/shared/toast.service.ts')(avoid=1)
++makeExample('style-guide/ts/src/03-04/app/core/toast.service.avoid.ts', 'example', 'app/shared/toast.service.ts')(avoid=1)
 :marked
 
-+makeExample('style-guide/ts/03-04/app/core/toast.service.ts', 'example', 'app/shared/toast.service.ts')
++makeExample('style-guide/ts/src/03-04/app/core/toast.service.ts', 'example', 'app/shared/toast.service.ts')
 :marked
 
 a(href="#toc") Back to top
@@ -1284,10 +1288,10 @@ a(href="#toc") Back to top
 
     **Why?** Alphabetizing makes it easier to read and locate symbols.
 
-+makeExample('style-guide/ts/03-06/app/heroes/shared/hero.service.avoid.ts', 'example', 'app/heroes/shared/hero.service.ts')(avoid=1)
++makeExample('style-guide/ts/src/03-06/app/heroes/shared/hero.service.avoid.ts', 'example', 'app/heroes/shared/hero.service.ts')(avoid=1)
 :marked
 
-+makeExample('style-guide/ts/03-06/app/heroes/shared/hero.service.ts', 'example', 'app/heroes/shared/hero.service.ts')
++makeExample('style-guide/ts/src/03-06/app/heroes/shared/hero.service.ts', 'example', 'app/heroes/shared/hero.service.ts')
 :marked
 
 a(href="#toc") Back to top
@@ -1301,6 +1305,7 @@ a(href="#toc") Back to top
 
   Have a near-term view of implementation and a long-term vision. Start small but keep in mind where the app is heading down the road.
 
+<<<<<<< HEAD
   모든 앱의 코드는 `app` 폴더에 넣습니다.
   모든 기능 영역은 각자의 Angular 모듈과 함께 각자의 폴더에 넣습니다.
 
@@ -1315,6 +1320,14 @@ a(href="#toc") Back to top
   All content is one asset per file. Each component, service, and pipe is in its own file.
   All third party vendor scripts are stored in another folder and not in the `app` folder.
   You didn't write them and you don't want them cluttering `app`.
+=======
+  All of the app's code goes in a folder named `src`. 
+  All feature areas are in their own folder, with their own Angular module. 
+  
+  All content is one asset per file. Each component, service, and pipe is in its own file. 
+  All third party vendor scripts are stored in another folder and not in the `src` folder. 
+  You didn't write them and you don't want them cluttering `src`. 
+>>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
   Use the naming conventions for files in this guide.
 
 a(href="#toc") Back to top
@@ -1527,9 +1540,13 @@ a(href="#toc") Back to top
 
 .s-rule.do
   :marked
+<<<<<<< HEAD
     **필수** `app` 폴더에 모든 앱의 코드를 넣으세요.
 
     **Do** put all of the app's code in a folder named `app`.
+=======
+    **Do** put all of the app's code in a folder named `src`.
+>>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 .s-rule.consider
   :marked
@@ -1558,54 +1575,58 @@ a(id='file-tree')
 .filetree
   .file &lt;project root&gt;
   .children
-    .file app
+    .file src
     .children
-      .file core
+      .file app
       .children
-        .file core.module.ts
-        .file exception.service.ts|spec.ts
-        .file user-profile.service.ts|spec.ts
-      .file heroes
-      .children
-        .file hero
+        .file core
         .children
-          .file hero.component.ts|html|css|spec.ts
-        .file hero-list
+          .file core.module.ts
+          .file exception.service.ts|spec.ts
+          .file user-profile.service.ts|spec.ts
+        .file heroes
         .children
-          .file hero-list.component.ts|html|css|spec.ts
+          .file hero
+          .children
+            .file hero.component.ts|html|css|spec.ts
+          .file hero-list
+          .children
+            .file hero-list.component.ts|html|css|spec.ts
+          .file shared
+          .children
+            .file hero-button.component.ts|html|css|spec.ts
+            .file hero.model.ts
+            .file hero.service.ts|spec.ts
+          .file heroes.component.ts|html|css|spec.ts
+          .file heroes.module.ts
+          .file heroes-routing.module.ts
         .file shared
         .children
-          .file hero-button.component.ts|html|css|spec.ts
-          .file hero.model.ts
-          .file hero.service.ts|spec.ts
-        .file heroes.component.ts|html|css|spec.ts
-        .file heroes.module.ts
-        .file heroes-routing.module.ts
-      .file shared
-      .children
-        .file shared.module.ts
-        .file init-caps.pipe.ts|spec.ts
-        .file text-filter.component.ts|spec.ts
-        .file text-filter.service.ts|spec.ts
-      .file villains
-      .children
-        .file villain
+          .file shared.module.ts
+          .file init-caps.pipe.ts|spec.ts
+          .file text-filter.component.ts|spec.ts
+          .file text-filter.service.ts|spec.ts
+        .file villains
         .children
-          .file ...
-        .file villain-list
-        .children
-          .file ...
-        .file shared
-        .children
-          .file ...
-        .file villains.component.ts|html|css|spec.ts
-        .file villains.module.ts
-        .file villains-routing.module.ts
-      .file app.component.ts|html|css|spec.ts
-      .file app.module.ts
-      .file app-routing.module.ts
-    .file main.ts
-    .file index.html
+          .file villain
+          .children
+            .file ...
+          .file villain-list
+          .children
+            .file ...
+          .file shared
+          .children
+            .file ...
+          .file villains.component.ts|html|css|spec.ts
+          .file villains.module.ts
+          .file villains-routing.module.ts
+        .file app.component.ts|html|css|spec.ts
+        .file app.module.ts
+        .file app-routing.module.ts
+      .file main.ts
+      .file index.html
+      .file ...
+    .file node_modules/...
     .file ...
 :marked
 
@@ -1695,9 +1716,13 @@ a(href="#toc") Back to top
 
 .s-rule.do
   :marked
+<<<<<<< HEAD
     **필수** 앱의 최상위 폴더 (예: `/app`) 안에 Angular 모듈을 만드세요.
 
     **Do** create an Angular module in the app's root folder (e.g., in `/app`).
+=======
+    **Do** create an Angular module in the app's root folder (e.g., in `/src/app`).
+>>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 
 .s-why
   :marked
@@ -1717,7 +1742,7 @@ a(href="#toc") Back to top
 
     **Why?** Makes it easier to locate and identify the root module.
 
-+makeExample('style-guide/ts/04-08/app/app.module.ts', 'example', 'app/app.module.ts')
++makeExample('style-guide/ts/src/04-08/app/app.module.ts', 'example', 'app/app.module.ts')
 :marked
 
 a(href="#toc") Back to top
@@ -1894,16 +1919,16 @@ a(href="#toc") Back to top
       .file app-routing.module.ts
     .file main.ts
     .file index.html
-    .file ...
+  .file ...
 :marked
 
 +makeTabs(
-  `style-guide/ts/04-10/app/shared/shared.module.ts,
-  style-guide/ts/04-10/app/shared/init-caps.pipe.ts,
-  style-guide/ts/04-10/app/shared/filter-text/filter-text.component.ts,
-  style-guide/ts/04-10/app/shared/filter-text/filter-text.service.ts,
-  style-guide/ts/04-10/app/heroes/heroes.component.ts,
-  style-guide/ts/04-10/app/heroes/heroes.component.html
+  `style-guide/ts/src/04-10/app/shared/shared.module.ts,
+  style-guide/ts/src/04-10/app/shared/init-caps.pipe.ts,
+  style-guide/ts/src/04-10/app/shared/filter-text/filter-text.component.ts,
+  style-guide/ts/src/04-10/app/shared/filter-text/filter-text.service.ts,
+  style-guide/ts/src/04-10/app/heroes/heroes.component.ts,
+  style-guide/ts/src/04-10/app/heroes/heroes.component.html
   `,
   `,,,`,
   `app/shared/shared.module.ts,
@@ -2051,19 +2076,19 @@ a(href="#toc") Back to top
       .file app-routing.module.ts
     .file main.ts
     .file index.html
-    .file ...
+  .file ...
 :marked
 
 +makeTabs(
   `
-  style-guide/ts/04-11/app/app.module.ts,
-  style-guide/ts/04-11/app/core/core.module.ts,
-  style-guide/ts/04-11/app/core/logger.service.ts,
-  style-guide/ts/04-11/app/core/nav/nav.component.ts,
-  style-guide/ts/04-11/app/core/nav/nav.component.html,
-  style-guide/ts/04-11/app/core/spinner/spinner.component.ts,
-  style-guide/ts/04-11/app/core/spinner/spinner.component.html,
-  style-guide/ts/04-11/app/core/spinner/spinner.service.ts
+  style-guide/ts/src/04-11/app/app.module.ts,
+  style-guide/ts/src/04-11/app/core/core.module.ts,
+  style-guide/ts/src/04-11/app/core/logger.service.ts,
+  style-guide/ts/src/04-11/app/core/nav/nav.component.ts,
+  style-guide/ts/src/04-11/app/core/nav/nav.component.html,
+  style-guide/ts/src/04-11/app/core/spinner/spinner.component.ts,
+  style-guide/ts/src/04-11/app/core/spinner/spinner.component.html,
+  style-guide/ts/src/04-11/app/core/spinner/spinner.service.ts
   `,
   `example,,,,,,,`,
   `
@@ -2121,8 +2146,8 @@ a(href="#toc") Back to top
 
 +makeTabs(
   `
-  style-guide/ts/04-12/app/core/module-import-guard.ts,
-  style-guide/ts/04-12/app/core/core.module.ts
+  style-guide/ts/src/04-12/app/core/module-import-guard.ts,
+  style-guide/ts/src/04-12/app/core/core.module.ts
   `,
   `,`,
   `
@@ -2198,12 +2223,12 @@ a(href="#toc") Back to top
 
     **Why?** Keeps the element names consistent with the specification for [Custom Elements](https://www.w3.org/TR/custom-elements/).
 
-+makeExample('style-guide/ts/05-02/app/heroes/shared/hero-button/hero-button.component.avoid.ts', 'example', 'app/heroes/shared/hero-button/hero-button.component.ts')(avoid=1)
++makeExample('style-guide/ts/src/05-02/app/heroes/shared/hero-button/hero-button.component.avoid.ts', 'example', 'app/heroes/shared/hero-button/hero-button.component.ts')(avoid=1)
 :marked
 
 +makeTabs(
-  `style-guide/ts/05-02/app/heroes/shared/hero-button/hero-button.component.ts,
-  style-guide/ts/05-02/app/app.component.html`,
+  `style-guide/ts/src/05-02/app/heroes/shared/hero-button/hero-button.component.ts,
+  style-guide/ts/src/05-02/app/app.component.html`,
   'example,',
   `app/heroes/shared/hero-button/hero-button.component.ts,
   app/app.component.html`)
@@ -2239,15 +2264,15 @@ a(href="#toc") Back to top
 
     **Why?** It is easier to recognize that a symbol is a component by looking at the template's html.
 
-+makeExample('style-guide/ts/05-03/app/heroes/shared/hero-button/hero-button.component.avoid.ts', 'example', 'app/heroes/hero-button/hero-button.component.ts')(avoid=1)
++makeExample('style-guide/ts/src/05-03/app/heroes/shared/hero-button/hero-button.component.avoid.ts', 'example', 'app/heroes/hero-button/hero-button.component.ts')(avoid=1)
 :marked
 
-+makeExample('style-guide/ts/05-03/app/app.component.avoid.html', '', 'app/app.component.html')(avoid=1)
++makeExample('style-guide/ts/src/05-03/app/app.component.avoid.html', '', 'app/app.component.html')(avoid=1)
 :marked
 
 +makeTabs(
-  `style-guide/ts/05-03/app/heroes/shared/hero-button/hero-button.component.ts,
-  style-guide/ts/05-03/app/app.component.html`,
+  `style-guide/ts/src/05-03/app/heroes/shared/hero-button/hero-button.component.ts,
+  style-guide/ts/src/05-03/app/app.component.html`,
   'example,',
   `app/heroes/shared/hero-button/hero-button.component.ts,
   app/app.component.html`)
@@ -2321,14 +2346,19 @@ a(href="#toc") Back to top
 
     **Why?** The `./` prefix is standard syntax for relative URLs; don't depend on Angular's current ability to do without that prefix.
 
+<<<<<<< HEAD
 
 +makeExample('style-guide/ts/05-04/app/heroes/heroes.component.avoid.ts', 'example', 'app/heroes/heroes.component.ts')(avoid=1)
+=======
+  
++makeExample('style-guide/ts/src/05-04/app/heroes/heroes.component.avoid.ts', 'example', 'app/heroes/heroes.component.ts')(avoid=1)
+>>>>>>> acfd22c96bc4619e7aa6cc3c2c75c510173543fb
 :marked
 
 +makeTabs(
-  `style-guide/ts/05-04/app/heroes/heroes.component.ts,
-  style-guide/ts/05-04/app/heroes/heroes.component.html,
-  style-guide/ts/05-04/app/heroes/heroes.component.css`,
+  `style-guide/ts/src/05-04/app/heroes/heroes.component.ts,
+  style-guide/ts/src/05-04/app/heroes/heroes.component.html,
+  style-guide/ts/src/05-04/app/heroes/heroes.component.css`,
   'example,,',
   `app/heroes/heroes.component.ts,
   app/heroes/heroes.component.html,
@@ -2385,10 +2415,10 @@ a(href="#toc") Back to top
     **Why?** Placing the decorator on the same line _usually_ makes for shorter code and still easily identifies the property as an input or output.
     Put it on the line above when doing so is clearly more readable.
 
-+makeExample('style-guide/ts/05-12/app/heroes/shared/hero-button/hero-button.component.avoid.ts', 'example', 'app/heroes/shared/hero-button/hero-button.component.ts')(avoid=1)
++makeExample('style-guide/ts/src/05-12/app/heroes/shared/hero-button/hero-button.component.avoid.ts', 'example', 'app/heroes/shared/hero-button/hero-button.component.ts')(avoid=1)
 :marked
 
-+makeExample('style-guide/ts/05-12/app/heroes/shared/hero-button/hero-button.component.ts', 'example', 'app/heroes/shared/hero-button/hero-button.component.ts')
++makeExample('style-guide/ts/src/05-12/app/heroes/shared/hero-button/hero-button.component.ts', 'example', 'app/heroes/shared/hero-button/hero-button.component.ts')
 :marked
 
 a(href="#toc") Back to top
@@ -2419,16 +2449,16 @@ a(href="#toc") Back to top
      **Why?** You should use an alias when the directive name is also an _input_ property,
      and the directive name doesn't describe the property.
 
-+makeExample('style-guide/ts/05-13/app/heroes/shared/hero-button/hero-button.component.avoid.ts', 'example', 'app/heroes/shared/hero-button/hero-button.component.ts')(avoid=1)
++makeExample('style-guide/ts/src/05-13/app/heroes/shared/hero-button/hero-button.component.avoid.ts', 'example', 'app/heroes/shared/hero-button/hero-button.component.ts')(avoid=1)
 :marked
 
-+makeExample('style-guide/ts/05-13/app/app.component.avoid.html', '', 'app/app.component.html')(avoid=1)
++makeExample('style-guide/ts/src/05-13/app/app.component.avoid.html', '', 'app/app.component.html')(avoid=1)
 :marked
 
 +makeTabs(
-  `style-guide/ts/05-13/app/heroes/shared/hero-button/hero-button.component.ts,
-  style-guide/ts/05-13/app/heroes/shared/hero-highlight.directive.ts,
-  style-guide/ts/05-13/app/app.component.html`,
+  `style-guide/ts/src/05-13/app/heroes/shared/hero-button/hero-button.component.ts,
+  style-guide/ts/src/05-13/app/heroes/shared/hero-highlight.directive.ts,
+  style-guide/ts/src/05-13/app/app.component.html`,
   'example,',
   `app/heroes/shared/hero-button/hero-button.component.ts,
   app/heroes/shared/hero-button/hero-highlight.directive.ts,
@@ -2463,10 +2493,10 @@ a(href="#toc") Back to top
     **Why?** Placing members in a consistent sequence makes it easy to read and
     helps instantly identify which members of the component serve which purpose.
 
-+makeExample('style-guide/ts/05-14/app/shared/toast/toast.component.avoid.ts', 'example', 'app/shared/toast/toast.component.ts')(avoid=1)
++makeExample('style-guide/ts/src/05-14/app/shared/toast/toast.component.avoid.ts', 'example', 'app/shared/toast/toast.component.ts')(avoid=1)
 :marked
 
-+makeExample('style-guide/ts/05-14/app/shared/toast/toast.component.ts', 'example', 'app/shared/toast/toast.component.ts')
++makeExample('style-guide/ts/src/05-14/app/shared/toast/toast.component.ts', 'example', 'app/shared/toast/toast.component.ts')
 :marked
 
 a(href="#toc") Back to top
@@ -2475,7 +2505,7 @@ a(href="#toc") Back to top
 :marked
   ### <a id="05-15"></a>복잡한 컴포넌트 로직은 서비스에 위임
   ### <a id="05-15"></a>Delegate complex component logic to services
-  #### <a href="#05-14">Style 05-15</a>
+  #### <a href="#05-15">Style 05-15</a>
 
 .s-rule.do
   :marked
@@ -2513,10 +2543,10 @@ a(href="#toc") Back to top
 
     **Why?** Keeps the component slim, trim, and focused.
 
-+makeExample('style-guide/ts/05-15/app/heroes/hero-list/hero-list.component.avoid.ts', '', 'app/heroes/hero-list/hero-list.component.ts')(avoid=1)
++makeExample('style-guide/ts/src/05-15/app/heroes/hero-list/hero-list.component.avoid.ts', '', 'app/heroes/hero-list/hero-list.component.ts')(avoid=1)
 :marked
 
-+makeExample('style-guide/ts/05-15/app/heroes/hero-list/hero-list.component.ts', 'example', 'app/heroes/hero-list/hero-list.component.ts')
++makeExample('style-guide/ts/src/05-15/app/heroes/hero-list/hero-list.component.ts', 'example', 'app/heroes/hero-list/hero-list.component.ts')
 :marked
 
 a(href="#toc") Back to top
@@ -2551,15 +2581,15 @@ a(href="#toc") Back to top
 
     **Why?** Angular allows for an [alternative syntax](template-syntax.html#binding-syntax) `on-*`. If the event itself was prefixed with `on` this would result in an `on-onEvent` binding expression.
 
-+makeExample('style-guide/ts/05-16/app/heroes/hero.component.avoid.ts', 'example', 'app/heroes/hero.component.ts')(avoid=1)
++makeExample('style-guide/ts/src/05-16/app/heroes/hero.component.avoid.ts', 'example', 'app/heroes/hero.component.ts')(avoid=1)
 :marked
 
-+makeExample('style-guide/ts/05-16/app/app.component.avoid.html', '', 'app/app.component.html')(avoid=1)
++makeExample('style-guide/ts/src/05-16/app/app.component.avoid.html', '', 'app/app.component.html')(avoid=1)
 :marked
 
 +makeTabs(
-  `style-guide/ts/05-16/app/heroes/hero.component.ts,
-  style-guide/ts/05-16/app/app.component.html`,
+  `style-guide/ts/src/05-16/app/heroes/hero.component.ts,
+  style-guide/ts/src/05-16/app/app.component.html`,
   'example,',
   `app/heroes/hero.component.ts,
   app/app.component.html`)
@@ -2591,10 +2621,10 @@ a(href="#toc") Back to top
 
     **Why?** Keeping the component's presentation logic in the class instead of the template improves testability, maintainability, and reusability.
 
-+makeExample('style-guide/ts/05-17/app/heroes/hero-list/hero-list.component.avoid.ts', 'example', 'app/heroes/hero-list/hero-list.component.ts')(avoid=1)
++makeExample('style-guide/ts/src/05-17/app/heroes/hero-list/hero-list.component.avoid.ts', 'example', 'app/heroes/hero-list/hero-list.component.ts')(avoid=1)
 :marked
 
-+makeExample('style-guide/ts/05-17/app/heroes/hero-list/hero-list.component.ts', 'example', 'app/heroes/hero-list/hero-list.component.ts')
++makeExample('style-guide/ts/src/05-17/app/heroes/hero-list/hero-list.component.ts', 'example', 'app/heroes/hero-list/hero-list.component.ts')
 :marked
 
 a(href="#toc") Back to top
@@ -2630,10 +2660,10 @@ a(href="#toc") Back to top
 
     **Why?** An element may have more than one attribute directive applied.
 
-+makeExample('style-guide/ts/06-01/app/shared/highlight.directive.ts', 'example', 'app/shared/highlight.directive.ts')
++makeExample('style-guide/ts/src/06-01/app/shared/highlight.directive.ts', 'example', 'app/shared/highlight.directive.ts')
 :marked
 
-+makeExample('style-guide/ts/06-01/app/app.component.html', null, 'app/app.component.html')
++makeExample('style-guide/ts/src/06-01/app/app.component.html', null, 'app/app.component.html')
 :marked
 
 a(href="#toc") Back to top
@@ -2670,7 +2700,7 @@ a(href="#toc") Back to top
     If you use the `host` metadata property, you must modify both the property declaration inside the controller,
     and the metadata associated with the directive.
 
-+makeExample('style-guide/ts/06-03/app/shared/validator.directive.ts', '', 'app/shared/validator.directive.ts')
++makeExample('style-guide/ts/src/06-03/app/shared/validator.directive.ts', '', 'app/shared/validator.directive.ts')
 :marked
   덜 바람직한 `host` 메타데이터 대안과 비교해보세요.
 
@@ -2682,7 +2712,7 @@ a(href="#toc") Back to top
 
     **Why?** The `host` metadata is only one term to remember and doesn't require extra ES imports.
 
-+makeExample('style-guide/ts/06-03/app/shared/validator2.directive.ts', '', 'app/shared/validator2.directive.ts')
++makeExample('style-guide/ts/src/06-03/app/shared/validator2.directive.ts', '', 'app/shared/validator2.directive.ts')
 :marked
 
 a(href="#toc") Back to top
@@ -2714,7 +2744,7 @@ a(href="#toc") Back to top
 
     **Why?** Services are ideal for sharing stateful in-memory data.
 
-+makeExample('style-guide/ts/07-01/app/heroes/shared/hero.service.ts', 'example', 'app/heroes/shared/hero.service.ts')
++makeExample('style-guide/ts/src/07-01/app/heroes/shared/hero.service.ts', 'example', 'app/heroes/shared/hero.service.ts')
 :marked
 
 a(href="#toc") Back to top
@@ -2790,8 +2820,8 @@ a(href="#toc") Back to top
     **Why?** This is not ideal when two different components need different instances of a service. In this scenario it would be better to provide the service at the component level that needs the new and separate instance.
 
 +makeTabs(
-  `style-guide/ts/07-03/app/app.component.ts,
-  style-guide/ts/07-03/app/heroes/hero-list/hero-list.component.ts`,
+  `style-guide/ts/src/07-03/app/app.component.ts,
+  style-guide/ts/src/07-03/app/heroes/hero-list/hero-list.component.ts`,
   '',
   `app/app.component.ts,
   app/heroes/hero-list/hero-list.component.ts`)
@@ -2825,10 +2855,10 @@ a(href="#toc") Back to top
 
     **Why?** When a service accepts only dependencies associated with type tokens, the `@Injectable()` syntax is much less verbose compared to using `@Inject()` on each individual constructor parameter.
 
-+makeExample('style-guide/ts/07-04/app/heroes/shared/hero-arena.service.avoid.ts', 'example', 'app/heroes/shared/hero-arena.service.ts')(avoid=1)
++makeExample('style-guide/ts/src/07-04/app/heroes/shared/hero-arena.service.avoid.ts', 'example', 'app/heroes/shared/hero-arena.service.ts')(avoid=1)
 :marked
 
-+makeExample('style-guide/ts/07-04/app/heroes/shared/hero-arena.service.ts', 'example', 'app/heroes/shared/hero-arena.service.ts')
++makeExample('style-guide/ts/src/07-04/app/heroes/shared/hero-arena.service.ts', 'example', 'app/heroes/shared/hero-arena.service.ts')
 :marked
 
 a(href="#toc") Back to top
@@ -2916,10 +2946,10 @@ a(href="#toc") Back to top
     **Why?** Lifecycle interfaces prescribe typed method
     signatures. use those signatures to flag spelling and syntax mistakes.
 
-+makeExample('style-guide/ts/09-01/app/heroes/shared/hero-button/hero-button.component.avoid.ts', 'example', 'app/heroes/shared/hero-button/hero-button.component.ts')(avoid=1)
++makeExample('style-guide/ts/src/09-01/app/heroes/shared/hero-button/hero-button.component.avoid.ts', 'example', 'app/heroes/shared/hero-button/hero-button.component.ts')(avoid=1)
 :marked
 
-+makeExample('style-guide/ts/09-01/app/heroes/shared/hero-button/hero-button.component.ts', 'example', 'app/heroes/shared/hero-button/hero-button.component.ts')
++makeExample('style-guide/ts/src/09-01/app/heroes/shared/hero-button/hero-button.component.ts', 'example', 'app/heroes/shared/hero-button/hero-button.component.ts')
 :marked
 
 a(href="#toc") Back to top
