@@ -5,7 +5,16 @@ block includes
   Images
 
 :marked
+  **Angular 모듈**은 응집력 있는 기능 블록으로 애플리케이션을 구성할 수 있도록 도와줍니다.
+
   **Angular Modules** help organize an application into cohesive blocks of functionality.
+
+  Angular 모듈은 @NgModule 데코레이터 함수로 장식된 _클래스_입니다.
+  `@NgModule`은 모듈 코드를 컴파일하고 실행하는 방법을 Angular에 알려주는 메타데이터 객체를 취합니다.
+  @NgModule은 모듈 _자체의_ 컴포넌트, 지시자 및 파이프를 식별하여 외부 컴포넌트에서
+  사용할 수 있도록 일부 모듈을 공개합니다.
+  @NgModule은 애플리케이션 의존성 주입기에 서비스 공급자를 추가 할 수도 있습니다.
+  그리고 이곳에서 다뤄볼 더 많은 옵션이 있습니다.
 
   An Angular Module is a _class_ adorned with the **@NgModule** decorator function.
   `@NgModule` takes a metadata object that tells Angular how to compile and run module code.
@@ -14,54 +23,136 @@ block includes
   It may add service providers to the application dependency injectors.
   And there are many more options covered here.
 
+  [루트 모듈](appmodule.html) 가이드는 Angular 모듈과 전체 애플리케이션에 대해
+  하나의 _루트_ `AppModule`을 만들고 유지 관리하는 데 필요한 핵심에 대해서 소개하고 있습니다.
+  그것을 먼저 읽으십시오.
+  
   [The Root Module](appmodule.html) guide introduced Angular Modules and the essentials
   of creating and maintaining a single _root_ `AppModule` for the entire application.
   Read that first.
 
+  이 페이지는 훨씬 더 깊이 있게 Angular 모듈을 소개합니다.
+
   This page goes into Angular modules in much greater depth.
 
+  ## 목차
   ## Table of Contents
+  * [Angular 모듈화](#angular-modularity "NgModule을 사용하여 앱에 구조 추가")
+
   * [Angular modularity](#angular-modularity "Add structure to the app with NgModule")
+
+  * [애플리케이션 루트 모듈](#root-module "모든 애플리케이션에 필요한 시작 모듈")
+
   * [The application root module](#root-module "The startup module that every app requires")
+
+  * [실행(bootstrap)](#bootstrap "루트 모듈을 진입 점으로 사용하여 브라우저에서 애플리케이션 시작") 루트 모듈
+
   * [Bootstrap](#bootstrap "Launch the app in a browser with the root module as the entry point") the root module
+
+  * [선언](#declarations "모듈에 속한 구성 요소, 지시문 및 파이프 선언")
+
   * [Declarations](#declarations "Declare the components, directives, and pipes that belong to a module")
+
+  * [제공자](#providers "추가 서비스로 앱을 확장하십시오")
+
   * [Providers](#providers "Extend the app with additional services")
+
+  * [임포트](#imports "구성 요소 템플릿에서 사용하기 위해 구성 요소, 지시문 및 파이프 가져 오기")
+
   * [Imports](#imports "Import components, directives, and pipes for use in component templates")
+
+  * [충돌 해결](#resolve-conflicts "두 지시어에 같은 selector가있는 경우 ...")
+
   * [Resolve conflicts](#resolve-conflicts "When two directives have the same selector ...")
+
+  * [기능 모듈](#feature-modules "애플리케이션을 기능 모듈로 분할")
+
   * [Feature modules](#feature-modules "Partition the app into feature modules")
+
+  * [지연로딩 모듈](#lazy-load 지연로딩 "모듈을 비동기 적으로로드")
+
   * [Lazy loaded modules](#lazy-load "Load modules asynchronously") with the Router
+
+  * [공유 모듈](#shared-module "일반적으로 사용되는 구성 요소, 지시문 및 파이프 모듈 만들기")
+
   * [Shared modules](#shared-module "Create modules for commonly used components, directives, and pipes")
+
+  * [코어 모듈](#core-module "app-wide 싱글 톤 서비스와 일회용 컴포넌트로 코어 모듈 만들기")
+
   * [The Core module](#core-module "Create a core module with app-wide singleton services and single-use components")
+
+  * [_forRoot_로 코어 서비스 설정](#core-for-root "모듈 가져 오기 중 제공자 구성")
+
   * [Configure core services with _forRoot_](#core-for-root "Configure providers during module import")
+
+  * [_CoreModule_의 중복 임포트 방지](#prevent-reimport "지연 로딩 된 모듈이 Core를 임포트하면 나쁜 일이 생기기 때문에")
+
   * [Prevent reimport of the _CoreModule_](#prevent-reimport "because bad things happen if a lazy loaded module imports Core")
+
+  * [NgModule 메타데이터 프로퍼티](#ngmodule-properties "@NgModule 메타데이터 속성의 기술적 요약")
+
   * [NgModule metadata properties](#ngmodule-properties "A technical summary of the @NgModule metadata properties")
 
+  ### 라이브 예제
   ### Live examples
+  이 페이지에서는 "Tour of Heroes" 테마를 사용하여 샘플을 개선하는 과정으로 Angular 모듈에 대해 설명합니다.
+  다음은 샘플이 진화 하는 주요 순간에 예제를 구현한 목록입니다.
+
   This page explains Angular Modules through a progression of improvements to a sample with a "Tour of Heroes" theme.
   Here's an index to live examples at key moments in the evolution of that sample:
 
+  * <live-example plnkr="minimal.0">최소의 NgModule 앱</live-example>
+
   * <live-example plnkr="minimal.0">A minimal NgModule app</live-example>
+
+  * <live-example plnkr="contact.1b">첫번째 연락처 모듈</live-example>
+
   * <live-example plnkr="contact.1b">The first contact module</live-example>
+
+  * <live-example plnkr="contact.2">개선된 연락처 모듈</live-example>
+
   * <live-example plnkr="contact.2">The revised contact module</live-example>
+
+  * <live-example plnkr="pre-shared.3">_SharedModule_을 추가하기 직전</live-example>
+
   * <live-example plnkr="pre-shared.3">Just before adding _SharedModule_</live-example>
+
+  * <live-example>최종버전</live-example>
+
   * <live-example>The final version</live-example>
 
+  ### 자주 묻는 질문 (FAQs)
   ### Frequently Asked Questions (FAQs)
+  이 페이지에서는 튜토리얼 방식으로 Angular 모듈 개념을 다룹니다.
 
   This page covers Angular Module concepts in a tutorial fashion.
+
+  동반하는 [Angular 모듈 FAQs](../cookbook/ngmodule- faq.html "Angular 모듈 FAQ") 해설서는
+  특정 디자인 및 구현 질문에 대한 해법을 제공합니다.
+  FAQ로 가기 전에 이 페이지를 먼저 읽어보세요.
 
   The companion [Angular Module FAQs](../cookbook/ngmodule-faq.html "Angular Module FAQs") cookbook
   offers ready answers to specific design and implementation questions.
   Read this page first before hopping over to those FAQs.
+
 
 .l-hr
 
 a#angular-modularity
 .l-main-section
 :marked
+  ## Angular 모듈화
   ## Angular Modularity
 
+  모듈은 애플리케이션을 구성하거나 외부 라이브러리의 기능을 통해 확장 할 수 있는 좋은 방법입니다.
+
   Modules are a great way to organize the application and extend it with capabilities from external libraries.
+
+  많은 Angular 라이브러리는 모듈입니다. (예, `FormsModule`, `HttpModule`, `RouterModule`)
+  많은 3rd party 라이브러리가 Angular 모듈이 될 수 있습니다.
+  (예, <a href="https://material.angular.io/" target="_blank">Material Design</a>,
+  <a href="http://ionicframework.com/" target="_blank">Ionic</a>,
+  <a href="https://github.com/angular/angularfire2" target="_blank">AngularFire2</a>).
 
   Many Angular libraries are modules (e.g, `FormsModule`, `HttpModule`, `RouterModule`).
   Many third party libraries are available as Angular modules (e.g.,
@@ -69,60 +160,118 @@ a#angular-modularity
   <a href="http://ionicframework.com/" target="_blank">Ionic</a>,
   <a href="https://github.com/angular/angularfire2" target="_blank">AngularFire2</a>).
 
+  Angular 모듈은 컴포넌트, 지시자 및 파이프를 응집력 있는 기능 블록으로 통합하고,
+  각각은 기능 영역, 애플리케이션 비즈니스 도메인, 워크플로우,
+  또는 공통 유틸리티의 집합에 초점을 맞추고 있습니다.
+
   Angular modules consolidate components, directives and pipes into
   cohesive blocks of functionality, each focused on a
   feature area, application business domain, workflow, or common collection of utilities.
+
+  모듈은 또한 애플리케이션에 서비스를 추가 할 수도 있습니다.
+  이러한 서비스는 애플리케이션 로거 등 내부적으로 개발 된 것일 수 있습니다.
+  그것들은 Angular 라우터나 HTTP 클라이언트와 같은 외부 소스로부터 가져올 수 있습니다.
 
   Modules can also add services to the application.
   Such services might be internally-developed such as the application logger.
   They can come from outside sources such as the Angular router and Http client.
 
+  모듈은 애플리케이션이 시작될 때 즉시 로드 될 수 있습니다.
+  또한 라우터에 의해 비동기 _지연 로딩_ 될 수도 있습니다.
+
   Modules can be loaded eagerly when the application starts.
   They can also be _lazy loaded_ asynchronously by the router.
 
+  Angular 모듈은 `@NgModule` 메타데이터로 데코레이트 된 클래스입니다. 메타데이터는:
+
   An Angular module is a class decorated with `@NgModule` metadata. The metadata:
 
+  * 모듈에 _속한_ 컴포넌트, 지시자 및 파이프를 선언합니다.
+
   * declare which components, directives and pipes  _belong_ to the module.
+
+  * 다른 컴포넌트 템플릿이 사용할 수 있도록 클래스의 일부를 public 으로 만듭니다.
+
   * make some of those classes public so that other component templates can use them.
+
+  * _해당_ 모듈의 컴포넌트에 필요한 컴포넌트, 지시자 및 파이프와 함께 다른 모듈을 임포트 합니다.
+
   * import other modules with the components, directives and pipes needed by the components in _this_ module.
+
+  * 모든 애플리케이션 컴포넌트가 사용할 수 있는 애플리케이션 레벨에서 서비스를 제공합니다.
+
   * provide services at the application level that any application component can use.
+
+  모든 Angular 앱은 적어도 하나의 모듈 클래스, _루트 모듈_이 있습니다.
+  애플리케이션을 실행하기 위해 이 모듈을 실행(bootstrap)합니다.
 
   Every Angular app has at least one module class, the _root module_.
   We bootstrap that module to launch the application.
+
+  몇 개의 컴포넌트를 가진 간단한 애플리케이션이라면 _루트 모듈_이 필요한 것의 전부입니다.
+  앱이 성장함에 따라, _루트 모듈_을 관련 기능의 집합을 표현하는
+  **기능 모듈**로 리팩토링합니다.
+  그 다음 이러한 모듈을 _루트 모듈_로 임포트합니다.
 
   The _root module_ is all we need in a simple application with a few components.
   As the app grows, we refactor the _root module_ into **feature modules**
   that represent collections of related functionality.
   We then import these modules into the _root module_.
 
+  나중에 이 페이지에서 어떻게 하는지 보겠습니다. _루트 모듈_부터 시작하겠습니다.
+
   We'll see how later in the page. Let's start with the _root module_.
 
 a#root-module
 .l-main-section
 :marked
+  ## _AppModule_ - 애플리케이션 루트 모듈
   ## _AppModule_ - the application root module
+
+  모든 Angular 앱은 **루트 모듈** 클래스가 있습니다.
+  관례적으로 `app.module.ts` 이라는 파일에 `AppModule` 클래스를 만듭니다.
 
   Every Angular app has a **root module** class.
   By convention it's a class called `AppModule` in a file named `app.module.ts`.
 
+  [_빠른시작 시드_](setup.html)의 `AppModule`은 다음과 같이 최소화 됩니다:
+
   The `AppModule` from the  [_QuickStart seed_](setup.html) is about as minimal as it gets:
 +makeExample('setup/ts/src/app/app.module.ts', '', 'src/app/app.module.ts (minimal)')(format=".")
 :marked
+  `@NgModule` 데코레이터는 모듈에 대한 메타데이터를 정의합니다.
+  메타데이터를 이해하기 위해 직관적인 접근 방식을 사용하여 세부 사항을 채워보겠습니다.
+
   The `@NgModule` decorator defines the metadata for the module.
   We'll take an intuitive approach to understanding the metadata and fill in details as we go.
 
+  이 메타데이터는 모든 브라우저가 반드시 임포트해야 하는 모듈인 단일 지원 모듈 `BrowserModule`을 임포트합니다.
+
   This metadata imports a single helper module, `BrowserModule`, the module every browser app must import.
+
+  `BrowserModule`는 중요한 애플리케이션 서비스 제공자를 등록합니다.
+  또한 모듈의 컴포넌트 템플릿에 바로 표시하게 하거나 사용 가능하게 해주는
+  `NgIf`나 `NgFor`와 같은 공통 지시자를 포함합니다.
 
   `BrowserModule` registers critical application service providers.
   It also includes common directives like `NgIf` and `NgFor` which become immediately visible and usable
   in any of this modules component templates.
 
+  `declarations` 목록은 앱의 기본 컴포넌트 트리의 맨 위에 있는
+  애플리케이션의 유일한 컴포넌트, _루트 컴포넌트_,를 식별합니다.
+
   The `declarations` list identifies the application's only component,
   the _root component_, the top of this app's rather bare component tree.
+
+  `AppComponent` 예제는 단순히 데이터-바인딩 제목을 표시합니다:
 
   The example `AppComponent` simply displays a data-bound title:
 +makeExample('ngmodule/ts/src/app/app.component.0.ts', '', 'src/app/app.component.ts (minimal)')(format=".")
 :marked
+  마지막으로, `@NgModule.bootstrap` 프로퍼티는 _시작(bootstrap) 컴포넌트_로서의 `AppComponent`를 식별합니다.
+  Angular가 앱을 시작하면, `index.html`의 `<my-app>` 엘리먼트 태그 안쪽에서
+  `AppComponent`의 HTML 렌더링을 DOM 안에 놓습니다.
+
   Lastly, the `@NgModule.bootstrap` property identifies this `AppComponent` as the _bootstrap component_.
   When Angular launches the app, it places the HTML rendering of `AppComponent` in the DOM,
   inside the `<my-app>` element tags of the `index.html`
@@ -130,42 +279,78 @@ a#root-module
 a#bootstrap
 .l-main-section
 :marked
+  ## _main.ts_에서 실행(bootstraping)
   ## Bootstrapping in _main.ts_
+  `main.ts` 파일에서 `AppModule`을 실행(bootstrap)하여 애플리케이션을 실행합니다.
+
   We launch the application by bootstrapping the `AppModule` in the `main.ts` file.
+
+  Angular는 여러 플랫폼을 대상으로 다양한 부트스트랩 옵션을 제공합니다.
+  이 페이지에서 브라우저를 대상으로 하는 두 가지 옵션을 고려해보겠습니다.
 
   Angular offers a variety of bootstrapping options, targeting multiple platforms.
   In this page we consider two options, both targeting the browser.
 
+  ### 즉시 실행 (JIT) 컴파일러를 사용한 동적 실행(bootstraping)
   ### Dynamic bootstrapping with the Just-in-time (JIT) compiler
+  첫 번째 _dynamic_ 옵션은 [Angular 컴파일러](../cookbook/ngmodule-faq.html#q-angular-compiler "Angular 컴파일러에 관련")가
+  브라우저에서 애플리케이션을 컴파일하고 앱을 실행합니다.
+
   In the first, _dynamic_ option, the [Angular compiler](../cookbook/ngmodule-faq.html#q-angular-compiler "About the Angular Compiler")
   compiles the application in the browser and then launches the app.
 
 +makeExample('ngmodule/ts/src/main.ts', '', 'src/main.ts (dynamic)')(format=".")
 :marked
+  이 페이지의 샘플은 동적 실행(bootstrap) 방법을 보여줍니다.
+
   The samples in this page demonstrate the dynamic bootstrapping approach.
+
+  <live-example embedded plnkr="minimal.0" img="devguide/ngmodule/minimal-plunker.png">라이브 예제를 실행해보세요.</live-example>
 
   <live-example embedded plnkr="minimal.0" img="devguide/ngmodule/minimal-plunker.png">Try the live example.</live-example>
 
+  ### Ahead-of-time (AOT) 컴파일러를 사용한 정적 실행(bootstraping)
 
   ### Static bootstrapping with the Ahead-Of-time (AOT) compiler
+
+  특히 모바일 기기에서 지연이 많은 네트워크라면
+  훨씬 작은 애플리케이션으로 빠르게 실행할 수 있는 정적인 방법을 고려해보세요.
 
   Consider the static alternative which can produce a much smaller application that
   launches faster, especially on mobile devices and high latency networks.
 
+  _static_ 옵션을 사용하면, Angular 컴파일러는 빌드 프로세스의 일부로 ahead-of-time을 실행하여
+  자체 파일에 클래스 팩토리 집합을 만듭니다.
+  그중 하나가 `AppModuleNgFactory` 입니다.
+
   In the _static_ option, the Angular compiler runs ahead-of-time as part of the build process,
   producing a collection of class factories in their own files.
   Among them is the `AppModuleNgFactory`.
+
+  미리 컴파일 된 `AppModuleNgFactory`를 실행(bootstrap)하는 구문은
+  `AppModule` 클래스를 동적으로 실행(boostrap)하는 것과 비슷합니다.
 
   The syntax for bootstrapping the pre-compiled `AppModuleNgFactory` is similar to
   the dynamic version that bootstraps the `AppModule` class.
 
 +makeExample('ngmodule/ts/src/main-static.ts', '', 'src/main.ts (static)')(format=".")
 :marked
+  전체 애플리케이션이 미리 컴파일 되었기 때문에,
+  브라우저에 _Angular Compiler_를 제공하지 않으며 브라우저에서 컴파일하지 않습니다.
+
   Because the entire application was pre-compiled,
   we don't ship the _Angular Compiler_ to the browser and we don't compile in the browser.
 
+  브라우저로 다운로드 된 애플리케이션 코드는 동적으로 만든 동일한 것보다 작고
+  즉시 실행할 준비가 되어 있습니다. 크게 성능이 향상될 수도 있습니다.
+
   The application code downloaded to the browser is much smaller than the dynamic equivalent
   and it is ready to execute immediately. The performance boost can be significant.
+
+  JIT이나 AOT 컴파일러는 같은 `AppModule` 소스 코드에서 `AppModuleNgFactory` 클래스를 생성합니다.
+  JIT 컴파일러는 브라우저의 메모리 상에 그 자리에서 팩토리 클래스를 생성합니다.
+  AOT 컴파일러는 `main.ts`의 정적 버전에서
+  임포트하는 실제 파일에 팩토리를 출력합니다.
 
   Both the JIT and AOT compilers generate an `AppModuleNgFactory` class from the same `AppModule`
    source code.
@@ -173,7 +358,12 @@ a#bootstrap
   The AOT compiler outputs the factory to a physical file
   that we're importing here in the static version of `main.ts`.
 
+  일반적으로, `AppModule`은 실행(bootstrap) 방법을 알지도 관리하지도 않아야만 합니다.
+
   In general, the `AppModule` should neither know nor care how it is bootstrapped.
+
+  비록 앱이 성장함에 따라 `AppModule`이 진화하지만, `main.ts`의 실행(bootstrap) 코드는 변경되지 않습니다.
+  이것이 `main.ts`를 살펴보는 마지막 시간입니다.
 
   Although the `AppModule` evolves as the app grows, the bootstrap code in `main.ts` doesn't change.
   This is the last time we'll look at `main.ts`.
@@ -183,23 +373,38 @@ a#bootstrap
 a#declarations
 .l-main-section
 :marked
+  ## 지시자와 컴포넌트 선언
   ## Declare directives and components
+  앱은 진화합니다.
+  첫번째 버전은 연결된 엘리먼트의 배경색을 설정하는 [속성 지시자](attribute-directives.html)
+  `HighlightDirective`입니다.
+
   The app evolves.
   The first addition is a `HighlightDirective`, an [attribute directive](attribute-directives.html)
   that sets the background color of the attached element.
 +makeExample('ngmodule/ts/src/app/highlight.directive.ts', '', 'src/app/highlight.directive.ts')(format=".")
 :marked
+  타이틀에 지시자를 붙이도록 `AppComponent` 템플릿을 수정합니다:
+
   We update the `AppComponent` template to attach the directive to the title:
 +makeExample('ngmodule/ts/src/app/app.component.1.ts', 'template')(format=".")
 :marked
+  지금 앱을 실행하면 Angular는 `highlight` 속성을 인식하지 못하고 그것을 무시할 것입니다.
+  `AppModule`에 지시자를 선언해야만 합니다.
+
   If we ran the app now, Angular would not recognize the `highlight` attribute and would ignore it.
   We must declare the directive in `AppModule`.
+
+  `HighlightDirective` 클래스를 임포트하고 모듈의 `declarations`에 다음과 같이 추가합니다:
 
   Import the `HighlightDirective` class and add it to the module's `declarations` like this:
 +makeExample('ngmodule/ts/src/app/app.module.1.ts', 'directive')(format=".")
 
 :marked
+  ### 컴포넌트 추가
   ### Add a component
+  우리는 `TitleComponent`에 제목을 리팩토링하기로 결정했습니다.
+  컴포넌트의 템플릿에 다음과 같이 컴포넌트의 `title`과 `subtitle` 프로퍼티를 바인딩합니다:
 
   We decide to refactor the title into its own `TitleComponent`.
   The component's template binds to the component's `title` and `subtitle` properties like this:
@@ -208,10 +413,16 @@ a#declarations
 +makeExample('ngmodule/ts/src/app/title.component.ts', 'v1', 'src/app/title.component.ts')(format=".")
 
 :marked
+  `subtitle`을 설정하는 input 바인딩을 사용하여
+  `<app-title>` 엘리먼트에서 새로운 `TitleComponent`를 보여주도록 `AppComponent`를 다시 작성합니다.
+
   We rewrite the `AppComponent` to display the new `TitleComponent` in the `<app-title>` element,
   using an input binding to set the `subtitle`.
 +makeExample('ngmodule/ts/src/app/app.component.1.ts', '', 'src/app/app.component.ts (v1)')(format=".")
 :marked
+  Angular는 `AppModule`에 선언하기 전까지는 `<app-title>` 태그를 인식할 수 없습니다.
+  `TitleComponent` 클래스를 임포트하고 모듈의 `declarations`에 그것을 추가합니다.
+
   Angular won't recognize the `<app-title>` tag until we declare it in `AppModule`.
   Import the `TitleComponent` class and add it to the module's `declarations`:
 +makeExample('ngmodule/ts/src/app/app.module.1.ts', 'component')(format=".")
@@ -219,17 +430,31 @@ a#declarations
 a#providers
 .l-main-section
 :marked
+  ## 서비스 제공자
   ## Service Providers
 
+  모듈은 모듈의 모든 컴포넌트에 서비스를 제공하기 위한 뛰어난 방법입니다.
+
   Modules are a great way to provide services for all of the module's components.
+
+  [의존성 주입](dependency-injection.html) 페이지에서는
+  Angular 계층 의존성 주입 시스템과 애플리케이션 컴포넌트 트리의
+  다른 수준에 [제공자](dependency-injection.html#providers)로 시스템을 구성하는 방법을 설명합니다.
 
   The [Dependency Injection](dependency-injection.html) page describes
   the Angular hierarchical dependency injection system and how to configure that system
   with [providers](dependency-injection.html#providers) at different levels of the
   application's component tree.
 
+  모듈은 애플리케이션의 모든 곳에서 해당 서비스를 사용할 수 있도록
+  애플리케이션의 루트 의존성 주입기에 제공자를 추가 할 수 있습니다.
+
   A module can add providers to the application's root dependency injector, making those services
   available everywhere in the application.
+
+  대부분의 애플리케이션은 현재 로그인 한 사용자에 대한 정보를 캡처하고
+  사용자 서비스를 통해 정보에 접근하도록 합니다.
+  이 샘플 애플리케이션은 이러한 `UserService`의 더미 구현을 가지고 있습니다.
 
   Many applications capture information about the currently logged-in user and make that information
   accessible through a user service.
@@ -237,14 +462,23 @@ a#providers
 
 +makeExample('ngmodule/ts/src/app/user.service.ts', '', 'src/app/user.service.ts')(format=".")
 :marked
+  샘플 애플리케이션은 로그인 한 사용자에게 애플리케이션 제목 바로 아래에 환영 메시지를 표시해야 합니다.
+  애플리케이션 제목 아래에 환영 메시지를 보여주기 위해 `TitleComponent` 템플릿을 업데이트 합니다.
+
   The sample application should display a welcome message to the logged in user just below the application title.
   Update the `TitleComponent` template to show the welcome message below the application title.
 +makeExample('ngmodule/ts/src/app/title.component.html', '', 'src/app/title.component.html')(format=".")
 :marked
+  생성자에서 `UserService`를 주입하고
+  서비스에서 컴포넌트의 `user` 프로퍼티를 설정하도록 `TitleComponent`를 수정합니다.
+
   Update the `TitleComponent` class with a constructor that injects the `UserService`
   and sets the component's `user` property from the service.
 +makeExample('ngmodule/ts/src/app/title.component.ts', '', 'src/app/title.component.ts')(format=".")
 :marked
+  우리는 서비스를 _정의_하고 _사용_했습니다.
+  이제 `AppModule` 메타데이터의 `providers` 속성에 추가하여 모든 컴포넌트가 사용할 수 있도록 _제공_합니다:
+
   We've _defined_ and _used_ the service. Now we _provide_ it for all components to use by
   adding it to a `providers` property in the `AppModule` metadata:
 +makeExample('ngmodule/ts/src/app/app.module.1.ts', 'providers', 'src/app/app.module.ts (providers)')(format=".")
@@ -252,53 +486,98 @@ a#providers
 a#imports
 .l-main-section
 :marked
+  ## 임포트 지원 모듈
   ## Import supporting modules
 
+  만약 사용자가 없다면 앱은 사용자 환영 메시지를 보이지 않아야 합니다.
+
   The app shouldn't welcome a user if there is no user.
+
+  수정된 `TitleComponent`에서 `*ngIf` 지시자가 메시지를 보호한다는 것에 주목하세요.
+  사용자가 없는 경우 메시지가 없습니다.
 
   Notice in the revised `TitleComponent` that an `*ngIf` directive guards the message.
   There is no message if there is no user.
 +makeExample('ngmodule/ts/src/app/title.component.html', 'ngIf', 'src/app/title.component.html (ngIf)')(format=".")
 :marked
+  `AppModule`이 `NgIf`를 선언하지 않았지만, 애플리케이션은 여전히 ​​컴파일 되고 실행됩니다.
+  어떻게 그럴 수 있을까요? Angular 컴파일러는 인식할 수 없는 HTML에 대해 무시하거나 불평을 해야합니다.
+
   Although `AppModule` doesn't declare `NgIf`, the application still compiles and runs.
   How can that be? The Angular compiler should either ignore or complain about unrecognized HTML.
+
+  Angular는 우리가 앞서 임포트했기 때문에 `NgIf`를 _인식합니다_.
+  `AppModule`의 초기 버전은 `BrowserModule`을 임포트합니다.
 
   Angular _does_ recognize `NgIf` because we imported it earlier.
   The initial version of `AppModule` imports `BrowserModule`.
 +makeExample('ngmodule/ts/src/app/app.module.0.ts', 'imports', 'src/app/app.module.ts (imports)')(format=".")
 :marked
+  `BrowserModule`을 임포트하면 그것의 모든 public 컴포넌트, 지시자, 파이프가
+  `AppModule`의 컴포넌트 템플릿에 보이도록 합니다. 더 이상의 소란없이 사용할 준비가 되었습니다.
+
   Importing `BrowserModule` made all of its public components, directives and pipes visible
   to the component templates in `AppModule`. They are ready to use without further ado.
+
 .l-sub-section
   :marked
+    보다 정확히 말하면, `NgIf`는 `@angular/common`의 `CommonModule`에 선언되어 있습니다.
+
     More accurately, `NgIf` is declared in `CommonModule` from `@angular/common`.
 
+    `CommonModule`은 `ngIf`와 `ngFor`를 포함해 애플리케이션이 필요로 하는 많은 공통 지시자를 가지고 있습니다.
+
     `CommonModule` contributes many of the common directives that applications need including `ngIf` and `ngFor`.
+
+    `BrowserModule`은 `CommonModule`을 임포트하고 [_다시 익스포트_](../cookbook/ngmodule-faq.html#q-re-export) 합니다.
+     최종 효과는 `BrowserModule`의 임포터가 `CommonModule` 지시자를 자동으로 얻는다는 것입니다.
 
     `BrowserModule` imports `CommonModule` and [_re-exports_](../cookbook/ngmodule-faq.html#q-re-export) it.
     The net effect is that an importer of `BrowserModule` gets `CommonModule` directives automatically.
 :marked
+  많은 익숙한 Angular 지시자는 `CommonModule`에 속하지 않았습니다.
+  예를 들어 `NgModel`과 `RouterLink`는 각각 Angular의 `FormsModule`과 `RouterModule`에 속합니다.
+  이것의 지시자를 사용하기 전에 반드시 이러한 모듈을 _임포트_해야 합니다.
+
   Many familiar Angular directives do not belong to`CommonModule`.
   For example,  `NgModel` and `RouterLink` belong to Angular's `FormsModule` and `RouterModule` respectively.
   We must _import_ those modules before we can use their directives.
 
+  이 점을 설명하기 위해, 샘플 앱을 `ContactComponent`로 확장 해보겠습니다.
+  `ContactComponent`는 Angular `FormsModule`에서 폼 지원을 임포트하는 폼 컴포넌트입니다.
+
   To illustrate this point, we extend the sample app with `ContactComponent`,
   a form component that imports form support from the Angular `FormsModule`.
 
+  ### _ContactComponent_ 추가
   ### Add the _ContactComponent_
 
+  [Angular 폼](forms.html)은 사용자의 데이터 항목을 관리 할 수 있는 좋은 방법입니다.
+
   [Angular Forms](forms.html) are a great way to manage user data entry.
+
+  `ContactComponent`는 [_template 기반의 폼_](forms.html) 스타일로 _Angular 폼_을 구현한
+  "연락처 편집기"를 제공합니다.
 
   The `ContactComponent` presents a "contact editor",
   implemented with _Angular Forms_ in the [_template-driven form_](forms.html) style.
 
 .l-sub-section
   :marked
+    ### Angular 폼 스타일
     ### Angular Form Styles
+    우리는 Angular 폼 컴포넌트를
+    [_template 기반의 폼_](forms.html) 스타일 또는
+    [_reactive 폼_](../cookbook/dynamic-form.html) 스타일로 작성합니다.
 
     We write Angular form components in either the
     [_template-driven form_](forms.html) style or
     the [_reactive form_](../cookbook/dynamic-form.html) style.
+
+    이 샘플에서 `FormsModule`를 `@angular/forms`에서 임포트하려고 합니다.
+    왜냐하면 `ContactComponent`가 _template 기반_ 스타일로 작성되어 있기 때문입니다.
+    _reactive_ 스타일로 작성된 컴포넌트의 모듈은
+    대신에 `ReactiveFormsModule`을 임포트해야만 합니다.
 
     This sample is about to import the `FormsModule` from `@angular/forms` because
     the `ContactComponent` is written in the _template-driven_ style.
@@ -306,15 +585,26 @@ a#imports
     should import the `ReactiveFormsModule` instead.
 
 :marked
+  `ContactComponent` 선택자는 `<app-contact>` 이름을 가진 엘리먼트를 찾습니다.
+  `<app-title>` 바로 아래에 해당 이름을 가진 엘리먼트를 `AppComponent` 템플릿에 추가합니다.
+
   The `ContactComponent` selector matches an element named `<app-contact>`.
   Add an element with that name to the `AppComponent` template just below the `<app-title>`:
 +makeExample('ngmodule/ts/src/app/app.component.1b.ts', 'template', 'src/app/app.component.ts (template)')(format=".")
 
 :marked
+  `ContactComponent`는 해야할 많은 일이 있습니다.
+  Form 컴포넌트는 종종 복잡해지는데 이번에는 자체의 `ContactService`를 가지고,
+  `Awesome`이라 불리는 자체 [커스텀 파이프](#pipes.html#custom-pipes)를 가지고,
+  `HighlightDirective`의 다른 버전을 가지고 있습니다.
+
   The `ContactComponent` has a lot going on.
   Form components are often complex anyway and this one has its own `ContactService`,
   its own [custom pipe](#pipes.html#custom-pipes) called `Awesome`,
   and an alternative version of the `HighlightDirective`.
+
+  관리가 용이하도록 모든 연락처 관련된 것들을 `app/contact` 폴더에 놓고
+  컴포넌트를 3가지 구성요소 HTML, TypeScript, css 파일로 나눕니다.
 
   To make it manageable, we place all contact-related material in an `src/app/contact` folder
   and break the component into three constituent HTML, TypeScript, and css files:
@@ -335,38 +625,67 @@ a#imports
   src/app/contact/highlight.directive.ts
   `)
 :marked
+  컴포넌트 템플릿에 집중하세요.
+  템플릿 중간의 양방향 데이터 바인딩 `[(ngModel)]`에 유의하세요.
+  `ngModel`은 `NgModel` 지시자의 선택자입니다.
+
   Focus on the component template.
   Notice the two-way data binding `[(ngModel)]` in the middle of the template.
   `ngModel` is the selector for the `NgModel` directive.
 
+  `NgModel`은 Angular 지시자이지만 _Angular 컴파일러_는 그것을 인식하지 못합니다.
+  (a) `AppModule`은 그것을 선언하지 않고 (b) `BrowserModule`을 통해 임포트하지 않았기 때문입니다.
+
   Although `NgModel` is an Angular directive, the _Angular Compiler_ won't recognize it
   because (a) `AppModule` doesn't declare it and (b) it wasn't imported via `BrowserModule`.
+
+  분명하지 않지만 Angular가 어떻게든 `ngModel`을 인식하더라도,
+  이 `ContactComponent`는 Angular 폼처럼 행동하지 않을 것입니다.
+  왜냐하면 유효성 검사와 같은 폼 기능은 아직 사용할 수 없기 때문입니다.
 
   Less obviously, even if Angular somehow recognized `ngModel`,
   this `ContactComponent` would not behave like an Angular form because
   form features such as validation are not yet available.
 
+  ### FormsModule 임포트
   ### Import the FormsModule
+
+  `FormsModule`을 `AppModule` 메타데이터의 `imports` 목록에 추가합니다.
 
   Add the `FormsModule` to the `AppModule` metadata's `imports` list.
 +makeExample('ngmodule/ts/src/app/app.module.1.ts', 'imports')(format=".")
 :marked
+  이제 새로운 컴포넌트, 파이프 및 지시자를 선언하면
+  `[(ngModel)]` 바인딩이 작동하고 사용자 입력은 Angular 폼에 의해 유효성이 검사됩니다.
+
   Now `[(ngModel)]` binding will work and the user input will be validated by Angular Forms,
   once we declare our new component, pipe and directive.
 
 .alert.is-critical
   :marked
+    `NgModel` &mdash; 또는 `FORMS_DIRECTIVES` &mdash;을
+    `AppModule` 메타데이터의 선언부에 추가하지 **마세요**!   
+
     **Do not** add `NgModel` &mdash; or the `FORMS_DIRECTIVES` &mdash;
     to the `AppModule` metadata's declarations!
 
+    이러한 지시자는 `FormsModule`에 속합니다.
+    컴포넌트, 지시자 및 파이프는 하나의 모듈 &mdash; _오직 하나의 모듈_.에 속합니다.
+
     These directives belong to the `FormsModule`.
     Components, directives and pipes belong to one module &mdash; and _one module only_.
+
+    **절대 다른 모듈에 속한 클래스를 재선언하지 마세요.**
 
     **Never re-declare classes that belong to another module.**
 
 a#declare-pipe
 :marked
+  ### 연락처 컴포넌트, 지시자 및 파이프 선언
   ### Declare the contact component, directive and pipe
+
+  애플리케이션은 우리가 연락처 컴포넌트, 지시자, 파이프를 선언하기 전까지 컴파일에 실패합니다.
+  그에 맞춰 `AppModule`의 `declarations`를 업데이트하세요:
 
   The application fails to compile until we declare the contact component, directive and pipe.
   Update the `declarations` in the  `AppModule` accordingly:
@@ -375,58 +694,107 @@ a#declare-pipe
 a#import-name-conflict
 .l-sub-section
   :marked
+    동일한 이름을 가진 두 개의 지시자가 있습니다. 이들은 모두 `HighlightDirective`라고 불립니다.
+
     There are two directives with the same name, both called `HighlightDirective`.
+
+    이 문제는 `as`라는 JavaScript 임포트 키워드를 사용하여 두 번째 연락처 버전에 대한 별칭을 만들어 해결할 수 있습니다.
 
     We work around it by creating an alias for the second, contact version using the `as` JavaScript import keyword:
   +makeExample('ngmodule/ts/src/app/app.module.1b.ts', 'import-alias')(format=".")
   :marked
+    이것은 동일한 파일에서 양쪽의 지시자 _타입_을 참조하는 당면의 문제를 해결하지만
+    [아래](#resolve-conflicts)에서 논의 할 다른 문제는 해결하지 못합니다.
+
     This solves the immediate problem of referencing both directive _types_ in the same file but
     leaves another problem unresolved as we discuss [below](#resolve-conflicts).
 
 :marked
+  ### _ContactService_ 제공
   ### Provide the _ContactService_
+  `ContactComponent`는 Angular가 생성자에 주입한 `ContactService`에서
+  구한 연락처를 표시합니다.
+
   The `ContactComponent` displays contacts retrieved by the `ContactService`
   which Angular injects into its constructor.
+
+  우리는 어딘가에 그 서비스를 제공해야 합니다.
+  `ContactComponent`는 그것을 제공 _할 수 있습니다_.
+  하지만 이것은 _오직_ 해당 컴포넌트로 범위가 한정됩니다.
+  이 서비스를 나중에 추가 할 다른 연락 관련 컴포넌트와 공유하기를 원합니다.
 
   We have to provide that service somewhere.
   The `ContactComponent` _could_ provide it.
   But then it would be scoped to this component _only_.
   We want to share this service with other contact-related components that we will surely add later.
 
+  이 앱에서는 `ContactService`를 `AppModule` 메타데이터의 `provider` 목록에 추가하기로 했습니다:
+
   In this app we chose to add `ContactService` to the `AppModule` metadata's `providers` list:
 +makeExample('ngmodule/ts/src/app/app.module.1b.ts', 'providers', 'src/app/app.module.ts (providers)')(format=".")
 :marked
+  이제 (`UserService` 처럼) `ContactService`는 애플리케이션의 어떤 컴포넌트에도 주입될 수 있습니다.
+
   Now `ContactService` (like `UserService`) can be injected into any component in the application.
 
 a#application-scoped-providers
 .l-sub-section
   :marked
+    ### 애플리케이션 범위의 제공자
     ### Application-scoped Providers
+
+      Angular는 모듈의 `providers`를 애플리케이션의 **루트 인젝터**로 등록하기 때문에
+      `ContactService` 공급자는 _애플리케이션_-범위입니다.
+
       The `ContactService` provider is _application_-scoped because Angular
       registers a module's `providers` with the application's **root injector**.
 
+      구조상, `ContactService`는 Contact 비즈니스 도메인에 속합니다.
+      _다른_ 도메인의 클래스들은 `ContactService`를 필요로 하지 않으므로 그것을 주입해서는 안됩니다.
+
       Architecturally, the `ContactService` belongs to the Contact business domain.
       Classes in _other_ domains don't need the `ContactService` and shouldn't inject it.
+
+      Angular가 이 디자인을 시행하기 위해 _모듈_-범위 메커니즘을 제공 할 것으로 기대할 수 있습니다.
+      그러나 그렇지 않습니다. Angular 모듈 인스턴스는 컴포넌트와 달리 고유 한 인젝터가 없으므로
+      자체 공급자 범위를 가질 수 없습니다.
 
       We might expect Angular to offer a _module_-scoping mechanism to enforce this design.
       It doesn't. Angular module instances, unlike components, do not have their own injectors
       so they can't have their own provider scopes.
 
+      이 누락은 의도적 인 것입니다.
+      Angular 모듈은 주로 애플리케이션을 확장하여
+      모듈의 기능으로 전체 앱을 풍부하게 만들도록 설계되었습니다.
+
       This omission is intentional.
       Angular modules are designed primarily to extend an application,
       to enrich the entire app with the module's capabilities.
+
+      서비스 범위는 실제로 거의 문제가 되지 않습니다.
+      비 접촉 컴포넌트는 우연히 `ContactService`를 주입 할 수 없습니다.
+      `ContactService`를 주입하려면 먼저 _타입_을 임포트 해야 합니다.
+      오직 연락처 컴포넌트만 'ContactService` _타입_을 임포트 해야만 합니다.
 
       Service scoping is rarely a problem in practice.
       Non-contact components can't inject the `ContactService` by accident.
       To inject `ContactService`, you must first import its _type_.
       Only Contact components should import the `ContactService` _type_.
 
+      [이 문제를 다루는 FAQ](../cookbook/ngmodule-faq.html#q-component-scoped-providers)
+      및 그 완화 방법에 대해 자세히 알아보세요.
+
       See the [FAQ that pursues this issue](../cookbook/ngmodule-faq.html#q-component-scoped-providers)
       and its mitigations in greater detail.
 
 :marked
+  ### 앱 실행
   ### Run the app
+  이제 모든 것이 연락처 에디터와 함께 애플리케이션을 실행할 위치에 놓여있습니다.
+
   Everything is now in place to run the application with its contact editor.
+
+  앱 파일 구조는 다음과 같습니다:
 
   The app file structure looks like this:
 .filetree
@@ -445,18 +813,27 @@ a#application-scoped-providers
       .file highlight.directive.ts
 
 :marked
+  예제를 실행해보세요:
+
   Try the example:
   <live-example embedded plnkr="contact.1b" img="devguide/ngmodule/contact-1b-plunker.png"></live-example>
 
 a#resolve-conflicts
 .l-main-section
 :marked
+  ## 지시자 충돌 해결
   ## Resolve directive conflicts
+  이미 애플리케이션 레벨의 `HighlightDirective` 클래스를 가지고 있기 때문에
+  연락처의 `HighlightDirective`를 선언 할 때 [위의 문제](#import-name-conflict)를 만나게 됩니다.
 
   We ran into trouble [above](#import-name-conflict) when we declared the contact's `HighlightDirective` because
   we already had a `HighlightDirective` class at the application level.
 
+  두 지시어 모두 동일한 이름을 가져 문제의 낌새가 있습니다.
+
   That both directives have the same name smells of trouble.
+
+  선택자를 살펴보면 두가지 모두 다른 색상으로 연결된 엘리먼트를 강조 표시합니다.
 
   A look at their selectors reveals that they both highlight the attached element with a different color.
 +makeTabs(
@@ -467,8 +844,16 @@ a#resolve-conflicts
    src/app/contact/highlight.directive.ts`)
 
 :marked
+  Angular는 이 중 하나만 사용할까요? 아닙니다.
+  두 가지 모두 이 모듈에 선언되어서 _두 지시자 모두 활성화_ 됩니다.
+
   Will Angular use only one of them? No.
   Both directives are declared in this module so _both directives are active_.
+
+  두 지시자가 같은 엘리먼트에 색을 칠하기 위해 경쟁 할 때,
+  나중에 선언된 지시자가 승리합니다. 왜냐하면 DOM 변경사항은 처음의 것을 덮어쓰기 때문입니다.
+  이 경우 연락처의 `HighlightDirective`는 애플리케이션 제목 텍스트는 금색이어야만 하지만
+  파란색을 표시합니다.
 
   When the two directives compete to color the same element,
   the directive declared later wins because its DOM changes overwrite the first.
@@ -477,22 +862,41 @@ a#resolve-conflicts
 
 .l-sub-section
   :marked
+    진짜 문제는 동일한 일을 하려고 하는 _두 개의 다른 클래스_가 있을 경우입니다.
+
     The real problem is that there are _two different classes_ trying to do the same thing.
+
+    _같은_ 지시자 클래스를 여러 번 임포트 하는 것은 괜찮습니다.
+    Angular는 중복 클래스를 제거하고 그 중 하나만 등록합니다.
 
     It's OK to import the _same_ directive class multiple times.
     Angular removes duplicate classes and only registers one of them.
 
+    그러나 이들은 실제로 서로 다른 파일에 정의 된, 두 개의 다른 클래스이며, 같은 이름을 가집니다.
+
     But these are actually two different classes, defined in different files, that happen to have the same name.
+
+    그들은 Angular의 관점에서 보면 중복되지 않습니다.
+    Angular는 두 지시자를 모두 유지하며 그들은 같은 HTML 엘리먼트를 수정합니다.
 
     They're not duplicates from Angular's perspective. Angular keeps both directives and
     they take turns modifying the same HTML element.
 
 :marked
+  적어도 앱은 여전히 컴파일됩니다.
+  동일한 엘리먼트 태그를 지정하여 동일한 선택자로 두 개의 다른 컴포넌트 클래스를 정의하는 경우,
+  컴파일러가 오류를 보고합니다. 동일한 DOM 위치에 두 개의 컴포넌트를 삽입 할 수 없습니다.
+
   At least the app still compiles.
   If we define two different component classes with the same selector specifying the same element tag,
   the compiler reports an error. It can't insert two components in the same DOM location.
 
+  엉망이군요!
+
   What a mess!
+
+  다른 모듈의 선언으로부터 한 모듈의 선언을 격리하는 기능 모듈을
+  작성하여 컴포넌트 및 지시자 충돌을 제거할 수 있습니다.
 
   We can eliminate component and directive conflicts by creating feature modules
   that insulate the declarations in one module from the declarations in another.
@@ -500,103 +904,203 @@ a#resolve-conflicts
 a#feature-modules
 .l-main-section
 :marked
+  ## 기능 모듈
   ## Feature Modules
+  이 애플리케이션은 아직 크지 않습니다. 그러나 이미 구조적으로 어려움을 겪고 있습니다.
 
   This application isn't big yet. But it's already suffering structural problems.
 
+  * 루트 `AppModule`은 새로운 어플리케이션 클래스와 함께 커지며 멈출 것 같지 않습니다.
+
   * The root `AppModule` grows larger with each new application class and shows no signs of stopping.
 
-  * We have conflicting directives.
-  The `HighlightDirective` in contact is re-coloring the work done by the `HighlightDirective` declared in `AppModule`.
-  And it's coloring the application title text when it should only color the `ContactComponent`.
+  * 지시자 충돌이 있습니다.
 
-  * The app lacks clear boundaries between contact functionality and other application features.
-  That lack of clarity makes it harder to assign development responsibilities to different teams.
+    We have conflicting directives.
+
+    연락처의 `HighlightDirective`는 `AppModule`에 선언된 `HighlightDirective`에 의해 수행 된 작업을 다시 채색합니다.
+    그리고 그것은 `ContactComponent`만 색칠해야 할 때도 애플리케이션 제목 텍스트를 채색합니다.
+
+    The `HighlightDirective` in contact is re-coloring the work done by the `HighlightDirective` declared in `AppModule`.
+    And it's coloring the application title text when it should only color the `ContactComponent`.
+
+  * 애플리케이션은 연락처 기능과 다른 애플리케이션 기능 사이에 명확한 경계가 없습니다.
+
+    The app lacks clear boundaries between contact functionality and other application features.
+
+    명확성이 부족하여 개발 책임을 여러 팀에 할당하기가 더 어려워집니다.
+
+    That lack of clarity makes it harder to assign development responsibilities to different teams.
+
+  _기능 모듈_을 사용하여 이러한 문제를 완화합니다.
 
   We mitigate these problems with _feature modules_.
 
+  ### _기능 모듈_
   ### _Feature Module_
+
+  _기능 모듈_은 루트 모듈과 마찬가지로 `@NgModule` 데코레이터와 메타데이터로
+  장식된 클래스입니다.
+  기능 모듈 메타데이터는 루트 모듈의 메타데이터와 동일한 속성을 갖습니다.
 
   A _feature module_ is a class adorned by the `@NgModule` decorator and its metadata,
   just like a root module.
   Feature module metadata have the same properties as the metadata for a root module.
 
+  루트 모듈과 기능 모듈은 같은 실행 컨텍스트를 공유합니다.
+  이들은 동일한 의존성 인젝터를 공유합니다. 이는 하나의 모듈에 있는
+  서비스를 모든 사람이 사용할 수 있음을 의미합니다.
+
   The root module and the feature module share the same execution context.
   They share the same dependency injector which means the services in one module
   are available to all.
 
+  여기에는 두 가지 중요한 기술적 차이가 있습니다:
+
   There are two significant technical differences:
 
-  1. We _boot_ the root module to _launch_ the app;
-  we _import_ a feature module to _extend_ the app.
+  1. 앱을 _실행(launch)_하기 위해 루트 모듈을 _실행(boot)_합니다;
 
-  2. A feature module can expose or hide its implementation from other modules.
+     We _boot_ the root module to _launch_ the app;
+
+     우리는 앱을 _확장_하기 위해 기능 모듈을 _임포트_합니다.
+
+     we _import_ a feature module to _extend_ the app.
+
+  2. 기능 모듈은 다른 모듈로부터 구현을 노출하거나 숨길 수 있습니다.
+
+     A feature module can expose or hide its implementation from other modules.
+
+  그렇지 않은 경우 기능 모듈은 주로 그것의 의도에 의해 구별됩니다.
 
   Otherwise, a feature module is distinguished primarily by its intent.
+
+  기능 모듈은 애플리케이션 비즈니스 도메인, 사용자 워크플로, 기능 (폼, http, 라우팅)
+  또는 관련 유틸리티 모음에 초점을 맞춘 응집력 있는 기능 집합을 제공합니다.
 
   A feature module delivers a cohesive set of functionality
   focused on an application business domain, a user workflow, a facility (forms, http, routing),
   or a collection of related utilities.
 
+  루트 모듈 내에서 모든 작업을 수행 할 수 있지만
+  기능 모듈은 앱을 특정 관심 분야나 목적으로 분할하는 데 도움이 됩니다.
+
   While we can do everything within the root module,
   feature modules help us partition the app into areas of specific interest and purpose.
+
+  기능 모듈은 그것이 제공하는 서비스와 공유하려고 선택한 컴포넌트, 지시자 및 파이프를
+  통해 루트 모듈 및 다른 모듈과 협력합니다.
 
   A feature module collaborates with the root module and with other modules
   through the services it provides and
   the components, directives, and pipes that it chooses to share.
 
+  다음 섹션에서는 루트 모듈의 연락처 기능을 전용 기능 모듈로 작성해보겠습니다.
+
   In the next section, we carve the contact functionality out of the root module
   and into a dedicated feature module.
 
   <a id="contact-module-v1"></a>
+  ### _연락처_ 기능 모듈 작성
   ### Make _Contact_ a feature module
+
+  연락처 자료를 연락처 기능 모듈로 리팩토링 하는 것은 쉽습니다.
 
   It's easy to refactor the contact material into a contact feature module.
 
+  1. `src/app/contact` 폴더에 `ContactModule` 생성
+
   1. Create the `ContactModule` in the `src/app/contact` folder.
+
+  1. `AppModule`의 연락처 자료를 `ContactModule`로 이동
+
   1. Move the contact material from `AppModule` to `ContactModule`.
+
+  1. 임포트한 `BrowserModule`을 `CommonModule`로 교체
+
   1. Replace the imported  `BrowserModule` with `CommonModule`.
+
+  1. `ContactModule`을 `AppModule`에 임포트
+
   1. Import the `ContactModule` into the `AppModule`.
+
+  `AppModule`은 변경되는 유일한 _기존_ 클래스입니다. 그러나 새로운 파일 하나를 추가하겠습니다.
 
   `AppModule` is the only _existing_ class that changes. But we do add one new file.
 
+  ### _ContactModule_ 추가
   ### Add the _ContactModule_
+
+  여기 새로운 `ContactModule`이 있습니다.
 
   Here's the new `ContactModule`
 +makeExample('ngmodule/ts/src/app/contact/contact.module.2.ts', '', 'src/app/contact/contact.module.ts')
 :marked
+  연락처와 관련된 import 문과 `@NgModule` 프로퍼티를
+  `AppModule`에서 복사하여 연락처와 관련된 `ContactModule`에 붙여넣습니다.
+
   We copy from `AppModule` the contact-related import statements and the `@NgModule` properties
   that concern the contact and paste them in `ContactModule`.
+
+  연락처 컴포넌트가 필요로 하기 때문에 `FormsModule`을 임포트합니다.
 
   We _import_ the `FormsModule` because the contact component needs it.
 .alert.is-important
   :marked
+    모듈은 다른 모듈에서 선언 된 컴포넌트, 지시자 또는 파이프에 대한 액세스 권한을 상속하지 않습니다.
+    `AppModule`이 임포트하는 것은 `ContactModule`과 관련이 없으며 반대도 마찬가지입니다.
+    `ContactComponent`가 `[(ngModel)]`과 바인드 되기 전에, `ContactModule`은 `FormsModule`을 임포트해야 합니다.
+
     Modules do not inherit access to the components, directives or pipes that are declared in other modules.
     What `AppModule` imports is irrelevant to `ContactModule` and vice versa.
     Before `ContactComponent` can bind with `[(ngModel)]`, its `ContactModule` must import `FormsModule`.
 :marked
+  또한 `BrowserModule`을 [FAQ](../cookbook/ngmodule-faq.html#q-browser-vs-common-module)에서
+  설명한 이유로 `CommonModule`으로 대체했습니다.
+
   We also replaced `BrowserModule` by `CommonModule` for reasons explained in
   [an FAQ](../cookbook/ngmodule-faq.html#q-browser-vs-common-module).
 
+  모듈 `declarations`에서 연락처 컴포넌트, 지시자 및 파이프를 _선언_합니다.
+
   We _declare_ the contact component, directive, and pipe in the module `declarations`.
+
+  우리는 `ContactComponent`를 _익스포트_합니다.
+  그래서 `ContactModule`을 임포트하는 다른 모듈들은 그것들을 컴포넌트 템플릿에 포함시킬 수 있습니다.
 
   We _export_ the `ContactComponent` so
   other modules that import the `ContactModule` can include it in their component templates.
+
+  다른 모든 선언된 연락처 클래스는 기본적으로 private 입니다.
+  `AwesomePipe`와 `HighlightDirective`는 애플리케이션 나머지 부분에 숨겨져 있습니다.
+  `HighlightDirective`는 더 이상 `AppComponent` 제목 텍스트를 색칠할 수 없습니다.
 
   All other declared contact classes are private by default.
   The `AwesomePipe` and `HighlightDirective` are hidden from the rest of the application.
   The `HighlightDirective` can no longer color the `AppComponent` title text.
 
 :marked
+ ### _AppModule_ 리팩토링
  ### Refactor the _AppModule_
+ `AppModule`로 돌아와서 연락처 기능 세트와 특정된 모든 것을 제거합니다.
+
  Return to the `AppModule` and remove everything specific to the contact feature set.
+
+ 연락처 임포트 구문을 삭제합니다.
+ 연락처 선언과 연락처 제공자를 삭제합니다.
+ `imports` 목록에서 `FormsModule`을 제거합니다. (`AppComponent`는 그것이 필요하지 않습니다.)
+ 오직 애플리케이션 루트 레벨에서 필요로 하는 클래만 남겨둡니다.
 
  Delete the contact import statements.
  Delete the contact declarations and contact providers.
  Remove the `FormsModule` from the `imports` list (`AppComponent` doesn't need it).
  Leave only the classes required at the application root level.
 
+ 그 다음 `ContactModule`을 임포트하여 앱이 익스포트 된 `ContactComponent`를 계속 표시할 수 있습니다.
+
  Then import the `ContactModule` so the app can continue to display the exported `ContactComponent`.
+
+ 다음은 앞의 버전을 단계별로 리팩토링한 `AppModule` 버전입니다.
 
  Here's the refactored version of the `AppModule` side-by-side with the previous version.
 +makeTabs(
@@ -606,26 +1110,63 @@ a#feature-modules
   `src/app/app.module.ts (v2),
    src/app/app.module.ts (v1)`)
 :marked
+ ### 개선사항
  ### Improvements
 :marked
+  수정된 `AppModule`에는 좋아할 만한 것들이 많이 있습니다.
+
   There's a lot to like in the revised `AppModule`
+
+  * _연락처_ 도메인이 성장해도 변경되지 않습니다.
+
   * It does not change as the _Contact_ domain grows.
+
+  * 오직 새로운 모듈을 추가할 때만 변경이 일어납니다.
+
   * It only changes when we add new modules.
-  * It's simpler:
+
+  * 보다 간결합니다:
+
+    It's simpler:
+
+    * 보다 적은 임포트 구문
+
     * Fewer import statements
+
+    * `FormsModule` 임포트 없음
+
     * No `FormsModule` import
+
+    * 연락처 특화 선언부 없음
+
     * No contact-specific declarations
+
+    * `ContactService` 제공자 없음
+
     * No `ContactService` provider
+
+    * `HighlightDirective` 충돌이 없음
+
     * No `HighlightDirective` conflict
 
+  샘플의 `ContactModule` 버전을 시도해 보세요.
+
   Try this `ContactModule` version of the sample.
+
+  <live-example embedded plnkr="contact.2" img="devguide/ngmodule/contact-2-plunker.png">라이브 예제를 실행해보세요.</live-example>
 
   <live-example embedded plnkr="contact.2" img="devguide/ngmodule/contact-2-plunker.png">Try the live example.</live-example>
 
 a#lazy-load
 .l-main-section
 :marked
+  ## 라우터를 통한 지연 로딩 모듈
   ## Lazy loading modules with the Router
+
+  Heroic Staffing Agency 샘플 앱이 진화했습니다.
+  두 개의 모듈이 더 생겼습니다. 하나는 히어로 관리를 위한 것이고, 다른 하나는 위기를 히어로에 매칭 시키는 것입니다.
+  두 모듈 모두 개발 초기 단계에 있습니다.
+  그들의 세부 사항은 이야기에 중요하지 않으며 우리는 모든 코드 라인을 논의하지는 않을 것입니다.
 
   The Heroic Staffing Agency sample app has evolved.
   It has two more modules, one for managing the heroes-on-staff and another for matching crises to the heroes.
@@ -633,109 +1174,198 @@ a#lazy-load
   Their specifics aren't important to the story and we won't discuss every line of code.
 .l-sub-section
   :marked
-    Examine and download the complete source for this version from the
-    <live-example plnkr="pre-shared.3" img="devguide/ngmodule/v3-plunker.png">live example.</live-example>
+    이 버전의 모든 소스를 <live-example plnkr="pre-shared.3" img="devguide/ngmodule/v3-plunker.png">라이브 예제</live-example>에서 살펴보고 다운로드하세요.
+
+    Examine and download the complete source for this version from the <live-example plnkr="pre-shared.3" img="devguide/ngmodule/v3-plunker.png">live example.</live-example>
 :marked
+  현재 애플리케이션의 일부분은 토론의 여지가 있습니다.
+
   Some facets of the current application merit discussion.
 
+  * 앱은 3가지 기능 모듈이 있습니다: 연락처, 히어로, 위기
+
   * The app has three feature modules: Contact, Hero, and Crisis.
+
+  * Angular 라우터는 사용자가 이러한 모듈을 탐색하는 것을 도와줍니다.
+
   * The Angular router helps users navigate among these modules.
+
+  * `ContactComponent`는 앱이 시작할 때 기본 목적지입니다.
+
   * The `ContactComponent` is the default destination when the app starts.
+
+  * `ContactModule`은 애플리케이션이 시작될 때 계속하여 "즉시" 로딩됩니다.
+
   * The `ContactModule` continues to be "eagerly" loaded when the application starts.
+
+  * `HeroModule`과 `CrisisModule`은 지연 로딩됩니다.
+
   * `HeroModule` and the `CrisisModule` are lazy loaded.
 
   <a id="app-component-template"></a>
+  새로운 `AppComponent` 템플릿의 상단에서 시작합시다:
+  타이틀, 3개의 링크, 그리고 `<router-outlet>`.
+
   Let's start at the top with the new `AppComponent` template:
   a title, three links, and a `<router-outlet>`.
 +makeExample('ngmodule/ts/src/app/app.component.3.ts', 'template', 'src/app/app.component.ts (v3 - Template)')(format='.')
 :marked
+  `<app-contact>` 엘리먼트는 없어졌습니다; 이제 _연락처_ 페이지로 라우팅하고 있습니다.
+
   The `<app-contact>` element is gone; we're routing to the _Contact_ page now.
+
+  `AppModule`이 알맞게 변경되었습니다:
 
   The `AppModule` has changed modestly:
 +makeExample('ngmodule/ts/src/app/app.module.3.ts', '', 'src/app/app.module.ts (v3)')
 .l-sub-section
   :marked
+    어떤 파일 이름은 이전 또는 이후 버전과 다른
+    `.3` 확장자를 가지고 있습니다.
+    예정된 코스에서 중요한 차이점을 설명할 것입니다.
+
     Some file names bear a `.3` extension indicating
     a difference with prior or future versions.
     We'll explain differences that matter in due course.
 
 :marked
+  모듈은 여전히 `ContactModule`을 임포트하여 앱이 시작될 때 route와 컴포넌트가 마운트 되도록 합니다.
+
   The module still imports `ContactModule` so that its routes and components are mounted when the app starts.
+
+  모듈은 `HeroModule`이나 `CrisisModule`을 가져 오지 _않습니다_.
+  사용자가 route 중 하나를 탐색 할 때 비동기적으로 가져와 마운트 합니다.
 
   The module does _not_ import `HeroModule` or `CrisisModule`.
   They'll be fetched and mounted asynchronously when the user navigates to one of their routes.
+
+  버전 2에서 중요한 변화는 ***AppRoutingModule***을 `imports` 모듈에 추가 한 것입니다.
+  `AppRoutingModule`은 앱의 라우팅 문제를 다루는
+  [_라우팅 모듈_](../guide/router.html#routing-module)입니다.
 
   The significant change from version 2 is the addition of the ***AppRoutingModule*** to the module `imports`.
   The `AppRoutingModule` is a [_Routing Module_](../guide/router.html#routing-module)
   that handles the app's routing concerns.
 
+  ### 앱 라우팅
   ### App routing
 +makeExample('ngmodule/ts/src/app/app-routing.module.ts', '', 'src/app/app-routing.module.ts')(format='.')
 :marked
+  라우터는 [라우터 자체 페이지](router.html)의 주제이므로 세부 사항을
+  가볍게 건너뛰고 Angular 모듈과 라우팅의 교집합에 집중할 것입니다.
+
   The router is the subject of [its own page](router.html) so we'll skip lightly over the details and
   concentrate on the intersection of Angular modules and routing.
 
+  이 파일은 세 가지 route를 정의합니다.
+
   This file defines three routes.
+
+  첫 번째 경로는 빈 URL (예: `http://host.com/`)을 route가 `연락처`인
+  다른 경로 (예: `http://host.com/contact`)로 돌려 보냅니다.
 
   The first redirects the empty URL (e.g., `http://host.com/`)
   to another route whose path is `contact` (e.g., `http://host.com/contact`).
+
+  `contact` route는 여기서 정의되지 않았습니다.
+  이것은 _연락처_ 기능의 _자체_ 라우팅 모듈인 `contact-routing.module.ts`에 정의되어 있습니다.
+  라우팅 컴포넌트가 있는 기능 모듈이 자체 route를 정의하는 것이 일반적인 방법입니다.
+  잠시 후에 그 파일을 살펴보겠습니다.
 
   The `contact` route isn't defined here.
   It's defined in the _Contact_ feature's _own_ routing module, `contact-routing.module.ts`.
   It's standard practice for feature modules with routing components to define their own routes.
   We'll get to that file in a moment.
 
+  나머지 두 경로는 지연 로딩 구문을 사용하여 라우터에 모듈을 찾을 위치를 알려줍니다:
+
   The remaining two routes use lazy loading syntax to tell the router where to find the modules:
 +makeExample('ngmodule/ts/src/app/app-routing.module.ts', 'lazy-routes')(format='.')
 .l-sub-section
   :marked
+    지연 로딩 된 모듈 위치는 _타입_이 아닌 _문자열_입니다.
+    이 애플리케이션에서 문자열은 모듈 _파일_과 모듈 _클래스_를 모두 식별합니다.
+    후자는 전자와 `#`으로 구분되어 있습니다.
+
     A lazy loaded module location is a _string_, not a _type_.
     In this app, the string identifies both the module _file_ and the module _class_,
     the latter separated from the former by a `#`.
 
 :marked
   ### RouterModule.forRoot
+  ### RouterModule.forRoot
+
+  제공된 설정을 가진 `RouterModule`의 `forRoot` 정적 클래스 메소드는
+  `imports` 배열에 추가되어 모듈에 대한 라우팅 문제를 제공합니다.
 
   The `forRoot` static class method of the `RouterModule` with the provided configuration,
   added to the `imports` array provides the routing concerns for the module.
 +makeExample('ngmodule/ts/src/app/app-routing.module.ts', 'forRoot')(format='.')
 :marked
+  반환 된 `AppRoutingModule` 클래스는 `RouterModule` 지시자와 구성된 `Router`를 생성하는
+  의존성 주입 제공자 모두를 포함하는 `Routing Module`입니다.
+
   The returned `AppRoutingModule` class is a `Routing Module` containing both the `RouterModule` directives
   and the Dependency Injection providers that produce a configured `Router`.
+
+  이 `AppRoutingModule`은 _오직_ _루트_ 모듈을 위한 것입니다.
 
   This `AppRoutingModule` is intended for the app _root_ module _only_.
 
 .alert.is-critical
   :marked
+    절대 기능 라우팅 모듈에서 `RouterModule.forRoot`를 호출하지 마세요.
+
     Never call `RouterModule.forRoot` in a feature routing module.
 :marked
+  루트 `AppModule`로 돌아가 `AppRoutingModule`을 `imports` 목록에 추가하면,
+  앱을 탐색 할 준비가 되었습니다.
+
   Back in the root `AppModule`, we add the `AppRoutingModule` to its `imports` list,
   and the app is ready to navigate.
 +makeExample('ngmodule/ts/src/app/app.module.3.ts', 'imports', 'src/app/app.module.ts (imports)')(format='.')
 
 :marked
+  ### 기능 모듈로 라우팅
   ### Routing to a feature module
+  `src/app/contact` 폴더에는 새로운 `contact-routing.module.ts` 파일이 있습니다.
+  이 파일은 조금 전에 언급한 `연락처` route를 정의하고 다음과 같은 `ContactRoutingModule`을 제공합니다:
+
   The `src/app/contact` folder holds a new file, `contact-routing.module.ts`.
   It defines the `contact` route we mentioned a bit earlier and also provides a `ContactRoutingModule` like so:
 +makeExample('ngmodule/ts/src/app/contact/contact-routing.module.ts', 'routing', 'src/app/contact/contact-routing.module.ts (routing)')(format='.')
 :marked
+  이번에는 route 목록을 `RouterModule`의 `forChild` 메소드에 전달합니다.
+  이것은 오직 추가 route 제공에만 책임이 있으며 기능 모듈을 위한 것입니다.
+
   This time we pass the route list to the `forChild` method of the `RouterModule`.
   It's only responsible for providing additional routes and is intended for feature modules.
 
 .alert.is-important
   :marked
+    기능 라우팅 모듈에서는 항상 `RouterModule.forChild`를 호출하세요.
+
     Always call `RouterModule.forChild` in a feature routing module.
 
 .alert.is-helpful
   :marked
+    **_forRoot_** 및 **_forChild_**는 루트 모듈이나 기능 모듈에 다른 `import`
+    값을 제공하는 메소드의 일반적인 이름입니다.
+    Angular는 인식할 수 없지만 Angular 개발자는 인식할 수 있습니다.
+
     **_forRoot_** and **_forChild_** are conventional names for methods that
     deliver different `import` values to root and feature modules.
     Angular doesn't recognize them but Angular developers do.
+
+    공유된 [_선언 가능한 타입_](../cookbook/ngmodule-faq.html#q-1)나 서비스를 가진
+    비슷한 모듈을 작성하는 경우 [이 규칙을 따르세요](../cookbook/ngmodule-faq.html#q-declarable).
 
     [Follow this convention](../cookbook/ngmodule-faq.html#q-for-root) if you write a similar module
     that has both shared [_declarables_](../cookbook/ngmodule-faq.html#q-declarable) and services.
 
 :marked
+  `ContactModule`은 작지만 중요한 두 가지 세부사항으로 변경되었습니다.
+
   `ContactModule` has changed in two small but important details
 +makeTabs(
   `ngmodule/ts/src/app/contact/contact.module.3.ts,
@@ -744,8 +1374,18 @@ a#lazy-load
   `src/app/contact/contact.module.3.ts,
    src/app/contact/contact.module.2.ts`)
 :marked
+  1. `contact-routing.module.ts`에서 `ContactRoutingModule` 객체를 임포트합니다.
+
   1. It imports the `ContactRoutingModule` object from `contact-routing.module.ts`
+
+  1. 더 이상 `ContactComponent`를 익스포트하지 않습니다.
+
   1. It no longer exports `ContactComponent`
+
+  이제 라우터로 `ContactComponent`를 탐색 했으므로 그것을 public으로 만들 이유가 없습니다.
+  또한 선택자가 필요하지 않습니다.
+  어느 템플릿도 이 `ContactComponent`를 다시 참조하지 않을 것입니다.
+  그것은 [_AppComponent_ 템플릿](#app-component-template)에서 사라졌습니다.
 
   Now that we navigate to `ContactComponent` with the router there's no reason to make it public.
   Nor does it need a selector.
@@ -754,10 +1394,16 @@ a#lazy-load
 
 a#hero-module
 :marked
+  ### 지연 로딩된 모듈 라우팅
   ### Lazy loaded routing to a module
+  지연 로딩된 `HeroModule`과 `CrisisModule`은 모든 기능 모듈과 동일한 원칙을 따릅니다.
+  그들은 즉시 로딩된 `ContactModule`과 다르게 보이지 않습니다.
 
   The lazy loaded `HeroModule` and `CrisisModule` follow the same principles as any feature module.
   They don't look different from the eagerly loaded `ContactModule`.
+
+  `HeroModule`은 `CrisisModule` 보다 조금 더 복잡해서
+  더 재미있고 유용한 예입니다. 다음은 파일 구조입니다.
 
   The `HeroModule` is a bit more complex than the `CrisisModule` which makes it
   a more interesting and useful example. Here's its file structure:
@@ -773,84 +1419,173 @@ a#hero-module
     .file hero.service.ts
     .file highlight.directive.ts
 :marked
+  [라우터](router.html#child-routing-component) 페이지의 독자에게는 익숙한 자식 라우팅 시나리오입니다.
+  `HeroComponent`는 기능의 상위 컴포넌트이며 라우팅 호스트입니다.
+  그것의 템플릿은 히어로 목록(`HeroList`)또는 선택된 히어로(`HeroDetail`)의 편집기를
+  보여주는 `<router-outlet>`를 가지고 있습니다.
+  두 컴포넌트 모두 `HeroService`에 위임하여 데이터를 가져오고 저장합니다.
+
   This is the child routing scenario familiar to readers of the [Router](router.html#child-routing-component) page.
   The `HeroComponent` is the feature's top component and routing host.
   Its template has a `<router-outlet>` that displays either a list of heroes (`HeroList`)
   or an editor of a selected hero (`HeroDetail`).
   Both components delegate to the `HeroService` to fetch and save data.
 
+  아직 또 _다른_ 색조의 엘리먼트를 색칠하는 `HighlightDirective`가 있습니다.
+  우리는 반복과 불일치에 대해 [무언가를 해야만 합니다](#shared-module "Shared modules").
+  아직은 참을 수 있습니다.
+
   There's yet _another_ `HighlightDirective` that colors elements in yet a different shade.
   We should [do something](#shared-module "Shared modules") about the repetition and inconsistencies.
   We endure for now.
 
+  `HeroModule`은 다른 것과 마찬가지로 기능 모듈입니다.
+
   The `HeroModule` is a feature module like any other.
 +makeExample('ngmodule/ts/src/app/hero/hero.module.3.ts', 'class', 'src/app/hero/hero.module.ts (class)')(format='.')
 :marked
+  `HeroDetailComponent` 템플릿이 `[(ngModel)]`과 바인딩하기 때문에 `FormsModule`을 임포트합니다.
+  `ContactModule`과 `CrisisModule`처럼 `hero-routing.module.ts`에서 `HeroRoutingModule`을 임포트합니다.
+
   It imports the `FormsModule` because the `HeroDetailComponent` template binds with `[(ngModel)]`.
   It imports the `HeroRoutingModule` from `hero-routing.module.ts` just as `ContactModule` and `CrisisModule` do.
 
+  `CrisisModule`은 거의 같습니다. 새로운 것이라고 말할 수 있는 것은 더이상 없습니다.
+
   The `CrisisModule` is much the same. There's nothing more to say that's new.
+
+  <live-example embedded plnkr="pre-shared.3" img="devguide/ngmodule/v3-plunker.png">라이브 예제를 시도해보세요.</live-example>
 
   <live-example embedded plnkr="pre-shared.3" img="devguide/ngmodule/v3-plunker.png">Try the live example.</live-example>
 
 a#shared-module
 .l-main-section
 :marked
+  ## 공유 모듈
   ## Shared modules
+
+  앱의 형태가 만들어지고 있습니다.
+  우리가 싫어하는 한 가지는 `HighlightDirective`의 세 가지 다른 버전입니다.
+  또한 앱 폴더 수준을 어지럽히는 정리 가능한 여러 가지 요소가 있습니다.
 
   The app is shaping up.
   One thing we don't like is carrying three different versions of the `HighlightDirective`.
   And there's a bunch of other stuff cluttering the app folder level that could be tucked away.
 
+  공통 컴포넌트, 지시자 및 파이프를 보유하고 이를 필요로 하는
+  모듈과 공유하기 위해 `SharedModule`을 추가하겠습니다.
+
   Let's add a `SharedModule` to hold the common components, directives, and pipes
   and share them with the modules that need them.
 
+  * `src/app/shared` 폴더 생성
+
   * create an `src/app/shared` folder
+
+  * `AwesomePipe`와 `HighlightDirective`를 `src/app/contact`에서 `src/app/shared` 로 이동.
+
   * move the `AwesomePipe` and `HighlightDirective` from `src/app/contact` to `src/app/shared`.
+
+  * `src/app`과 `src/app/hero` 에서 `HighlightDirective` 클래스를 제거
+
   * delete the `HighlightDirective` classes from `src/app/` and `src/app/hero`
+
+  * 공유 자료를 가진 `SharedModule` 클래스를 생성
+
   * create a `SharedModule` class to own the shared material
+
+  * `SharedModule`을 임포트하는 다른 기능 모듈을 업데이트
+
   * update other feature modules to import `SharedModule`
+
+  이것의 대부분은 익숙한 기본 기술(blocking and tackling)입니다. 다음은 `SharedModule` 입니다.
 
   Most of this is familiar blocking and tackling. Here is the `SharedModule`
 +makeExample('ngmodule/ts/src/app/shared/shared.module.ts', '', 'src/app/src/app/shared/shared.module.ts')
 :marked
+  중요한 부분은
+
   Some highlights
+
+  * 컴포넌트가 공통 지시자를 필요로 하기 때문에 `CommonModule`을 임포트합니다.
+
   * It imports the `CommonModule` because its component needs common directives.
+
+  * 예상한 것처럼 유틸리티 파이프, 지시자, 컴포넌트 클래스를 선언하고 익스포트합니다.
+
   * It declares and exports the utility pipe, directive, and component classes as expected.
+
+  * `CommonModule`과 `FormsModule`을 다시 익스포트합니다.
+
   * It re-exports the `CommonModule` and `FormsModule`
 
+  ### 다른 모듈을 다시 익스포팅
+
   ### Re-exporting other modules
+
+  애플리케이션을 검토하면서 `SharedModule` 지시자을 필요로 하는 많은 컴포넌트가
+  `CommonModule`의 `NgIf`와 `NgFor`도 사용한다는 것을 알게 되었습니다.
+  FormsModule의 지시자인 `[(ngModel)]`을 사용하여 컴포넌트 속성에 바인딩합니다.
+  이 컴포넌트를 선언하는 모듈은 `CommonModule`, `FormsModule` 및`SharedModule`을 임포트해야 합니다.
 
   While reviewing our application, we noticed that many components requiring `SharedModule` directives
   also use `NgIf` and `NgFor` from `CommonModule`
   and bind to component properties with `[(ngModel)]`, a directive in the `FormsModule`.
   Modules that declare these components would have to import `CommonModule`, `FormsModule` and `SharedModule`.
 
+  `ShareModule`이 `CommonModule`과 `FormsModule`을 다시 익스포트하여
+  `ShareModule` 임포터가 `CommonModule`과 `FormsModule`을 _공짜로_ 갖게 되므로 반복을 줄일 수 있습니다.
+
   We can reduce the repetition by having `SharedModule` re-export `CommonModule` and `FormsModule`
   so that importers of `SharedModule` get `CommonModule` and `FormsModule` _for free_.
+
+  우연히 `SharedModule` 자신에 의해 선언된 컴포넌트는 `[(ngModel)]`에 바인딩하지 않았습니다.
+  기술적으로 `SharedModule`이 `FormsModule`을 임포트할 필요는 없습니다.
 
   As it happens, the components declared by `SharedModule` itself don't bind with `[(ngModel)]`.
   Technically,  there is no need for `SharedModule` to import `FormsModule`.
 
+  `SharedModule`은 여전히 `imports` 목록에 지정하지 않고 `FormsModule`을 익스포트합니다.
+
   `SharedModule` can still export `FormsModule` without listing it among its `imports`.
 
+  ### 왜 _TitleComponent_는 공유하지 않을까?
   ### Why _TitleComponent_ isn't shared
+
+  `SharedModule`은 공용 컴포넌트, 지시자, 파이프가
+   _많은_ 다른 모듈의 컴포넌트 템플릿에서 사용 가능하도록 하기 위해 존재합니다.
 
   `SharedModule` exists to make commonly used components, directives and pipes available
   for use in the templates of components in _many_ other modules.
+
+  `TitleComponent`는 `AppComponent`에서 _딱 한번_ 사용됩니다.
+  이것을 공유할 필요는 없습니다.
 
   The `TitleComponent` is used _only once_ by the `AppComponent`.
   There's no point in sharing it.
 
   <a id="no-shared-module-providers"></a>
+  ### 왜 _UserService_는 공유하지 않을까?
   ### Why _UserService_ isn't shared
+
+  많은 컴포넌트가 같은 서비스 _인스턴스_를 공유하지만,
+  이들은 이러한 공유를 하기 위해 모듈 시스템이 아니라 Angular 의존성 주입에 의존합니다.
 
   While many components share the same service _instances_,
   they rely on Angular dependency injection to do this kind of sharing, not the module system.
 
+  샘플의 몇몇 컴포넌트는 `UserService`를 주입합니다.
+  전체 애플리케이션에서 `UserService`는 _오직 한개_의 인스턴스를 가져야만 하고
+  그것의 제공자는 _오직 한개_여야 합니다.
+
   Several components of our sample inject the `UserService`.
   There should be _only one_ instance of the `UserService` in the entire application
   and _only one_ provider of it.
+
+  `UserService`는 애플리케이션-범위의 싱글톤입니다.
+  각각의 모듈이 각자의 분리된 인스턴스를 갖기를 원하지는 않습니다.
+  그러나 만약 `SharedModule`이 `UserService`를 제공하면
+  [실제로 이런 일이 발생할 위험](../cookbook/ngmodule-faq.html#q-why-it-is-bad)이 있습니다.
 
   `UserService` is an application-wide singleton.
   We don't want each module to have its own separate instance.
@@ -859,38 +1594,76 @@ a#shared-module
 
 .alert.is-critical
   :marked
+    앱 전역 싱글톤 `제공자`를 공유 모듈에 지정하지 마세요.
+    공유 모듈을 임포트하는 지연 로딩된 모듈이 서비스의 자체 복사본을 가질 것입니다.
+
     Do **not** specify app-wide singleton `providers` in a shared module.
     A lazy loaded module that imports that shared module will make its own copy of the service.
 
 a#core-module
 .l-main-section
 :marked
+  ## 코어 모듈
   ## The Core module
+  현재 루트 폴더는 루트 `AppComponent`에만 보이는
+  `UserService`와 `TitleComponent`로 어지럽혀져 있습니다.
+  방금 설명한 이유로 `ShareModule`에 그것들을 포함하지 않습니다.
+
   At the moment, our root folder is cluttered with the `UserService`
   and the `TitleComponent` that only appears in the root `AppComponent`.
   We did not include them in the `SharedModule` for reasons just explained.
 
+  대신 **앱이 시작할 때 _한번만_ 임포트**하고 _다른 곳에서는 절대 임포트하지 않는_
+  단일 `CoreModule` 파일에 모아놓을 것입니다.
+
   Instead, we'll gather them in a single `CoreModule` that we **import _once_ when the app starts**
   and _never import anywhere else_.
 
+  **작업단계:**
+
   **Steps:**
 
+  * `src/app/core` 폴더 생성
+
   * create an `src/app/core` folder
+
+  * `UserService`와 `TitleComponent`를 `src/app`에서 `src/app/core`로 이동
+
   * move the `UserService` and `TitleComponent` from `src/app/` to `src/app/core`
+
+  * 코어 자료를 갖는 `CoreModule` 클래스 생성
+
   * create a `CoreModule` class to own the core material
+
+  * `AppRoot` 모듈이 `CoreModule`을 임포트하도록 업데이트
+
   * update the `AppRoot` module to  import `CoreModule`
+
+  다시한번 이것의 대부분은 기본 기술(blocking and tackling)입니다. 재미있는 부분은 `CoreModule` 입니다.
 
   Again, most of this is familiar blocking and tackling. The interesting part is the `CoreModule`
 +makeExample('ngmodule/ts/src/app/core/core.module.ts', 'v4', 'src/app/src/app/core/core.module.ts')
 .l-sub-section
   :marked
+    아직 사용하지 않은 Angular 코어 라이브러리로부터 어떤 추가 기호를 임포팅합니다.
+    그것들은 이 페이지의 나중에 연관됩니다.
+
     We're importing some extra symbols from the Angular core library that we're not using yet.
     They'll become relevant later in this page.
 :marked
+  `@NgModule` 메타데이터에 익숙해져야 합니다.
+  이 모듈이 `TitleComponent`을 소유하고 있으므로 `TitleComponent`을 선언합니다.
+  그리고 `AppModule` 안에 있는 `AppComponent`가 템플릿에서 타이틀을 표시하므로 그것을 익스포트 합니다.
+  `TitleComponent`는 `CommonModule`에서 임포트하는 Angular `NgIf` 지시자를 필요로 합니다.
+
   The `@NgModule` metadata should be familiar.
   We declare the `TitleComponent`  because this module _owns_ it and we export it
   because `AppComponent` (which is in `AppModule`) displays the title in its template.
   `TitleComponent` needs the Angular `NgIf` directive that we import from `CommonModule`.
+
+  `CoreModule`은 `UserService`를 _제공_합니다. Angular는 해당 제공자를 앱의 주 주입기에 제공하여,
+  즉시 로딩 또는 지연 로딩이든 상관없이
+  `UserService`의 싱글톤 인스턴스를 필요로 하는 어떤 컴포넌트에서도 사용할 수 있도록 합니다.
 
   `CoreModule` _provides_ the `UserService`. Angular registers that provider with the app root injector,
   making a singleton instance of the `UserService` available to any component that needs it,
@@ -898,13 +1671,27 @@ a#core-module
 
 .l-sub-section
   :marked
+    ### 뭐하러 이렇게 할까요?
     ### Why bother?
+    이 시나리오는 분명 부자연스럽습니다.
+    이 앱은 너무 작아 단일 서비스 파일과 작은 일회성 컴포넌트에 대해 걱정할 필요가 없습니다.
+
     This scenario is clearly contrived.
     The app is too small to worry about a single service file and a tiny, one-time component.
+
+    루트 폴더에 있는 `TitleComponent`는 누구도 괴롭히지 않습니다.
+    루트 `AppModule`은 `UserService` 파일을 `src/app/core` 폴더로 재배치하기로
+    결정한 경우에도 현재처럼 `UserService` 자체를 등록 할 수 있습니다.
 
     A `TitleComponent` sitting in the root folder isn't bothering anyone.
     The root `AppModule` can register the `UserService` itself,
     as it does currently, even if we decide to relocate the `UserService` file to the `src/app/core` folder.
+
+    상용 애플리케이션은 더 걱정할 필요가 있습니다.
+    `AppComponent` 템플릿에서만 나타나는 몇 가지 일회용 컴포넌트
+    (예: spinner, 메시지 토스트, 모달 다이얼로그)를 가질 수 있습니다.
+    이것들을 다른 곳에서 임포트하지 않기 때문에 그런 의미에서 공유하지 않습니다.
+    그러나 그들은 루트 폴더에 풀어놓기에는 너무 크고 지저분합니다.
 
     Real world apps have more to worry about.
     They can have several single-use components (e.g., spinners, message toasts, and modal dialogs)
@@ -912,23 +1699,40 @@ a#core-module
     We don't import them elsewhere so they're not _shared_ in that sense.
     Yet they're too big and messy to leave loose in the root folder.
 
+    앱은 종종 샘플의 `UserService`와 같은 싱글톤 서비스를 많이 갖고 있습니다.
+    각각은 애플리케이션이 시작될 떄 앱의 주 주입기에 _딱 한번_만 등록되어야 합니다.
+
     Apps often have many singleton services like this sample's `UserService`.
     Each must be registered _exactly once_, in the app root injector, when the application starts.
+
+    많은 컴포넌트가 생성자에서 이러한 서비스를 주입합니다. &mdash;
+    그래서 해당 기호를 임포트하기 위해 JavaScript `import`를 필요로 하지만 &mdash;
+    다른 컴포넌트나 모듈은 서비스 자체를 정의하거나 다시 작성해서는 안됩니다.
+    그들의 _제공자_는 공유되지 않습니다.
 
     While many Components inject such services in their constructors &mdash;
     and therefore require JavaScript `import` statements to import their symbols &mdash;
     no other component or module should define or re-create the services themselves.
     Their _providers_ are not shared.
 
+    이러한 일회용 클래스를 모아서 `CoreModule` 내부에 그 세부적인 내용을 숨기는 것이 좋습니다.
+    단순화 된 루트 `AppModule`은 애플리케이션의 오케스트레이터 전체로서의 기능에 `CoreModule`을 임포트합니다.
+
     We recommend collecting such single-use classes and hiding their gory details inside a `CoreModule`.
     A simplified root `AppModule` imports `CoreModule` in its capacity as orchestrator of the application as a whole.
 
 .l-main-section
 :marked
+  ## 정리
   ## Cleanup
+  `CoreModule`과 `SharedModule`를 리팩토링 했으면, 다른 모듈을 정리할 차례입니다.
+
   Having refactored to a `CoreModule` and a `SharedModule`, it's time to cleanup the other modules.
 
+  ### _AppModule_ 정리
   ### A trimmer _AppModule_
+
+  다음은 비교를 위해 버전 3과 쌍을 이루는 업데이트 된 `AppModule` 입니다:
 
   Here is the updated `AppModule` paired with version 3 for comparison:
 +makeTabs(
@@ -939,13 +1743,30 @@ a#core-module
    src/app/app.module.ts (v3)`)
 
 :marked
+  `AppModule`의 다음 사항에 주목하세요 ...
+
   Notice that `AppModule` is ...
+
+  * 많은 `src/app/root` 클래스가 다른 모듈로 이동하여 좀 더 작아졌습니다.
+
   * a little smaller because many `src/app/root` classes have moved to other modules.
+
+  * 향후 컴포넌트와 제공자를 이 모듈뿐 아니라 다른 모듈에도 추가할 것이기 때문에 안정적입니다.
+
   * stable because we'll add future components and providers to other modules, not this one.
+
+  * 일을 하기 보다는 임포트한 모듈에 위임하는 것.
+
   * delegating to imported modules rather than doing work.
+
+  * 주요 작업에 집중하고, 앱 전체를 오케스트레이션 하는 것.
+
   * focused on its main task, orchestrating the app as a whole.
 
+  ### _ContactModule_ 정리
   ### A trimmer _ContactModule_
+  다음은 이전 버전과 쌍을 이루는 새로운 `ContactModule` 입니다:
+
   Here is the new `ContactModule` paired with the prior version:
 +makeTabs(
   `ngmodule/ts/src/app/contact/contact.module.ts,
@@ -955,9 +1776,20 @@ a#core-module
    src/app/contact/contact.module.ts (v3)`)
 
 :marked
+  다음에 주목하세요
+
   Notice that
+
+  * `AwesomePipe`와 `HighlightDirective`가 사라졌습니다.
+
   * The `AwesomePipe` and `HighlightDirective` are gone.
+
+  * 임포트에서 `CommonModule`이나 `FormsModule` 대신 `SharedModule`을 포함합니다.
+
   * The imports include `SharedModule` instead of `CommonModule` and `FormsModule`
+
+  * 새로운 버전은 보다 가볍고 깨끗합니다.
+
   * This new version is leaner and cleaner.
 
 .l-hr
@@ -965,43 +1797,78 @@ a#core-module
 a#core-for-root
 .l-main-section
 :marked
+  ## _CoreModule.forRoot_를 사용하여 핵심 서비스 구성
   ## Configure core services with _CoreModule.forRoot_
+  제공자를 애플리케이션에 추가하는 모듈은 해당 제공자를 구성할 수 있는 기능을 제공할 수 있습니다.
 
   A module that adds providers to the application can offer a facility for configuring those providers as well.
+
+  관습적으로 **_forRoot_** 정적 메소드는 동시에 서비스를 제공하고 구성합니다.
+  그것은 서비스 설정 객체를 취하고
+  [ModuleWithProviders](../api/core/index/ModuleWithProviders-interface.html)를 반환하는데,
+  이것은 두 개의 프로퍼티를 갖는 간단한 객체입니다: 
 
   By convention, the **_forRoot_** static method both provides and configures services at the same time.
   It takes a service configuration object and returns a
   [ModuleWithProviders](../api/core/index/ModuleWithProviders-interface.html) which is
   a simple object with two properties:
+
+  * `ngModule` - `CoreModule` 클래스
+
   * `ngModule` - the `CoreModule` class
+
+  * `providers` - 설정된 공급자
+
   * `providers` - the configured providers
+
+  루트 `AppModule`은 `CoreModule`을 임포트하고 `AppModule` 제공자에 `providers`를 추가합니다.
 
   The root `AppModule` imports the `CoreModule` and adds the `providers` to the `AppModule` providers.
 .l-sub-section
   :marked
+    좀 더 정확히 말하자면 Angular는 `@NgModule.providers`에 나열된 항목을 추가하기 전에 가져온 모든 공급자를 축적합니다.
+    이 시퀀스는 우리가 명시적으로 `AppModule` 제공자에 추가 한 것이
+    가져온 모듈의 제공자보다 우선한다는 것을 보증합니다.
+
     More precisely, Angular accumulates all imported providers _before_ appending the items listed in `@NgModule.providers`.
     This sequence ensures that whatever we add explicitly to the `AppModule` providers takes precedence
     over the providers of imported modules.
 :marked
+  코어 `UserService`를 설정하는 `CoreModule.forRoot` 메소드를 추가합시다.
+
   Let's add a `CoreModule.forRoot` method that configures the core `UserService`.
+
+  우리는 코어 `UserService`를 선택적으로 주입된 `UserServiceConfig`로 확장했습니다.
+  `UserServiceConfig`가 존재하면, `UserService`는 그 설정으로부터 사용자 이름을 설정합니다.
 
   We've extended the core `UserService` with an optional, injected `UserServiceConfig`.
   If a `UserServiceConfig` exists, the `UserService` sets the user name from that config.
 +makeExample('ngmodule/ts/src/app/core/user.service.ts', 'ctor', 'src/app/core/user.service.ts (constructor)')(format='.')
 :marked
+  다음은 `UserServiceConfig` 객체를 취하는 `CoreModule.forRoot` 입니다:
+
   Here's `CoreModule.forRoot` that takes a `UserServiceConfig` object:
 +makeExample('ngmodule/ts/src/app/core/core.module.ts', 'for-root', 'src/app/core/core.module.ts (forRoot)')(format='.')
 :marked
+  마지막으로 그것을 `AppModule`의 `imports` _목록_ 내에서 호출합니다.
+
   Lastly, we call it _within the_ `imports` _list_ of the `AppModule`.
 +makeExample('ngmodule/ts/src/app/app.module.ts', 'import-for-root', 'src/app//app.module.ts (imports)')(format='.')
 :marked
+  이 앱은 기본 "Sherlock Holmes" 대신 "Marple Miss"를 사용자로 표시합니다.
+
   The app displays "Miss Marple" as the user instead of the default "Sherlock Holmes".
 
 .alert.is-important
   :marked
+    루트 애플리케이션 모듈인 `AppModule`에서만 `forRoot`를 호출하세요.
+    다른 모듈, 특히 지연 로딩된 모듈에서 이 모듈을 호출하면 의도와 다르게 런타임 오류가 발생할 수 있습니다.
+
     Call `forRoot` only in the root application module, `AppModule`.
     Calling it in any other module, particularly in a lazy loaded module,
     is contrary to the intent and is likely to produce a runtime error.
+
+    결과를 _임포트_하는 것을 기억하세요; 다른 `@NgModule` 목록에 추가하지 마세요.
 
     Remember to _import_ the result; don't add it to any other `@NgModule` list.
 
@@ -1010,43 +1877,80 @@ a#core-for-root
 a#prevent-reimport
 .l-main-section
 :marked
+  ## _CoreModule_의 재 임포트 금지
   ## Prevent reimport of the _CoreModule_
+
+  루트 `AppModule`만 `CoreModule`을 임포트해야 합니다.
+  지연 로딩된 모듈이 임포트하는 경우 [안 좋은 일이 발생합니다](../cookbook/ngmodule-faq.html#q-why-it-is-bad).
 
   Only the root `AppModule` should import the `CoreModule`.
   [Bad things happen](../cookbook/ngmodule-faq.html#q-why-it-is-bad) if a lazy loaded module imports it.
+
+  모든 개발자가 실수를 저지르지 않기를 _희망합니다_. 
+  또는 다음과 같은 `CoreModule` 생성자를 추가함으로써 이를 방지하고 빠져나갈 수 있습니다.
 
   We could _hope_ that no developer makes that mistake.
   Or we can guard against it and fail fast by adding the following `CoreModule` constructor.
 +makeExample('ngmodule/ts/src/app/core/core.module.ts', 'ctor')(format='.')
 :marked
+  생성자는 Angular에게 자신에게 `CoreModule`을 주입하도록 지시합니다.
+  이것은 위험한 순환으로 보입니다.
+
   The constructor tells Angular to inject the `CoreModule` into itself.
   That seems dangerously circular.
+
+  만약 Angular가 _현재_ 주입기에서 `CoreModule`을 찾으면 주입은 _순환 관계가 될 것입니다_.
+  `@SkipSelf` 데코레이터는 "주입기 계층 구조에서 본인보다 위에있는 조상 주입기에서 `CoreModule`을 _찾아보라_" 라고 하는 것을 의미합니다.
 
   The injection _would be circular_ if Angular looked for `CoreModule` in the _current_ injector.
   The `@SkipSelf` decorator means "_look for_ `CoreModule` _in an ancestor injector, above me in the injector hierarchy._"
 
+  생성자가 `AppModule`에서 의도대로 실행되면,
+  `CoreModule` 인스턴스를 제공 할 수 있는 조상 주입기가 없게 됩니다.
+  주입기는 포기해야합니다.
+
   If the constructor executes as intended in the `AppModule`,
   there is no ancestor injector that could provide an instance of `CoreModule`.
   The injector should give up.
+
+  기본적으로 주입기는 요청한 제공자를 찾을 수 없는 경우 오류를 발생합니다.
+  `@Optional` 데코레이터는 서비스를 찾지 못하는 것이 괜찮다는 것을 뜻합니다.
+  주입기는 `null`을 반환하고, `parentModule` 매개 변수는 null이고,
+  생성자는 정상적으로 종료됩니다.
 
   By default the injector throws an error when it can't find a requested provider.
   The `@Optional` decorator means not finding the service is OK.
   The injector returns `null`, the `parentModule` parameter is null,
   and the constructor concludes uneventfully.
 
+  `CoreModule`을 `HeroModule`과 같은 지연 로딩된 모듈에 부적절하게 임포트하면 다른 이야기가 됩니다.
+
   It's a different story if we improperly import `CoreModule` into a lazy loaded module such as `HeroModule` (try it).
+
+  Angular는 루트 주입기의 _자식_인 자체 주입기에 지연 로딩된 모듈을 생성합니다.
+  `@SkipSelf`는 Angular가 (이 경우 루트 주입기인) 부모 주입기에서 `CoreModule`을 찾게 합니다.
+  물론 그것은 루트 `AppModule`에 의해 임포트된 인스턴스를 찾게 됩니다.
+  이제 `parentModule`이 존재하고 생성자가 에러를 던집니다.
 
   Angular creates a lazy loaded module with its own injector, a _child_ of the root injector.
   `@SkipSelf` causes Angular to look for a `CoreModule` in the parent injector which this time is the root injector.
   Of course it finds the instance imported by the root `AppModule`.
   Now `parentModule` exists and the constructor throws the error.
 :marked
+  ### 결론
   ### Conclusion
+  해냈군요! 라이브 예제에서 이 최종 버전의 전체 소스를 검토하고 다운로드 할 수 있습니다.
+  <live-example embedded  img="devguide/ngmodule/final-plunker.png"></live-example>
 
   You made it! You can examine and download the complete source for this final version from the live example.
   <live-example embedded  img="devguide/ngmodule/final-plunker.png"></live-example>
 
+  ### FAQ
   ### Frequently Asked Questions
+
+  이제 Angular 모듈을 이해 했으므로 여러분은
+  특정 설계 및 구현 관련 질문에 대한 답변을 제공하는 [Angular 모듈 FAQ](../cookbook/ngmodule-faq.html "Angular 모듈 FAQ")
+  해설서에 관심이 있을 것입니다.
 
   Now that you understand Angular Modules, you may be interested
   in the companion [Angular Module FAQs](../cookbook/ngmodule-faq.html "Angular Module FAQs") cookbook
