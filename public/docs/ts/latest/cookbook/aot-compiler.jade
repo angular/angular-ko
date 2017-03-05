@@ -55,7 +55,7 @@ a#overview
   This is the standard development approach shown throughout the documentation.
   It's great .. but it has shortcomings.
 
-  적기 컴파일은 런타임의 성능 저하를 초래합니다.
+  JIT 컴파일은 런타임의 성능 저하를 초래합니다.
   뷰는 브라우저 내 컴파일 단계로 인해 렌더링 시간이 오래 걸립니다.
   애플리케이션에는 Angular 컴파일러와 애플리케이션에서 실제로 필요하지 않은 많은 라이브러리 코드가 포함되어 있기 때문에 더 커집니다.
   커진 앱은 전송하는 데 시간이 오래 걸리며, 로드 속도 또한 느립니다.
@@ -67,7 +67,7 @@ a#overview
   Bigger apps take longer to transmit and are slower to load.
   
   컴파일로 인해 많은 컴포넌트-템플릿 바인딩 오류가 발견 될 수 있습니다.
-  적기 컴파일은 우리가 원하는 것보다 늦게, 런타임에서 그것들을 발견합니다.
+  JIT 컴파일은 우리가 원하는 것보다 늦게, 런타임에서 그것들을 발견합니다.
 
   Compilation can uncover many component-template binding errors.
   JIT compilation discovers them at runtime which is later than we'd like.
@@ -81,7 +81,7 @@ a#overview
 a#aot-jit
 .l-main-section
 :marked
-  ## _사전 컴파일러_ vs _적기 컴파일러_
+  ## _사전의 컴파일러_ (AOT)vs _적기의 컴파일러_ (JIT)
   ## _Ahead-of-time_ (AOT) vs _Just-in-time_ (JIT)
 
   실제로는 Angular 컴파일러는 한 개 입니다. '사전 컴파일러'와 '적기 컴파일러'의 차이점은 타이밍과 툴링 문제입니다.
