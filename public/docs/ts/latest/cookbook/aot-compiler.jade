@@ -105,14 +105,16 @@ a#aot-jit
   The browser loads executable code so it can render the application immediately, without waiting to compile the app first.
 
   *적은 비동기 요청*
+
   *Fewer asynchronous requests*
 
-  컴파일러는 애플리케이션 JavaScript 내에서 외부 HTML 템플리트 및 CSS 스타일 시트를 _인라인_하여 해당 소스 파일에 대한 별도의 ajax 요청을 하지 않습니다.
+  컴파일러는 애플리케이션 JavaScript 내에서 외부 HTML 템플릿 및 CSS 스타일시트를 _인라인_하여 해당 소스 파일에 대한 별도의 ajax 요청을 하지 않습니다.
 
   The compiler _inlines_ external html templates and css style sheets within the application JavaScript,
   eliminating separate ajax requests for those source files.
 
   *작은 Angular 프레임워크 다운로드 크기*
+
   *Smaller Angular framework download size*
 
   앱이 이미 컴파일된 경우 Angular 컴파일러를 다운로드 할 필요가 없습니다.
@@ -122,6 +124,7 @@ a#aot-jit
   The compiler is roughly half of Angular itself, so omitting it dramatically reduces the application payload.
 
   *빠른 템플릿 오류 검출*
+
   *Detect template errors earlier*
 
   사전 컴파일러는 사용자가 빌드 단계를 볼 수 있기 전에 템플릿 바인딩 오류를 감지하고 보고합니다.
@@ -132,7 +135,7 @@ a#aot-jit
   *더 나은 보안*
   *Better security*
 
-  사전 컴파일러는 HTML 템플리트 및 컴포넌트를 클라이언트에 제공되기 훨씬 전에 JavaScript 파일로 컴파일합니다.
+  사전 컴파일러는 HTML 템플릿 및 컴포넌트를 클라이언트에 제공되기 훨씬 전에 JavaScript 파일로 컴파일합니다.
   읽어야 할 템플릿이 없고 위험한 클라이언트 측 HTML 또는 JavaScript 평가가 없으므로, 주입 공격에 대한 기회가 줄어 듭니다.
 
   AOT compiles HTML templates and components into JavaScript files long before they are served to the client.
@@ -191,7 +194,7 @@ code-example(format='.').
 :marked
   `compilerOptions` 섹션은 하나의 속성을 제외하고는 변경되지 않았습니다.
   **`모듈`을 `es2015`로 설정하세요.**
-  나중에 살펴볼 [Tree Shaking](# tree-shaking)섹션에서 설명하는 것 처럼 매우 중요합니다.
+  나중에 살펴볼 [Tree Shaking](# tree-shaking)섹션에서 설명하는 것처럼 매우 중요합니다.
 
   The `compilerOptions` section is unchanged except for one property. 
   **Set the `module` to `es2015`**. 
@@ -212,6 +215,7 @@ code-example(format='.').
 
 :marked
   ***컴포넌트 기준 템플릿 URL***
+
   ***Component-relative Template URLS***
 
   AOT 컴파일러는 외부 템플릿과 CSS 파일을 위한 `@Component` URL이 _컴포넌트-기준(component-relative)_이도록  요구합니다.
