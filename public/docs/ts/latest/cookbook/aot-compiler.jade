@@ -198,7 +198,7 @@ code-example(format='.').
   This is important as explained later in the [Tree Shaking](#tree-shaking) section.
 
   정말 새로운 것은 `angularCompilerOptions`라는 맨 아래의 `ngc` 섹션입니다.
-  `"genDir" '"`속성은 컴파일 된 출력 파일을 새로운 `aot` 폴더에 저장하도록 컴파일러에게 알려줍니다.
+  `"genDir"`속성은 컴파일 된 출력 파일을 새로운 `aot` 폴더에 저장하도록 컴파일러에게 알려줍니다.
 
   What's really new is the `ngc` section at the bottom called `angularCompilerOptions`. 
   Its `"genDir"` property tells the compiler 
@@ -211,37 +211,64 @@ code-example(format='.').
   Metadata files are not necessary when targeting TypeScript files, so there is no reason to include them.
 
 :marked
+  ***컴포넌트 관련 템플릿 URL***
   ***Component-relative Template URLS***
+
+  AOT 컴파일러는 외부 템플릿과 CSS 파일을 위한 `@Component` URLS이 _컴포넌트-기준(component-relative)_이도록  요구합니다.
+  즉,`@Component.templateUrl`의 값은 컴포넌트 클래스 파일을 _기준으로 한_ URL 값입니다.
+  예를 들어, `'app.component.html'` URL은 그 템플릿 파일이 그것의 짝 `app.component.ts` 파일의 형제임을   의미합니다.
 
   The AOT compiler requires that `@Component` URLS for external templates and css files be _component-relative_.
   That means that the value of `@Component.templateUrl` is a URL value _relative_ to the component class file.
   For example, an `'app.component.html'` URL means that the template file is a sibling of its companion `app.component.ts` file.
 
+  JIT 앱 URL이 좀 더 유연하지만, AOT 컴파일과의 호환성을 위해 _컴포넌트-관련_ URL을 고수하세요.
+
   While JIT app URLs are more flexible, stick with _component-relative_ URLs for compatibility with AOT compilation.
   
+  SystemJS 로더와 _컴포넌트-기준_ URL을 사용하는 JIT 컴파일 애플리케이션은 `@Component.moduleId` *속성을* `module.id`로 *설정해야* 합니다.
+  `module` 객체는 AOT 컴파일 된 앱이 실행될 때 정의되지 않습니다(undefined).
+  다음과 같이 `index.html`에 글로벌 `module` 값을 지정하지 않으면 null 참조 오류와 함께 앱이 실행되지 않습니다:
+
   JIT-compiled applications that use the SystemJS loader and _component-relative_ URLs *must set the* `@Component.moduleId` *property to* `module.id`.
   The `module` object is undefined when an AOT-compiled app runs. 
   The app fails with a null reference error unless you assign a global `module` value in the `index.html` like this:
-+makeExample('cb-aot-compiler/ts/index.html','moduleId')(format='.')  
++makeExample('cb-aot-compiler/ts/src/index.html','moduleId')(format='.')  
+
 .l-sub-section
   :marked
+    글로벌 `module`을 설정하는 것은 임시방편입니다.
+
     Setting a global `module` is a temporary expedient. 
 
 :marked
+  ### 애플리케이션 컴파일
   ### Compiling the application
+
+  다음 명령을 통해 이전에 설치한 `ngc` 컴파일러를 사용하여 커맨드라인에서 AOT 컴파일을 시작하세요:
 
   Initiate AOT compilation from the command line using the previously installed `ngc` compiler by executing:
 code-example(format='.').
   node_modules/.bin/ngc -p tsconfig-aot.json
 .l-sub-section
   :marked
+    Windows 사용자는 `ngc` 명령을 큰 따옴표로 감싸야 합니다:
+
     Windows users should surround the `ngc` command in double quotes:
   code-example(format='.').
     "node_modules/.bin/ngc" -p tsconfig-aot.json
 :marked
+  `ngc`는 `-p` 스위치가 `tsconfig.json` 파일이나 `tsconfig.json` 파일을 포함하는 폴더를 지목할 것으로 예상합니다.
+
   `ngc` expects the `-p` switch to point to a `tsconfig.json` file or a folder containing a `tsconfig.json` file.
 
+  `ngc`가 완료된 후, `aot` 폴더(`tsconfig-aot.json`에서 `genDir`로 지정된 폴더)에서 _NgFactory_ 파일의 모음을 찾으세요.
+
   After `ngc` completes, look for a collection of _NgFactory_ files in the `aot` folder (the folder specified as `genDir` in `tsconfig-aot.json`). 
+
+  이와 같은 팩토리 파일들은 컴파일 된 애플리케이션에 필수적입니다.
+  각 컴포넌트 팩토리는 본래의 클래스 파일과 컴포넌트 템플릿의 JavaScript 표현을 결합하여 런타임에 컴포넌트의 인스턴스를 만듭니다.
+  본래의 컴포넌트 클래스는 여전히 생성된 팩토리에서 내부적으로 참조됩니다.
 
   These factory files are essential to the compiled application. 
   Each component factory creates an instance of the component at runtime by combining the original class file
@@ -249,8 +276,13 @@ code-example(format='.').
   Note that the original component class is still referenced internally by the generated factory.
 .l-sub-section
   :marked
+    중간에 `aot/app.component.ngfactory.ts` 파일을 열어 컴파일 된 TypeScript 형식인 원래의 Angular 템플릿 문법을 볼 수 있습니다.
+
     The curious can open the `aot/app.component.ngfactory.ts` to see the original Angular template syntax
     in its intermediate, compiled-to-TypeScript form.
+
+    JIT 컴파일은 크게 보이지 않는 메모리에 동일한 _NgFactories_를 생성합니다.
+    AOT 컴파일은 그것들을 별도의 물리적 파일로 나타냅니다.
 
     JIT compilation generates these same _NgFactories_ in memory where they are largely invisible.
     AOT compilation reveals them as separate, physical files.
@@ -258,47 +290,74 @@ code-example(format='.').
 :marked
 .alert.is-important
   :marked
+    절대로 _NgFactories_를 편집하지 마세요! 다시 컴파일하면 이 파일들은 교체되어 모든 편집 내용이 손실됩니다.
+
     Do not edit the _NgFactories_! Re-compilation replaces these files and all edits will be lost. 
 
 a#bootstrap
 .l-main-section
 :marked
+  ## 부트스트랩
   ## Bootstrap
+
+  AOT 경로는 애플리케이션 부트스트랩을 변경합니다.
 
   The AOT path changes application bootstrapping.
 
+  `AppModule`을 부트스트랩하는 대신, 생성된 모듈 팩토리 `AppModuleNgFactory`를 사용하여 애플리케이션을 부트 스트랩합니다.
+
   Instead of bootstrapping `AppModule`, you bootstrap the application with the generated module factory, `AppModuleNgFactory`.
+
+  JIT 컴파일에서 사용된 `platformBrowserDynamic.bootstrap`에서 `platformBrowser().bootstrapModuleFactory`로 전환하고, `AppModuleNgFactory`에 전달하세요.
 
   Switch from the `platformBrowserDynamic.bootstrap` used in JIT compilation to  
   `platformBrowser().bootstrapModuleFactory` and pass in the `AppModuleNgFactory`.    
 
+  이것이 익숙한 JIT 버전 옆에 `main.ts`에 있는 AOT 부트스트랩입니다:
+
   Here is AOT bootstrap in `main.ts` next to the familiar JIT version:
 
 +makeTabs(
-  `cb-aot-compiler/ts/app/main.ts,
-   cb-aot-compiler/ts/app/main-jit.ts`,
+  `cb-aot-compiler/ts/src/main.ts,
+   cb-aot-compiler/ts/src/main-jit.ts`,
   null,
-  `app/main.ts (AOT),
-   app/main.ts (JIT)`
+  `src/main.ts,
+   src/main-jit.ts`
 )
 
 :marked
+  `ngc`로 다시 컴파일해야 합니다!
+
   Be sure to recompile with `ngc`!
 
 a#tree-shaking
 :marked
   ## Tree Shaking
+  ## Tree Shaking
+
+  AOT 컴파일은 _Tree Shaking_이라는 프로세스를 통해 추가적인 최적화 단계를 설정합니다.
+  Tree Shaker는 의존성 그래프를 위에서 아래로 따라 가며 크리스마스 트리의 죽은 가지처럼 사용되지 않는 코드를 _흔들어 줍니다_.
 
   AOT compilation sets the stage for further optimization through a process called _Tree Shaking_.
   A Tree Shaker walks the dependency graph, top to bottom, and _shakes out_ unused code like
   dead needles in a Christmas tree.
 
+  Tree Shaking은 소스 코드와 라이브러리 코드의 사용하지 않는 부분을 제거하여 응용 프로그램의 다운로드 크기를 크게 줄일 수 있습니다.
+  실제로 작은 앱에서 크기를 줄이는 것의 대부분은 참조되지 않은 Angular 기능을 제거하는 것에서 부터 시작됩니다.
+
   Tree Shaking can greatly reduce the downloaded size of the application 
   by removing unused portions of both source and library code. 
   In fact, most of the reduction in small apps comes from removing unreferenced Angular features. 
   
+  예를 들어, 이 데모 애플리케이션은 `@angular/forms` 라이브러리의 어떤 것도 사용하지 않습니다.
+  폼과 관련된 Angular 코드를 다운로드 할 필요가 없으며 tree shaking은 사용자가 이런 것들을 하지 않도록 합니다.
+
   For example, this demo application doesn't use anything from the `@angular/forms` library.
   There is no reason to download Forms-related Angular code and tree shaking ensures that you don't.
+
+  Tree Shaking과 AOT 컴파일은 별도의 단계입니다.
+  Tree Shaking은 JavaScript 코드만 타겟으로 할 수 있습니다.
+  AOT 컴파일은 더 많은 애플리케이션을 JavaScript로 변환하여, "Tree Shaking"을 할 수 있는 애플리케이션이 더 많이 생성됩니다.
 
   Tree Shaking and AOT compilation are separate steps. 
   Tree Shaking can only target JavaScript code. 
@@ -306,44 +365,77 @@ a#tree-shaking
   which in turn makes more of the application "Tree Shakable".
 
   ### Rollup
+  ### Rollup
+
+  이 요리책은 _Rollup_이라는 Tree Shaking 유틸리티를 설명합니다.
 
   This cookbook illustrates a Tree Shaking utility called _Rollup_.
+
+  Rollup은 `import`와 `export` 문장의 흔적을 따라 애플리케이션을 정적으로 분석합니다.
+  import되지 않고, export한 코드를 제외한 최종 코드 _bundle_을 생성합니다.
 
   Rollup statically analyzes the application by following the trail of `import` and `export` statements.
   It produces a final code _bundle_ that excludes code that is exported, but never imported.
 
+  Rollup은 `import`와 `export`문을 가진 Tree Shake `ES2015` 모듈에서만 가능합니다.
+
   Rollup can only Tree Shake `ES2015` modules which have `import` and `export` statements.
 .l-sub-section
   :marked
+    `tsconfig-aot.json`은 `ES2015` 모듈을 생성하도록 설정되어 있습니다.
+    코드 자체가 `class`와 `const`와 같은 `ES2015` 문법으로 작성되는 것은 중요하지 않습니다.
+    중요한 것은 `require`문보다는 ES의 `import`와 `export`문을 사용한다는 것입니다.
+
     Recall that `tsconfig-aot.json` is configured to produce `ES2015` modules. 
     It's not important that the code itself be written with `ES2015` syntax such as `class` and `const`. 
     What matters is that the code uses ES `import` and `export` statements rather than `require` statements.
 :marked
+  이 명령을 사용하여 Rollup 종속성을 설치합니다:
+
   Install the Rollup dependencies with this command:
 code-example(format='.').
   npm install rollup rollup-plugin-node-resolve rollup-plugin-commonjs rollup-plugin-uglify --save-dev
 :marked
+  그런 다음, 프로젝트 최상위 디렉토리에 구성 파일(`rollup-config.js`)을 작성하여 Rollup에 애플리케이션 처리 방법을 알려줍니다.
+  요리책 구성 파일은 다음과 같습니다.
+
   Next, create a configuration file (`rollup-config.js`)
   in the project root directory to tell Rollup how to process the application. 
   The cookbook configuration file looks like this.
 
 +makeExample('cb-aot-compiler/ts/rollup-config.js', null, 'rollup-config.js')(format='.')
 :marked
+  그것은 Rollup에게 앱의 시작점이 `app/main.js`라는 것을 알려줍니다.
+  `dest` 속성은 `dist` 폴더에 `build.js`라는 번들을 생성하도록 Rollup에 지시합니다.
+  다음은 플러그인이 있습니다.
+
   It tells Rollup that the app entry point is `app/main.js` .
   The `dest` attribute tells Rollup to create a bundle called `build.js` in the `dist` folder.
   Then there are plugins.
 
 :marked
+  ### Rollup 플러그인
   ### Rollup Plugins
 
+  추가적인 플러그인은 Rollup 입력 및 출력을 필터링하고 변환합니다.
+
   Optional plugins filter and transform the Rollup inputs and output.
+
+  *RxJS* Rollup은 애플리케이션 소스 코드가 `ES2015` 모듈을 사용할 것으로 기대합니다.
+  모든 외부의 종속성이 `ES2015` 모듈로 게시되는 것은 아닙니다.
+  사실, 대부분은 그렇지 않습니다. 대부분 _CommonJS_ 모듈로 게시됩니다.
 
   *RxJS*
   Rollup expects application source code to use `ES2015` modules. 
   Not all external dependencies are published as `ES2015` modules.
   In fact, most are not. Many of them are published as _CommonJS_ modules.
   
+  _RxJs_ observable 라이브러리는 ES5 JavaScript _CommonJS_ 모듈로 게시되는 필수적인 Angular 의존성입니다.
+
   The _RxJs_ observable library is an essential Angular dependency published as an ES5 JavaScript _CommonJS_ module.
+
+  다행스럽게도 Rollup에 필요한 ES `import` 및 `export`문을 사용하기 위해 _RxJs_를 수정한 Rollup 플러그인이 있습니다.
+  그러면 Rollup은 애플리케이션에서 참조하는 `RxJS` 부분을 최종 번들에 보존합니다.
 
   Luckily there is a Rollup plugin that modifies _RxJs_ 
   to use the ES `import` and `export` statements that Rollup requires.
@@ -352,7 +444,13 @@ code-example(format='.').
 +makeExample('cb-aot-compiler/ts/rollup-config.js','commonjs','rollup-config.js (CommonJs to ES2015 Plugin)')(format='.')     
 
 :marked
+  *소형화(Minification)* 
+
   *Minification* 
+
+  Rollup Tree Shaking은 코드 크기를 상당히 줄입니다.
+  소형화는 그것을 더 작게 만듭니다.
+  이 요리책은 _uglify_ Rollup 플러그인을 사용하여 코드를 축소하고 코드를 엉망으로 만듭니다.
 
   Rollup Tree Shaking reduces code size considerably.  Minification makes it smaller still.
   This cookbook relies on the _uglify_ Rollup plugin to minify and mangle the code.
@@ -361,64 +459,88 @@ code-example(format='.').
 
 .l-sub-section
   :marked
+    프로덕션 환경에서는 웹 서버에서 gzip을 사용해 코드를 압축하여 더 작은 패키지로 전달할 수 있습니다.
+
     In a production setting, you would also enable gzip on the web server to compress
     the code into an even smaller package going over the wire.
 
 :marked
+  ### Rollup 실행
   ### Run Rollup
+
+  다음 명령을 사용하여 Rollup 프로세스를 실행합니다:
+
   Execute the Rollup process with this command:
 code-example(format='.').
   node_modules/.bin/rollup -c rollup-config.js
 
 .l-sub-section
   :marked
+    Rollup은 다음과 같은 경고 메시지와 함께 여러 행을 기록 할 수 있습니다:
+
     Rollup may log many lines with the following warning message:
   code-example(format='.', language='bash').
     The `this` keyword is equivalent to `undefined` at the top level of an ES module, and has been rewritten
   :marked
+    이 경고는 무시해도 됩니다.
+
     You can safely ignore these warnings.
 
 a#load
 .l-main-section
 :marked
+  ## Bundle 로드
   ## Load the Bundle
+
+  생성된 애플리케이션 번들을 로드하는데 SystemJS와 같은 모듈 로더는 필요하지 않습니다.
+  SystemJS와 관련된 스크립트를 제거하세요.
+  대신, 하나의 `script` 태그를 사용하여 번들 파일을 로드하세요:
 
   Loading the generated application bundle does not require a module loader like SystemJS. 
   Remove the scripts that concern SystemJS.
   Instead, load the bundle file using a single `script` tag:
 
-+makeExample('cb-aot-compiler/ts/index.html','bundle','index.html (load bundle)')(format='.') 
++makeExample('cb-aot-compiler/ts/src/index.html','bundle','index.html (load bundle)')(format='.') 
 
 a#serve
 .l-main-section
 :marked
+  ## 앱 실행
   ## Serve the app
+
+  애플리케이션을 호스팅하려면 웹 서버가 필요합니다.
+  이 문서의 다른 곳에 사용된 것과 동일한 _Lite Server_를 사용하세요:
 
   You'll need a web server to host the application.
   Use the same _Lite Server_ employed elsewhere in the documentation:
 code-example(format='.').
   npm run lite
 :marked
+  서버가 시작되고, 브라우저가 가동되고, 앱이 나타납니다.
+
   The server starts, launches a browser, and the app should appear.
 
 a#source-code
 .l-main-section
 :marked
+  ## AOT QuickStart 소스 코드
   ## AOT QuickStart Source Code
+
+  다음은 관련 소스 코드입니다:
 
   Here's the pertinent source code:
 +makeTabs(
-  `cb-aot-compiler/ts/app/app.component.html,
-   cb-aot-compiler/ts/app/app.component.ts,
-   cb-aot-compiler/ts/app/main.ts,
-   cb-aot-compiler/ts/index.html,
+  `cb-aot-compiler/ts/src/app/app.component.html,
+   cb-aot-compiler/ts/src/app/app.component.ts,
+   cb-aot-compiler/ts/src/main.ts,
+   cb-aot-compiler/ts/src/index.html,
    cb-aot-compiler/ts/tsconfig-aot.json,
    cb-aot-compiler/ts/rollup-config.js`,
   null,
-  `app/app.component.html,
-   app/app.component.ts,
-   app/main.ts,
-   index.html,
+  `src/app/app.component.html,
+   src/app/app.component.ts,
+   src/main.ts,
+   src/index.html,
    tsconfig-aot.json,
    rollup-config.js`
 )
@@ -426,155 +548,231 @@ a#source-code
 a#toh
 .l-main-section
 :marked
+  ## 히어로의 여행
   ## Tour of Heroes
+
+  위의 샘플은 QuickStart 앱의 간단한 변형입니다.
+  이 섹션에서는 AOT 컴파일 및 Tree Shaking에 대해 배운 내용을 더 많은 실체의 앱인 [_Tour of Heroes_](../tutorial/toh-pt6.html) 튜토리얼에 적용합니다. 
 
   The sample above is a trivial variation of the QuickStart app. 
   In this section you apply what you've learned about AOT compilation and Tree Shaking 
   to an app with more substance, the tutorial [_Tour of Heroes_](../tutorial/toh-pt6.html).
 
+  ### 개발에서는 JIT, 프로덕션에서는 AOT
   ### JIT in development, AOT in production
+
+  오늘날 AOT 컴파일과 Tree Shaking은 개발에 실제적인 것보다 많은 시간이 걸립니다. 그것은 곧 바뀔 것입니다.
+  지금은 개발 환경에서 JIT를 컴파일하고 프로덕션 환경에 배포하기 전에 AOT 컴파일로 전환하는 것이 가장 좋습니다.
 
   Today AOT compilation and Tree Shaking take more time than is practical for development. That will change soon.
   For now, it's best to JIT compile in development and switch to AOT compilation before deploying to production.
+
+  다행스럽게도 _만약_ 몇 가지 중요한 차이점을 고려한다면 소스 코드를 변경하지 않고 컴파일 할 수 있습니다.
 
   Fortunately, the source code can be compiled either way without change _if_ you account for a few key differences.
 
   ***index.html***
 
-  The JIT and AOT apps require their own `index.html` files because they setup and launch so differently. 
+  ***index.html***
+
+  JIT 및 AOT 앱은 설치 및 실행 방식이 다르기 때문에 자체 `index.html` 파일을 필요로 합니다.
+  두 개의 `index.html` 파일이 같은 폴더에 있을 수 없기 떄문에 **AOT 버전을 `/aot` 폴더에 넣으세요**.
+
+  The JIT and AOT apps require their own `index.html` files because they setup and launch so differently.   
   **Put the AOT version in the `/aot` folder** because two `index.html` files can't be in the same folder. 
   
+  비교해보자면 다음과 같습니다:
+
   Here they are for comparison:
 
 +makeTabs(
   `toh-6/ts/aot/index.html,
-   toh-6/ts/index.html`,
+   toh-6/ts/src/index.html`,
   null,
   `aot/index.html (AOT),
-   index.html (JIT)`
+   src/index.html (JIT)`
 )
 
 :marked
+  JIT 버전은 개별 모듈을 로드하기 위해 `SystemJS`를 사용합니다.
+  그 스크립트는 `index.html`에 나타납니다.
+
   The JIT version relies on `SystemJS` to load individual modules. 
   Its scripts appear in its `index.html`.
+
+  AOT 버전은 전체 애플리케이션을 단일 스크립트 `aot/dist/build.js`에 로드합니다.
+  그것은 `SystemJS`를 필요로하지 않기 때문에, 스크립트는 `index.html`에 없습니다.
 
   The AOT version loads the entire application in a single script, `aot/dist/build.js`.
   It does not need `SystemJS`, so that script is absent from its `index.html`
   
   ***main.ts***
+
+  ***main.ts***  
   
+  JIT 및 AOT 애플리케이션은 거의 동일한 방식으로 부팅되지만 다른 Angular 라이브러리가 필요합니다.
+  위의 [부트스트랩](#bootstrap) 섹션에서 다루는 주요 차이점은 `main`파일들이 동일한 폴더에 있을 수 있는지와, 있어야만 하는지 입니다:
+
   JIT and AOT applications boot in much the same way but require different Angular libraries to do so.
   The key differences, covered in the [Bootstrap](#bootstrap) section above,
   are evident in these `main` files which can and should reside in the same folder: 
 
 +makeTabs(
-  `toh-6/ts/app/main-aot.ts,
-   toh-6/ts/app/main.ts`,
+  `toh-6/ts/src/main-aot.ts,
+   toh-6/ts/src/main.ts`,
   null,
-  `app/main-aot.ts (AOT),
-   app/main.ts (JIT)`
+  `main-aot.ts (AOT),
+   main.ts (JIT)`
 )
 
 :marked
+  *** TypeScript 구성 ***
+
   ***TypeScript configuration***
+
+  JIT로 컴파일된 애플리케이션은 `commonjs` 모듈로 컴파일 합니다..
+  AOT 컴파일된 애플리케이션은 _ES2015_/_ES6_ 모듈로 컴파일하여 Tree Shaking을 용이하게합니다.
+  AOT는 자체 TypeScript 구성 설정도 필요합니다.
 
   JIT-compiled applications transpile to `commonjs` modules.
   AOT-compiled applications transpile to _ES2015_/_ES6_ modules to facilitate Tree Shaking. 
   AOT requires its own TypeScript configuration settings as well.
 
+  다음과 같은 별도의 TypeScript 구성 파일이 필요합니다:
+
   You'll need separate TypeScript configuration files such as these:
 
 +makeTabs(
   `toh-6/ts/tsconfig-aot.json,
-   toh-6/ts/tsconfig.json`,
+   toh-6/ts/src/tsconfig.json`,
   null,
   `tsconfig-aot.json (AOT),
-   tsconfig.json (JIT)`
+   src/tsconfig.json (JIT)`
 )
 
 .callout.is-helpful
   header @Types and node modules
   :marked
+    _이 특정 샘플 프로젝트_의 파일 구조에서 `node_modules` 폴더는 프로젝트 루트에서 두 레벨 위로 올라갑니다.
+    따라서 `"typeRoots"`는 `"../../node_modules/@types/"`로 설정해야 합니다.
+
     In the file structure of _this particular sample project_,
     the `node_modules` folder happens to be two levels up from the project root. 
     Therefore, `"typeRoots"` must be set to `"../../node_modules/@types/"`. 
     
+    더 전형적인 프로젝트에서 `node_modules`는 `tsconfig-aot.json`의 형제이고 `"typeRoots"`는 `"node_modules/@types/"`로 설정 될 것입니다.
+    `tsconfig-aot.json`을 편집하여 프로젝트의 파일 구조에 맞추세요.
+
     In a more typical project, `node_modules` would be a sibling of `tsconfig-aot.json`
     and `"typeRoots"` would be set to `"node_modules/@types/"`.
     Edit your `tsconfig-aot.json` to fit your project's file structure.
 
 :marked
   ### Tree Shaking
+  ### Tree Shaking
+
+  Rollup은 이전처럼 Tree Shaking을 실행합니다.
 
   Rollup does the Tree Shaking as before.
   
 +makeExample('toh-6/ts/rollup-config.js',null,'rollup-config.js')(format='.')  
 
 :marked
+  ### 애플리케이션 실행
+
   ### Running the application
 
 .alert.is-important
   :marked
+    Tour of Heroes 앱의 AOT 빌드를 실행하기 위한 일반 사용자 안내가 준비되지 않았습니다.
+
     The general audience instructions for running the AOT build of the Tour of Heroes app are not ready.
+
+    다음 지침은 <a href="https://github.com/angular/angular.io" target="_blank">angular.io</a> github 저장소를 복제하고, repo의 README.md에서 설명한대로 개발 준비를 하는 것을 전제로 합니다.
 
     The following instructions presuppose that you have cloned the 
     <a href="https://github.com/angular/angular.io" target="_blank">angular.io</a> 
     github repository and prepared it for development as explained in the repo's README.md.
 
+    _Tour of Heroes_ 소스 코드는 `public/docs/_examples/toh-6/ts` 폴더에 있습니다.
+
     The _Tour of Heroes_ source code is in the `public/docs/_examples/toh-6/ts` folder.
 :marked
+  다른 모든 JIT 예제처럼 `npm start`로 JIT 컴파일된 앱을 실행하세요.
+
   Run the JIT-compiled app with `npm start` as for all other JIT examples.
+
+  AOT로 컴파일하는 것은 특정 지원 파일을 전제로 하며, 위에서 설명한 대부분의 파일을 지원합니다.
 
   Compiling with AOT presupposes certain supporting files, most of them discussed above.
 +makeTabs(
-  `toh-6/ts/aot/index.html,
-   toh-6/ts/aot/bs-config.json,
+  `toh-6/ts/src/index.html,
    toh-6/ts/copy-dist-files.js,
    toh-6/ts/rollup-config.js,
    toh-6/ts/tsconfig-aot.json`,
   null,
-  `aot/index.html,
-   aot/bs-config.json,
+  `src/index.html,
    copy-dist-files.js,
    rollup-config.js,
    tsconfig-aot.json`)
 :marked
+  이 npm 스크립트로 `package.json`의 `scripts` 섹션을 확장하세요:
+
   Extend the `scripts` section of the `package.json` with these npm scripts:
-code-example(format='.').
-  "build:aot": "ngc -p tsconfig-aot.json && rollup -c rollup-config.js",
-  "lite:aot": "lite-server -c aot/bs-config.json",
++makeJson('cb-aot-compiler/ts/package.json', { paths: 'scripts.build:aot, scripts.serve:aot'}, "package.json (convenience scripts)")
+  
 :marked
+  AOT 배포 파일을 노드 스크립트로 `/aot` 폴더에 복사하세요:
+
   Copy the AOT distribution files into the `/aot` folder with the node script:
-code-example(format='.').
+code-example(language="none" class="code-shell").
   node copy-dist-files
 .l-sub-section
   :marked
+    오래된 브라우저를 위한 `zone.js` 또는`core-js` 업데이트가 있을 때까지는 다시 하지 않을 것입니다.
+
     You won't do that again until there are updates to `zone.js` or the `core-js` shim for old browsers.
 :marked
+  이제 앱을 컴파일하고 `lite` 서버로 실행하세요:
+
   Now AOT-compile the app and launch it with the `lite` server:
-code-example(format='.').
-  npm run build:aot && npm run lite:aot
+code-example(language="none" class="code-shell").
+  npm run build:aot && npm run serve:aot
 
 :marked
+  ### Bundle 검사
   ### Inspect the Bundle
+
+  Rollup 후에 생성 된 JavaScript 번들이 어떻게 생겼는지 보는 것은 꽤 흥미롭습니다.
+  코드가 축소되어 있기때문에 번들을 직접 검사하지 않아도 됩니다.
+  그러나 <a href="https://github.com/danvk/source-map-explorer/blob/master/README.md" target="_blank">source-map-explorer</a>는 꽤 드러날 수 있습니다.
 
   It's fascinating to see what the generated JavaScript bundle looks like after Rollup. 
   The code is minified, so you won't learn much from inspecting the bundle directly.
   But the <a href="https://github.com/danvk/source-map-explorer/blob/master/README.md" target="_blank">source-map-explorer</a> 
   tool can be quite revealing. 
 
+  그걸 설치하세요:
+
   Install it:
-code-example(format='.').  
+code-example(language="none" class="code-shell").
   npm install source-map-explorer --save-dev
 :marked
+  맵을 생성하기 위해 다음의 명령어를 실행하세요.
+
   Run the following command to generate the map.
 
-code-example(format='.').
+code-example(language="none" class="code-shell").
   node_modules/.bin/source-map-explorer aot/dist/build.js
 
 :marked
+  `source-map-explorer`는 번들로 생성된 소스 맵을 분석하고 모든 의존성의 맵을 그립니다. 
+  정확히 어떤 애플리케이션과 Angular 모듈과 클래스가 번들에 포함되어 있는지 보여줍니다.
+
   The `source-map-explorer` analyzes the source map generated with the bundle and draws a map of all dependencies,
   showing exactly which application and Angular modules and classes are included in the bundle.
+
+  _히어로의 여행_에 대한 맵은 다음과 같습니다.
 
   Here's the map for _Tour of Heroes_. 
 
