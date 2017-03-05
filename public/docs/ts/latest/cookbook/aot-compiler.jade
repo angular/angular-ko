@@ -57,7 +57,7 @@ a#overview
 
   적기 컴파일은 런타임의 성능 저하를 초래합니다.
   뷰는 브라우저 내 컴파일 단계로 인해 렌더링 시간이 오래 걸립니다.
-  응용 프로그램에는 Angular 컴파일러와 애플리케이션에서 실제로 필요하지 않은 많은 라이브러리 코드가 포함되어 있기 때문에 더 커집니다.
+  애플리케이션에는 Angular 컴파일러와 애플리케이션에서 실제로 필요하지 않은 많은 라이브러리 코드가 포함되어 있기 때문에 더 커집니다.
   커진 앱은 전송하는 데 시간이 오래 걸리며, 로드 속도 또한 느립니다.
 
   JIT compilation incurs a runtime performance penalty. 
@@ -115,7 +115,7 @@ a#aot-jit
   *작은 Angular 프레임워크 다운로드 크기*
   *Smaller Angular framework download size*
 
-  앱이 이미 컴파일 된 경우 Angular 컴파일러를 다운로드 할 필요가 없습니다.
+  앱이 이미 컴파일된 경우 Angular 컴파일러를 다운로드 할 필요가 없습니다.
   컴파일러는 Angular 자체의 절반 정도이므로, 컴파일러를 생략하면 애플리케이션의 페이로드가 크게 줄어 듭니다.
 
   There's no need to download the Angular compiler if the app is already compiled. 
@@ -198,24 +198,24 @@ code-example(format='.').
   This is important as explained later in the [Tree Shaking](#tree-shaking) section.
 
   정말 새로운 것은 `angularCompilerOptions`라는 맨 아래의 `ngc` 섹션입니다.
-  `"genDir"`속성은 컴파일 된 출력 파일을 새로운 `aot` 폴더에 저장하도록 컴파일러에게 알려줍니다.
+  `"genDir"`속성은 컴파일된 출력 파일을 새로운 `aot` 폴더에 저장하도록 컴파일러에게 알려줍니다.
 
   What's really new is the `ngc` section at the bottom called `angularCompilerOptions`. 
   Its `"genDir"` property tells the compiler 
   to store the compiled output files in a new `aot` folder.
 
-  `"skipMetadataEmit" : true` 속성은 컴파일러가 컴파일 된 애플리케이션으로 메타데이터 파일을 생성하는 것을 막습니다.
+  `"skipMetadataEmit" : true` 속성은 컴파일러가 컴파일된 애플리케이션으로 메타데이터 파일을 생성하는 것을 막습니다.
   TypeScript 파일을 대상으로 할 때는 메타데이터 파일이 필요하지 않으므로 포함 할 필요가 없습니다.
 
   The `"skipMetadataEmit" : true` property prevents the compiler from generating metadata files with the compiled application. 
   Metadata files are not necessary when targeting TypeScript files, so there is no reason to include them.
 
 :marked
-  ***컴포넌트 관련 템플릿 URL***
+  ***컴포넌트 기준 템플릿 URL***
   ***Component-relative Template URLS***
 
-  AOT 컴파일러는 외부 템플릿과 CSS 파일을 위한 `@Component` URLS이 _컴포넌트-기준(component-relative)_이도록  요구합니다.
-  즉,`@Component.templateUrl`의 값은 컴포넌트 클래스 파일을 _기준으로 한_ URL 값입니다.
+  AOT 컴파일러는 외부 템플릿과 CSS 파일을 위한 `@Component` URL이 _컴포넌트-기준(component-relative)_이도록  요구합니다.
+  즉, `@Component.templateUrl`의 값은 컴포넌트 클래스 파일을 _기준으로 한_ URL 값입니다.
   예를 들어, `'app.component.html'` URL은 그 템플릿 파일이 그것의 짝 `app.component.ts` 파일의 형제임을   의미합니다.
 
   The AOT compiler requires that `@Component` URLS for external templates and css files be _component-relative_.
@@ -227,7 +227,7 @@ code-example(format='.').
   While JIT app URLs are more flexible, stick with _component-relative_ URLs for compatibility with AOT compilation.
   
   SystemJS 로더와 _컴포넌트-기준_ URL을 사용하는 JIT 컴파일 애플리케이션은 `@Component.moduleId` *속성을* `module.id`로 *설정해야* 합니다.
-  `module` 객체는 AOT 컴파일 된 앱이 실행될 때 정의되지 않습니다(undefined).
+  `module` 객체는 AOT 컴파일된 앱이 실행될 때 정의되지 않습니다(undefined).
   다음과 같이 `index.html`에 글로벌 `module` 값을 지정하지 않으면 null 참조 오류와 함께 앱이 실행되지 않습니다:
 
   JIT-compiled applications that use the SystemJS loader and _component-relative_ URLs *must set the* `@Component.moduleId` *property to* `module.id`.
@@ -266,7 +266,7 @@ code-example(format='.').
 
   After `ngc` completes, look for a collection of _NgFactory_ files in the `aot` folder (the folder specified as `genDir` in `tsconfig-aot.json`). 
 
-  이와 같은 팩토리 파일들은 컴파일 된 애플리케이션에 필수적입니다.
+  이와 같은 팩토리 파일들은 컴파일된 애플리케이션에 필수적입니다.
   각 컴포넌트 팩토리는 본래의 클래스 파일과 컴포넌트 템플릿의 JavaScript 표현을 결합하여 런타임에 컴포넌트의 인스턴스를 만듭니다.
   본래의 컴포넌트 클래스는 여전히 생성된 팩토리에서 내부적으로 참조됩니다.
 
@@ -276,7 +276,7 @@ code-example(format='.').
   Note that the original component class is still referenced internally by the generated factory.
 .l-sub-section
   :marked
-    중간에 `aot/app.component.ngfactory.ts` 파일을 열어 컴파일 된 TypeScript 형식인 원래의 Angular 템플릿 문법을 볼 수 있습니다.
+    중간에 `aot/app.component.ngfactory.ts` 파일을 열어 컴파일된 TypeScript 형식인 원래의 Angular 템플릿 문법을 볼 수 있습니다.
 
     The curious can open the `aot/app.component.ngfactory.ts` to see the original Angular template syntax
     in its intermediate, compiled-to-TypeScript form.
@@ -304,7 +304,7 @@ a#bootstrap
 
   The AOT path changes application bootstrapping.
 
-  `AppModule`을 부트스트랩하는 대신, 생성된 모듈 팩토리 `AppModuleNgFactory`를 사용하여 애플리케이션을 부트 스트랩합니다.
+  `AppModule`을 부트스트랩하는 대신, 생성된 모듈 팩토리 `AppModuleNgFactory`를 사용하여 애플리케이션을 부트스트랩합니다.
 
   Instead of bootstrapping `AppModule`, you bootstrap the application with the generated module factory, `AppModuleNgFactory`.
 
@@ -342,7 +342,7 @@ a#tree-shaking
   A Tree Shaker walks the dependency graph, top to bottom, and _shakes out_ unused code like
   dead needles in a Christmas tree.
 
-  Tree Shaking은 소스 코드와 라이브러리 코드의 사용하지 않는 부분을 제거하여 응용 프로그램의 다운로드 크기를 크게 줄일 수 있습니다.
+  Tree Shaking은 소스 코드와 라이브러리 코드의 사용하지 않는 부분을 제거하여 애플리케이션의 다운로드 크기를 크게 줄일 수 있습니다.
   실제로 작은 앱에서 크기를 줄이는 것의 대부분은 참조되지 않은 Angular 기능을 제거하는 것에서 부터 시작됩니다.
 
   Tree Shaking can greatly reduce the downloaded size of the application 
@@ -523,7 +523,7 @@ code-example(format='.').
 a#source-code
 .l-main-section
 :marked
-  ## AOT QuickStart 소스 코드
+  ## AOT 빠른시작 소스 코드
   ## AOT QuickStart Source Code
 
   다음은 관련 소스 코드입니다:
@@ -548,11 +548,11 @@ a#source-code
 a#toh
 .l-main-section
 :marked
-  ## 히어로의 여행
+  ## Tour of Heroes
   ## Tour of Heroes
 
-  위의 샘플은 QuickStart 앱의 간단한 변형입니다.
-  이 섹션에서는 AOT 컴파일 및 Tree Shaking에 대해 배운 내용을 더 많은 실체의 앱인 [_Tour of Heroes_](../tutorial/toh-pt6.html) 튜토리얼에 적용합니다. 
+  위의 샘플은 빠른시작 앱의 간단한 변형입니다.
+  이 섹션에서는 AOT 컴파일 및 Tree Shaking에 대해 배운 내용을 보다 실질적인 앱인 [_Tour of Heroes_](../tutorial/toh-pt6.html) 튜토리얼에 적용합니다. 
 
   The sample above is a trivial variation of the QuickStart app. 
   In this section you apply what you've learned about AOT compilation and Tree Shaking 
@@ -561,8 +561,8 @@ a#toh
   ### 개발에서는 JIT, 프로덕션에서는 AOT
   ### JIT in development, AOT in production
 
-  오늘날 AOT 컴파일과 Tree Shaking은 개발에 실제적인 것보다 많은 시간이 걸립니다. 그것은 곧 바뀔 것입니다.
-  지금은 개발 환경에서 JIT를 컴파일하고 프로덕션 환경에 배포하기 전에 AOT 컴파일로 전환하는 것이 가장 좋습니다.
+  오늘날 AOT 컴파일과 Tree Shaking은 개발에서 실제 사용하는 것보다 많은 시간을 사용합니다. 그것은 곧 바뀔 것입니다.
+  지금은 개발 환경에서 JIT 컴파일을 하고 프로덕션 환경에 배포하기 전에 AOT 컴파일로 전환하는 것이 가장 좋습니다.
 
   Today AOT compilation and Tree Shaking take more time than is practical for development. That will change soon.
   For now, it's best to JIT compile in development and switch to AOT compilation before deploying to production.
@@ -630,7 +630,7 @@ a#toh
 
   ***TypeScript configuration***
 
-  JIT로 컴파일된 애플리케이션은 `commonjs` 모듈로 컴파일 합니다..
+  JIT으로 컴파일된 애플리케이션은 `commonjs` 모듈로 컴파일 합니다.
   AOT 컴파일된 애플리케이션은 _ES2015_/_ES6_ 모듈로 컴파일하여 Tree Shaking을 용이하게합니다.
   AOT는 자체 TypeScript 구성 설정도 필요합니다.
 
@@ -660,7 +660,7 @@ a#toh
     the `node_modules` folder happens to be two levels up from the project root. 
     Therefore, `"typeRoots"` must be set to `"../../node_modules/@types/"`. 
     
-    더 전형적인 프로젝트에서 `node_modules`는 `tsconfig-aot.json`의 형제이고 `"typeRoots"`는 `"node_modules/@types/"`로 설정 될 것입니다.
+    보다 일반적인 프로젝트에서 `node_modules`는 `tsconfig-aot.json`의 형제이고 `"typeRoots"`는 `"node_modules/@types/"`로 설정 될 것입니다.
     `tsconfig-aot.json`을 편집하여 프로젝트의 파일 구조에 맞추세요.
 
     In a more typical project, `node_modules` would be a sibling of `tsconfig-aot.json`
@@ -772,7 +772,7 @@ code-example(language="none" class="code-shell").
   The `source-map-explorer` analyzes the source map generated with the bundle and draws a map of all dependencies,
   showing exactly which application and Angular modules and classes are included in the bundle.
 
-  _히어로의 여행_에 대한 맵은 다음과 같습니다.
+  _Tour of Heroes_에 대한 맵은 다음과 같습니다.
 
   Here's the map for _Tour of Heroes_. 
 
