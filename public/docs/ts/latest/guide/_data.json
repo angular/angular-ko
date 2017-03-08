@@ -122,13 +122,13 @@
   },
 
   "component-styles": {
-    "title": " 컴포넌트 스타일",
-    "intro": "컴포넌트에 CSS스타일 적용하는 방법을 배우세요."
+    "title": "컴포넌트 스타일",
+    "intro": "컴포넌트에 CSS스타일 적용하는 방법."
   },
 
   "deployment": {
-    "title": "Deployment",
-    "intro": "Learn how to deploy your Angular app."
+    "title": "배포",
+    "intro": "Angular 앱을 배포하는 방법."
   },
 
   "hierarchical-dependency-injection": {
