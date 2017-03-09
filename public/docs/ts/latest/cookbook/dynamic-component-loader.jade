@@ -1,32 +1,48 @@
 include ../_util-fns
 
 :marked
+  템플릿의 컴포넌트는 항상 고정되어 있지 않습니다. 애플리케이션은 런타임마다 새로운 컴포넌트를 로딩해야 할지도 모릅니다.
+
   Component templates are not always fixed. An application may need to load new components at runtime.
+
+  이 요리책은 우리가 컴포넌트를 동적으로 추가하는 `ComponentFactoryResolver` 를 어떻게 사용하는지 보여줍니다.
 
   In this cookbook we show how to use `ComponentFactoryResolver` to add components dynamically.
 
   <a id="toc"></a>
 :marked
+   ## 컨텐츠 목차
    ## Table of contents
-
+      [동적 컴포넌트 로딩](#dynamic-loading)
       [Dynamic Component Loading](#dynamic-loading)
-
+      [컴포넌트를 로딩할 위치](#where-to-load)
       [Where to load the component](#where-to-load)
-
+      [컴포넌트 로딩](#loading-components)
       [Loading components](#loading-components)
 
 .l-main-section
 <a id="dynamic-loading"></a>
 :marked
+   ## 동적 컴포넌트 로딩
    ## Dynamic Component Loading      
 
+   하단의 예시는 어떻게 동적 광고 배너를 빌드할 수 있는지 보여줍니다.
+
    The following example shows how to build a dynamic ad banner. 
+
+   Hero Agency는 배너를 통해 여러 광고가 돌아가는 광고 캠페인을 기획하는 중입니다.
    
    The hero agency is planning an ad campaign with several different ads cycling through the banner.
 
+   새로운 광고 컴포넌트는 몇몇의 다른 팀들로부터 수시로 추가됩니다. 이러한 점은 고정 컴포넌트 구조로 된 템플릿을 이용하는 것을 실용적이지 못하게 만듭니다.
+
    New ad components are added frequently by several different teams. This makes it impractical to use a template with a static component structure. 
+
+   대신 우리는 광고 배너 템플릿에서 컴포넌트의 고정된 레퍼런스 없이 새로운 컴포넌트를 로딩할 수 있는 방법을 찾아야 합니다.
    
    Instead we need a way to load a new component without a fixed reference to the component in the ad banner's template.
+
+   Angular는 컴포넌트를 동적으로 불러오기 위한 API를 제공하고 있습니다. 아래의 섹션을 통해 어떻게 사용하는지 배우게 될 것입니다.
 
    Angular comes with its own API for loading components dynamically. In the following sections you will learn how to use it.
 
@@ -34,7 +50,10 @@ include ../_util-fns
 .l-main-section
 <a id="where-to-load"></a>
 :marked
+   ## 컴포넌트를 로딩할 위치
    ## Where to load the component
+
+   컴포넌트를 추가하기 전에 컴포넌트가 동적으로 삽입될 앵커 포인트를 정의해야만 합니다. 
 
    Before components can be added we have to define an anchor point to mark where components can be inserted dynamically.
 
@@ -97,11 +116,16 @@ include ../_util-fns
 +makeExample('cb-dynamic-component-loader/ts/src/app/app.module.ts', 'entry-components' ,'src/app/app.module.ts (entry components)')(format='.')
 
 :marked
+  컴포넌트는 
+
   Components are added to the template by calling `createComponent` on the `ViewContainerRef` reference. 
   
   `createComponent` returns a reference to the loaded component. The component reference can be used to pass input data or call methods to interact with the component.
+  광고 배너에서, 모든 컴포넌트는 `AdComponent` 인터페이스를 상속합니다.
 
   In the Ad banner, all components implement a common `AdComponent` interface to standardize the api for passing data to the components.
+
+  두 개의 샘플 컴포넌트와 `AdComponent` 인터페이스가 아래에 있습니다.
 
   Two sample components and the `AdComponent` interface are shown below:
 
@@ -116,6 +140,8 @@ include ../_util-fns
 ) 
 
 :marked
+
+
    The final ad banner looks like this:
 figure.image-display
    img(src="/resources/images/cookbooks/dynamic-component-loader/ads.gif" alt="Ads")
