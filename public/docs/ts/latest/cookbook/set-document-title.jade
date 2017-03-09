@@ -2,15 +2,24 @@ include ../_util-fns
 
 a(id='top')
 :marked
+  우리의 앱은 브라우저 제목 표시줄이 우리가 원하는 모든 것을 말하게 할 수 있어야 합니다.
+  이 요리책은 그 방법을 설명합니다.
+
   Our app should be able to make the browser title bar say whatever we want it to say.
   This cookbook explains how to do it.
 :marked
+  **<live-example name="cb-set-document-title"></live-example>을 확인하세요**.
+
   **See the <live-example name="cb-set-document-title"></live-example>**.
 
 table
   tr
     td
       :marked
+        라이브 예제에서 브라우저 제목 표시줄 변경을 보기 위해서는, 
+        Plunker 편집기에서 오른쪽 상단의 아이콘을 클릭하여 다시 연 다음, 
+        오른쪽 상단의 파란색 'X'버튼을 클릭하여 미리보기 창을 엽니다.
+
         To see the browser title bar change in the live example,
         open it again in the Plunker editor by clicking the icon in the upper right,
         then pop out the preview window by clicking the blue 'X' button in the upper right corner.
@@ -21,43 +30,74 @@ table
 
 
 :marked
+  ## *&lt;title&gt;* 문제
   ## The problem with *&lt;title&gt;*
+
+  명백한 접근법은 컴포넌트의 프로퍼티를 다음과 같이 HTML `<title>`에 바인딩하는 것입니다:
 
   The obvious approach is to bind a property of the component to the HTML `<title>` like this:
 code-example(format='').
   &lt;title&gt;{{This_Does_Not_Work}}&lt;/title&gt;
 :marked
+  유감스럽게도 그건 작동하지 않습니다.
+  애플리케이션의 최상위 컴포넌트는 `<body>`태그 내에 포함 된 요소입니다.
+  HTML `<title>`은 body 밖의 문서 `<head>`에 있으므로 Angular 데이터 바인딩에 액세스 할 수 없습니다.
+
   Sorry but that won't work.
   The root component of our application is an element contained within the `<body>` tag.
   The HTML `<title>` is in the document `<head>`, outside the body, making it inaccessible to Angular data binding.
+
+  브라우저 `document` 객체를 잡고 수동으로 제목을 설정할 수 있습니다.
+  이것은 지저분하고, 언젠가는 브라우저 외부에서 앱을 돌릴 가능성을 저해합니다.
 
   We could grab the browser `document` object and set the title manually.
   That's dirty and undermines our chances of running the app outside of a browser someday.
 .l-sub-section
   :marked
+    브라우저 외부에서 앱을 실행한다는 것은 즉각적인 첫 번째 앱 렌더링 시간과 SEO를 위해 사전 서버사이드 렌더링을 활용할 수 있다는 의미입니다.
+    즉, 여러 스레드를 사용하여 Web Worker 내부에서 실행하여 앱의 응답 속도를 향상시킬 수 있습니다.
+    그리고 그것은 Electron.js 또는 Windows Universal 내에서 앱을 실행하여 데스크톱에 제공할 수 있다는 의미입니다.
+
     Running your app outside a browser means that you can take advantage of server-side
     pre-rendering for near-instant first app render times and for SEO.  It means you could run from
     inside a Web Worker to improve your app's responsiveness by using multiple threads.  And it
     means that you could run your app inside Electron.js or Windows Universal to deliver it to the desktop.
 
 :marked
+  ## *Title* 서비스 사용
   ## Use the *Title* service
+
+  다행히 Angular는 *Browser 플랫폼*의 일부로 `Title` 서비스를 제공하여 그 차이를 채워줍니다.
+  [Title](../api/platform-browser/index/Title-class.html) 서비스는 
+  현재 HTML 문서 제목을 가져오고 설정하기 위한 API를 제공하는 간단한 클래스입니다.
+
   Fortunately, Angular bridges the gap by providing a `Title` service as part of the *Browser platform*.
   The [Title](../api/platform-browser/index/Title-class.html) service is a simple class that provides an API
   for getting and setting the current HTML document title:
 
+  * `getTitle() : string` &mdash; 현재 HTML 문서의 제목을 가져옵니다.
+
   * `getTitle() : string` &mdash; Gets the title of the current HTML document.
-  * `setTitle( newTitle : string )` &mdash; Sets the title of the current HTML document. 
+
+  * `setTitle( newTitle : string )` &mdash; 현재 HTML 문서의 제목을 설정합니다.
+
+  * `setTitle( newTitle : string )` &mdash; Sets the title of the current HTML document.
   
+  최상위 `AppComponent`에 `Title` 서비스를 주입하고 그것을 호출하는 바인딩 가능한 `setTitle` 메소드를 노출하세요:
+
   Let's inject the `Title` service into the root `AppComponent` and expose a bindable `setTitle` method that calls it:
 
 +makeExample( "cb-set-document-title/ts/src/app/app.component.ts", "class", "src/app/app.component.ts (class)" )(format='.')
 :marked
+  그 메소드을 3개의 앵커 태그와 바인딩합니다.
+
   We bind that method to three anchor tags and, voilà!
 figure.image-display
    img(src="/resources/images/cookbooks/set-document-title/set-title-anim.gif" alt="Set title")
 
 :marked
+  여기에 완벽한 해결책이 있습니다
+
   Here's the complete solution
 
 +makeTabs(
@@ -76,12 +116,23 @@ figure.image-display
 
 .l-main-section
 :marked
+  ## *부트스트랩*에 *Title* 서비스를 제공하는 이유
+
   ## Why we provide the *Title* service in *bootstrap*
+
+  일반적으로 애플리케이션 전반의 서비스를 최상위 애플리케이션 컴포넌트인 `AppComponent`에 제공하는 것을 추천합니다.
 
   We generally recommended providing application-wide services in the root application component, `AppComponent`.
 
+  런타임 Angular 환경을 구성하기 위해 예약한 위치인 부트스트래핑에 타이틀 서비스를 등록하는 것을 추천합니다.
+
   Here we recommend registering the title service during bootstrapping,
   a location we reserve for configuring the runtime Angular environment.
+
+  그것이 바로 우리가 하는 일입니다.
+  `Title` 서비스는 Angular *브라우저 플랫폼*의 일부입니다.
+  만약 애플리케이션을 다른 플랫폼에서 실행하면, 특정 플랫폼에 대한 "문서 제목"의 개념을 이해하는 다른 `Title` 서비스를 제공해야 합니다.
+  이상적으로 애플리케이션 자체는 런타임 환경을 알고도 신경 쓰지 않습니다.
 
   That's exactly what we're doing.
   The `Title` service is part of the Angular *browser platform*.
