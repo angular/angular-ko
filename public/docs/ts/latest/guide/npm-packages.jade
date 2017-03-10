@@ -1,71 +1,132 @@
 include ../_util-fns
 
 :marked
+  Angular 어플리케이션과 Angular는 다양한 서드파티 패키지의 특징과 기능에 의존합니다. 이 패키지는 Node Package Manager (<a href="https://docs.npmjs.com/" target="_blank">npm</a>)를 통해 설치 및 관리할 수 있습니다.
+
+:marked
   Angular applications and Angular itself depend upon features and functionality provided by a variety of third-party packages.
   These packages are maintained and installed with the Node Package Manager (<a href="https://docs.npmjs.com/" target="_blank">npm</a>).
+
 .l-sub-section
   :marked
+    Node.js와 npm은 Angular 개발에 필수적입니다.
+
     Node.js and npm are essential to Angular development. 
-    
+
+    컴퓨터에 설치되어있지 않다면, <a href="https://docs.npmjs.com/getting-started/installing-node" target="_blank" title="Node.jsd의 설치와 npm 업데이트">
+    지금 다운로드 하세요.</a>
+
     <a href="https://docs.npmjs.com/getting-started/installing-node" target="_blank" title="Installing Node.js and updating npm">
     Get them now</a> if they're not already installed on your machine.
- 
+
+    **node의 버전이 `v4.x.x` 이상, npm의 버전이 `3.x.x`이상인지 확인하세요.**
+    터미널/콘솔 창에서 `node -v`와 `npm -v` 명령어로 확인할 수 있습니다. 오래된 버전에서는 오류가 발생합니다.
+
     **Verify that you are running node `v4.x.x` or higher and npm `3.x.x` or higher**
     by running the commands `node -v` and `npm -v` in a terminal/console window.
     Older versions produce errors.
 
+    다양한 버전의 node와 npm을 관리하려면, [nvm](https://github.com/creationix/nvm)을 사용하는 것을 추천합니다. 이미 컴퓨터에서 작동하는 프로젝트가 오래된 버전에서 작동하고 있다면, [nvm](https://github.com/creationix/nvm)가 필요할 것입니다.
+
     We recommend [nvm](https://github.com/creationix/nvm) for managing multiple versions of node and npm. You may need [nvm](https://github.com/creationix/nvm) if you already have projects running on your machine that use other versions of node and npm.
 
 :marked
+  우리는 우선 앞서 다룬 [설치](setup.html) 과정에서 생성된 <a href="https://docs.npmjs.com/files/package.json" target="_blank">package.json</a> 파일에 명시된 섹션들에 있는 `dependencies`와 `devDependencies`의 이해하기 쉬운 초심자-세트 패키지로 시작하는 것을 권합니다.
+
   We recommend a comprehensive starter-set of packages as specified in the `dependencies` and `devDependencies`
   sections of the <a href="https://docs.npmjs.com/files/package.json" target="_blank">package.json</a> file
   installed as described during [Setup](setup.html).
+
 :marked
+  다른 패키지들을 사용할 수 있지만, 이 *특정한 세트*로 시작하는 것을 추천합니다. 왜냐하면 (a) 그것들은 함께 작동하고, (b) 이 시리즈에서 필요하게 될 예제 어플리케이션을 빌드하고 실행하는데 필요한 모든 것을 포함하고 있기 때문입니다.
+
   You can use other packages but we recommend *this particular set* to start with because (a) they  work well together and 
   (b) they include everything you'll need to build and run the sample applications in this series.
+
 .l-sub-section
   :marked
     Note: A cookbook or guide page may require an additional library such as *jQuery*.
+
+    참고: 요리책(cookbook) 또는 가이드 페이지는 *jQuery*와 같은 추가적인 라이브러리가 필요할 수 있습니다.
+
 :marked
+  QuickStart에 필요한 것보다 더 많은 것을 설치할 것입니다.
+  걱정마세요!
+
   You'll install more than you need for QuickStart. 
   No worries! 
+
+  해당 어플리케이션이 실제 요청하는 패키지들만 클라이언트에 제공합니다.
+
   You only serve to the client those packages that the application actually requests.
-  
+
+  이 페이지는 각 페키지가 무엇을 하는지 설명합니다. 나중에 취향과 경험에 맞게 대체할 수 있을 것입니다.
+
   This page explains what each package does. You can make substitutions later to suit your tastes and experience.
-  
+
 .l-main-section
 :marked
+  ## *dependencies*와 *devDependencies*
+
   ## *dependencies* and *devDependencies*
-  The `package.json` includes two sets of packages, 
-  [dependencies](#dependencies) and [devDependencies](#dev-dependencies).
-  
+
+  `package.json` 은 [dependencies](#dependencies)와 [devDependencies](#dev-dependencies), 두 묶음의 패키지를 포함합니다.
+
+  The `package.json` includes two sets of packages, [dependencies](#dependencies) and [devDependencies](#dev-dependencies).
+
+  *dependencies*은 어플리케이션을 *실행*하는데 필수적입니다.
+  *devDependencies*는 어플리케이션을 *개발*하는데만 필요합니다.
+  설치 명령어에 `--production` 옵션을 추가함으로써, 프로덕션 설치파일에서 다음과 같이 제외시킬 수 있습니다:
+
   The *dependencies* are essential to *running* the application. 
   The *devDependencies* are only necessary to *develop* the application. 
   You can exclude them from production installations by adding `--production` to the install command, as follows:
 code-example(format="." language="bash").
   npm install my-application --production
-  
+
 a(id="dependencies")
 .l-main-section
 :marked
   ## *dependencies*
+
+  ## *dependencies*
+
+  `dependencies` 섹션의 `package.json`은 다음을 포함합니다:
+
   The `dependencies` section of `package.json` contains:
-  
+
+  * ***주요 패키지*** - 프레임워크와 유틸리티의 활용성을 높이는 주요 패키지
+
   * ***Features*** - Feature packages give the application framework and utility capabilities.
   
+  * ***폴리필*** - 폴리필은 JavaScript 구현의 브라우저에 따른 차이를 줄여줍니다.
+
   * ***Polyfills*** - Polyfills plug gaps in the browser's JavaScript implementation.
- 
+
+  * ***기타*** -  `bootstrap`과 같이 HTML 위젯과 스타일 작성에 도움을 주는 다른 라이브러리
+
   * ***Other*** - Other libraries that support the application such as `bootstrap` for HTML widgets and styling.
-  
+
 .l-main-section
 :marked
+  ### 주요 패키지
+
   ### Feature Packages
+  
+  ***@angular/core*** - 모든 어플리케이션에 필요한 프레임워크의 치명적인 런타임 요소.
+  데코레이터, `컴포넌트`, `디렉티브`, 의존성 삽입, 그리고 컴포넌트 라이프사이클 후크에 관한 모든 메타데이터를 포함합니다.
   
   ***@angular/core*** - Critical runtime parts of the framework needed by every application. 
   Includes all metadata decorators, `Component`, `Directive`,  dependency injection, and the component lifecycle hooks.
   
+  ***@angular/common*** - Angular팀이 제공하는 서비스, 파이프, 그리고 디렉티브에 공통적으로 필요한 요소
+
   ***@angular/common*** - The commonly needed services, pipes, and directives provided by the Angular team.
   
+  ***@angular/compiler*** - Angular의 *템플릿 컴파일러*.
+  템플릿을 이해하고 어플리케이션을 실행하고 렌더링하는 코드로 변환할 수 있습니다.
+  일반적으로는 컴파일러를 직접적으로 사용하진 않습니다. 대신에, `platform-browser-dynamic`을 통해 간접적으로 사용하거나, 또는 오프라인 템플릿 컴파일러를 통해 사용합니다.
+
   ***@angular/compiler*** - Angular's *Template Compiler*. 
   It understands templates and can convert them to code that makes the application run and render. 
   Typically you don’t interact with the compiler directly; rather, you use it indirectly via `platform-browser-dynamic` or the offline template compiler.
