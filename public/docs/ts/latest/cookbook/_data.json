@@ -37,8 +37,8 @@
   },
 
   "dynamic-component-loader": {
-    "title": "Dynamic Component Loader",
-    "intro": "Load components dynamically"
+    "title": "동적 컴포넌트 로더",
+    "intro": "동적으로 컴포넌트 로드하기"
   },
 
   "dynamic-form": {
