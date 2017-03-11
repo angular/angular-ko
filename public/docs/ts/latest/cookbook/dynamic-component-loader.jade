@@ -1,11 +1,11 @@
 include ../_util-fns
 
 :marked
-  템플릿의 컴포넌트는 항상 고정되어 있지 않습니다. 애플리케이션은 런타임마다 새로운 컴포넌트를 로딩해야 할지도 모릅니다.
+  템플릿의 컴포넌트는 항상 고정되어 있지 않습니다. 애플리케이션은 런타임시 새로운 컴포넌트를 로딩해야 할지도 모릅니다.
 
   Component templates are not always fixed. An application may need to load new components at runtime.
 
-  이 요리책은 우리가 컴포넌트를 동적으로 추가하는 `ComponentFactoryResolver` 를 어떻게 사용하는지 보여줍니다.
+  이 요리책은 컴포넌트를 동적으로 추가하는 `ComponentFactoryResolver` 를 어떻게 사용하는지 보여줍니다.
 
   In this cookbook we show how to use `ComponentFactoryResolver` to add components dynamically.
 
@@ -13,12 +13,13 @@ include ../_util-fns
 :marked
    ## 컨텐츠 목차
    ## Table of contents
-      [동적 컴포넌트 로딩](#dynamic-loading)
-      [Dynamic Component Loading](#dynamic-loading)
-      [컴포넌트를 로딩할 위치](#where-to-load)
-      [Where to load the component](#where-to-load)
-      [컴포넌트 로딩](#loading-components)
-      [Loading components](#loading-components)
+
+      * [동적 컴포넌트 로딩](#dynamic-loading)
+      * [Dynamic Component Loading](#dynamic-loading)
+      * [컴포넌트를 로딩할 위치](#where-to-load)
+      * [Where to load the component](#where-to-load)
+      * [컴포넌트 로딩](#loading-components)
+      * [Loading components](#loading-components)
 
 .l-main-section
 <a id="dynamic-loading"></a>
@@ -26,7 +27,7 @@ include ../_util-fns
    ## 동적 컴포넌트 로딩
    ## Dynamic Component Loading      
 
-   하단의 예시는 어떻게 동적 광고 배너를 빌드할 수 있는지 보여줍니다.
+   다음의 예시는 어떻게 동적 광고 배너를 빌드할 수 있는지 보여줍니다.
 
    The following example shows how to build a dynamic ad banner. 
 
@@ -38,11 +39,11 @@ include ../_util-fns
 
    New ad components are added frequently by several different teams. This makes it impractical to use a template with a static component structure. 
 
-   대신 우리는 광고 배너 템플릿에서 컴포넌트의 고정된 레퍼런스 없이 새로운 컴포넌트를 로딩할 수 있는 방법을 찾아야 합니다.
+   대신 광고 배너 템플릿에서 컴포넌트의 고정된 레퍼런스 없이 새로운 컴포넌트를 로딩할 수 있는 방법을 찾아야 합니다.
    
    Instead we need a way to load a new component without a fixed reference to the component in the ad banner's template.
 
-   Angular는 컴포넌트를 동적으로 불러오기 위한 API를 제공하고 있습니다. 아래의 섹션을 통해 어떻게 사용하는지 배우게 될 것입니다.
+   Angular는 컴포넌트를 동적으로 불러오기 위한 API를 제공하고 있습니다. 다음의 섹션을 통해 어떻게 사용하는지 배우게 될 것입니다.
 
    Angular comes with its own API for loading components dynamically. In the following sections you will learn how to use it.
 
@@ -57,7 +58,7 @@ include ../_util-fns
 
    Before components can be added we have to define an anchor point to mark where components can be inserted dynamically.
 
-   광고 배너는 템플릿에서 가능한 삽입 포인트를 표시하기 위해서 `AdDirective` 라고 불리는 방향 지시어를 사용합니다. 
+   광고 배너는 템플릿에 유효한 삽입지점을 표시하기 위해 `AdDirective` 라는 헬퍼 지시자를 사용합니다.
 
    The ad banner uses a helper directive called `AdDirective` to mark valid insertion points in the template.
 
@@ -65,9 +66,10 @@ include ../_util-fns
 
 :marked
   `AdDirective`
+
   `AdDirective`
 
-  `AdDirective`는 동적으로 추가 된 컴포넌트의 호스트가 될 요소의 뷰 컨테이너에 접근하기 위해 `ViewContainerRef`를 삽입합니다.
+  `AdDirective`는 동적으로 추가 된 컴포넌트의 호스트가 될 엘리먼트의 뷰 컨테이너에 접근하기 위해 `ViewContainerRef`를 삽입합니다.
 
   `AdDirective` injects `ViewContainerRef` to gain access to the view container of the element that will become the host of the dynamically added component.
    
@@ -81,7 +83,7 @@ include ../_util-fns
 
    The next step is to implement the ad banner. Most of the implementation is in `AdBannerComponent`.
 
-   우리는`template` 엘리먼트에 `AdDirective` 지시어를 추가하는 것으로 시작합니다.
+   `template` 엘리먼트에 `AdDirective` 지시자를 추가하는 것으로 시작합니다.
 
    We start by adding a `template` element with the `AdDirective` directive applied.
 
@@ -104,7 +106,7 @@ include ../_util-fns
 
   The `template` element decorated with the `ad-host` directive marks where dynamically loaded components will be added.
   
-  `template` 요소를 사용하는 것은 추가 출력을 렌더링하지 않을 때 추천된다.
+  어떠한 추가 출력도 렌더링하지 않으므로 `template` 엘리먼트를 사용할 것을 추천합니다.
 
   Using a `template` element is recommended since it doesn't render any additional output.
 
@@ -114,7 +116,7 @@ include ../_util-fns
   ### 컴포넌트 해결
   ### Resolving Components
 
-  `AdBanner` 는 `AdItem` 객체의 배열을 입력으로 받습니다. 'AdItem` 객체는 로드 할 컴포넌트의 유형과 컴포넌트에 바인딩 할 데이터를 지정합니다.
+  `AdBanner`는 `AdItem` 객체의 배열을 입력으로 받습니다. `AdItem` 객체는 로드 할 컴포넌트의 유형과 컴포넌트에 바인딩 할 데이터를 지정합니다.
 
   `AdBanner` takes an array of `AdItem` objects as input. `AdItem` objects specify the type of component to load and any data to bind to the component.
 
@@ -122,19 +124,19 @@ include ../_util-fns
 
   The ad components making up the ad campaign are returned from `AdService`.
 
-  'AdBannerComponent`에 구성 요소의 배열을 전달하는 것은 템플릿에 정적 요소가 없는 광고의 동적 목록이 허용됩니다.
+  `AdBannerComponent`에 컴포넌트의 배열을 전달하는 것은 템플릿에서 정적 엘리먼트 없이 동적인 광고 목록을 가능하게 합니다.
   
   Passing an array of components to `AdBannerComponent` allows for a dynamic list of ads without static elements in the template. 
 
-  `AdBannerComponent` 는 `AdItems` 의 배열을 순환하고 일정한 간격마다 해당 컴포넌트를 로드합니다. 3초마다 새로운 컴포넌트가 로드됩니다.
+  `AdBannerComponent`는 `AdItems` 의 배열을 순환하고 일정한 간격마다 해당 컴포넌트를 로드합니다. 3초마다 새로운 컴포넌트가 로드됩니다.
 
   `AdBannerComponent` cycles through the array of `AdItems` and loads the corresponding components on an interval. Every 3 seconds a new component is loaded.
 
-  `ComponentFactoryResolver` 는 각각의 특정 컴포넌트에 대한 `ComponentFactory` 를 해결하기 위해 사용됩니다. 컴포넌트 팩토리는 컴포넌트의 인스턴스를 생성 할 필요가 있습니다.
+  `ComponentFactoryResolver`는 각각의 특정 컴포넌트에 대한 `ComponentFactory`를 해결하기 위해 사용됩니다. 컴포넌트 팩토리는 컴포넌트의 인스턴스를 생성 할 필요가 있습니다.
 
   `ComponentFactoryResolver` is used to resolve a `ComponentFactory` for each specific component. The component factory is need to create an instance of the component.
 
-  `ComponentFactories` 는 앵귤러 컴파일러에 의해 생성됩니다.
+  `ComponentFactories`는 앵귤러 컴파일러에 의해 생성됩니다.
 
   `ComponentFactories` are generated by the Angular compiler. 
 
@@ -153,7 +155,7 @@ include ../_util-fns
 
   Components are added to the template by calling `createComponent` on the `ViewContainerRef` reference. 
   
-  `createComponent` 는 로드 된 컴포넌트에 대한 레퍼런스를 반환합니다. 컴포넌트 레퍼런스는 입력 데이터를 전달하거나 메소드를 호출하여 컴포넌트와 상호 작용하는 데 사용될 수 있습니다.
+  `createComponent`는 로드 된 컴포넌트에 대한 레퍼런스를 반환합니다. 컴포넌트 레퍼런스는 입력 데이터를 전달하거나 메소드를 호출하여 컴포넌트와 상호 작용하는 데 사용될 수 있습니다.
 
   `createComponent` returns a reference to the loaded component. The component reference can be used to pass input data or call methods to interact with the component.
   
