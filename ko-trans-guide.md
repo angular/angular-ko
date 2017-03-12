@@ -10,6 +10,7 @@
 * Webpack: Webpack
 * AOT: AOT
 * JIT: JIT
+* polyfill: polyfill
 * route: route (라우팅 기술 설명시 route 자체가 객체를 나타내므로 route로 표시)
 * Tour of Heroes: Tour of Heroes (본 문서에서는 거의 대명사처럼 쓰이고 있으므로 영어 그대로 사용)
 
@@ -22,7 +23,6 @@
 * hero: 히어로
 * import: 임포트
 * export: 익스포트
-* polyfill: polyfill
 * type: 타입 (자료형을 나타내는 경우는 "타입"으로, 자료형이 아닌 경우는 적절히 "유형" 등으로 번역)
 * property: 프로퍼티 (attribute는 속성으로 property는 프로퍼티로 번역하여 차이를 두고 있으니 꼭 프로퍼티로 해주세요.)
 * agency: 에이전시
