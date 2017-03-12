@@ -71,7 +71,7 @@
 
   "attribute-directives": {
     "title": "속성 지시자",
-    "intro": "속성 지시자는 동작을 요소에 연결합니다."
+    "intro": "속성 지시자는 동작을 엘리먼트에 연결합니다."
   },
 
   "browser-support": {
