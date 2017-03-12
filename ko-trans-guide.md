@@ -29,9 +29,6 @@
 
 ## 번역 용어 통일
 * 3rd party OOO: 타사 OOO
-* (): 소괄호 (parentheses)
-* {}: 중괄호 (curly bracket)
-* []: 대괄호 (bracket)
 * interpolation: 삽입식
 * expression: 표현식 (값과 연산자의 조합으로 그 자체로는 문장의 의미가 없으므로 "식"으로 번역)
 * statement: 명령문 (어떤 목적을 가진 온전한 형태의 문장이므로 "문"으로 번역)
@@ -41,6 +38,10 @@
 * cookbook: 요리책
 * recipe: 요리법
 * dependency injection: 의존성 주입
+* 일반적으로 괄호는 소괄호를 의미하므로 크게 상관이 없고 괄호가 구분되어 많이 나오는 페이지인 경우
+  * (): 소괄호 (parentheses)
+  * {}: 중괄호 (curly bracket)
+  * []: 대괄호 (bracket)
 
 ## 정리중인 단어
 * selector: 선택자? vs 셀렉터?
