@@ -174,8 +174,8 @@ a(id="polyfills")
 
   ### Polyfill packages
   
-  Angular는 애플리케이션 환경에 특정한 [폴리필](https://en.wikipedia.org/wiki/Polyfill)이 필요합니다.
-  npm 패키지를 이용해 이 폴리필들을 설치하면 Angular는 `package.json`의 *peerDependencies* 목록에 작성합니다.
+  Angular는 애플리케이션 환경에 특정한 [Polyfill](https://en.wikipedia.org/wiki/Polyfill)이 필요합니다.
+  npm 패키지를 이용해 이 Polyfill들을 설치하면 Angular는 `package.json`의 *peerDependencies* 목록에 작성합니다.
 
   Angular requires certain [polyfills](https://en.wikipedia.org/wiki/Polyfill) in the application environment.
   Install these polyfills using the npm packages that Angular lists in the *peerDependencies* section of its `package.json`.
@@ -191,7 +191,7 @@ a(id="polyfills")
     For background on this requirement, see [Why peerDependencies?](#why-peer-dependencies).
 :marked
   ***core-js*** - ES2015(ES6)의 필수 기능들을 글로벌 컨텍스트(윈도우)에 적용합니다.
-  동일한 핵심 API를 제공하는 폴리필로 대체할 수도 있습니다.
+  동일한 핵심 API를 제공하는 Polyfill로 대체할 수도 있습니다.
   API들이 주요 브라우저에 구현될 때, 이 의존성은 불필요해질 것입니다.
 
   ***core-js*** - Patches the global context (window) with essential features of ES2015 (ES6).
@@ -199,7 +199,7 @@ a(id="polyfills")
    When these APIs are implemented by the major browsers, this dependency will become unnecessary.
 
   ***rxjs*** - [TC39](http://www.ecma-international.org/memento/TC39.htm) 위원회가 JavaScript 언어의 표준을 결정하기 전
-  [Observables 명세](https://github.com/zenparsing/es-observable)를 위한 폴리필입니다.
+  [Observables 명세](https://github.com/zenparsing/es-observable)를 위한 Polyfill입니다.
   여러분은 Angular의 업데이트를 기다리지 않고도 원하는 버전의 *rxjs*를 선택(호환성이 허용하는 범위 내에서)할 수 있습니다.
 
   ***rxjs*** - A polyfill for the [Observables specification](https://github.com/zenparsing/es-observable) currently before the 
@@ -207,7 +207,7 @@ a(id="polyfills")
   You can pick a preferred version of *rxjs* (within a compatible version range) 
   without waiting for Angular updates.
   
-  ***zone.js*** - [TC39](http://www.ecma-international.org/memento/TC39.htm) 위원회가 JavaScript 언어의 표준을 결정하기 전 [Zone 명세](https://gist.github.com/mhevery/63fdcdf7c65886051d55)을 위한 폴리필입니다. 여러분은 Angular의 업데이트를 기다리지 않고도 원하는 버전의 *rxjs*를 선택(호환성이 허용하는 범위 내에서)할 수 있습니다.
+  ***zone.js*** - [TC39](http://www.ecma-international.org/memento/TC39.htm) 위원회가 JavaScript 언어의 표준을 결정하기 전 [Zone 명세](https://gist.github.com/mhevery/63fdcdf7c65886051d55)을 위한 Polyfill입니다. 여러분은 Angular의 업데이트를 기다리지 않고도 원하는 버전의 *rxjs*를 선택(호환성이 허용하는 범위 내에서)할 수 있습니다.
 
   ***zone.js*** - A polyfill for the [Zone specification](https://gist.github.com/mhevery/63fdcdf7c65886051d55) currently before the 
   [TC39](http://www.ecma-international.org/memento/TC39.htm) committee that determines standards for the JavaScript language.
@@ -388,12 +388,12 @@ a(id="why-peer-dependencies")
     
     #### The future of *peerDependencies*
     
-    Angular의 폴리필 의존성은 강력한 요구사항을 필요로 합니다. 현재는 이를 선택적으로 할 수 있는 방법이 없습니다.
+    Angular의 Polyfill 의존성은 강력한 요구사항을 필요로 합니다. 현재는 이를 선택적으로 할 수 있는 방법이 없습니다.
 
     The Angular polyfill dependencies are hard requirements. Currently, there is no way to make them optional.
     
     하지만, npm의 기능 요구사항 중 "선택적인 peerDependencies"가 있습니다. 선택적 상호 의존성을 통해 그 관계를 더 잘 구상할 수 있다는 것입니다.
-    이 요구사항이 구현된다면, Angular는 *peerDependencies*에서 *optionalPeerDependencies*로 모든 폴리필을 대체할 것입니다.
+    이 요구사항이 구현된다면, Angular는 *peerDependencies*에서 *optionalPeerDependencies*로 모든 Polyfill을 대체할 것입니다.
 
     However, there is an npm feature request for "optional peerDependencies," which would allow you to model this relationship better. 
     When this feature request is implemented, Angular will switch from *peerDependencies* to *optionalPeerDependencies* for all polyfills.
