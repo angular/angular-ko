@@ -19,12 +19,12 @@
 * component: 컴포넌트
 * application: 애플리케이션
 * app: 앱
-* Hero: 히어로
+* hero: 히어로
 * import: 임포트
 * export: 익스포트
 * type: 타입 (자료형을 나타내는 경우는 "타입"으로, 자료형이 아닌 경우는 적절히 "유형" 등으로 번역)
-* property: 프로퍼티 (attribute는 속성으로 property는 프로퍼티로 번역하여 차이를 두고 있으니 property는 꼭 프로퍼티로 해주세요.)
-* Agency: 에이전시
+* property: 프로퍼티 (attribute는 속성으로 property는 프로퍼티로 번역하여 차이를 두고 있으니 꼭 프로퍼티로 해주세요.)
+* agency: 에이전시
 
 ## 번역 용어 통일
 * 3rd party OOO: 타사 OOO
@@ -37,7 +37,7 @@
 * emit: 방출
 * syntactic sugar: "간편 표기법(syntatic sugar)"로 병기 (아직 완전히 널리 알려진 용어같지는 않아서요)
 * QuickStart: 빠른시작
-* Cookbook: 요리책
+* cookbook: 요리책
 * recipe: 요리법
 
 ## 정리중인 단어
