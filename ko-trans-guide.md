@@ -39,9 +39,9 @@
 * recipe: 요리법
 * dependency injection: 의존성 주입
 * 일반적으로 괄호는 소괄호를 의미하므로 크게 상관이 없고 괄호가 구분되어 많이 나오는 페이지인 경우
-  * (): 소괄호 (parentheses)
-  * {}: 중괄호 (curly bracket)
-  * []: 대괄호 (bracket)
+  * (): 소괄호 (parentheses를 의미)
+  * {}: 중괄호 (curly bracket를 의미)
+  * []: 대괄호 (bracket를 의미)
 
 ## 정리중인 단어
 * selector: 선택자? vs 셀렉터?
