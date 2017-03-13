@@ -35,6 +35,8 @@ block includes
 :marked
   ## 컴포넌트 스타일 사용하기
 
+  ## Using Component Styles
+
   우리가 작성하는 모든 Angular 컴포넌트에 대해, 우리는 HTML 템플릿뿐만 아니라,
   템플릿과 같이 동작하는 CSS 스타일(선택자, 규칙, 미디어 쿼리 등)도 정의합니다.
 
@@ -99,6 +101,8 @@ a(id="special-selectors")
 .l-main-section
 :marked
   ## 특별한 선택자들
+
+  ## Special selectors
 
   컴포넌트 스타일에는 [shadow DOM 스타일의 스코핑](https://www.w3.org/TR/css-scoping-1) 으로부터 파생된 몇몇 특별한 *선택자들*이 있습니다.
 
@@ -207,6 +211,8 @@ a(id='loading-styles')
 :marked
   ## 컴포넌트로 스타일 불러오기
 
+  ## Loading Styles into Components
+
   컴포넌트에 스타일을 더하는 여러 가지 방법이 있습니다.
 
   We have several ways to add styles to a component:
@@ -230,6 +236,8 @@ a(id='loading-styles')
 
   ### 메타 정보에 styles 설정
 
+  ### Styles in Metadata
+
   컴포넌트의 `@Component` 장식자에 `styles` 배열 속성 값을 추가할 수 있습니다.
   배열 내의 각각의 문자열에(일반적으로는 하나의 문자열만 사용합니다) CSS를 정의합니다.
 
@@ -241,6 +249,8 @@ a(id='loading-styles')
 :marked
   ### 템플릿에 인라인 `<style>` 태그 사용
 
+  ### Template Inline Styles
+
   `<style>` 태그를 이용하여 HTML 템플릿 내에 직접 사용함으로써
   스타일을 적용시킬 수도 있습니다.
 
@@ -251,6 +261,8 @@ a(id='loading-styles')
 
 :marked
   ### 메타 정보에 style URLs 설정
+
+  ### Style URLs in Metadata
 
   컴포넌트의 `@Component` 장식자에 `styleUrls` 속성값을 주어 외부의 CSS 파일들을 불러올 수 있습니다.
 
@@ -304,6 +316,8 @@ block module-bundlers
 :marked
   ### 템플릿에 link 태그
 
+  ### Template Link Tags
+
   컴포넌트의 HTML 템플릿 내에 `<link>` 태그를 직접 이용할 수도 있습니다.
 
   We can also embed `<link>` tags into the component's HTML template.
@@ -318,6 +332,8 @@ block module-bundlers
 
 :marked
   ### CSS @import
+
+  ### CSS @imports
 
   표준 CSS의 [`@import` 규칙](https://developer.mozilla.org/en/docs/Web/CSS/@import) 을
   이용하여 CSS 파일들을 불러들일 수도 있습니다.
@@ -337,6 +353,8 @@ a#view-encapsulation
 .l-main-section
 :marked
   ## 뷰 캡슐화 제어: Native, Emulated, and None
+
+  ## Controlling View Encapsulation: Native, Emulated, and None
 
   위에서 논의되었듯, 컴포넌트의 CSS 스타일은 컴포넌트 자체 뷰에 캡슐화되며, 어플리케이션의 다른 부분에
   영향을 끼치지 않습니다.
@@ -397,6 +415,8 @@ a#inspect-generated-css
 .l-main-section
 :marked
   ## 부록 1: Emulated 뷰 캡슐화에 대해 생성된 CSS 코드 검사(inspect)하기
+
+  ## Appendix 1: Inspecting The CSS Generated in Emulated View Encapsulation
 
   기본 emulated 뷰 캡슐화를 사용하는 경우, Angular는 모든 컴포넌트의 스타일을 미리 처리하여서
   표준 Shadow CSS의 스코핑 룰에 대략적으로 비슷하게 할 수 있습니다.
