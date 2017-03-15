@@ -43,6 +43,8 @@
   * (): 소괄호 (parentheses를 의미)
   * {}: 중괄호 (curly bracket를 의미)
   * []: 대괄호 (bracket를 의미)
+* Contents: 내용 (제목으로 \#과 함께 한 줄에 보일 경우)
+* Table of contents: 목차 (제목으로 \#과 함께 한 줄에 보일 경우)
 
 ## 정리중인 단어
 * selector: 선택자? vs 셀렉터?
