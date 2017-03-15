@@ -76,12 +76,13 @@ var sourceVisible = localStorage.getItem('source-visible') === 'true';
     return count;
   }
 
-  /**
+  /*
    * Process block elements. The first element is original english, the
    * second element is translated one.
    * @param current the first element.
    * @returns {boolean} Is success?
    */
+   
   function processBlock(current) {
     var sibling = current.nextElementSibling;
 
@@ -98,7 +99,7 @@ var sourceVisible = localStorage.getItem('source-visible') === 'true';
             $current.addClass('translated');
             $sibling.addClass('original-english');
             $current.after($sibling);
-            $sibling.on('click', function (event) {
+            $current.on('click', function (event) {
               // for nested structure.
               event.stopPropagation();
               $sibling.toggleClass('hidden');
