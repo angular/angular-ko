@@ -28,8 +28,8 @@
   },
 
   "dependency-injection": {
-    "title": "종속성 주입",
-    "intro": "종속성 주입 테크닉"
+    "title": "의존성 주입",
+    "intro": "의존성 주입 테크닉"
   },
 
   "dynamic-form": {
