@@ -13,6 +13,11 @@
 * polyfill: polyfill
 * route: route (라우팅 기술 설명시 route 자체가 객체를 나타내므로 route로 표시)
 * Tour of Heroes: Tour of Heroes (본 문서에서는 거의 대명사처럼 쓰이고 있으므로 영어 그대로 사용)
+* deep link: deep link
+* fallback: fallback ("대비", "대비책", "예비사이트"로 번역이 가능하나 angular 주요 개발 용어이므로 그대로 사용)
+* repo: repo (repository의 의미로 쓰일 경우. 일반적인 개발 용어이므로 repo 그대로 사용)
+* tree shaking: tree shaking
+* rollup: rollup
 
 ## 번역이 애매한 기술용어는 영어 그대로 한글로 표기
 * element: 엘리먼트
@@ -27,6 +32,10 @@
 * property: 프로퍼티 (attribute는 속성으로 property는 프로퍼티로 번역하여 차이를 두고 있으니 꼭 프로퍼티로 해주세요.)
 * agency: 에이전시
 * view: 뷰
+* section: 섹션
+* entry: 엔트리
+* error: 에러
+* inventory: 인벤토리
 
 ## 번역 용어 통일
 * 3rd party OOO: 타사 OOO
@@ -46,6 +55,7 @@
 * Contents: 내용 (제목으로 \#과 함께 한 줄에 보일 경우)
 * Table of contents: 목차 (제목으로 \#과 함께 한 줄에 보일 경우)
 * boolean : 진위형
+* production: 상용
 
 ## 정리중인 단어
 * selector: 선택자? vs 셀렉터?
