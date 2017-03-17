@@ -1,91 +1,167 @@
 include ../_util-fns
 
 :marked
+  Angular 애플리케이션과 Angular는 다양한 서드파티 패키지의 특징과 기능에 의존합니다. 이 패키지는 Node 패키지 관리자(<a href="https://docs.npmjs.com/" target="_blank">npm</a>)를 통해 설치 및 관리할 수 있습니다.
+
+:marked
   Angular applications and Angular itself depend upon features and functionality provided by a variety of third-party packages.
   These packages are maintained and installed with the Node Package Manager (<a href="https://docs.npmjs.com/" target="_blank">npm</a>).
+
 .l-sub-section
   :marked
+    Node.js와 npm은 Angular 개발에 필수적입니다.
+
     Node.js and npm are essential to Angular development. 
-    
+
+    컴퓨터에 설치되어있지 않다면, <a href="https://docs.npmjs.com/getting-started/installing-node" target="_blank" title="Node.jsd의 설치와 npm 업데이트">
+    지금 다운로드 하세요.</a>
+
     <a href="https://docs.npmjs.com/getting-started/installing-node" target="_blank" title="Installing Node.js and updating npm">
     Get them now</a> if they're not already installed on your machine.
- 
+
+    **node의 버전이 `v4.x.x` 이상, npm의 버전이 `3.x.x`이상**인지 터미널/콘솔 창에서 `node -v`와 `npm -v` 명령어로 확인할 수 있습니다. 오래된 버전에서는 오류가 발생합니다.
+
     **Verify that you are running node `v4.x.x` or higher and npm `3.x.x` or higher**
     by running the commands `node -v` and `npm -v` in a terminal/console window.
     Older versions produce errors.
 
+    다양한 버전의 node와 npm을 관리하려면, [nvm](https://github.com/creationix/nvm)을 사용하는 것을 추천합니다. 이미 컴퓨터에서 작동하는 프로젝트가 오래된 버전에서 작동하고 있다면, [nvm](https://github.com/creationix/nvm)이 필요할 것입니다.
+
     We recommend [nvm](https://github.com/creationix/nvm) for managing multiple versions of node and npm. You may need [nvm](https://github.com/creationix/nvm) if you already have projects running on your machine that use other versions of node and npm.
 
 :marked
+  우선 앞서 다룬 [설치](setup.html) 과정에서 생성된, <a href="https://docs.npmjs.com/files/package.json" target="_blank">package.json</a> 파일에 명시된 `dependencies`와 `devDependencies`의 쉬운 초심자 패키지 모음으로 시작하는 것을 권합니다.
+
   We recommend a comprehensive starter-set of packages as specified in the `dependencies` and `devDependencies`
   sections of the <a href="https://docs.npmjs.com/files/package.json" target="_blank">package.json</a> file
   installed as described during [Setup](setup.html).
+
 :marked
+  (a)세트가 함께 잘 작동하고, (b)이 시리즈에서 필요하게 될 예제 애플리케이션을 빌드하고 실행하는 데 필요한 모든 것을 포함하고 있기 때문에, 다른 패키지들을 사용할 수 있지만, 이 *특정 세트*로 시작하는 것을 추천합니다.
+
   You can use other packages but we recommend *this particular set* to start with because (a) they  work well together and 
   (b) they include everything you'll need to build and run the sample applications in this series.
+
 .l-sub-section
   :marked
+    참고: 요리책(cookbook)과 가이드 페이지는 *jQuery*와 같은 추가적인 라이브러리가 필요할 수 있습니다.
+
     Note: A cookbook or guide page may require an additional library such as *jQuery*.
+
 :marked
+  여러분은 빠른시작에서 다룬 것보다 더 많은 것을 설치할 것입니다.
+  하지만 걱정하지 마세요!
+
   You'll install more than you need for QuickStart. 
   No worries! 
+
+  여러분은 해당 애플리케이션이 실제 요청하는 패키지들만 클라이언트에 제공하면 됩니다.
+
   You only serve to the client those packages that the application actually requests.
-  
+
+  본 페이지에서는 각 패키지가 무엇을 하는지 설명합니다. 나중에 여러분의 입맛과 경험에 따라 바꾸면 됩니다.
+
   This page explains what each package does. You can make substitutions later to suit your tastes and experience.
-  
+
 .l-main-section
 :marked
+  ## *dependencies*와 *devDependencies*
+
   ## *dependencies* and *devDependencies*
-  The `package.json` includes two sets of packages, 
-  [dependencies](#dependencies) and [devDependencies](#dev-dependencies).
-  
+
+  `package.json` 은 [dependencies](#dependencies)와 [devDependencies](#dev-dependencies), 두 패키지 목록을 포함하고 있습니다.
+
+  The `package.json` includes two sets of packages, [dependencies](#dependencies) and [devDependencies](#dev-dependencies).
+
+  *dependencies*은 애플리케이션을 *실행*하는데 필수적입니다.
+  *devDependencies*는 애플리케이션을 *개발* 과정에서만 필요합니다.
+  설치 명령어에 `--production` 옵션을 추가함으로써, 다음과 같이 프로덕션 설치에서 제외시킬 수 있습니다:
+
   The *dependencies* are essential to *running* the application. 
   The *devDependencies* are only necessary to *develop* the application. 
   You can exclude them from production installations by adding `--production` to the install command, as follows:
 code-example(format="." language="bash").
   npm install my-application --production
-  
+
 a(id="dependencies")
 .l-main-section
 :marked
   ## *dependencies*
+  `dependencies` 섹션의 `package.json`은 다음을 포함합니다:
+
   The `dependencies` section of `package.json` contains:
-  
+
+  * ***기능*** - 기능 패키지는 애플리케이션 프레임워크 및 유틸리티의 기능을 제공합니다.
+
   * ***Features*** - Feature packages give the application framework and utility capabilities.
   
+  * ***Polyfill*** - Pollyfill은 브라우저 JavaScript 구현에서 발생하는 편차를 막습니다.
+
   * ***Polyfills*** - Polyfills plug gaps in the browser's JavaScript implementation.
- 
+
+  * ***기타*** - `부트스트랩`과 같이 HTML 위젯과 스타일 작성에 도움을 주는 다른 라이브러리
+
   * ***Other*** - Other libraries that support the application such as `bootstrap` for HTML widgets and styling.
-  
+
 .l-main-section
 :marked
+  ### 기능 패키지
+
   ### Feature Packages
+  
+  ***@angular/core*** - 모든 애플리케이션에 필요한 프레임워크의 핵심적 런타임 요소.
+  메타데이터 데코레이터, `컴포넌트`, `지시자`, 의존성 주입, 그리고 컴포넌트 생명주기 훅을 포함합니다. 
   
   ***@angular/core*** - Critical runtime parts of the framework needed by every application. 
   Includes all metadata decorators, `Component`, `Directive`,  dependency injection, and the component lifecycle hooks.
   
+  ***@angular/common*** - Angular팀에서 제공하는 서비스, 파이프 및 지시자.
+
   ***@angular/common*** - The commonly needed services, pipes, and directives provided by the Angular team.
   
+  ***@angular/compiler*** - Angular의 *템플릿 컴파일러*.
+  템플릿을 가지고 애플리케이션을 실행하고 렌더링하는 코드로 변환할 수 있습니다.
+  일반적으로 컴파일러를 직접 사용하지는 않습니다. 대신에, `platform-browser-dynamic`을 통해 간접적으로 사용하거나, 오프라인 템플릿 컴파일러를 통해 사용합니다.
+
   ***@angular/compiler*** - Angular's *Template Compiler*. 
   It understands templates and can convert them to code that makes the application run and render. 
   Typically you don’t interact with the compiler directly; rather, you use it indirectly via `platform-browser-dynamic` or the offline template compiler.
-  
+
+  ***@angular/platform-broswer*** - DOM과 브라우저에 관한 모든 것.
+  특히 DOM으로 렌더링하는데 도움이 되는 부분.
+  또한 오프라인에서 템플릿을 사전 컴파일하는 프로덕션을 빌드하는 애플리케이션 부트스트랩을 위한 bootstrapStatic 메소드가 포함되어 있습니다.
+
   ***@angular/platform-browser*** - Everything DOM and browser related, especially the pieces that help render into DOM.
   This package also includes the bootstrapStatic method for bootstrapping applications for production builds that pre-compile templates offline.
-  
+
+  ***@angular/platform-browser-dynamic*** -
+  클라이언트 상에서 템플릿을 컴파일하기 위한 [제공자(provider)](../api/core/index/Provider-type-alias.html)와 [부트스트랩](ngmodule.html#bootstrap) 메소드가 포함됩니다.
+  오프라인 컴파일에 사용하지 마세요. 이 패키지는 개발 중 부트스트래핑과 간단한 예제를 부트스트래핑하는 데 사용합니다.
+
   ***@angular/platform-browser-dynamic*** - Includes [Providers](../api/core/index/Provider-type-alias.html) and a [bootstrap](ngmodule.html#bootstrap) method for applications that
   compile templates on the client. Don’t use offline compilation.
   Use this package for bootstrapping during development and for bootstrapping plunker samples.
-  
+
+  ***@angular/http*** - Angular의 http 클라이언트.
+
   ***@angular/http*** - Angular's http client.
   
+  ***@angular/router*** - 컴포넌트 라우터.
+
   ***@angular/router*** - Component router.
-  
+
+  ***@angular/upgrade*** - AngularJS 애플리케이션을 Angular로 업그레이드하는 유틸리티 모음.
+
   ***@angular/upgrade*** - Set of utilities for upgrading AngularJS applications to Angular.
-  
-  ***[system.js](https://github.com/systemjs/systemjs)*** -  A dynamic module loader compatible with the 
+
+  ***[system.js](https://github.com/systemjs/systemjs)*** - [ES2015 module](http://www.2ality.com/2014/09/es6-modules-final.html) 스펙과 호환되는 동적 모듈 로더.
+  다른 가능한 선택으로는 잘 알려진 [webpack](https://webpack.github.io/)이 있습니다.
+
+  ***[system.js](https://github.com/systemjs/systemjs)*** -  A dynamic module loader compatible with the
   [ES2015 module](http://www.2ality.com/2014/09/es6-modules-final.html) specification.
   Other viable choices include the well-regarded [webpack](https://webpack.github.io/).
+  
+  여러분이 앞으로 만들 애플리케이션은 HTML 컨트롤, 테마, 데이터 엑세스, 다양한 유틸리티 등 추가적인 패키지가 필요할 것입니다.
   
   Your future applications are likely to require additional packages that provide
   HTML controls, themes, data access, and various utilities.
@@ -94,26 +170,45 @@ a(id="dependencies")
 a(id="polyfills")
 .l-main-section
 :marked
+  ### Polyfill 패키지
+
   ### Polyfill packages
   
+  Angular는 애플리케이션 환경에 특정한 [Polyfill](https://en.wikipedia.org/wiki/Polyfill)이 필요합니다.
+  npm 패키지를 이용해 이 Polyfill들을 설치하면 Angular는 `package.json`의 *peerDependencies* 목록에 작성합니다.
+
   Angular requires certain [polyfills](https://en.wikipedia.org/wiki/Polyfill) in the application environment.
   Install these polyfills using the npm packages that Angular lists in the *peerDependencies* section of its `package.json`.
   
+  반드시 `package.json`에 있는 `dependencies` 목록에 이 패키지들을 작성하세요.
+
   You must list these packages in the `dependencies` section of your own `package.json`.
   
 .l-sub-section
   :marked
+    본 요구사항에 대한 배경지식은 아래의 [왜 peerDependencies인가?](#why-peer-dependencies)를 참고하세요.
+
     For background on this requirement, see [Why peerDependencies?](#why-peer-dependencies).
 :marked
+  ***core-js*** - ES2015(ES6)의 필수 기능들을 글로벌 컨텍스트(윈도우)에 적용합니다.
+  동일한 핵심 API를 제공하는 Polyfill로 대체할 수도 있습니다.
+  API들이 주요 브라우저에 구현될 때, 이 의존성은 불필요해질 것입니다.
+
   ***core-js*** - Patches the global context (window) with essential features of ES2015 (ES6).
    You may substitute an alternative polyfill that provides the same core APIs. 
    When these APIs are implemented by the major browsers, this dependency will become unnecessary.
-  
+
+  ***rxjs*** - [TC39](http://www.ecma-international.org/memento/TC39.htm) 위원회가 JavaScript 언어의 표준을 결정하기 전
+  [Observables 명세](https://github.com/zenparsing/es-observable)를 위한 Polyfill입니다.
+  여러분은 Angular의 업데이트를 기다리지 않고도 원하는 버전의 *rxjs*를 선택(호환성이 허용하는 범위 내에서)할 수 있습니다.
+
   ***rxjs*** - A polyfill for the [Observables specification](https://github.com/zenparsing/es-observable) currently before the 
   [TC39](http://www.ecma-international.org/memento/TC39.htm) committee that determines standards for the JavaScript language.
   You can pick a preferred version of *rxjs* (within a compatible version range) 
   without waiting for Angular updates.
   
+  ***zone.js*** - [TC39](http://www.ecma-international.org/memento/TC39.htm) 위원회가 JavaScript 언어의 표준을 결정하기 전 [Zone 명세](https://gist.github.com/mhevery/63fdcdf7c65886051d55)을 위한 Polyfill입니다. 여러분은 Angular의 업데이트를 기다리지 않고도 원하는 버전의 *rxjs*를 선택(호환성이 허용하는 범위 내에서)할 수 있습니다.
+
   ***zone.js*** - A polyfill for the [Zone specification](https://gist.github.com/mhevery/63fdcdf7c65886051d55) currently before the 
   [TC39](http://www.ecma-international.org/memento/TC39.htm) committee that determines standards for the JavaScript language.
   You can pick a preferred version of *zone.js* to use (within a compatible version range) 
@@ -122,13 +217,22 @@ a(id="polyfills")
 a(id="other")
 .l-main-section
 :marked
+  ### 다른 도움되는 라이브러리
+
   ### Other helper libraries
   
+  ***angular-in-memory-web-api*** - 실제 서버나 http 호출 없이 원격 서버의 웹 API를 시뮬레이션하는 Angular지원 라이브러리입니다.
+  서버가 마련되지 않은 상태에서의 시연이나 예제, 혹은 초기 개발단계에 도움이 됩니다.
+  자세한 것은 [Http 클라이언트](server-communication.html#appendix-tour-of-heroes-in-memory-server) 페이지를 참조하세요.
+
   ***angular-in-memory-web-api*** - An Angular-supported library that simulates a remote server's web api 
   without requiring an actual server or real http calls. 
   Good for demos, samples, and early stage development (before we even have a server).
   Read about it in the [Http Client](server-communication.html#appendix-tour-of-heroes-in-memory-server) page.
   
+  ***bootstrap*** - [부트스트랩](http://getbootstrap.com/)은 반응형 웹 애플리케이션 디자인으로 유명한 HTML/CSS 프레임워크입니다.
+  몇가지 예제들은 *bootstrap*을 활용해 외관을 꾸몄습니다.
+
   ***bootstrap*** - [Bootstrap](http://getbootstrap.com/) is a popular HTML and CSS framework for designing responsive web apps.
   Some of the samples improve their appearance with *bootstrap*.
   
@@ -136,84 +240,160 @@ a(id="dev-dependencies")
 .l-main-section
 :marked
   ## *devDependencies*
+  `package.json`의 *devDependencies*에 목록화된 패키지들은 여러분이 애플리케이션을 개발하는데 도움을 줍니다.
+  프로덕션 애플리케이션에 이 패키지들을 포함하게 되더라도 이상은 없지만, 굳이 포함할 필요는 없습니다. 
+
   The packages listed in the *devDependencies* section of the `package.json` help you develop the application.
   You don't have to deploy them with the production application although there is no harm in doing so.
+
+  ***[concurrently](https://www.npmjs.com/package/concurrently)*** - 
+  OS/X, 윈도우즈, 그리고 리눅스 운영체제 상에서 여러개의 npm 명령어를 작동시키기 위한 유틸리티.
 
   ***[concurrently](https://www.npmjs.com/package/concurrently)*** - 
   A utility to run multiple *npm* commands concurrently on OS/X, Windows, and Linux operating systems.
   
   ***[lite-server](https://www.npmjs.com/package/lite-server)*** - 
+  [John Papa](http://johnpapa.net/)가 작성한 가볍고 정적인 파일 서버,
+  라우팅을 사용하는 Angular 앱을 훌륭하게 지원합니다. 
+
+  ***[lite-server](https://www.npmjs.com/package/lite-server)*** - 
   A light-weight, static file server, by [John Papa](http://johnpapa.net/) 
   with excellent support for Angular apps that use routing.
-  
+
+  ***[typescript](https://www.npmjs.com/package/typescript)*** - 
+  *tsc* TypeScript 컴파일러를 포함한 TypeScript 언어 서버.
+
   ***[typescript](https://www.npmjs.com/package/typescript)*** - 
   the TypeScript language server, including the *tsc* TypeScript compiler.
   
-  ***@types/\**** - TypeScript definition files.
+  ***@types/\**** 
+  - TypeScript 정의 파일들.
+  자세한 사항은 [TypeScript 설정](typescript-configuration.html#typings)에서 살펴보세요.
+
+  - TypeScript definition files.
   Learn more about it in the [TypeScript Configuration](typescript-configuration.html#typings) chapter.
 
 .l-main-section
 a(id="why-peer-dependencies")
 :marked
+  ## 왜 *peerDependencies*인가?
+
   ## Why *peerDependencies*?
   
+  빠른시작에서 다룬 `packae.json`에는 *peerDependencies*가 없었습니다.
+  하지만, Angular의 package.json 파일에는 애플리케이션에 중요한 영향을 미치는 *peerDependencies*가 있습니다.
+
   There isn't a *peerDependencies* section in the QuickStart `package.json`. 
   But Angular has a *peerDependencies* section in 
   *its* package.json, which has important consequences for your application. 
   
+  이는 왜 [Polyfill](#polyfills)의 *의존성* 패키지를 빠른시작의 `package.json`에서 불러왔는지 설명해줍니다.
+  또한 왜 그 패키지들이 여러분 애플리케이션에 필요한 것인지도 설명해줍니다.
+
   It explains why you load the [polyfill](#polyfills) *dependency* packages in the QuickStart `package.json`,
   and why you'll need those packages in your own applications.
   
+  이에대한 설명은 [상호 의존성(peer dependencies)](https://nodejs.org/en/blog/npm/peer-dependencies/)을 참고하세요.
+
   An explanation of [peer dependencies](https://nodejs.org/en/blog/npm/peer-dependencies/) follows.
   
+  패키지들은 다른 패키지에 의존합니다. 예를들면, 여러분의 애플리케이션은 Angular 패키지에 의존합니다.
+
   Packages depend on other packages. For example, your application depends on the Angular package.
   
+  두 패키지 "A", "B"가 동시에 또 다른 패키지 "C"에 의존할 수도 있습니다.
+  "A"와 "B"는 모두 "C"를 그들의 *dependencies*목록에 작성합니다.
+
   Two packages, "A" and "B", could depend on the same third package "C". 
   "A" and "B" might both list "C" among their *dependencies*.
   
+  만약에 "A"와 "B"가 서로 다른 버젼의 "C" ("C1"과 "C2")에 의존하면 어떨까요? npm 패키지 시스템은 이를 지원합니다.
+  npm은 "C1"을 "A"를 위해 `node_modules` 폴더에 설치하고, "C2"를 "B"를 위해 `node_modules` 폴더에 설치합니다.
+  "A"와 "B"는 모두 각각의 "C"의 복사본을 갖게 되고, 서로 간섭하지 않고 작동할 수 있습니다.
+
   What if "A" and "B" depend on different versions of "C" ("C1" and "C2"). The npm package system supports that. 
   It installs "C1" in the `node_modules` folder for "A" and "C2" in the `node_modules` folder for "B".
   Now "A" and "B" have their own copies of "C" and they run without interferring with one another.
+
+  하지만 문제가 있습니다. 패키지 "A"는 "C1"의 존재를 실제로 직접(directly) 호출하지 않고도 알아야 할 것입니다.
+  "A"는 오직 *다른 패키지가 "C1"을 사용하는 중일 때만* 작동할 수도 있습니다. 애플리케이션의 다른 부분이 "C2"에 의존하면 무너지게 됩니다.
   
   But there is a problem. Package "A" may require the presence of "C1" without actually calling upon it directly.
   "A" may only work if *everyone is using "C1"*. It falls down if any part of the application relies on "C2".
   
+  해결책은 "A"가 "C1"에 대해 *상호 의존성(peer dependency)*를 선언하는 것입니다.
+
   The solution is for "A" to declare that "C1" is a *peer dependency*.
   
+  `dependency`와 `peerDependency`의 차이는 대략 다음과 같습니다:
+
   The difference between a `dependency` and a `peerDependency` is roughly this:
   
+  >**dependency**는 이렇게 말합니다. "나는 이것을 직접 *내가* 사용될 수 있어야 돼"*
+  >
   >A **dependency** says, "I need this thing directly available to *me*."
+  >
+  >**peerDependency**는 이렇게 말합니다. "나를 사용하려면, *당신은* 이것을 사용할 수 있어야 돼"*
   >
   >A **peerDependency** says, "If you want to use me, you need this thing available to *you*."
    
+  Angular의 `package.json`파일은 몇몇의 *peerDependency* 패키지를 명시하며,
+  각각은 특정 버전의 서드파티 패키지를 지정하고 있습니다.
+
   The Angular `package.json` specifies several *peer dependency* packages, 
   each pinned to a particular version of a third-party package.
 
+  ### Anuglar의 *peerDependencies*는 반드시 직접 설치해야만 합니다.
+
   ### We must install Angular's *peerDependencies* ourselves.
   
+  *npm*은 `dependencies` 섹션에 나열된 패키지를 설치할 떄,
+  *그 패키지들*의 `dependencies` 목록에 있는 패키지 또한 설치합니다.
+  그 과정은 재귀적으로 일어납니다.
+
   When *npm* installs packages listed in *your* `dependencies` section,
   it also installs the packages listed within *their* packages `dependencies` sections.
   The process is recursive.
   
+  하지만, 버전 3에서는 *npm*은 *peerDependencies* 목록의 패키지를 설치하지 *않습니다*.
+
   However, as of version 3, *npm* does *not* install packages listed in *peerDependencies* sections.
-  
+
+  이것은 애플리케이션이 Angular를 설치할 때, 
+  ***npm*은 자동으로 Angular의 *peerDependencies* 목록 패키지들을 설치하지 않는다**는 것입니다.
+
   This means that when your application installs Angular, ***npm* doesn't automatically install
   the packages listed in Angular's *peerDependencies* section**.
   
+  다행이도 *npm*은 (a) *상호 의존성(peer dependencies)*이 깨질 때, 또는 (b)
+  애플리케이션이나 다른 의존성이 다른 버전의 *상호 의존성*을 설치할 때  경고로 알려줍니다.
+
   Fortunately, *npm* issues a warning (a) When any *peer dependencies* are missing, or (b)
   When the application or any of its other dependencies
   installs a different version of a *peer dependency*. 
+
+  이 경고는 버전 불일치로 인한 뜻밖의 실패를 막아줍니다.
+  여러분에게 패키지와 버전 결정을 할 수 있게 해줄 것입니다.
   
   These warnings guard against accidental failures due to version mismatches.
   They leave you in control of package and version resolution.
   
+  따라서 *상호 의존성* 패키지를 **여러분의 *devDependencies*에** 목록화 하는 것은 여러분이 해야할 일입니다.
+
   It is your responsibility to list all *peer dependency* packages **among your own *devDependencies***.
   
 .l-sub-section
   :marked
+    #### *peerDependencies*의 미래
+    
     #### The future of *peerDependencies*
     
+    Angular의 Polyfill 의존성은 강력한 요구사항을 필요로 합니다. 현재는 이를 선택적으로 할 수 있는 방법이 없습니다.
+
     The Angular polyfill dependencies are hard requirements. Currently, there is no way to make them optional.
     
+    하지만, npm의 기능 요구사항 중 "선택적인 peerDependencies"가 있습니다. 선택적 상호 의존성을 통해 그 관계를 더 잘 구상할 수 있다는 것입니다.
+    이 요구사항이 구현된다면, Angular는 *peerDependencies*에서 *optionalPeerDependencies*로 모든 Polyfill을 대체할 것입니다.
+
     However, there is an npm feature request for "optional peerDependencies," which would allow you to model this relationship better. 
     When this feature request is implemented, Angular will switch from *peerDependencies* to *optionalPeerDependencies* for all polyfills.

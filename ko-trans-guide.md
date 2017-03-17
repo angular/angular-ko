@@ -26,6 +26,7 @@
 * type: 타입 (자료형을 나타내는 경우는 "타입"으로, 자료형이 아닌 경우는 적절히 "유형" 등으로 번역)
 * property: 프로퍼티 (attribute는 속성으로 property는 프로퍼티로 번역하여 차이를 두고 있으니 꼭 프로퍼티로 해주세요.)
 * agency: 에이전시
+* view: 뷰
 
 ## 번역 용어 통일
 * 3rd party OOO: 타사 OOO
@@ -42,6 +43,9 @@
   * (): 소괄호 (parentheses를 의미)
   * {}: 중괄호 (curly bracket를 의미)
   * []: 대괄호 (bracket를 의미)
+* Contents: 내용 (제목으로 \#과 함께 한 줄에 보일 경우)
+* Table of contents: 목차 (제목으로 \#과 함께 한 줄에 보일 경우)
+* boolean : 진위형
 
 ## 정리중인 단어
 * selector: 선택자? vs 셀렉터?
