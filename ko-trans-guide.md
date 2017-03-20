@@ -18,6 +18,7 @@
 * repo: repo (repository의 의미로 쓰일 경우. 일반적인 개발 용어이므로 repo 그대로 사용)
 * tree shaking: tree shaking
 * rollup: rollup
+* chunk: chunk
 
 ## 번역이 애매한 기술용어는 영어 그대로 한글로 표기
 * element: 엘리먼트

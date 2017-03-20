@@ -6,94 +6,172 @@ style.
   .syntax { font-family: Consolas, 'Lucida Sans', Courier, sans-serif; color: black; font-size: 85%; }
 
 :marked
+  [**Webpack**](https://webpack.github.io/)은 인기 있는 모듈 번들러로,
+  애플리케이션 소스 코드를 편리한 _chunk로_ 번들링하고
+  그것을 서버에서 브라우저로 로딩하는 도구입니다.
+  
   [**Webpack**](https://webpack.github.io/) is a popular module bundler,
   a tool for bundling application source code in convenient _chunks_ 
   and for loading that code from a server into a browser.
   
+  이것은 문서의 다른 곳에서 사용된 *SystemJS*에 대한 훌륭한 대안입니다.
+  이 안내서는 Webpack의 맛을 소개하고 Angular 애플리케이션에서 Webpack을 사용하는 방법을 설명합니다.
+
   It's an excellent alternative to the *SystemJS* approach used elsewhere in the documentation.
   This guide offers a taste of Webpack and explains how to use it with Angular applications.
   
   <a id="top"></a>
+  ## 목차
   ## Table of contents
   
+  [Webpack이란 무엇인가요?](#what-is-webpack)
+
   [What is Webpack?](#what-is-webpack)
   
+    * [엔트리와 출력](#entries-outputs)
+
     * [Entries and outputs](#entries-outputs)
+
+    * [로더](#loaders)
+
     * [Loaders](#loaders)
+
+    * [플러그인](#plugins)
+
     * [Plugins](#plugins)
     
+  [Webpack 설정](#configure-webpack)
+
   [Configuring Webpack](#configure-webpack)
   
+    * [공통 설정](#common-configuration)
+
     * [Common configuration](#common-configuration)
+
+    * [개발 설정](#development-configuration)
+    
     * [Development configuration](#development-configuration)
+
+    * [상용 설정](#production-configuration)
+    
     * [Production configuration](#production-configuration)
+
+    * [테스트 설정](#test-configuration)
+    
     * [Test configuration](#test-configuration)
     
+  [맛보기](#try)
+
   [Trying it out](#try)
   
+  [결론](#conclusions)
+
   [Conclusions](#conclusions)
     
 .l-main-section
 <a id="what-is-webpack"></a>
 :marked
+  ## Webpack이란 무엇인가요?
+
   ## What is Webpack?
   
+  Webpack은 강력한 모듈 번들러입니다.
+  _번들_은 _asset_을 포함하는 JavaScript 파일이며
+  단일 파일 요청에 대한 응답으로 클라이언트에 제공되어야 합니다.
+  번들에는 JavaScript, CSS 스타일, HTML 및 거의 모든 다른 종류의 파일이 포함될 수 있습니다.
+
   Webpack is a powerful module bundler. 
   A _bundle_ is a JavaScript file that incorporate _assets_ that *belong* together and 
   should be served to the client in a response to a single file request.
   A bundle can include JavaScript, CSS styles, HTML, and almost any other kind of file.
 
+  Webpack은 애플리케이션 소스 코드를 훑어서 `import` 문을 찾고,
+  의존성 그래프를 만들고, 하나 이상의 _번들_을 방출합니다.
+  플러그인과 규칙을 통해 Webpack은 TypeScript, SASS 및 LESS 파일과 같은 여러 non-JavaScript 파일을 전처리하고 최소화 할 수 있습니다.
+
   Webpack roams over your application source code, 
   looking for `import` statements, building a dependency graph, and emitting one (or more) _bundles_.
   With plugins and rules, Webpack can preprocess and minify different non-JavaScript files such as TypeScript, SASS, and LESS files. 
+
+  JavaScript 설정 파일인 `webpack.config.js`를 사용하여 Webpack이 무엇을 할지와 그것을 어떻게 할지를 결정합니다.
 
   You determine what Webpack does and how it does it with a JavaScript configuration file, `webpack.config.js`.
   
 a(id="entries-outputs")
 .l-main-section
 :marked
+  ### 엔트리와 출력
   ### Entries and outputs
   
+  하나 이상의 *엔트리* 파일을 Webpack에 제공하여 해당 엔트리에서 방출되는 의존성을 찾아 통합시키도록 합니다.
+  이 예제에서 하나의 진입점 파일은 애플리케이션 루트 파일인 `src/app.ts`입니다:
+
   You supply Webpack with one or more *entry* files and let it find and incorporate the dependencies that radiate from those entries. 
   The one entry point file in this example is the application's root file, `src/app.ts`:
   
 +makeExample('webpack/ts-snippets/webpack.config.snippets.ts', 'one-entry', 'webpack.config.js (single entry)')(format=".")
   
 :marked
+  Webpack은 해당 파일을 검사하고 `import` 의존성을 재귀적으로 탐색합니다.
+
   Webpack inspects that file and traverses its `import` dependencies recursively.
   
 +makeExample('webpack/ts-snippets/webpack.config.snippets.ts', 'app-example', 'src/app.ts')(format=".")
 
 :marked
+  *@angular/core*를 임포트하는 것을 확인하여 번들에 (잠재적으로) 포함을 하기 위해 의존성 목록에 추가합니다.
+  *@angular/core* 파일을 열고 `app.ts`에서 아래로 최종 의존성 그래프를 완성할 때까지 `import`문의 네트워크를 따라갑니다.
+  
   It sees that you're importing *@angular/core* so it adds that to its dependency list for (potential) inclusion in the bundle.
   It opens the *@angular/core* file and follows _its_ network of `import` statements until it has built the complete dependency graph from `app.ts` down.
   
+  그런 다음 이러한 파일을 설정 파일에서 지정한 `app.js` _번들 파일_에 **출력합니다**:
+
   Then it **outputs** these files to the `app.js` _bundle file_ designated in configuration:
   
 +makeExample('webpack/ts-snippets/webpack.config.snippets.ts', 'one-output', 'webpack.config.js (single output)')(format=".")
 
 :marked
+  이 `app.js` 출력 번들은 애플리케이션 소스와 그 의존성을 포함하는 단일 JavaScript 파일입니다.
+  나중에 `<script>` 태그를 사용하여 `index.html`에 로드 할 것입니다.
+
   This `app.js` output bundle is a single JavaScript file that contains the application source and its dependencies. 
   You'll load it later with a `<script>` tag in the `index.html`. 
   
+  #### 다중 번들
   #### Multiple bundles
+  어쩌면 모든 것을 하나의 거대한 묶음으로 만들고 싶지 않을 것입니다.
+  휘발성 애플리케이션 코드를 비교적 안정된 업체의 코드 모듈에서 분리하는 것이 좋습니다.
+  
   You probably don't want one giant bundle of everything.
   It's preferable to separate the volatile application app code from comparatively stable vendor code modules.
   
+  `app.ts` 와 `vendor.ts` 두 진입점을 갖도록 설정을 변경하세요:
+
   Change the configuration so that it has two entry points, `app.ts` and `vendor.ts`:
 
 +makeExample('webpack/ts-snippets/webpack.config.snippets.ts', 'two-entries','webpack.config.js (two entries)')(format=".")
 :marked
+  Webpack은 두 개의 독립적인 의존성 그래프를 만들고
+  *두 개의* 번들 파일을 내보냅니다. 하나는 애플리케이션 코드만 포함하는`app.js`이고
+  다른 하나는 모든 벤더 의존성을 가진 `vendor.js` 파일입니다.
+
   Webpack constructs two separate dependency graphs
   and emits *two* bundle files, one called `app.js` containing only the application code and 
   another called `vendor.js` with all the vendor dependencies.
  
 .l-sub-section
   :marked
+    출력 이름의 `[name]`은 *placeholder*이며 Webpack 플러그인은 항목 이름인 app과 vendor를 대체합니다.
+    플러그인은 가이드에서 [나중에 설명합니다](#commons-chunk-plugin).
+
     The `[name]` in the output name is a *placeholder* that a Webpack plugin replaces with the entry names,
     `app` and `vendor`. Plugins are [covered later](#commons-chunk-plugin) in the guide.
 
 :marked
+  Webpack에게 벤더 번들에 속한 것을 알려주려면
+  애플리케이션의 타사 모듈만 임포트하는 `vendor.ts` 파일을 추가하세요:
+
   To tell Webpack what belongs in the vendor bundle, 
   add a `vendor.ts` file that only imports the application's third-party modules:
 +makeExample('webpack/ts/src/vendor.ts', null,'src/vendor.ts')(format=".")
@@ -102,7 +180,13 @@ a(id="entries-outputs")
 a(id="loaders")
 .l-main-section
 :marked
+  ### 로더
   ### Loaders
+
+  Webpack은 JavaScript, TypeScript, CSS, SASS, LESS, 이미지, HTML, 글꼴 등 어떤 종류의 파일도 번들로 묶을 수 있습니다.
+  Webpack _자체_는 JavaScript 파일만 인식합니다.
+  *loader*를 사용하여 JavaScript가 아닌 파일을 JavaScript 파일로 변환하세요.
+  다음과 같이 TypeScript 및 CSS 용 로더를 구성하세요.
 
   Webpack can bundle any kind of file: JavaScript, TypeScript, CSS, SASS, LESS, images, html, fonts, whatever.
   Webpack _itself_ only understands JavaScript files.
@@ -112,16 +196,28 @@ a(id="loaders")
 +makeExample('webpack/ts-snippets/webpack.config.snippets.ts', 'loaders', 'webpack.config.js (two entries)')(format=".")
 
 :marked
+  Webpack이 다음과 같은 `import` 문을 만나면 ...
+
   As Webpack encounters `import` statements like these ...
   
 +makeExample('webpack/ts-snippets/webpack.config.snippets.ts', 'imports')(format=".")
 
 :marked
+  ... `test` RegEx 패턴을 적용합니다. 패턴이 파일 이름과 일치하면 Webpack은 연관된 로더로 해당 파일을 처리합니다.
+  
   ... it applies the `test` RegEx patterns. When a pattern matches the filename, Webpack processes the file with the associated loader. 
   
+  첫 번째 `import` 파일은 `.ts` 패턴과 일치합니다. 그래서 Webpack은 `awesome-typescript-loader`로 그 파일을 처리합니다.
+  임포트한 파일은 두 번째 패턴과 일치하지 않으므로 해당 로더는 무시합니다.
+
   The first `import` file matches the `.ts` pattern so Webpack processes it with the `awesome-typescript-loader`.
   The imported file doesn't match the second pattern so its loader is ignored. 
   
+  두 번째 `import`는 두번째 `.css` 패턴과 일치합니다. 이 패턴에는 (!) 문자로 연결된 두 개의 로더가 있습니다.
+  Webpack은 체인화된 로더를 *오른쪽에서 왼쪽으로* 적용하여
+  `css` 로더를 먼저 적용하고 (CSS `@import`와 `url(...)` 문을 펼지는 역할)
+  그리고 `style` 로더를 (CSS 내부에 *&lt;style&gt;* 엘리먼트를 추가하는 역할) 적용합니다.
+
   The second `import` matches the second `.css` pattern for which you have *two* loaders chained by the (!) character. 
   Webpack applies chained loaders *right to left* so it applies 
   the `css` loader first (to flatten CSS `@import` and `url(...)` statements) and
@@ -130,8 +226,12 @@ a(id="loaders")
 a(id="plugins")
 .l-main-section
 :marked
+  ### 플러그인
   ### Plugins
   
+  Webpack에는 잘 정의된 단계의 빌드 파이프라인이 있습니다.
+  `uglify` 최소화 플러그인과 같은 플러그인으로 파이프라인을 활용하세요:
+
   Webpack has a build pipeline with well-defined phases.
   Tap into that pipeline with plugins such as the `uglify` minification plugin:
   
@@ -140,18 +240,27 @@ a(id="plugins")
 a(id="configure-webpack")
 .l-main-section
 :marked
+  ## Webpack 구성  
   ## Configure Webpack
   
+  간단한 오리엔테이션이 끝나면 Angular 앱용 Webpack 설정을 직접 만들 수 있습니다.
+  
   After that brief orientation, you are ready to build your own Webpack configuration for Angular apps. 
   
+  개발 환경을 설정하는 것부터 시작하세요.
+  
   Begin by setting up the development environment.
   
+  **새 프로젝트 폴더**를 만드세요.
+
   Create a **new project folder**
 code-example(language="sh" class="code-shell").
   mkdir angular-webpack
   cd    angular-webpack
 
 :marked
+  다음 파일들을 루트 폴더에 추가하세요:
+
   Add these files to the root directory:
   
 +makeTabs(
@@ -169,14 +278,23 @@ code-example(language="sh" class="code-shell").
 )
 .l-sub-section
   :marked
+    이 파일들 중 상당수는 다른 Angular 문서 가이드,
+    특히 [_Typescript 설정_](../guide/typescript-configuration.html) 및
+    [_npm 패키지_](../guide/npm-packages.html) 가이드에서 익숙한 것들이어야만 합니다.
+
     Many of these files should be familiar from other Angular documentation guides,
     especially the [_Typescript configuration_](../guide/typescript-configuration.html) and
     [_npm packages_](../guide/npm-packages.html) guides.
+
+    Webpack, 플러그인 및 로더는 패키지로도 설치됩니다.
+    그것들은 업데이트된 `packages.json`에 나열되어 있습니다.
 
     Webpack, the plugins, and the loaders are also installed as packages. 
     They are listed in the updated `packages.json`.
 
 :marked
+  터미널 창을 열고 *npm* 패키지를 (재)설치하세요.
+
   Open a terminal window and (re)install the *npm* packages
 code-example(language="sh" class="code-shell").
   npm install
@@ -184,10 +302,17 @@ code-example(language="sh" class="code-shell").
 a#polyfills
 .l-main-section
 :marked
+  ### Polyfill
   ### Polyfills
+
+  [_Browser Support_](browser-support.html) 가이드에 설명된 대로
+  대부분의 브라우저에서 Angular 애플리케이션을 실행하려면 polyfill이 필요합니다.
 
   You'll need polyfills to run an Angular application in most browsers as explained
   in the [_Browser Support_](browser-support.html) guide.
+
+  Polyfill은 애플리케이션 및 벤더 번들과 별도의 번들로 제공되어야 합니다.
+  이러한 `polyfills.ts`를 `src/` 폴더에 추가하세요.
 
   Polyfills should be bundled separately from the application and vendor bundles.
   Add a `polyfills.ts` like this one to the `src/` folder.
@@ -195,61 +320,111 @@ a#polyfills
 +makeExample('webpack/ts/src/polyfills.ts', '', 'src/polyfills.ts')(format=".")
 
 .callout.is-critical
+  header polyfill 로딩
   header Loading polyfills
   :marked
+    다른 ES6 및 메타데이터 shim 직후, `polyfills.ts`의 앞 부분에 `zone.js`를 로드하세요.
+
     Load `zone.js` early within `polyfills.ts`, immediately after the other ES6 and metadata shims.
 
 :marked
+  번들 파일이 먼저 로드되기 때문에,
+  `polyfills.ts`는 상용이나 개발시의 브라우저 환경을 설정하기에 좋은 곳입니다.
+
   Because this bundle file will load first, `polyfills.ts` is also a good place to configure the browser environment 
   for production or development.
 
 a(id="common-configuration")
 .l-main-section
 :marked
+  ### 공통 설정
   ### Common Configuration
   
+  개발자는 일반적으로 개발, 상용 및 테스트 환경에 대한 별도의 설정을 가지고 있습니다.
+  세 가지 모두 공통된 많은 설정을 가지고 있습니다.
+
   Developers typically have separate configurations for development, production, and test environments.
   All three have a lot of configuration in common.
+
+  `webpack.common.js`라는 파일에 공통 설정을 모으세요.
 
   Gather the common configuration in a file called `webpack.common.js`.
   
 +makeExample('webpack/ts/config/webpack.common.js', null, 'config/webpack.common.js')(format=".")
 
 :marked
+  ### _webpack.common.js_ 내부
   ### Inside _webpack.common.js_
+  Webpack은 JavaScript _commonjs_ 모듈 파일에서 설정을 읽는 NodeJS 기반 도구입니다.
+
   Webpack is a NodeJS-based tool that reads configuration from a JavaScript _commonjs_ module file.
+
+  이 설정은 의존성을 `require` 문으로 임포트하고
+  여러 객체를 `module.exports` 객체의 속성으로 익스포트합니다.
 
   The configuration imports dependencies with `require` statements
   and exports several objects as properties of a `module.exports` object.
 
+  * [`entries`](#common-entries) - 번들을 정의하는 진입점 파일입니다.
+  
   * [`entries`](#common-entries) - the entry-point files that define the bundles.
+  
+  * [`resolve`](#common-resolve) - 확장자가 없을 경우 파일명을 어떻게 결정할 것인지 정의합니다.
+  
   * [`resolve`](#common-resolve) - how to resolve file names when they lack extensions.
+  
+  * [`module.rules`](#common-rules) - `module`은 파일들이 어떻게 로딩 될지를 결정하기 위한 `rules`를 가진 객체입니다.
+  
   * [`module.rules`](#common-rules) - `module` is an object with `rules` for deciding how files are loaded.
+  
+  * [`plugins`](#common-plugins) - 플러그인 인스턴스 생성합니다.
+
   * [`plugins`](#common-plugins) - creates instances of the plugins.
 
 a#common-entries
 :marked
   #### _entries_
+  #### _entries_
+
+  첫 번째 익스포트는 위에서 설명한 *entries* 객체입니다:
 
   The first export is the *entries* object, described above:
   
 +makeExample('webpack/ts/config/webpack.common.js', 'entries', 'config/webpack.common.js')(format=".")
 :marked
+  *entries* 객체는 3개의 번들을 정의합니다:
+
   This *entries* object defines the three bundles:
   
+  * polyfills - 대부분의 모던 브라우저에서 Angular 애플리케이션을 실행하는데 필요한 polyfill.
+  
   * polyfills - the polyfills needed to run Angular applications in most modern browsers.
+  
+  * vendor - Angular, lodash 및 bootstrap.css와 같은 타사 의존성들.
+    
   * vendor - the third-party dependencies such as Angular, lodash, and bootstrap.css.
+  
+  * app - 애플리케이션 코드.
+  
   * app - the application code.
 
 a#common-resolve
 :marked
+  #### 확장자가 없는 임포트 _결정_
   #### _resolve_ extension-less imports
+
+  앱은 수백 개가 아니면 수십 개의 JavaScript와 TypeScript 파일을 임포트할 것입니다.
+  다음 예와 같이 명시적 확장자를 가진 `import` 문을 쓸 수 있습니다:
 
   The app will `import` dozens if not hundreds of JavaScript and TypeScript files. 
   You could write `import` statements with explicit extensions like this example:
 +makeExample('webpack/ts-snippets/webpack.config.snippets.ts', 'single-import')(format=".")
 
 :marked
+  그러나 대부분의 `import` 문은 확장자를 전혀 표기하지 않습니다.
+  Webpack에게 `.ts` 확장자 또는 `.js` 확장자 (정규 JavaScript 파일과 미리 컴파일된 TypeScript 파일의 경우)와
+  일치하는 파일을 찾음으로써 확장자가 없는 파일의 요청을 결정하도록 합니다.
+
   But most `import` statements don't mention the extension at all.
   Tell Webpack to resolve extension-less file requests by looking for matching files with
   `.ts` extension or `.js` extension (for regular JavaScript files and pre-compiled TypeScript files).
@@ -257,6 +432,9 @@ a#common-resolve
 +makeExample('webpack/ts/config/webpack.common.js', 'resolve', 'config/webpack.common.js')(format=".")
 .l-sub-section
   :marked
+    Webpack이 스타일이나 HTML에 대해 확장자가 없는 파일을
+    결정해야 한다면 `.css`와 `.html`을 목록에 추가하세요.
+
     If Webpack should resolve extension-less files for styles and HTML,
     add `.css` and `.html` to the list.
 
@@ -264,33 +442,62 @@ a#common-rules
 :marked
 :marked
   #### _module.rules_
+  #### _module.rules_
+  Rule은 Webpack에게 어떤 로더가 개별 파일(속칭 _module_)에 사용되야 하는지 알려줍니다:
+
   Rules tell Webpack which loaders to use for each file (AKA _module_):
   
 +makeExample('webpack/ts/config/webpack.common.js', 'loaders', 'config/webpack.common.js')(format=".")
 
 :marked
+  * awesome-typescript-loader - TypeScript 코드를 ES5로 트랜스파일하는 로더. `tsconfig.json`파일에 의해 가이드 됨.
+  
   * awesome-typescript-loader - a loader to transpile the Typescript code to ES5, guided by the `tsconfig.json` file
+  
+  * angular2-template-loader - angular 컴포넌트의 템플릿과 스타일을 로드합니다.
+  
   * angular2-template-loader - loads angular components' template and styles
+  
+  * html - 컴포넌트 템플릿에 사용합니다.
+  
   * html - for component templates
+  
+  * images/fonts - 이미지와 폰트 또한 번들링 됩니다.
+  
   * images/fonts - Images and fonts are bundled as well.
+  
+  * css - 애플리케이션 전역 스타일과 패턴 매칭합니다; 두 번째는 컴포넌트 범위의 스타일을 처리합니다. (컴포넌트의 `styleUrls` 메타데이터 프로퍼티에 정의된 것)
+  
   * css - The pattern matches application-wide styles; the second handles component-scoped styles (the ones specified in a component's `styleUrls` metadata property)
 .l-sub-section
   :marked
+    첫 번째 패턴은 컴포넌트 범위의 스타일이 있는 `/src/app` 디렉토리 내의 `.css` 파일을 제외시킵니다.
+    이것은 `/src` 또는 그 위의 `.css` 파일만 포함합니다; 이것들은 애플리케이션 전역 스타일입니다.
+    `ExtractTextPlugin` (아래에 설명)은 `style`과 `css` 로더를 이 파일들에 적용합니다.
+
     The first pattern excludes `.css` files within the `/src/app` directories where the component-scoped styles sit.
     It includes only `.css` files located at or above `/src`; these are the application-wide styles.
     The `ExtractTextPlugin` (described below) applies the `style` and `css` loaders to these files.
     
+    두 번째 패턴은 컴포넌트 범위의 스타일을 필터링하고 `raw` 로더를 통해 문자열로 로드합니다. &mdash;
+    이는 Angular가 `styleUrls` 메타데이터 속성에 지정된 스타일로 예상하는 것과 같습니다.
+
     The second pattern filters for component-scoped styles and loads them as strings via the `raw` loader &mdash;
     which is what Angular expects to do with styles specified in a `styleUrls` metadata property.
 
 .l-sub-section
   :marked
+    다중 로드는 배열 표기법으로 연결될 수 있습니다.
+
     Multiple loaders can be chained using the array notation.
 
 a#common-plugins
 :marked
 :marked
+  #### _플러그인_
   #### _plugins_
+  마지막으로 3개의 플러그인 인스턴스를 생성합니다:
+
   Finally, create instances of three plugins:
   
 +makeExample('webpack/ts/config/webpack.common.js', 'plugins', 'config/webpack.common.js')(format=".")
@@ -298,14 +505,25 @@ a#common-plugins
 a(id="commons-chunk-plugin")
 :marked
   #### *CommonsChunkPlugin*
+  #### *CommonsChunkPlugin*
   
+  `app.js` 번들은 애플리케이션 코드만 포함해야 합니다. 모든 벤더 코드는 `vendor.js` 번들에 들어있습니다.
+  
   The `app.js` bundle should contain only application code. All vendor code belongs in the `vendor.js` bundle. 
   
+  물론 애플리케이션 코드는 벤더 코드를 `임포트`합니다.
+  Webpack 자체는 `app.js` 번들과 벤더 코드를 격리할 만큼 똑똑하지 않습니다.
+  `CommonsChunkPlugin`은 그 일을 합니다.
+
   Of course the application code `imports` vendor code. 
   Webpack itself is not smart enough to keep the vendor code out of the `app.js` bundle.
   The `CommonsChunkPlugin` does that job. 
 .l-sub-section
   :marked
+    `CommonsChunkPlugin`은 3개의 _chunk_: `app` -> `vendor` -> `polyfills` 사이의 계층 구조를 식별합니다.
+    Webpack은 `app`이 `vendor`와 의존성을 공유하고 있음을 발견하면 `app`에서 그것들을 제거합니다.
+    (그렇지 않지만) 의존성을 공유한다면 `vendor`로부터 `polyfills`를 제거할 것입니다.
+
     The `CommonsChunkPlugin` identifies the hierarchy among three _chunks_: `app` -> `vendor` -> `polyfills`. 
     Where Webpack finds that `app` has shared dependencies with `vendor`, it removes them from `app`.
     It would remove `polyfills` from `vendor` if they shared dependencies (which they don't).
@@ -313,7 +531,12 @@ a(id="commons-chunk-plugin")
 a(id="html-webpack-plugin")
 :marked
   #### *HtmlWebpackPlugin*
+  #### *HtmlWebpackPlugin*
   
+  Webpack은 많은 js 및 css 파일을 생성합니다.
+  여러분은 그것들을 `index.html`에 _수동으로_ 삽입할 수 있습니다. 이것은 지루하고 오류가 발생하기 쉽습니다.
+  Webpack은 `HtmlWebpackPlugin`을 사용하여 스크립트와 링크를 주입해줍니다.
+
   Webpack generates a number of js and css files. 
   You _could_ insert them into the `index.html` _manually_. That would be tedious and error-prone.
   Webpack can inject those scripts and links for you with the `HtmlWebpackPlugin`.
@@ -321,39 +544,65 @@ a(id="html-webpack-plugin")
 a(id="environment-configuration")
 .l-main-section
 :marked
+  ### 환경 특화 설정
   ### Environment-specific configuration
   
+  `webpack.common.js` 설정 파일은 대부분의 어려운 작업을 수행합니다.
+  타깃 환경에 특수한 특성을 병합하여 `webpack.common`에서 빌드된
+  별도의 환경별 설정 파일을 생성합니다.
+  
   The `webpack.common.js` configuration file does most of the heavy lifting. 
   Create separate, environment-specific configuration files that build on `webpack.common`
   by merging into it the peculiarities particular to the target environments.
   
+  이 파일들은 짧고 단순한 경향이 있습니다.
+
   These files tend to be short and simple.
   
 a(id="development-configuration")
 .l-main-section
 :marked
+  ### 개발환경 설정
   ### Development Configuration
   
+  다음은 개발 설정파일인 `webpack.dev.js`입니다.
+
   Here is the `webpack.dev.js` development configuration file. 
   
 +makeExample('webpack/ts/config/webpack.dev.js', null, 'config/webpack.dev.js')(format=".")
 
 :marked
+  개발 빌드는 파일 맨 아래에 설정된 Webpack 개발 서버에 의존합니다.
+  
   The development build relies on the Webpack development server, configured near the bottom of the file.
   
+  비록 Webpack에게 출력 번들을 `dist` 폴더에 넣도록 지시했지만,
+  개발 서버는 모든 번들을 메모리에 유지합니다; 디스크에 기록하지 않습니다.
+  `dist` 폴더에 파일이 없습니다 (최소한 이 개발 빌드에서 생성된 파일은 없습니다).
+    
   Although you tell Webpack to put output bundles in the `dist` folder,
   the dev server keeps all bundles in memory; it doesn't write them to disk.
   You won't find any files in the `dist` folder (at least not any generated from `this development build`).
   
   
+  `HtmlWebpackPlugin`(`webpack.common.js`에 추가)은 *publicPath*와 *filename* 설정을 사용하여
+  적절한 &lt;script&gt; 및 &lt;link&gt; 태그를 `index.html`에 추가합니다.
+  
   The `HtmlWebpackPlugin` (added in `webpack.common.js`) use the *publicPath* and the *filename* settings to generate 
   appropriate &lt;script&gt; and &lt;link&gt; tags into the `index.html`.
   
+  CSS 스타일은 기본적으로 Javascript 번들 안에 있습니다. `ExtractTextPlugin`은 그것들을
+  `HtmlWebpackPlugin`이 &lt;link&gt;로 기술한 외부 `.css` 파일들로 추출합니다; 태그를 `index.html`에 추가합니다.
+  
   The CSS styles are buried inside the Javascript bundles by default. The `ExtractTextPlugin` extracts them into
   external `.css` files that the `HtmlWebpackPlugin` inscribes as &lt;link&gt; tags into the `index.html`.
   
+  이 파일의 이러한 설정 옵션 및 기타 설정 옵션에 대한 자세한 내용은 Webpack 문서를 참조하세요.
+  
   Refer to the Webpack documentation for details on these and other configuration options in this file
   
+  이 가이드의 끝 부분에 있는 앱 코드로 시도해보세요:
+
   Grab the app code at the end of this guide and try:
   
 code-example(language="sh" class="code-shell").
@@ -362,34 +611,65 @@ code-example(language="sh" class="code-shell").
 a(id="production-configuration")
 .l-main-section
 :marked
+  ### 상용환경 설정
   ### Production Configuration
   
+  *상용* 빌드의 설정은 몇 가지 주요 변경 사항이 있지만 *개발* 설정과 유사합니다.
+
   Configuration of a *production* build resembles *development* configuration ... with a few key changes.
   
 +makeExample('webpack/ts/config/webpack.prod.js', null, 'config/webpack.prod.js')(format=".")
 
 :marked
+  애플리케이션과 의존 파일들을 실제 상용 서버에 배포할 것입니다.
+  개발 중에만 필요한 것들은 배포하지 않아야 합니다.
+  
   You'll deploy the application and its dependencies to a real production server.
   You won't deploy the artifacts needed only in development.
   
+  상용 출력 번들 파일을 `dist` 폴더에 넣으세요.
+  
   Put the production output bundle files in the `dist` folder.
   
+  Webpack은 캐시 파괴용 해시 형태의 파일 이름을 생성합니다.
+  `HtmlWebpackPlugin` 덕분에 해시가 변경되어도 `index.html` 파일을 업데이트 할 필요가 없습니다.
+  
   Webpack generates file names with cache-busting hash.
   Thanks to the `HtmlWebpackPlugin`, you don't have to update the `index.html` file when the hashes changes.
   
+  추가 플러그인이 있습니다:
+  
   There are additional plugins:
   
+  * **NoEmitOnErrorsPlugin** - 오류가 있으면 빌드를 중지합니다.
+
   * **NoEmitOnErrorsPlugin** - stops the build if there is an error.
+
+  * **UglifyJsPlugin** - 번들을 최소화합니다.
+
   * **UglifyJsPlugin** - minifies the bundles.
+
+  * **ExtractTextPlugin** - 삽입된 CSS를 외부 파일로 추출하고, 파일 이름에 캐시 파괴용 해시를 추가합니다.
+
   * **ExtractTextPlugin** - extracts embedded css as external files, adding cache-busting hash to the filename.
+
+  * **DefinePlugin** - 애플리케이션 내에서 참조 할 수 있는 환경 변수를 정의하는데 사용합니다.
+
   * **DefinePlugin** - use to define environment variables that you can reference within the application.
+
+  * **LoaderOptionsPlugins** - 특정 로더의 옵션을 대체합니다.
+
   * **LoaderOptionsPlugins** - to override options of certain loaders.
   
+  *DefinePlugin* 및 맨 위에 정의된 `ENV` 변수 덕분에 Angular 상용 모드를 다음과 같이 설정할 수 있습니다.
+
   Thanks to the *DefinePlugin* and the `ENV` variable defined at top, you can enable Angular production mode like this:
   
 +makeExample('webpack/ts/src/main.ts', 'enable-prod')(format=".")
   
 :marked
+  이 가이드의 끝 부분에 있는 앱 코드로 시도해보세요:
+
   Grab the app code at the end of this guide and try:
   
 code-example(language="sh" class="code-shell").
@@ -398,39 +678,63 @@ code-example(language="sh" class="code-shell").
 a(id="test-configuration")
 .l-main-section
 :marked
+  ### 테스트 설정
   ### Test Configuration
   
+  단위 테스트를 실행하기 위해 많은 설정이 필요하지 않습니다.
+  개발 및 상용 빌드를 위해 선언한 로더 및 플러그인은 필요하지 않습니다.
+  그것이 실행 속도를 느리게 할 수 있다면 단위 테스트를 위해 애플리케이션 전역 스타일 파일을 로드하고 처리할 필요가 없을 것입니다;
+  이러한 CSS 파일을 위해 `null` 로더를 사용합니다.
+  
   You don't need much configuration to run unit tests. 
   You don't need the loaders and plugins that you declared for your development and production builds.
   You probably don't need to load and process the application-wide styles files for unit tests and doing so would slow you down;
   you'll use the `null` loader for those CSS files.
   
+  테스트 설정을 `webpack.common` 설정으로 합치고 싶지 않거나 필요하지 않은 부분을 무시할 수 있습니다.
+  그러나 완전히 새로운 설정으로 다시 시작하는 것이 더 간단할 수 있습니다.
+
   You could merge the test configuration into the `webpack.common` configuration and override the parts you don't want or need.
   But it might be simpler to start over with a completely fresh configuration.
   
 +makeExample('webpack/ts/config/webpack.test.js', null, 'config/webpack.test.js')(format=".")
 
 :marked
+  테스트를 실행하기 위해 webpack을 사용하도록 karma를 재구성하세요.
+
   Reconfigure karma to use webpack to run the tests:
   
 +makeExample('webpack/ts/config/karma.conf.js', null, 'config/karma.conf.js')(format=".")
 
 :marked
+  TypeScript를 미리 컴파일하지 않습니다. Webpack은 Typescript 파일을 즉시 트랜스파일하여 메모리에 저장하고 방출된 JS를 직접 카르마에 공급합니다.
+  디스크에 임시 파일이 없습니다.
+  
   You don't precompile the TypeScript; Webpack transpiles the Typescript files on the fly, in memory, and feeds the emitted JS directly to Karma.
   There are no temporary files on disk.
   
+  `karma-test-shim`은 Karma에게 어떤 파일을 사전 로드해야 하는지 알려주고
+  모든 앱이 사전 로드할 것으로 예상하는 제공자의 테스트 버전으로 Angular 테스트 프레임워크를 대비시킵니다.
+
   The `karma-test-shim` tells Karma what files to pre-load and 
   primes the Angular test framework with test versions of the providers that every app expects to be pre-loaded.
   
 +makeExample('webpack/ts/config/karma-test-shim.js', null, 'config/karma-test-shim.js')(format=".")
 
 :marked
+  애플리케이션 코드를 명시적으로 로드하지 *않는 것에* 주의하세요.
+  Webpack에게 테스트 파일 (.spec.ts로 끝나는 파일)을 찾아서 로드하도록 알려줘야 합니다.
+  각 spec 파일은 모든 &mdash; 그리고 오직 &mdash; 테스트하는 애플리케이션 소스 코드를 임포트합니다.
+  Webpack은 특정 애플리케이션 파일만 로드하고 테스트하지 않는 다른 파일은 무시합니다.
+
   Notice that you do _not_ load the application code explicitly.
   You tell Webpack to find and load the test files (the files ending in `.spec.ts`).
   Each spec file imports all &mdash; and only &mdash; the application source code that it tests.
   Webpack loads just _those_ specific application files and ignores the other files that you aren't testing.
   
 :marked
+  이 가이드의 끝 부분에 있는 앱 코드로 시도해보세요:
+
   Grab the app code at the end of this guide and try:
   
 code-example(language="sh" class="code-shell").
@@ -438,8 +742,12 @@ code-example(language="sh" class="code-shell").
 
 <a id="try"></a>
 :marked
+  ## 맛보기
   ## Trying it out
   
+  다음은 이 안내서에서 다루는 webpack 기술과 번들로 묶인 작은
+  애플리케이션의 소스 코드입니다.
+
   Here is the source code for a small application that bundles with the
   Webpack techniques covered in this guide.
   
@@ -469,12 +777,19 @@ code-example(language="sh" class="code-shell").
 
 
 p.
+  <code>app.component.html</code>은 다운로드 가능한 Angular logo를 표시합니다.
+  <a href="https://raw.githubusercontent.com/angular/angular.io/master/public/resources/images/logos/angular2/angular.png" target="_blank">
+  <img src="/resources/images/logos/angular2/angular.png" height="40px" title="download Angular logo"></a>.
+
+p.
   The <code>app.component.html</code> displays this downloadable Angular logo
   <a href="https://raw.githubusercontent.com/angular/angular.io/master/public/resources/images/logos/angular2/angular.png" target="_blank">
   <img src="/resources/images/logos/angular2/angular.png" height="40px" title="download Angular logo"></a>.
 
 a#bundle-ts
 :marked
+  다음은 또다시 `polyfills`와 `vendor` 번들을 정의하는 TypeScript 진입점 파일입니다.
+
   Here again are the TypeScript entry-point files that define the `polyfills` and `vendor` bundles.
 +makeTabs(
   `webpack/ts/src/polyfills.ts,
@@ -485,29 +800,49 @@ a#bundle-ts
 )
 <a id="highlights"></a>
 :marked
+  ### 하이라이트:
   ### Highlights:
   
+  * `index.html`에 &lt;script&gt; 또는 &lt;link&gt; 태그는 없습니다.
+  `HtmlWebpackPlugin`은 그것들을 런타임에 동적으로 삽입합니다.
+    
   * There are no &lt;script&gt; or &lt;link&gt; tags in the `index.html`. 
   The `HtmlWebpackPlugin` inserts them dynamically at runtime.
     
+  * `appComponent.ts`에 있는 `AppComponent`는 간단한 `import` 문으로 애플리케이션 전체의 css를 가져옵니다.
+
   * The `AppComponent` in `app.component.ts` imports the application-wide css with a simple `import` statement.
 
+  * `AppComponent`는 자체 HTML 템플릿과 CSS 파일을 가지고 있습니다. WebPack은 `require()`를 호출하여 이를 로드합니다.
+  Webpack은 `app.js` 번들에서 컴포넌트 범위의 파일들을 숨깁니다.
+  여러분은 소스 코드에서 이러한 호출을 볼 수 없습니다; 그것들은 `angular2-template-loader` 플러그인에 의해 화면 뒤에서 추가됩니다.
+  
   * The `AppComponent` itself has its own html template and css file. WebPack loads them with calls to `require()`. 
   Webpack stashes those component-scoped files in the `app.js` bundle too.
   You don't see those calls in the source code; 
   they're added behind the scenes by the `angular2-template-loader` plug-in. 
   
+  * `vendor.ts`는 `vendor.js` 번들을 구동하는 벤더 의존 `import` 문으로 구성됩니다.
+  애플리케이션은 이러한 모듈도 가져옵니다; 만약 `CommonsChunkPlugin`이 오버랩을 감지하지 못하고
+  `app.js`에서 그것들을 제거하지 못했다면 `app.js` 번들에 중복됩니다.
+
   * The `vendor.ts` consists of vendor dependency `import` statements that drive the `vendor.js` bundle.
   The application imports these modules too; they'd be duplicated in the `app.js` bundle
   if the `CommonsChunkPlugin` hadn't detected the overlap and removed them from `app.js`.
 
 <a id="conclusions"></a>
 :marked
+  ## 결론
   ## Conclusions
   
+  작은 Angular 애플리케이션을 위한 개발, 테스트 및 상용 빌드를 
+  구성하기에 충분한 Webpack을 배웠습니다.
+  
   You've learned just enough Webpack to configurate development, test and production builds 
   for a small Angular application.
   
+  _여러분은 항상 더 많은 것을 할 수 있습니다_. 웹에서 전문가의 조언을 검색하고 Webpack 지식을 넓히세요.
+
   _You could always do more_. Search the web for expert advice and expand your Webpack knowledge.
   
   [Back to top](#top)
