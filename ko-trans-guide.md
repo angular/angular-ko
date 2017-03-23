@@ -38,6 +38,8 @@
 * error: 에러
 * inventory: 인벤토리
 * tree: 트리
+* messages: 메시지
+* placeholder: 플레이스홀더
 
 ## 번역 용어 통일
 * 3rd party OOO: 타사 OOO
@@ -60,6 +62,10 @@
 * production: 상용
 * live example: 라이브 예제
 * navigation: 내비게이션 ("네"비게이션이 아닙니다! 외래어라 표준이라하긴 그렇지만.. 일관성을 위해.)
+* cardinality: 대응 개체수(cardinality) - 정확한 번역이 어려우므로 영어도 괄호 안에 함께 표기
+* pluralization: 복수화
+* internationalization: 국제화
+* localization: 지역화
 
 ## 정리중인 단어
 * selector: 선택자? vs 셀렉터?
