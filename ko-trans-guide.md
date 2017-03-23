@@ -13,6 +13,13 @@
 * polyfill: polyfill
 * route: route (라우팅 기술 설명시 route 자체가 객체를 나타내므로 route로 표시)
 * Tour of Heroes: Tour of Heroes (본 문서에서는 거의 대명사처럼 쓰이고 있으므로 영어 그대로 사용)
+* deep link: deep link
+* fallback: fallback ("대비", "대비책", "예비사이트"로 번역이 가능하나 angular 주요 개발 용어이므로 그대로 사용)
+* repo: repo (repository의 의미로 쓰일 경우. 일반적인 개발 용어이므로 repo 그대로 사용)
+* tree shaking: tree shaking
+* rollup: rollup
+* chunk: chunk
+* SystemJS: SystemJS
 
 ## 번역이 애매한 기술용어는 영어 그대로 한글로 표기
 * element: 엘리먼트
@@ -27,6 +34,21 @@
 * property: 프로퍼티 (attribute는 속성으로 property는 프로퍼티로 번역하여 차이를 두고 있으니 꼭 프로퍼티로 해주세요.)
 * agency: 에이전시
 * view: 뷰
+* section: 섹션
+* entry: 엔트리
+* error: 에러
+* inventory: 인벤토리
+* tree: 트리
+* messages: 메시지
+* placeholder: 플레이스홀더
+* target: 타깃 (타깃 O, 타겟 X)
+* targeting: 타기팅 (타기팅 O, 타게팅 X)
+  * http://www.ccdailynews.com/news/articleView.html?idxno=797586
+  * http://blog.naver.com/markethink02?Redirect=Log&logNo=220031745023
+* locale: 로케일
+* parameter: 파라미터 (2017.03.24 "매개변수" / "매개 변수" => 파라미터로 통일)
+* format: 포맷
+* commit: 커밋
 
 ## 번역 용어 통일
 * 3rd party OOO: 타사 OOO
@@ -46,6 +68,14 @@
 * Contents: 내용 (제목으로 \#과 함께 한 줄에 보일 경우)
 * Table of contents: 목차 (제목으로 \#과 함께 한 줄에 보일 경우)
 * boolean : 진위형
+* production: 상용
+* live example: 라이브 예제
+* navigation: 내비게이션 ("네"비게이션이 아닙니다! 외래어라 표준이라하긴 그렇지만.. 일관성을 위해.)
+* cardinality: 대응 개체수(cardinality) - 정확한 번역이 어려우므로 영어도 괄호 안에 함께 표기
+* pluralization: 복수화
+* internationalization: 국제화
+* localization: 지역화
+* provider: 제공자 (2017.03.24 공급자 => 제공자로 통일)
 
 ## 정리중인 단어
 * selector: 선택자? vs 셀렉터?
@@ -53,7 +83,6 @@
 * suffix: 접미어?(구글 61,000개) vs 접미사?(구글 379,000개)
 * root: 최상위라고 번역을 했었는데.. 모든 개발자들이 널리 사용하는 용어이니 "루트"라고 하면 어떨까 싶네요..
 * bootstrap: 원래 익숙하지 않은 용어라 생각하고 "실행(bootstrap)" 이렇게 병기하려고 했었는데 점점 보니 angular에서는 핵심 용어인거 같네요.. 그냥 "부트스트랩"이라고 해도 될거 같기도 하고요..
-* provider: 공급자? vs 제공자?
 
 ## 구글 번역기
 사실.. 구글 번역기가 엄청 좋아졌습니다... -o- 이걸 참고 하는 것은 좋습니다. 그러나 전혀 다르게 번역하는 경우도 있고, 거의 맞는 것 같은데 문맥으로 보면 미묘하게 다른 경우가 있으므로 참고만 해주시고 꼭 전체적인 내용을 이해하신 뒤에 한번 더 봐주시기 바랍니다.
@@ -65,6 +94,18 @@
 
 ## 들여쓰기
 * jade는 들여쓰기가 굉장히 중요합니다. 눈에 보이지 않는 미묘한 공백의 차이로 전체 문서가 빠그러지기도 합니다. 때문에 겉보기에는 멀쩡해 보여도 실제 구동해도면 깨지는 경우가 종종 있습니다. unexpected token "indent" 이런 에러를 보신다면 에디터에서 공백 문자를 표시하도록 해서 천천히 살펴보시기 바랍니다.
+
+## multi-depth 목록 들여쓰기
+목록을 표현하는 별표(*)나 숫자기호에 depth가 생기면 기본 원리에 맞춰 내려쓰기를 해봐도 잘 안되는 경우가 있습니다.
+아래 예제를 참고하여 들여쓰기 조절을 한 다음 local 에서 확인해보시기 바랍니다.
+
+  \* 1depth 111 한글 번역
+
+    1depth 111 영어 원문 (앞에 *가 없는 것에 유의)
+	
+    \* 2depth 222 한글 번역
+	
+    \* 2depth 222 영어 원문
 
 ## 변수기호 문제
 * \!{}는 변수 기호입니다. \!{\_decorator} 라는 것은 \_decorator 변수로 대체한다는 뜻입니다. 따라서 이걸 그대로 두면 "데코레이터"라고 번역되지 않고 "decorator"라고 갑자기 영문이 나오게 됩니다. 현재 대부분 \_decorator_ko 처럼 한글화 버전의 변수를 추가했는데 없다면 적당히 \_ko를 붙여서 전역 변수에 추가해야 합니다.
