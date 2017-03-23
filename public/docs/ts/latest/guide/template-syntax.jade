@@ -227,8 +227,8 @@ a#template-expressions
   ## Template expressions
 
   템플릿 **표현식**은 값을 생산합니다.
-  Angular는 표현식을 실행하고 바인딩 타겟의 프로퍼티에 할당합니다;
-  타겟은 HTML 엘리먼트, 컴포넌트, 또는 지시자일 수 있습니다.
+  Angular는 표현식을 실행하고 바인딩 타깃의 프로퍼티에 할당합니다;
+  타깃은 HTML 엘리먼트, 컴포넌트, 또는 지시자일 수 있습니다.
 
   A template **expression** produces a value.
   Angular executes the expression and assigns it to a property of a binding target;
@@ -368,7 +368,7 @@ a#expression-guidelines
   #### 표시 부작용 제거
   #### No visible side effects
 
-  템플릿 표현식은 타겟 프로퍼티의 값 외에는 어떤 애플리케이션 상태도
+  템플릿 표현식은 타깃 프로퍼티의 값 외에는 어떤 애플리케이션 상태도
   변경해서는 안됩니다.
 
   A template expression should not change any application state other than the value of the
@@ -447,7 +447,7 @@ a#template-statements
   ## Template statements
 
   템플릿 **명령문**은 엘리먼트, 컴포넌트, 또는 지시자와 같은
-  바인딩 타겟에서 발생하는 **이벤트**에 반응합니다.
+  바인딩 타깃에서 발생하는 **이벤트**에 반응합니다.
   [이벤트 바인딩](#event-binding) 섹션에서 템플릿 명령문을 살펴볼 것입니다.
   `(event)="statement"`처럼 `=` 기호의 오른쪽에 따옴표로 묶인 부분입니다.
 
@@ -461,7 +461,7 @@ a#template-statements
 :marked
   템플릿 명령문에는 *부작용*이 있습니다.
   그것이 사건의 핵심입니다.
-  사용자 동작에서 응용 프로그램 상태를 업데이트하는 방법입니다.
+  사용자 동작에서 애플리케이션 상태를 업데이트하는 방법입니다.
 
   A template statement *has a side effect*.
   That's the whole point of an event.
@@ -577,7 +577,7 @@ a#binding-syntax
   데이터 바인딩은 사용자가 보는 것을 애플리케이션 데이터 값으로 조정하기 위한 메커니즘입니다.
   비록 HTML에서 값을 가져오고 보낼 수 있지만,
   만약 이러한 성가신 일을 바인딩 프레임워크에 위임할 수 있다면 애플리케이션을 작성하고, 읽고, 유지 관리하기가 보다 수월해집니다.
-  우리는 그저 바인딩할 소스와 타겟 HTML 엘리먼트 사이에 바인딩을 선언하고 프레임워크가 일을 하게 하면 됩니다.
+  우리는 그저 바인딩할 소스와 타깃 HTML 엘리먼트 사이에 바인딩을 선언하고 프레임워크가 일을 하게 하면 됩니다.
 
   Data binding is a mechanism for coordinating what users see with application data values.
   While you could push values to and pull values from HTML,
@@ -617,7 +617,7 @@ table(width="100%")
       p One-way
       p 데이터 소스에서
       p from data source
-      p 뷰 타겟으로
+      p 뷰 타깃으로
       p to view target
     td
       code-example().
@@ -639,7 +639,7 @@ table(width="100%")
       td
         p 단방향
         p One-way
-        p 뷰 타겟에서
+        p 뷰 타깃에서
         p from view target
         p 데이터 소스로
         p to data source
@@ -663,7 +663,7 @@ table(width="100%")
         p Two-way
 
 :marked
-  삽입식 이외의 바인딩 유형은 등호의 왼쪽에 **타겟 이름**을 가집니다,
+  삽입식 이외의 바인딩 유형은 등호의 왼쪽에 **타깃 이름**을 가집니다,
   이것들은 구두점 (`[]`, `()`)으로 둘러싸이거나 접두어 (`bind-`, `on-`, `bindon-`)가 있습니다.
 
   Binding types other than interpolation have a **target name** to the left of the equal sign,
@@ -841,15 +841,15 @@ table(width="100%")
     When you write a data binding, you're dealing exclusively with properties and events of the target object.
     HTML attributes effectively disappear.
 :marked
-  이러한 모델을 확실하게 염두에 두고, 바인딩 타겟에 대해 알아보려면 계속 읽으세요.
+  이러한 모델을 확실하게 염두에 두고, 바인딩 타깃에 대해 알아보려면 계속 읽으세요.
 
   With this model firmly in mind, read on to learn about binding targets.
 
-  ### 바인딩 타겟
+  ### 바인딩 타깃
   ### Binding targets
 
-  **데이터 바인딩의 타겟**은 DOM에 있는 어떤 것입니다.
-  바인딩 타입에 따라, 타겟은 (엘리먼트 | 컴포넌트 | 지시자) 프로퍼티,
+  **데이터 바인딩의 타깃**은 DOM에 있는 어떤 것입니다.
+  바인딩 타입에 따라, 타깃은 (엘리먼트 | 컴포넌트 | 지시자) 프로퍼티,
   (엘리먼트 | 컴포넌트 | 지시자) 이벤트, 또는 (가끔씩) 속성 이름입니다.
   다음 표에 요약했습니다:
 
@@ -870,7 +870,7 @@ table(width="100%")
       p 유형
       p Type
     th
-      p 타겟
+      p 타깃
       p Target
     th
       p 예
@@ -987,20 +987,20 @@ a#property-binding
   ### One-way *in*
 
   사람들은 종종 프로퍼티 바인딩을 *단방향 데이터 바인딩*이라고 묘사합니다.
-  왜냐하면 값이, 컴포넌트의 데이터 프로퍼티에서 타겟 엘리먼트의 프로퍼티로, 한 방향으로 흐르기 때문입니다.
+  왜냐하면 값이, 컴포넌트의 데이터 프로퍼티에서 타깃 엘리먼트의 프로퍼티로, 한 방향으로 흐르기 때문입니다.
 
   People often describe property binding as *one-way data binding* because it flows a value in one direction,
   from a component's data property into a target element property.
 
-  프로퍼티 바인딩을 사용하여 타겟 엘리먼트에서 값을 가져올 수 없습니다.
-  타겟 엘리먼트의 프로퍼티를 _읽기_ 위해 바인딩 할 수 없습니다. 오직 _설정할_ 수만 있습니다.
+  프로퍼티 바인딩을 사용하여 타깃 엘리먼트에서 값을 가져올 수 없습니다.
+  타깃 엘리먼트의 프로퍼티를 _읽기_ 위해 바인딩 할 수 없습니다. 오직 _설정할_ 수만 있습니다.
 
   You cannot use property binding to pull values *out* of the target element.
   You can't bind to a property of the target element to _read_ it. You can only _set_ it.
 
 .l-sub-section
   :marked
-    유사하게, 프로퍼티 바인딩을 사용해 타겟 엘리먼트의 메소드를 *호출*할 수 없습니다.
+    유사하게, 프로퍼티 바인딩을 사용해 타깃 엘리먼트의 메소드를 *호출*할 수 없습니다.
 
     Similarly, you cannot use property binding to *call* a method on the target element.
 
@@ -1008,7 +1008,7 @@ a#property-binding
 
     If the element raises events, you can listen to them with an [event binding](#event-binding).
 
-    만약 타겟 엘리먼트 속성을 읽어야 하거나 그것의 메소드를 호출해야 한다면,
+    만약 타깃 엘리먼트 속성을 읽어야 하거나 그것의 메소드를 호출해야 한다면,
     다른 기술이 필요합니다.
     [ViewChild](../api/core/index/ViewChild-decorator.html) 와
     [ContentChild](../api/core/index/ContentChild-decorator.html)에 있는
@@ -1021,9 +1021,9 @@ a#property-binding
     [ContentChild](../api/core/index/ContentChild-decorator.html).
 
 :marked
-  ### 바인딩 타겟
+  ### 바인딩 타깃
   ### Binding target
-  닫혀 있는 대괄호 사이의 엘리먼트 프로퍼티는 타겟 프로퍼티를 식별합니다. 다음 코드의 타겟 프로퍼티는 이미지 엘리먼트의 `src` 프로퍼티입니다.
+  닫혀 있는 대괄호 사이의 엘리먼트 프로퍼티는 타깃 프로퍼티를 식별합니다. 다음 코드의 타깃 프로퍼티는 이미지 엘리먼트의 `src` 프로퍼티입니다.
 
   An element property between enclosing square brackets identifies the target property. The target property in the following code is the image element's `src` property.
 
@@ -1034,13 +1034,13 @@ a#property-binding
   Some people prefer the `bind-` prefix alternative, known as the *canonical form*:
 +makeExample('template-syntax/ts/src/app/app.component.html', 'property-binding-5')(format=".")
 :marked
-  타겟 이름은 다른 것의 이름으로 보이지만 항상 프로퍼티의 이름입니다. 
+  타깃 이름은 다른 것의 이름으로 보이지만 항상 프로퍼티의 이름입니다. 
   `src`를 보면 아마 속성의 이름이라고 생각할 것입니다. 아닙니다. 그것은 이미지 엘리먼트 프로퍼티의 이름입니다.
 
   The target name is always the name of a property, even when it appears to be the name of something else. 
   You see `src` and may think it's the name of an attribute. No. It's the name of an image element property.
 
-  엘리먼트 프로퍼티가 보다 일반적인 타겟일 것입니다.
+  엘리먼트 프로퍼티가 보다 일반적인 타깃일 것입니다.
   그러나 다음 예제에 있는 것처럼 Angular는
   알려진 이름의 지시자 프로퍼티인지 먼저 확인합니다.
 
@@ -1092,10 +1092,10 @@ a#property-binding
   ### 적절한 타입을 반환
   ### Return the proper type
 
-  템플릿 표현식은 타겟 프로퍼티가 예상하는 값의 타입으로 평가되어야만 합니다.
-  만약 타겟 프로퍼티가 문자열을 기대하고 있으면 문자열을 반환해야 합니다.
-  만약 타겟 프로퍼티가 숫자를 기대하고 있으면 숫자를 반환해야 합니다.
-  만약 타겟 프로퍼티가 객체를 기대하고 있으면 객체를 반환해야 합니다.
+  템플릿 표현식은 타깃 프로퍼티가 예상하는 값의 타입으로 평가되어야만 합니다.
+  만약 타깃 프로퍼티가 문자열을 기대하고 있으면 문자열을 반환해야 합니다.
+  만약 타깃 프로퍼티가 숫자를 기대하고 있으면 숫자를 반환해야 합니다.
+  만약 타깃 프로퍼티가 객체를 기대하고 있으면 객체를 반환해야 합니다.
 
   The template expression should evaluate to the type of value expected by the target property.
   Return a string if the target property expects a string.
@@ -1116,7 +1116,7 @@ block dart-type-exceptions
 
   대괄호는 Angular에게 템플릿 표현식을 평가하라고 알려줍니다.
   만약 대괄호를 빼먹으면, Angular는 문자열을 상수로 다루고 
-  그 문자열로 *타겟 프로퍼티를 초기화*합니다.
+  그 문자열로 *타깃 프로퍼티를 초기화*합니다.
   문자열을 평가하지 *않습니다*!
 
   The brackets tell Angular to evaluate the template expression.
@@ -1139,7 +1139,7 @@ a(id="one-time-initialization")
 
   You *should* omit the brackets when all of the following are true:
 
-  * 타겟 프로퍼티가 문자열 값을 받음.
+  * 타깃 프로퍼티가 문자열 값을 받음.
 
   * The target property accepts a string value.
 
@@ -1242,7 +1242,7 @@ a#other-bindings
 
 .l-sub-section
   :marked
-    이것은 바인딩이 타겟 프로퍼티를 셋팅한다는 규칙에 대한 유일한 예외사항입니다. 이것은 속성을 생성하고 설정하는 유일한 바인딩입니다.
+    이것은 바인딩이 타깃 프로퍼티를 셋팅한다는 규칙에 대한 유일한 예외사항입니다. 이것은 속성을 생성하고 설정하는 유일한 바인딩입니다.
 
     This is the only exception to the rule that a binding sets a target property. This is the only binding that creates and sets an attribute.
 
@@ -1259,7 +1259,7 @@ a#other-bindings
   [SVG](https://developer.mozilla.org/en-US/docs/Web/SVG), 그리고
   테이블 span 속성을 생각해보세요. 이것들은 순수한 속성입니다.
   엘리먼트 프로퍼티에 해당하지는 않으며, 이것들은 엘리먼트 프로퍼티를 설정하지 않습니다.
-  이것들은 바인딩할 프로퍼티 타겟이 없습니다.  
+  이것들은 바인딩할 프로퍼티 타깃이 없습니다.  
 
   Consider the [ARIA](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA),
   [SVG](https://developer.mozilla.org/en-US/docs/Web/SVG), and
@@ -1453,7 +1453,7 @@ a#event-binding
   keystrokes, mouse movements, clicks, and touches.
   You declare your interest in user actions through Angular event binding.
 
-  이벤트 바인딩 문법은 등호의 왼쪽에 소괄호로 둘러싸인 **타겟 이벤트**와 
+  이벤트 바인딩 문법은 등호의 왼쪽에 소괄호로 둘러싸인 **타깃 이벤트**와 
   등호의 오른쪽에 따옴표로 둘러싸인 [템플릿 명령문](#template-statements)으로 구성됩니다.
   다음 이벤트 바인딩은 버튼의 클릭 이벤트를 듣고,
   클릭이 발생할 때마다 컴포넌트의 `onSave()` 메소드를 호출합니다:
@@ -1464,10 +1464,10 @@ a#event-binding
   the component's `onSave()` method whenever a click occurs:
 +makeExample('template-syntax/ts/src/app/app.component.html', 'event-binding-1')(format=".")
 :marked
-  ### 타겟 이벤트
+  ### 타깃 이벤트
   ### Target event
   **소괄호 사이의 이름**은 &mdash; 예를 들어, `(click)` &mdash;
-  타겟 이벤트를 식별합니다. 다음 예제에서, 타겟은 버튼의 클릭 이벤트 입니다.
+  타깃 이벤트를 식별합니다. 다음 예제에서, 타깃은 버튼의 클릭 이벤트 입니다.
 
   A **name between parentheses** &mdash; for example, `(click)` &mdash;
   identifies the target event. In the following example, the target is the button's click event.
@@ -1478,7 +1478,7 @@ a#event-binding
   Some people prefer the `on-` prefix alternative, known as the **canonical form**:
 +makeExample('template-syntax/ts/src/app/app.component.html', 'event-binding-2')(format=".")
 :marked
-  엘리먼트 이벤트는 보다 일반적인 타겟일 것입니다, 그러나 Angular는 알려진 지시자의 이벤트 프로퍼티인지
+  엘리먼트 이벤트는 보다 일반적인 타깃일 것입니다, 그러나 Angular는 알려진 지시자의 이벤트 프로퍼티인지
   먼저 확인합니다. 다음 예제에서 처리하는 방식입니다:
 
   Element events may be the more common targets, but Angular looks first to see if the name matches an event property
@@ -1503,7 +1503,7 @@ a#event-binding
   ### *$event* 와 이벤트 핸들링 명령문
   ### *$event* and event handling statements
 
-  이벤트 바인딩에서, Angular는 타겟 이벤트에 이벤트 핸들러를 설정합니다.
+  이벤트 바인딩에서, Angular는 타깃 이벤트에 이벤트 핸들러를 설정합니다.
 
   In an event binding, Angular sets up an event handler for the target event.
 
@@ -1523,8 +1523,8 @@ a#event-binding
   The binding conveys information about the event, including data values, through
   an **event object named `$event`**.
 
-  이벤트 객체의 모양은 타겟 이벤트에 의해 결정됩니다.
-  만약 타겟 이벤트가 네이티브 DOM 엘리먼트 이벤트라면, `$event`는
+  이벤트 객체의 모양은 타깃 이벤트에 의해 결정됩니다.
+  만약 타깃 이벤트가 네이티브 DOM 엘리먼트 이벤트라면, `$event`는
   `target` 및 `target.value`와 같은 속성을 가진
   [DOM 이벤트 객체]( https://developer.mozilla.org/en-US/docs/Web/Events)입니다.
 
@@ -2532,7 +2532,7 @@ a#inputs-outputs
   A member in that position is a data binding **source**.
 
   이번 섹션에서는 *바인딩 선언의 왼쪽*에 있는 지시자 프로퍼티인
-  **타겟**에 바인딩하는 것에 집중하겠습니다.
+  **타깃**에 바인딩하는 것에 집중하겠습니다.
   이러한 지시자 프로퍼티는 반드시 **input**이나 **output**으로 선언되어야 합니다.
 
   This section concentrates on binding to **targets**, which are directive
@@ -2547,17 +2547,17 @@ a#inputs-outputs
 :marked
 .l-sub-section
   :marked
-    데이터 바인딩 **타겟**과 데이터 바인딩 **소스** 를 뚜렷하게 구별하고 있습니다.
+    데이터 바인딩 **타깃**과 데이터 바인딩 **소스** 를 뚜렷하게 구별하고 있습니다.
 
     You're drawing a sharp distinction between a data binding **target** and a data binding **source**.
 
-    바인딩 *타겟*은 `=`의 *왼쪽*에 있습니다.
+    바인딩 *타깃*은 `=`의 *왼쪽*에 있습니다.
     *소스*는 `=`의 *오른쪽*에 있습니다.
 
     The *target* of a binding is to the *left* of the `=`.
     The *source* is on the *right* of the `=`.
 
-    바인딩 *타겟*은 `[]`, `()`, `[()]`와 같은 바인딩 구두점 안에 있는 프로퍼티나 이벤트입니다.
+    바인딩 *타깃*은 `[]`, `()`, `[()]`와 같은 바인딩 구두점 안에 있는 프로퍼티나 이벤트입니다.
     *소스*는 따옴표 (`" "`)나 삽입식 (`{{}}`) 안에 있을 수 있습니다.
 
     The *target* of a binding is the property or event inside the binding punctuation: `[]`, `()` or `[()]`.
@@ -2569,7 +2569,7 @@ a#inputs-outputs
     Every member of a **source** directive is automatically available for binding.
     You don't have to do anything special to access a directive member in a template expression or statement.
 
-    **타겟** 지시자의 멤버에 *제한된* 접근을 할 수 있습니다.
+    **타깃** 지시자의 멤버에 *제한된* 접근을 할 수 있습니다.
     우리는 오직 *input*과 *output*으로 명시적으로 식별된 프로퍼티에만 바인딩할 수 있습니다.    
 
     You have *limited* access to members of a **target** directive.
@@ -2594,8 +2594,8 @@ a#inputs-outputs
 +makeExample('template-syntax/ts/src/app/app.component.html', 'io-2')(format=".")
 :marked
   `HeroDetailComponent.hero`와 `HeroDetailComponent.deleteRequest`는 바인딩 선언의 **왼쪽**에 있습니다.
-  `HeroDetailComponent.hero`는 대괄호 안에 있습니다; 이것은 프로퍼티 바인딩의 타겟입니다.
-  `HeroDetailComponent.deleteRequest`는 소괄호 안에 있습니다; 이것은 이벤트 바인딩의 타겟입니다.
+  `HeroDetailComponent.hero`는 대괄호 안에 있습니다; 이것은 프로퍼티 바인딩의 타깃입니다.
+  `HeroDetailComponent.deleteRequest`는 소괄호 안에 있습니다; 이것은 이벤트 바인딩의 타깃입니다.
 
   Both `HeroDetailComponent.hero` and `HeroDetailComponent.deleteRequest` are on the **left side** of binding declarations.
   `HeroDetailComponent.hero` is inside brackets; it is the target of a property binding.
@@ -2604,7 +2604,7 @@ a#inputs-outputs
   ### input과 output 프로퍼티 선언하기
   ### Declaring input and output properties
 
-  타겟 프로퍼티는 반드시 명시적으로 input이나 output으로 표기되어야 합니다.
+  타깃 프로퍼티는 반드시 명시적으로 input이나 output으로 표기되어야 합니다.
 
   Target properties must be explicitly marked as inputs or outputs.
 
@@ -2638,7 +2638,7 @@ a#inputs-outputs
   *Input* properties usually receive data values.
   *Output* properties expose event producers, such as `EventEmitter` objects.
 
-  _input_과 _output_이라는 용어는 타겟 지시자의 관점을 반영합니다.
+  _input_과 _output_이라는 용어는 타깃 지시자의 관점을 반영합니다.
 
   The terms _input_ and _output_ reflect the perspective of the target directive.
 figure.image-display

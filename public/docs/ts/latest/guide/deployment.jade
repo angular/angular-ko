@@ -1,47 +1,91 @@
 include ../_util-fns
   
 :marked
+  이 페이지에서는 Angular 애플리케이션을 배포하고 최적화 하기 위한 도구와 기술에 대해 설명합니다.
+
   This page describes tools and techniques for deploy and optimize your Angular application.
 
 a#toc
 :marked
+  ## 목차
   ## Table of contents
+
+  * [개요](#overview)
+
   * [Overview](#overview)
+
+  * [가장 간단한 배포](#dev-deploy)
+
   * [Simplest deployment possible](#dev-deploy)
-  * [Optimize for production](#optimize)
+
+  * [상용 최적화](#optimize)
+
+    [Optimize for production](#optimize)
+    * [Ahead-of-Time (AOT) 컴파일](#aot)
     * [Ahead-of-Time (AOT) compilation](#aot)
     * [Webpack](#webpack)
+    * [Webpack](#webpack)
+    * [_rollup_으로 Tree shaking](#rollup)
     * [Tree shaking with _rollup_](#rollup)
+    * [라이브러리 정리](#prune)
     * [Pruned libraries](#prune)
+    * [사전 성능측정](#measure)
     * [Measure performance first](#measure)
-  * [Angular configuration](#angular-configuration)
+  * [Angular 설정](#angular-configuration)
+    [Angular configuration](#angular-configuration)
+    * [`base` 태그](#base-tag)
     * [The `base` tag](#base-tag)
+    * [상용 모드 활성화](#enable-prod-mode)
     * [Enable production mode](#enable-prod-mode)
+    * [지연 로딩](#lazy-loading)
     * [Lazy loading](#lazy-loading)
-  * [Server configuration](#server-configuration)
+  * [서버 설정](#server-configuration)
+    [Server configuration](#server-configuration)
+    * [라우팅된 앱은 반드시 `index.html`으로 fallback](#fallback)  
     * [Routed apps must fallback to `index.html`](#fallback)  
+    * [CORS: 다른 서버에서 서비스 요청](#cors)
     * [CORS: requesting services from a different server](#cors)
 
 a#overview
 .l-main-section
 :marked
+  ## 개요
   ## Overview
+
+  이 가이드에서는 원격으로 실행되는 서버에 Angular 애플리케이션을 준비하고 배포하는 기술에 대해 설명합니다.
+  이 기술은 _간단하나 최적은 아닌 것_에서 _보다 최적화되고 복잡한 방법으로_ 진행됩니다.
 
   This guide describes techniques for preparing and deploying an Angular application to a server running remotely.
   The techniques progress from _easy but suboptimal_ to _more optimal and more involved_.
 
+  * [간단한 방법](#dev-deploy "가장 간단한 배포")은 개발환경을 서버에 복사하는 것입니다.
+
   * The [simple way](#dev-deploy "Simplest deployment possible") is to copy the development environment to the server.
+
+  * [_Ahead of Time_ 컴파일 (AOT)](#aot "AOT 컴파일")은 
+  [여러 최적화 전략](#optimize)의 첫 번째 방법입니다.
+  [AOT 요리책의 상세한 안내](../cookbook/aot-compiler.html "AOT Cookbook")도 읽어보시기 바랍니다.
 
   * [_Ahead of Time_ compilation (AOT)](#aot "AOT Compilation") is the first of 
   [several optimization strategies](#optimize). 
   You'll also want to read the [detailed instructions in the AOT Cookbook](../cookbook/aot-compiler.html "AOT Cookbook").
   
+  * [Webpack](#webpack "Webpack 최적화")은 AOT용 플러그인을 포함하여 풍부한 생태계가 있는 인기 있는 범용 패키징 도구입니다.
+  Angular [webpack 가이드](webpack.html "Webpack: 소개")에서 시작할 수 있고
+  _이_ 페이지에서 추가 최적화 조언을 얻을 수 있지만, 직접 webpack에 대해 자세히 알아야 할 것입니다.
+
   * [Webpack](#webpack "Webpack Optimization") is a popular general purpose packaging tool with a rich ecosystem, including plugins for AOT.
   The Angular [webpack guide](webpack.html "Webpack: an introduction") can get you started and
   _this_ page provides additional optimization advice, but you'll probably have to learn more about webpack on your own.
 
+  * [Angular 설정](#angular-configuration "Angular 설정") 섹션에서는 
+  성능을 향상시킬 수 있는 특정 클라이언트 애플리케이션 변경 사항에 대해 주의를 환기시킵니다.
+
   * The [Angular configuration](#angular-configuration "Angular configuration") section calls attention to
   specific client application changes that could improve performance.
+
+  * [서버 설정](#server-configuration "서버 설정") 섹션에서는 _애플리케이션을 배포하는 
+  방법에 관계없이_ 필요할 만한 서버 측 변경 사항을 설명합니다.
 
   * The [Server configuration](#server-configuration "Server configuration") section describes
   server-side changes that may be necessary, _no matter how you deploy the application_.
@@ -49,16 +93,33 @@ a#overview
 .l-main-section
 a#dev-deploy
 :marked
+  ## 가장 간단한 배포
   ## Simplest deployment possible 
+
+  앱을 배포하는 가장 간단한 방법은 개발 환경 밖에 있는
+  웹 서버에 앱을 게시하는 것입니다.
 
   The simplest way to deploy the app is to publish it to a web server
   directly out of the development environment.
 
+  앱은 이미 로컬에서 실행 중입니다. 다른 사람들이 접근 할 수 있도록
+  로컬이 아닌 서버에 거의 _그대로_ 복사만 하면 됩니다.
+
   It's already running locally. You'll just copy it, almost _as is_, 
   to a non-local server that others can reach.
 
+  1. _모든 것_ (또는 [_거의_ 모든 것](#node-modules "웹에서 npm package 로딩"))을 
+  로컬 프로젝트 폴더에서 서버의 폴더로 복사하세요.
+
   1. Copy _everything_ (or [_almost_ everything](#node-modules "Loading npm packages from the web")) 
   from the local project folder to a folder on the server.
+
+  1. 하위 폴더에서 앱을 제공하는 경우 
+  `index.html`의 버전을 편집하여 `<base href>`를 적절하게 설정하세요.
+  예를 들어, `index.html`의 URL이 `www.mysite.com/my/app/` 이면,
+  _base href_를 `<base href="/my/app/">`으로 설정하세요.
+  그렇지 않으면 그대로 두세요.
+  [자세한 내용은 아래에 있습니다](#base-tag).
 
   1. If you're serving the app out of a subfolder,
   edit a version of `index.html` to set the `<base href>` appropriately. 
@@ -67,15 +128,26 @@ a#dev-deploy
   Otherwise, leave it alone.
   [More on this below](#base-tag).
 
+  1. 누락 된 파일에 대한 요청이 `index.html`으로 리디렉션하도록 서버를 구성하세요.
+  [자세한 내용은 아래에 있습니다](#fallback).
+
   1. Configure the server to redirect requests for missing files to `index.html`.
   [More on this below](#fallback).
 
+  1. [아래에서 설명하는 것처럼](#enable-prod-mode) 상용 모드를 활성화하세요 (옵션).
+
   1. Enable production mode as [described below](#enable-prod-mode) (optional).
+
+  이것이 여러분이 할 수 있는 가장 간단한 배포입니다.
 
   That's the simplest deployment you can do.
 
 .alert.is-helpful
   :marked
+    이것은 상용 배포가 _아닙니다_. 최적화되지 않았으며 사용자에게는 빠르지 않을 것입니다.
+    관리자, 팀원 및 기타 이해 관계자에게 내부 진행 상황이나 아이디어를 공유하기에 충분할 수 있습니다.
+    아래의 [상용 최적화](#optimize "상용 최적화"") 를 꼭 읽어보세요.
+
     This is _not_ a production deployment. It's not optimized and it won't be fast for users.
     It might be good enough for sharing your progress and ideas internally with managers, teammates, and other stakeholders.
     Be sure to read about [optimizing for production](#optimize "Optimizing for production") below.
@@ -83,39 +155,72 @@ a#dev-deploy
 
 a#node-modules
 :marked
+  ### 웹에서 npm 패키지 파일 로딩 (SystemJS)
   ### Load npm package files from the web (SystemJS)
+
+  _npm 패키지_의 `node_modules` 폴더에는 실제로 브라우저에서 
+  앱을 실행하는 데 필요한 것보다 훨씬 많은 코드가 들어 있습니다.  
+  빠른시작 설치를 위한 `node_modules`는 일반적으로 20,500개 이상의 파일과 180MB 이상의 크기를 갖습니다.
+  애플리케이션 자체는 실행하는 데 아주 작은 부분을 필요로 합니다.
 
   The `node_modules` folder of _npm packages_ contains much more code 
   than is needed to actually run your app in the browser.
   The `node_modules` for the Quickstart installation is typically 20,500+ files and 180+ MB.
   The application itself requires a tiny fraction of that to run.
 
+  쓸모없이 대용량을 업로드 하는데 오랜 시간이 걸리고
+  라이브러리 파일을 조금씩 다운로드 하는 동안에 사용자는 불필요하게 기다리게 됩니다.
+
   It takes a long time to upload all of that useless bulk and 
   users will wait unnecessarily while library files download piecemeal.
 
+  대신에 웹에서 필요한 몇 가지 파일을 로드하세요.
+
   Load the few files you need from the web instead.
+
+  (1) 배포를 위해 `index.html`의 사본을 만들고 모든 `node_module` 스크립트를 
+  웹에서 로드하는 버전으로 대체하세요. 다음과 같은 모습일 것입니다.
 
   (1) Make a copy of `index.html` for deployment and replace all `node_module` scripts
   with versions that load from the web. It might look like this.
 
 +makeExample('deployment/ts/src/index.html', 'node-module-scripts', '')(format=".")
 :marked
+  (2) `systemjs.config.server.js`를 로드하는 스크립트로
+  `systemjs.config.js` 스크립트를 대체하세요.
+
   (2) Replace the `systemjs.config.js` script with a script that 
   loads `systemjs.config.server.js`.
 +makeExample('deployment/ts/src/index.html', 'systemjs-config', '')(format=".")
 :marked
+  (3) `src/` 폴더에 (아래 코드 샘플과 같이) `systemjs.config.server.js`를 추가하세요.
+  이 대체 버전은 _SystemJS_를 구성하여 Angular (및 기타 타사 패키지)의 _UMD_ 버전을
+  웹에서 로드합니다.
+
   (3) Add `systemjs.config.server.js` (shown in the code sample below) to the `src/` folder.
   This alternative version configures _SystemJS_ to load _UMD_ versions of Angular 
   (and other third-party packages) from the web.
 
+  `systemjs.config.jar`에 대한 변경 사항과 동기화 되도록
+  `systemjs.config.server.js`를 수정하세요.
+
   Modify `systemjs.config.server.js` as necessary to stay in sync with changes
   you make to `systemjs.config.js`.
+
+  `paths` 키에 주의하세요:
 
   Notice the `paths` key:
 
 +makeExample('deployment/ts/src/systemjs.config.server.js', 'paths', '')(format=".")
 
 :marked
+  표준 SystemJS 설정에서 `npm` 경로는 `node_modules/`를 가리킵니다.
+  이번 서버 설정에서는 
+  _npm packages_를 호스팅하는 사이트인,
+  <a href="https://unpkg.com/" target="_blank" title="unpkg.com">https://unpkg.com</a>를 가리키며,
+  웹에서 직접 로드합니다.
+  같은 일을 하는 다른 서비스 제공 업체들도 있습니다.
+
   In the standard SystemJS config, the `npm` path points to the `node_modules/`.
   In this server config, it points to 
   <a href="https://unpkg.com/" target="_blank" title="unpkg.com">https://unpkg.com</a>, 
@@ -123,12 +228,20 @@ a#node-modules
   and loads them from the web directly.
   There are other service providers that do the same thing.
 
+  오픈된 웹에서 패키지를 로드 할 수 없거나 로드하고 싶지 않은 경우,
+  `systemjs.config.server.js`의 인벤토리는 서버의 라이브러리 폴더에 복사 할
+  파일과 폴더를 확인합니다.
+  그런 다음 config의 `'npm'` 경로가 해당 폴더를 가리키도록 변경합니다.
+
   If you are unwilling or unable to load packages from the open web, 
   the inventory in `systemjs.config.server.js` identifies the files and folders that 
   you would copy to a library folder on the server. 
   Then change the config's  `'npm'` path to point to that folder.
 
+  ### 예제 실습
   ### Practice with an example
+
+  다음 간단한 라우터 샘플 애플리케이션은 이러한 변경 사항을 보여줍니다.
 
   The following trivial router sample app shows these changes.
 
@@ -152,14 +265,29 @@ a#node-modules
   `)
 
 :marked
+  애플리케이션에서 이러한 기술을 시도하기 전에 이 샘플로 연습하세요.
+
   Practice with this sample before attempting these techniques on your application.
+
+  1. <ngio-ex path="simple-deployment"></ngio-ex>라는 새 프로젝트를 생성하려면
+  [설정 안내](../guidelines/setup.html "Angular 빠른시작 설정")를 따라하세요.
 
   1. Follow the [setup instructions](../guide/setup.html "Angular QuickStart setup") for creating a new project
   named <ngio-ex path="simple-deployment"></ngio-ex>.
 
+  1. 위에 표시된 "간단한 배포" 샘플 파일을 추가하세요.
+
   1. Add the "Simple deployment" sample files shown above.
 
+  1. 프로젝트를 시작할 때와 마찬가지로 `npm start` 명령으로 실행하세요.
+
   1. Run it with `npm start` as you would any project.
+
+  1. 브라우저 개발자 도구에서 네트워크 트래픽을 검사하세요.
+  웹에서 모든 패키지를 로드하는 것에 주의하세요.
+  `node_modules` 폴더를 삭제해도 앱은 여전히 실행됩니다.
+  (비록 그것을 복원 할 때까지는 재컴파일하거나 
+  `lite-server`를 시작할 수는 없지만요)
 
   1. Inspect the network traffic in the browser developer tools. 
   Notice that it loads all packages from the web.
@@ -167,45 +295,99 @@ a#node-modules
   (although you wouldn't be able to recompile or launch `lite-server`
   until you restored it).
 
+  1. 샘플을 서버에 배포하세요 (`node_modules` 폴더를 제외하고요!).
+
   1. Deploy the sample to the server (minus the `node_modules` folder!).
+
+  작업이 완료되면, 여러분의 애플리케이션에 동일한 과정을 시도해보세요.
 
   When you have that working, try the same process on your application.
 
 a#optimize
 .l-main-section
 :marked
+  ## 상용 최적화
   ## Optimize for production
 
+  개발 환경의 작업을 직접 배포해도 되지만, 최적화된 상태와는 거리가 멉니다.
+  
   Although deploying directly from the development environment works, it's far from optimal.
   
+  클라이언트는 많은 소규모의 개별 애플리케이션 코드 및 템플릿 파일을 요청합니다.
+  이것은 브라우저 개발자 도구의 네트워크 탭을 보고 금방 확인할 수 있습니다.
+  작은 파일을 다운로드 할 때마다 데이터를 전송하는 것보다 더 많은 시간을 서버와 통신하는데 사용할 수 있습니다.
+
   The client makes many small requests for individual application code and template files,
   a fact you can quickly confirm by looking at the network tab in a browser's developer tools.
   Each small file download can spend more time communicating with the server than tranfering data.
+
+  개발중인 파일에는 가독성과 디버깅을 위해 주석과 공백이 가득합니다.
+  브라우저는 앱에 필요한 부분만이 아니라 전체 라이브러리를 다운로드합니다.
+  서버에서 클라이언트로 전달되는 코드("페이로드")의 양은
+  애플리케이션을 실행하는 데 꼭 필요한 코드보다 훨씬 클 수 있습니다.
 
   Development files are full of comments and whitespace for easy reading and debugging.
   The browser downloads entire libraries, instead of just the parts the app needs.
   The volume of code passed from server to client (the "payload") 
   can be significantly larger than is strictly necessary to execute the application.
 
+  많은 요청과 큰 페이로드는 
+  앱을 최적화 한 경우보다 시작 시간이 오래 걸린다는 것을 의미합니다.
+  사용자가 무엇을 보거나 유용한 어떤 것을 하기 전에 몇 초가 (또는 더 많이) 지났을 수 있습니다.
+  
   The many requests and large payloads mean
   the app takes longer to launch than it would if you optimized it.
   Several seconds may pass (or worse) before the user can see or do anything userful.
   
+  이게 그렇게 중요할까요? 그것은 비즈니스나 여러분이 스스로 평가해야만 하는 기술적인 요소에 달려있습니다.
+  
   Does it matter? That depends upon business and technical factors you must evaluate for yourself.
   
+  만약 이것이 _진짜_ 중요하다면, 요청 횟수와 응답 크기를 줄이는 도구와 기술이 있습니다.
+
   If it _does_ matter, there are tools and techniques to reduce the number of requests and the size of responses.
 
+  - Ahead-of-Time (AOT) 컴파일: Angular 컴포넌트 템플릿을 미리 컴파일합니다.
+
   - Ahead-of-Time (AOT) Compilation: pre-compiles Angular component templates.
+
+  - 번들링(Bundling): 모듈을 하나의 파일(번들)로 합칩니다.
+
   - Bundling: concatenates modules into a single file (bundle). 
+
+  - 인라이닝(Inlining): 템플릿 html 및 css를 컴포넌트로 가져옵니다.
+
   - Inlining: pulls template html and css into the components.
+
+  - 최소화(Minification): 여분의 공백, 주석 및 선택적 토큰을 제거합니다.
+
   - Minification: removes excess whitespace, comments, and optional tokens.
+
+  - 난독화(Uglification): 짧고 비밀스러운 변수 및 함수 이름을 사용하도록 코드를 다시 작성합니다.
+
   - Uglification: rewrites code to use short, cryptic variable and function names.
+
+  - 사용하지 않는 코드(dead code) 제거 : 참조되지 않은 모듈과 사용되지 않는 코드를 제거합니다.
+
   - Dead code elimination: removes unreferenced modules and unused code.
+
+  - 라이브러리 정리: 사용하지 않는 라이브러리를 삭제하고 다른 것들은 필요한 기능으로 잘라냅니다.
+
   - Pruned libraries: drop unused libraries and pare others down to the features you need.
+
+  - 성능 측정: 측정 가능한 차이를 만드는 최적화에 초점을 둡니다.
+
   - Performance measurement: focus on optimizations that make a measurable difference.
+
+  각각의 도구는 다른 일을 합니다.
+  이것들을 조합하면 가장 잘 작동하고 서로 상호 보완을 합니다.
 
   Each tool does something different. 
   They work best in combination and are mutually reinforcing.
+
+  원하는 어떤 빌드 시스템을 사용할 수 있습니다.
+  선택한 시스템이 무엇이든 간에, 
+  상용 빌드가 단일 단계로 되도록 자동화 해야합니다.
 
   You can use any build system you like.
   Whatever system you choose, be sure to automate it so that 
@@ -213,16 +395,38 @@ a#optimize
 
 a#aot
 :marked
+  ### Ahead-of-Time (AOT) 컴파일
   ### Ahead-of-Time (AOT) compilation
+
+  Angular _Ahead of Time_ 컴파일러는 빌드 프로세스 중에 애플리케이션 컴포넌트와 
+  해당 템플릿을 미리 컴파일합니다.
 
   The Angular _Ahead-of-Time_ compiler pre-compiles application components and their templates
   during the build process.
 
+  AOT로 컴파일 된 앱은 몇 가지 이유로 더 빨리 실행됩니다.
+
   Apps compiled with AOT launch faster for several reasons.
+
+  * 애플리케이션 컴포넌트는 클라이언트 측 컴파일 없이 즉시 실행됩니다.
+
   * Application components execute immediately, without client-side compilation.
+
+  * 템플릿은 컴포넌트 내에 코드로 포함되므로 템플릿 파일에 대한 클라이언트 측 요청이 없습니다.
+
   * Templates are embedded as code within their components so there is no client-side request for template files.
+
+  * Angular 컴파일러를 다운로드하지 않습니다. 이 컴파일러는 그 자체로 꽤 큽니다.
+
   * You don't download the Angular compiler, which is pretty big on its own.
+
+  * 컴파일러는 tree-shaking 도구로 제외 할 수 있는 사용하지 않는 Angular 지시자를 삭제합니다.
+
   * The compiler discards unused Angular directives that a tree-shaking tool can then exclude.
+
+  AOT 컴파일에 대한 자세한 내용은 [AOT 요리책](../cookbook/aot-compiler.html "AOT 요리책")을 참조하세요.
+  명령줄에서 AOT 컴파일러를 실행하는 방법과
+  번들링, 최소화, 난독화 및 tree shaking을 위해 [_rollup_](# rollup)을 사용하는 방법에 대해 설명합니다.
 
   Learn more about AOT Compilation in the [AOT Cookbook](../cookbook/aot-compiler.html "AOT Cookbook")
   which describes running the AOT compiler from the command line
@@ -230,12 +434,24 @@ a#aot
   
 a#webpack
 :marked
+  ### Webpack (과 AOT)
   ### Webpack (and AOT)
+
+  <a href="https://webpack.js.org/" target="_blank" title="Webpack 2">Webpack 2</a>는 
+  템플릿과 스타일시트의 인라이닝, 번들링, 최소화 및 애플리케이션 난독화를 위한 또 다른 훌륭한 옵션입니다.
+  "[Webpack: 소개](webpack.html "Webpack: 소개")" 가이드는 Angular에서 webpack을 사용하는 것을 안내합니다.
 
   <a href="https://webpack.js.org/" target="_blank" title="Webpack 2">Webpack 2</a> is another
   great option for inlining templates and style-sheets, for bundling, minifying, and uglifying the application.
   The "[Webpack: an introduction](webpack.html "Webpack: an introduction")" guide will get you started 
   using webpack with Angular.
+
+  공식 <a href="https://github.com/angular/angular-cli/tree/master/packages/%40ngtools/webpack" target="_blank" title="Ahead-of-Time Webpack 플러그인">
+  Angular Ahead-of-Time Webpack 플러그인</a> 문서에서
+  _Webpack_ 설정을 확인하세요.
+  이 플러그인은 TypeScript 애플리케이션 코드를 트랜스파일링하고,
+  지연 로딩된 `NgModules`을 따로 묶고; 소스 코드에는 어떠한 변경도 없이
+  AOT 컴파일을 수행합니다.
 
   Consider configuring _Webpack_ with the official
   <a href="https://github.com/angular/angular-cli/tree/master/packages/%40ngtools/webpack" target="_blank" title="Ahead-of-Time Webpack Plugin">
@@ -246,13 +462,27 @@ a#webpack
 
 a#rollup
 :marked
+  ### _rollup_으로 사용하지 않는 코드(dead code) 제거
   ### Dead code elimination with _rollup_
+
+  호출하지 않는 코드는 _dead code_입니다.
+  애플리케이션이나 타사 라이브러리에서 사용 불가능한 코드를 제거하여 애플리케이션의 전체 크기를 크게 줄일 수 있습니다.
 
   Any code that you don't call is _dead code_.
   You can reduce the total size of the application substantially by removing dead code from the application and from third-party libraries.
+
+  _Tree shaking_은 JavaScript 모듈의 익스포트 전체를 제거하는 _dead code 제거_ 기술입니다.
+  만약 라이브러리가 애플리케이션에서 임포트하지 않는 것을 익스포트하면, tree shaking 도구는 그것을 코드에서 제거합니다.
   
   _Tree shaking_ is a _dead code elimination_ technique that removes entire exports from JavaScript modules.
   If a library exports something that the application doesn't import, a tree shaking tool removes it from the code base.
+
+  번들링, 최소화, 난독화를 위한 플러그인 생태계를 가진 인기있는 도구인
+  <a href="http://rollupjs.org/" target="_blank" title="Rollup">Rollup</a>에 의해
+  tree shaking이 대중화 되었습니다.
+  rollup 제작자인 Rich Harris가 작성한
+  <a href="https://medium.com/@Rich_Harris/tree-shaking-versus-dead-code-elimination-d3765df85c80#.15ih9cyvl" target="_blank" title="Tree-shaking과 Dead Code 제거">
+  이 포스트</a>에서 tree shaking과 dead code 제거에 대해 자세히 알아보세요.
 
   Tree shaking was popularized by
   <a href="http://rollupjs.org/" target="_blank" title="Rollup">Rollup</a>, a popular tool with an ecosystem of 
@@ -263,12 +493,22 @@ a#rollup
 
 a#prune
 :marked
+  ### 라이브러리 정리
   ### Pruned libraries
+
+  자동화 중에 모든 dead code가 제거될 것이라고 믿지 마세요.
 
   Don't count on automation to remove all dead code.
 
+  사용하지 않는 라이브러리, 특히 `index.html`에서 불필요한 스크립트를 제거하세요.
+  사용 중인 라이브러리에 대해 보다 작은 대안이 있는지 고려해보세요.
+
   Remove libraries that you don't use, especially unnecessary scripts in `index.html`.
   Consider smaller alternatives to the libraries that you do use.
+
+  어떤 라이브러리는 필요한 기능만 갖춘 맞춤형 최소화 버전을 제작할 수 있는 기능을 제공합니다.
+  다른 어떤 라이브러리는 _별도로_ 기능을 가져올 수 있습니다.
+  **RxJS**가 좋은 예입니다; 전체 라이브러리 대신 RxJS Observable 연산자를 개별적으로 임포트합니다.
 
   Some libraries offer facilities for building a custom, skinny version with just the features you need.
   Other libraries let you import features _a la carte_.
@@ -276,7 +516,14 @@ a#prune
 
 a#measure
 :marked
+  ### 사전 성능측정
   ### Measure performance first
+
+  애플리케이션을 느리게 만드는 것을 명확하고 정확하게 이해하고 있다면
+  무엇을 어떻게 최적화할지에 대해 더 나은 결정을 내릴 수 있습니다.
+  그 원인은 그럴 것이라고 생각하는 것이 아닐 수 있습니다.
+  확실한 이점이 없는 무언가를 최적화하는 데 많은 시간과 비용을 낭비할 수 있고 심지어 앱을 더 느리게 할 수도 있습니다.
+  여러분에게 중요한 환경에서 실행될 때의 앱의 실제 동작을 측정해야만 합니다.
 
   You can make better decisions about what to optimize and how when you have a clear and accurate understanding of
   what's making the application slow.
@@ -284,9 +531,15 @@ a#measure
   You can waste a lot of time and money optimizing something that has no tangible benefit or even makes the app slower.
   You should measure the app's actual behavior when running in the environments that are important to you.
 
+  <a href="https://developers.google.com/web/tools/chrome-devtools/network-performance/understanding-resource-timing" target="_blank" title="크롬 네트워크 성능측정 개발자도구">
+  크롬 네트워크 성능측정 개발자도구</a>는 성능 측정 학습을 하기에 좋은 장소입니다.
+
   The 
   <a href="https://developers.google.com/web/tools/chrome-devtools/network-performance/understanding-resource-timing" target="_blank" title="Chrome DevTools Network Performance">
   Chrome DevTools Network Performance page</a> is a good place to start learning about measuring performance. 
+
+  [WebPageTest](https://www.webpagetest.org/) 도구는 배포가 성공적인지 
+  확인하는 데 도움이 되는 또 다른 좋은 선택지입니다.
 
   The [WebPageTest](https://www.webpagetest.org/) tool is another good choice 
   that can also help verify that your deployment was successful.
@@ -294,14 +547,24 @@ a#measure
 a#angular-configuration
 .l-main-section
 :marked
+  ## Angular 설정
   ## Angular configuration
+
+  Angular 설정을 하여 앱을 빠르게 실행하거나 전혀 로드하지 않도록 차이를 만들 수 있습니다.
 
   Angular configuration can make the difference between whether the app launches quickly or doesn't load at all.
 
 a#base-tag
 :marked
+  ### `base` 태그
   ### The `base` tag
   
+  HTML [_&lt;base href="..."/&gt;_](https://angular.io/docs/ts/latest/guide/router.html#!#base-href)는
+  이미지, 스크립트 및 스타일시트와 같은 자산에 대해 상대 URL을 결정하기 위한 기본 경로를 설정합니다.
+  예를 들어 `<base href="/my/app/">`로 설정된 상태라면 브라우저는 `some/place/foo.jpg`와 같은 URL을
+  `my/app/some/place/foo.jpg`에 대한 서버 요청으로 해석합니다.
+  탐색하는 동안 Angular 라우터는 _base href_를 컴포넌트, 템플릿 및 모듈 파일의 기본 경로로 사용합니다.
+
   The HTML [_&lt;base href="..."/&gt;_](https://angular.io/docs/ts/latest/guide/router.html#!#base-href)
   specifies a base path for resolving relative URLs to assets such as images, scripts, and style sheets.
   For example, given the `<base href="/my/app/">`, the browser resolves a URL such as `some/place/foo.jpg` 
@@ -310,21 +573,37 @@ a#base-tag
 
 .l-sub-section
   :marked
+    대안으로 [*APP_BASE_HREF*](../api/common/index/APP_BASE_HREF-let.html "API: APP_BASE_HREF")도 참조하세요.
+
     See also the [*APP_BASE_HREF*](../api/common/index/APP_BASE_HREF-let.html "API: APP_BASE_HREF") alternative.
 :marked
+  개발 중에는 일반적으로 `index.html`이 있는 폴더에서 서버를 시작합니다.
+  그것은 루트 폴더이고 `/`는 앱의 루트이기 때문에 `<base href="/">`를 `index.html`의 맨 위에 추가하세요.
+  
   In development, you typically start the server in the folder that holds `index.html`. 
   That's the root folder and you'd add `<base href="/">` near the top of `index.html` because `/` is the root of the app.
   
+  하지만 공유 서버나 상용 서버에서는 하위 폴더에서 애플리케이션을 구동할 수 있습니다.
+  예를 들어, 앱을 로드할 URL이 `http://www.mysite.com/my/app/`인 경우,
+  하위 폴더는 `my/app/`이고 서버의 `index.html`에 `<base href="/my/app/">`를 추가해야만 합니다.
+
   But on the shared or production server, you might serve the app from a subfolder.
   For example, when the URL to load the app is something like `http://www.mysite.com/mysrc/app/`, 
   the subfolder is `my/app/` and you should add `<base href="/my/app/">` to the server version of the `index.html`.
+
+  `base` 태그가 잘못 설정되면 앱이 로딩되지 않고 브라우저 콘솔에 누락된 파일에 대한
+  `404 - Not Found` 오류가 표시됩니다. 찾으려고 _시도했던_ 파일들을 확인 후 base 태그를 적절히 수정하세요.
 
   When the `base` tag is misconfigured, the app fails to load and the browser console displays `404 - Not Found` errors
   for the missing files. Look at where it _tried_ to find those files and adjust the base tag appropriately.
 
 a#enable-prod-mode
 :marked
+  ### 상용 모드 활성화
   ### Enable production mode
+
+  Angular 앱은 기본적으로 개발 모드에서 실행됩니다.
+  브라우저 콘솔에서 다음 메시지를 볼 수 있습니다.
 
   Angular apps run in development mode by default, as you can see by the following message on the browser
   console:
@@ -332,7 +611,11 @@ a#enable-prod-mode
 code-example(format="nocode").
   Angular 2 is running in the development mode. Call enableProdMode() to enable the production mode.
 :marked
+  상용 모드로 전환하면 이중 변경 감지 주기와 같은 개발 관련 검사를 비활성화하여 실행 속도를 향상시킬 수 있습니다.
+
   Switching to production mode can make it run faster by disabling development specific checks such as the dual change detection cycles.
+
+  원격으로 실행 중일 때 [상용 모드](../api/core/index/enableProdMode-function.html)를 활성화하려면 다음 코드를`main.ts`에 추가하세요.
 
   To enable [production mode](../api/core/index/enableProdMode-function.html) when running remotely, add the following code to the `main.ts`. 
 
@@ -340,17 +623,32 @@ code-example(format="nocode").
 
 a#lazy-loading
 :marked
+  ### 지연 로딩
   ### Lazy loading
+
+  앱이 시작될 때 꼭 있어야 하는 애플리케이션 모듈만 로드하여
+  실행 시간을 크게 줄일 수 있습니다.
 
   You can dramatically reduce launch time by only loading the application modules that
   absolutely must be present when the app starts.
+
+  [앱이 시작될 때까지 대기](router.html#preloading "Preloading")하거나
+  필요할 때 [_지연 로딩_](router.html#asynchronous-routing - "지연 로딩")하여
+  다른 모든 모듈 (및 관련 코드)의 로딩을 연기하도록 Angular 라우터를 설정하세요.
 
   Configure the Angular Router to defer loading of all other modules (and their associated code), either by 
   [waiting until the app has launched](router.html#preloading  "Preloading")
   or by [_lazy loading_](router.html#asynchronous-routing "Lazy loading")
   them on demand.
 
+  #### 지연 로딩된 모듈의 무엇인가를 즉시 임포트하지 마세요.
   #### Don't eagerly import something from a lazy loaded module
+
+  이것은 흔히 범하는 실수입니다.
+  모듈을 지연 로딩하도록 했지만
+  앱이 시작될 때 즉시 로딩된 파일 (`AppModule`과 같은 파일)에서
+  의도치 않게 JavaScript의 `import` 구문을 사용해 임포트하는 경우입니다.
+  그렇게 하면 모듈이 즉시 로드됩니다.
 
   It's a common mistake.
   You've arranged to lazy load a module.
@@ -358,10 +656,18 @@ a#lazy-loading
   in a file that's eagerly loaded when the app starts, a file such as the root `AppModule`.
   If you do that, the module will be loaded immediately. 
 
+  번들 구성은 지연 로딩을 고려해야합니다.
+  지연 로딩된 모듈은 (방금 언급한 것처럼) JavaScript에서 임포트한 것이 아니기 때문에, 기본적으로 번들러는 그것을 제외합니다.
+  번들러는 라우터 구성에 대해 알지 못하고 지연 로딩된 모듈을 위해 별도의 번들을 만들지 않습니다.
+  이러한 번들은 수동으로 만들어야 합니다.
+
   The bundling configuration must take lazy loading into consideration.
   Because lazy loaded modules aren't imported in JavaScript (as just noted), bundlers exclude them by default. 
   Bundlers don't know about the router configuration and won't create separate bundles for lazy loaded modules.
   You have to create these bundles manually.
+
+  [Angular Ahead-of-Time Webpack Plugin] (https://github.com/angular/angular-cli/tree/master/packages/%40ngtools/webpack)은 
+  느린 로딩 된`NgModules`을 자동으로 인식하여 별도의 번들을 생성합니다.
 
   The 
   [Angular Ahead-of-Time Webpack Plugin](https://github.com/angular/angular-cli/tree/master/packages/%40ngtools/webpack)
@@ -371,50 +677,91 @@ a#lazy-loading
 a#server-configuration
 .l-main-section
 :marked
+  ## 서버 설정
   ## Server configuration
   
+  이 섹션에서는 서버 또는 서버에 배포 된 파일의 변경 사항에 대해 설명합니다.
+
   This section covers changes you may have make to the server or to files deployed to the server.
 
 a#fallback
 :marked
+  ### 라우팅된 앱은 반드시 `index.html`으로 fallback
   ### Routed apps must fallback to `index.html`
+
+  Angular 애플리케이션은 간단한 정적 HTML 서버에서 구동하기에 완벽한 후보입니다.
+  Angular는 클라이언트 측에서 실행되기 때문에 
+  애플리케이션 페이지를 동적으로 구성하기 위한 서버 측 엔진이 필요하지 않습니다.
 
   Angular apps are perfect candidates for serving with a simple static HTML server.
   You don't need a server-side engine to dynamically compose application pages because
   Angular does that on the client-side.
+
+  만약 애플리케이션이 Angular 라우터를 사용하는 경우, 가지고 있지 않은 파일을 요청 받는다면
+  애플리케이션의 호스트 페이지 (`index.html`)를 반환하도록 서버를 구성해야 합니다.
 
   If the app uses the Angular router, you must configure the server 
   to return the application's host page (`index.html`) when asked for a file that it does not have.
 
 a#deep-link
 :marked
+  라우팅 된 애플리케이션은 "deep link"를 지원해야 합니다.
+  _deep link_는 앱 내부의 컴포넌트에 대한 경로를 지정하는 URL입니다.
+  예를 들어 `http://www.mysite.com/heroes/42`는 `id: 42`의 히어로를
+  표시하는 히어로 상세 페이지의 _deep link_입니다.
+
   A routed application should support "deep links".
   A _deep link_ is a URL that specifies a path to a component inside the app.
   For example, `http://www.mysite.com/heroes/42` is a _deep link_ to the hero detail page
   that displays the hero with `id: 42`.
 
+  사용자가 실행 중인 클라이언트에 있는 URL로 탐색 할 때는 아무런 문제가 없습니다.
+  Angular 라우터는 URL을 해석하여 해당 페이지와 히어로에게 전달합니다.
+
   There is no issue when the user navigates to that URL from within a running client.
   The Angular router interprets the URL and routes to that page and hero.
+
+  그러나 이메일에서 링크를 클릭하거나, 브라우저의 주소창에 입력하거나,
+  그저 히어로 상세 페이지에서 브라우저를 새로 고침하는 &mdash;
+  이러한 모든 작업은 실행중인 애플리케이션 _바깥에 있는_ 브라우저에서 자체적으로 처리합니다.
+  브라우저는 라우터를 우회하여 해당 URL에 대해 서버에 직접 요청합니다.
 
   But clicking a link in an email, entering it in the browser address bar, 
   or merely refreshing the browser while on the hero detail page &mdash;
   all of these actions are handled by the browser itself, _outside_ the running application.
   The browser makes a direct request to the server for that URL, bypassing the router.
 
+  정적 서버는 `http://www.mysite.com/`에 대한 요청을 받으면 `index.html`을 반환합니다.
+  그러나 `index.html`을 반환하도록 설정하지 *않았다면*
+  `http://www.mysite.com/heroes/42`를 거부하고 `404 - Not Found` 에러를 반환합니다.
+
   A static server routinely returns `index.html` when it receives a request for `http://www.mysite.com/`.
   But it rejects `http://www.mysite.com/heroes/42` and returns a `404 - Not Found` error *unless* it is 
   configured to return `index.html` instead.
 
+  #### Fallback 설정 예
   #### Fallback configuration examples
+
+  모든 서버에서 작동하는 단일 구성은 없습니다.
+  다음 절에서는 가장 많이 사용되는 일부 서버의 구성에 대해 설명합니다.
+  목록은 결코 완전한 것이 아니지만 좋은 시작점을 제공합니다.
 
   There is no single configuration that works for every server.
   The following sections describe configurations for some of the most popular servers. 
   The list is by no means exhaustive, but should provide you with a good starting point.
 
+  #### 개발 서버
   #### Development servers
   
+  - [Lite-Server](https://github.com/johnpapa/lite-server):
+  [빠른시작 repo](https://github.com/angular/quickstart)에 설치된 기본 개발 서버는
+  `index.html`로 fallback 되도록 사전 설정되어 있습니다.
+
   - [Lite-Server](https://github.com/johnpapa/lite-server): the default dev server installed with the
   [Quickstart repo](https://github.com/angular/quickstart) is pre-configured to fallback to `index.html`.
+
+  - [Webpack-Dev-Server](https://github.com/webpack/webpack-dev-server): 
+  개발 서버 옵션의 `historyApiFallback` 엔트리를 다음과 같이 설정합니다:
 
   - [Webpack-Dev-Server](https://github.com/webpack/webpack-dev-server):  setup the 
   `historyApiFallback` entry in the dev server options as follows:
@@ -426,8 +773,14 @@ code-example().
   }
 
 :marked
+  #### 상용 서버
   #### Production servers
   
+  - [Apache](https://httpd.apache.org/):
+  [rewrite 규칙](http://httpd.apache.org/docs/current/mod/mod_rewrite.html)을
+  `.htaccess`파일에
+  [여기](https://ngmilk.rocks/2015/03/09/angularjs-html5-mode-or-pretty-urls-on-apache-using-htaccess/)처럼 추가하세요:
+
   - [Apache](https://httpd.apache.org/): add a 
   [rewrite rule](http://httpd.apache.org/docs/current/mod/mod_rewrite.html)
   to the `.htaccess` file as show 
@@ -443,6 +796,10 @@ code-example(format=".").
   RewriteRule ^ /index.html
 
 :marked
+  - [NGinx](http://nginx.org/):
+  [Front Controller Pattern Web Apps](https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/#front-controller-pattern-web-apps)에 기술된 것처럼,
+  `index.html`을 구동하도록 수정된 `try_files`를 사용합니다:
+
   - [NGinx](http://nginx.org/): use `try_files`, as described in 
   [Front Controller Pattern Web Apps](https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/#front-controller-pattern-web-apps),
   modified to serve `index.html`:
@@ -451,6 +808,9 @@ code-example(format=".").
   try_files $uri $uri/ /index.html;
 
 :marked
+  - [IIS](https://www.iis.net/): [여기](http://stackoverflow.com/a/26152011/2116927)에 보이는 것과 비슷하게
+  `web.config`에 rewrite rule을 추가합니다:
+
   - [IIS](https://www.iis.net/): add a rewrite rule to `web.config`, similar to the one shown
   [here](http://stackoverflow.com/a/26152011/2116927):
 code-example(format="." escape="html").
@@ -470,6 +830,15 @@ code-example(format="." escape="html").
   </system.webServer>
 
 :marked
+  - [GitHub Pages](https://pages.github.com/): GitHub Pages 서버에
+  [직접 설정](https://github.com/isaacs/github/issues/408)은 할 수 없습니다.
+  그러나 404 페이지를 추가할 수 있습니다.
+  `index.html` 파일을 `404.html`로 복사하세요.
+  여전히 404 응답을 할 것입니다. 그러나 브라우저는 해당 페이지를 처리하여 앱을 적절히 로드할 것입니다.
+  [master의 `docs/`에서 구동](https://help.github.com/articles/configuring-a-publishing-source-for-github-pages/#publishing-your-github-pages-site-from-a-docs-folder-on-your-master-branch) 
+  하거나 [`.nojekyll` 파일을 생성](https://www.bennadel.com/blog/3181-including-node-modules-and-vendors-folders-in-your-github-pages-site.htm)
+  하는 것도 좋은 방법입니다.
+
   - [GitHub Pages](https://pages.github.com/): you can't 
   [directly configure](https://github.com/isaacs/github/issues/408) 
   the GitHub Pages server, but you can add a 404 page. 
@@ -480,6 +849,9 @@ code-example(format="." escape="html").
   and to 
   [create a `.nojekyll` file](https://www.bennadel.com/blog/3181-including-node-modules-and-vendors-folders-in-your-github-pages-site.htm)
   
+  - [Firebase 호스팅](https://firebase.google.com/docs/hosting/):
+  [rewrite rule](https://firebase.google.com/docs/hosting/url-redirects-rewrites#section-rewrites)을 추가하세요.
+
   - [Firebase hosting](https://firebase.google.com/docs/hosting/): add a
   [rewrite rule](https://firebase.google.com/docs/hosting/url-redirects-rewrites#section-rewrites).
 
@@ -492,13 +864,25 @@ code-example(format=".").
 a#cors
 .l-main-section
 :marked
+  ### 다른 서버에서 서비스 요청 (CORS)
   ### Requesting services from a different server (CORS)
   
+  Angular 개발자는
+  애플리케이션의 자체 호스트 서버가 아닌 다른 서버에 서비스 요청을 하면 (일반적으로 데이터 서비스 요청)
+  <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing" target="_blank" title="Cross-origin resource sharing">
+  <i>cross-origin resource sharing</i></a> 에러를 만나게 될 것입니다.
+  브라우저가 명시적으로 허용하지 않는 한 브라우저는 이러한 요청을 금지합니다.
+
   Angular developers may encounter a
   <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing" target="_blank" title="Cross-origin resource sharing">
   <i>cross-origin resource sharing</i></a> error when making a service request (typically a data service request).
   to a server other than the application's own host server.
   Browsers forbid such requests unless the server permits them explicitly.
+
+  클라이언트 애플리케이션이 이러한 오류에 대해 할 수 있는 것이 아무것도 없습니다.
+  서버가 반드시 애플리케이션의 요청을 받아들이도록 구성되어야 합니다.
+  <a href="http://enable-cors.org/server.html" target="_blank" title="CORS 서버 활성화>enable-cors.org</a>에서
+  특정 서버에 대해 CORS를 활성화 하는 방법을 읽어보세요.
 
   There isn't anything the client application can do about these errors.
   The server must be configured to accept the application's requests. 
@@ -508,6 +892,10 @@ a#cors
 a#next-steps
 .l-main-section
 :marked
+  ## 다음 단계
   ## Next steps
+   [간단한 _copy-deploy_](#dev-deploy "가장 간단한 배포") 방식 이상의 것을 확인하려면
+   다음 [AOT 요리책](../cookbook/aot-compiler.html "AOT Cookbook")을 읽어보세요.
+
    If you want to go beyond the [simple _copy-deploy_](#dev-deploy "Simplest deployment possible") approach,
    read the [AOT Cookbook](../cookbook/aot-compiler.html "AOT Cookbook") next.

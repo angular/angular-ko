@@ -13,7 +13,7 @@ block includes
   `@NgModule`은 모듈 코드를 컴파일하고 실행하는 방법을 Angular에 알려주는 메타데이터 객체를 취합니다.
   @NgModule은 모듈 _자체의_ 컴포넌트, 지시자 및 파이프를 식별하여 외부 컴포넌트에서
   사용할 수 있도록 일부 모듈을 공개합니다.
-  @NgModule은 애플리케이션 의존성 주입기에 서비스 공급자를 추가 할 수도 있습니다.
+  @NgModule은 애플리케이션 의존성 주입기에 서비스 제공자를 추가 할 수도 있습니다.
   그리고 이곳에서 다뤄볼 더 많은 옵션이 있습니다.
 
   An Angular Module is a _class_ adorned with the **@NgModule** decorator function.
@@ -744,7 +744,7 @@ a#application-scoped-providers
     ### Application-scoped Providers
 
       Angular는 모듈의 `providers`를 애플리케이션의 **루트 인젝터**로 등록하기 때문에
-      `ContactService` 공급자는 _애플리케이션_-범위입니다.
+      `ContactService` 제공자는 _애플리케이션_-범위입니다.
 
       The `ContactService` provider is _application_-scoped because Angular
       registers a module's `providers` with the application's **root injector**.
@@ -757,7 +757,7 @@ a#application-scoped-providers
 
       Angular가 이 디자인을 시행하기 위해 _모듈_-범위 메커니즘을 제공 할 것으로 기대할 수 있습니다.
       그러나 그렇지 않습니다. Angular 모듈 인스턴스는 컴포넌트와 달리 고유 한 인젝터가 없으므로
-      자체 공급자 범위를 가질 수 없습니다.
+      자체 제공자 범위를 가질 수 없습니다.
 
       We might expect Angular to offer a _module_-scoping mechanism to enforce this design.
       It doesn't. Angular module instances, unlike components, do not have their own injectors
@@ -1817,7 +1817,7 @@ a#core-for-root
 
   * `ngModule` - the `CoreModule` class
 
-  * `providers` - 설정된 공급자
+  * `providers` - 설정된 제공자
 
   * `providers` - the configured providers
 
@@ -1826,7 +1826,7 @@ a#core-for-root
   The root `AppModule` imports the `CoreModule` and adds the `providers` to the `AppModule` providers.
 .l-sub-section
   :marked
-    좀 더 정확히 말하자면 Angular는 `@NgModule.providers`에 나열된 항목을 추가하기 전에 가져온 모든 공급자를 축적합니다.
+    좀 더 정확히 말하자면 Angular는 `@NgModule.providers`에 나열된 항목을 추가하기 전에 가져온 모든 제공자를 축적합니다.
     이 시퀀스는 우리가 명시적으로 `AppModule` 제공자에 추가 한 것이
     가져온 모듈의 제공자보다 우선한다는 것을 보증합니다.
 
@@ -1915,7 +1915,7 @@ a#prevent-reimport
 
   기본적으로 주입기는 요청한 제공자를 찾을 수 없는 경우 오류를 발생합니다.
   `@Optional` 데코레이터는 서비스를 찾지 못하는 것이 괜찮다는 것을 뜻합니다.
-  주입기는 `null`을 반환하고, `parentModule` 매개 변수는 null이고,
+  주입기는 `null`을 반환하고, `parentModule` 파라미터는 null이고,
   생성자는 정상적으로 종료됩니다.
 
   By default the injector throws an error when it can't find a requested provider.
