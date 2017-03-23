@@ -368,7 +368,7 @@ block router-config-intro
   .l-sub-section
     :marked
       애플리케이션의 _루트_에 구성된 라우터를 제공하고 있기 때문에 `forRoo`메소드를 사용합니다.
-      `forRoot`매소드는 라우팅에 필요한 라우터 서비스 공급자와 지침사항을 제공하고, 현재 브라우저의 URL을 기반으로 초기 탐색을 실행합니다.
+      `forRoot`매소드는 라우팅에 필요한 라우터 서비스 제공자와 지침사항을 제공하고, 현재 브라우저의 URL을 기반으로 초기 탐색을 실행합니다.
     
       We use the `forRoot` method because we're providing a configured router at the _root_ of the application.
       The `forRoot` method gives us the Router service providers and directives needed for routing, and
@@ -888,7 +888,7 @@ block extract-id
       ### Do I need to unsubscribe?
 
       `라우터`는 그것이 제공하는 [observables](../guide/router.html#activated-route)를 관리하고 서브스크립션을 지역화합니다.
-      서브스크립션은 컴포넌트가 파괴되어 메모리 누수를 막을 때 정리되기 때문에, 라우트 매개변수 'Observable`에서 _삭제(unsubscribe)_ 할 필요가 없습니다.
+      서브스크립션은 컴포넌트가 파괴되어 메모리 누수를 막을 때 정리되기 때문에, 라우트 파라미터 'Observable`에서 _삭제(unsubscribe)_ 할 필요가 없습니다.
       
       The `Router` manages the [observables](../guide/router.html#activated-route) it provides and localizes
       the subscriptions. The subscriptions are cleaned up when the component is destroyed, protecting against
@@ -918,7 +918,7 @@ block extract-id
   ### 뒤로가기
   ### Find our way back
 
-  `HeroDetailComponent`를 *타겟으로* 이동하는 방법은 여러가지가 있습니다.
+  `HeroDetailComponent`를 *타깃으로* 이동하는 방법은 여러가지가 있습니다.
   작업이 끝나면 다른 곳으로 어떻게 이동을 할까요?
 
   We can navigate *to* the `HeroDetailComponent` in several ways.

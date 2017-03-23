@@ -19,6 +19,7 @@
 * tree shaking: tree shaking
 * rollup: rollup
 * chunk: chunk
+* SystemJS: SystemJS
 
 ## 번역이 애매한 기술용어는 영어 그대로 한글로 표기
 * element: 엘리먼트
@@ -40,6 +41,14 @@
 * tree: 트리
 * messages: 메시지
 * placeholder: 플레이스홀더
+* target: 타깃 (타깃 O, 타겟 X)
+* targeting: 타기팅 (타기팅 O, 타게팅 X)
+  * http://www.ccdailynews.com/news/articleView.html?idxno=797586
+  * http://blog.naver.com/markethink02?Redirect=Log&logNo=220031745023
+* locale: 로케일
+* parameter: 파라미터 (2017.03.24 "매개변수" / "매개 변수" => 파라미터로 통일)
+* format: 포맷
+* commit: 커밋
 
 ## 번역 용어 통일
 * 3rd party OOO: 타사 OOO
@@ -66,6 +75,7 @@
 * pluralization: 복수화
 * internationalization: 국제화
 * localization: 지역화
+* provider: 제공자 (2017.03.24 공급자 => 제공자로 통일)
 
 ## 정리중인 단어
 * selector: 선택자? vs 셀렉터?
@@ -73,7 +83,6 @@
 * suffix: 접미어?(구글 61,000개) vs 접미사?(구글 379,000개)
 * root: 최상위라고 번역을 했었는데.. 모든 개발자들이 널리 사용하는 용어이니 "루트"라고 하면 어떨까 싶네요..
 * bootstrap: 원래 익숙하지 않은 용어라 생각하고 "실행(bootstrap)" 이렇게 병기하려고 했었는데 점점 보니 angular에서는 핵심 용어인거 같네요.. 그냥 "부트스트랩"이라고 해도 될거 같기도 하고요..
-* provider: 공급자? vs 제공자?
 
 ## 구글 번역기
 사실.. 구글 번역기가 엄청 좋아졌습니다... -o- 이걸 참고 하는 것은 좋습니다. 그러나 전혀 다르게 번역하는 경우도 있고, 거의 맞는 것 같은데 문맥으로 보면 미묘하게 다른 경우가 있으므로 참고만 해주시고 꼭 전체적인 내용을 이해하신 뒤에 한번 더 봐주시기 바랍니다.

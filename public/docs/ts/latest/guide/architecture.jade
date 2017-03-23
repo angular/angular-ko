@@ -199,7 +199,7 @@ block angular-modules
     
     JavaScript에서 각 _파일_은 모듈이며 파일에 정의 된 모든 객체는 해당 모듈에 속합니다.
     모듈은 `export` 키워드로 그것들을 표시함으로써 몇몇 객체를 공용(public)으로 선언합니다.
-    다른 JavaScript 모듈은 * import문 *을 사용하여 다른 모듈의 공용 객체에 접근합니다.
+    다른 JavaScript 모듈은 *import문*을 사용하여 다른 모듈의 공용 객체에 접근합니다.
 
     In JavaScript each _file_ is a module and all objects defined in the file belong to that module.
     The module declares some objects to be public by marking them with the `export` key word. 
@@ -449,7 +449,7 @@ block ts-decorator
 block dart-directives
 
 :marked
-  - `providers`: 컴포넌트가 필요로 하는 서비스에 대한 ** 의존성 주입 제공자 **의 배열.
+  - `providers`: 컴포넌트가 필요로 하는 서비스에 대한 **의존성 주입 제공자**의 배열.
   이것은 Angular에게 컴포넌트의 생성자가 `HeroService`를 필요로 하므로 표시 할 히어로 목록을 가져올 수 있다고 알려주는 하나의 방법입니다.
 
   - `providers`: !{_array} of **dependency injection providers** for services that the component requires.
@@ -777,7 +777,7 @@ figure
   Angular uses dependency injection to provide new components with the services they need.
 <br class="l-clear-both">
 :marked
-  Angular는 생성자 매개변수의 유형을 살펴봄으로써 컴포넌트에 필요한 서비스를 알 수 있습니다.
+  Angular는 생성자 파라미터의 유형을 살펴봄으로써 컴포넌트에 필요한 서비스를 알 수 있습니다.
   예를 들어, `HeroListComponent`의 생성자는 `HeroService`를 필요로합니다 :
 
   Angular can tell which services a component needs by looking at the types of its constructor parameters.
@@ -813,19 +813,19 @@ figure
 
   If the injector doesn't have a `HeroService`, how does it know how to make one?
 
-  간략하게 이야기하면, 주입자로 `HeroService`의 ** 제공자 **를 미리 등록 했어야 합니다.
-  공급자는 일반적으로 서비스 클래스 자체를 생성하거나 반환할 수 있는 서비스입니다.
+  간략하게 이야기하면, 주입자로 `HeroService`의 **제공자**를 미리 등록 했어야 합니다.
+  제공자는 일반적으로 서비스 클래스 자체를 생성하거나 반환할 수 있는 서비스입니다.
 
   In brief, you must have previously registered a **provider** of the `HeroService` with the injector.
   A provider is something that can create or return a service, typically the service class itself.
 
 block registering-providers
   :marked
-    공급자를 모듈 또는 컴포넌트에 등록 할 수 있습니다.
+    제공자를 모듈 또는 컴포넌트에 등록 할 수 있습니다.
 
     You can register providers in modules or in components.
     
-    일반적으로 공급자를 [최상위 모듈](#module)에 추가하여 동일한 서비스 인스턴스가 모든 곳에서 사용 가능하도록 합니다.
+    일반적으로 제공자를 [최상위 모듈](#module)에 추가하여 동일한 서비스 인스턴스가 모든 곳에서 사용 가능하도록 합니다.
 
     In general, add providers to the [root module](#module) so that
     the same instance of a service is available everywhere.
@@ -858,17 +858,17 @@ block registering-providers
 
   * *주입자(injector)*가 주요 메커니즘입니다.
     * 주입자는 생성한 서비스 인스턴스의 *컨테이너*를 유지 관리합니다.
-    * 주입자는 * 공급자 *로부터 새로운 서비스 인스턴스를 생성 할 수 있습니다.
+    * 주입자는 *제공자*로부터 새로운 서비스 인스턴스를 생성 할 수 있습니다.
 
   * The *injector* is the main mechanism.
     * An injector maintains a *container* of service instances that it created.
     * An injector can create a new service instance from a *provider*.
 
-  * *공급자*는 서비스를 만드는 방법입니다.
+  * *제공자*는 서비스를 만드는 방법입니다.
 
   * A *provider* is a recipe for creating a service.
 
-  * 주입자와 함께 * 공급자 *를 등록하세요.
+  * 주입자와 함께 *제공자*를 등록하세요.
 
   * Register *providers* with injectors.
 

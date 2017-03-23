@@ -2,23 +2,39 @@ include ../_util-fns
 
 a#top
 :marked
+  Angular의 _국제화_ (i18n) 도구를 사용하면 앱을 여러 언어로 사용할 수 있습니다.
+
   Angular's _internationalization_ (_i18n_) tools help make your app available in multiple languages.
   
+  ## 목차  
   ## Table of contents
 
+    * [Angular와 i18n 템플릿 번역](#angular-i18n)
     * [Angular and i18n template translation](#angular-i18n)
+    * [텍스트를 _i18n_ 속성으로 표기](#i18n-attribute)
     * [Mark text with the _i18n_ attribute](#i18n-attribute)
+    * [_i18n-..._ 번역 속성](#translate-attributes)
     * [Add _i18n-..._ translation attributes](#translate-attributes)
+    * [단수와 복수 처리](#cardinality)
     * [Handle singular and plural](#cardinality)
+    * [대체 텍스트 중 선택](#select)
     * [Select among alternative texts](#select)
+    * [**_ng-xi18n_ 외부 도구**로 번역 소스 생성](#ng-xi18n)
     * [Create a translation source file with the **_ng-xi18n_ extraction tool**](#ng-xi18n)
+    * [텍스트 메시지 번역](#translate)
     * [Translate text messages](#translate)
-    * [Merge the completed translation file into the app](#merge)
+    * [완성 번역 파일을 앱에 합치기](#merge)
+      [Merge the completed translation file into the app](#merge)    
+      * [JIT 컴파일러로 합치기](#jit)
       * [Merge with the JIT compiler](#jit)
+      * [AOT compiler로 국제화](#aot)
       * [Internationalization with the AOT compiler](#aot)
+    * [번역 파일 유지관리 및 _id_ 변경](#maintenance)
     * [Translation file maintenance and _id_ changes](#maintenance)
 
 :marked
+  스페인어로 번역되고 JIT으로 컴파일된 앱의 <live-example name="cb-i18n" title="i18n 스페인어 예">라이브 예제</live-example>로 **시험해 보세요**.
+
   **Try this** <live-example name="cb-i18n" title="i18n Example in Spanish">live example</live-example> 
   of a JIT-compiled app, translated into Spanish.
 
@@ -26,11 +42,19 @@ a#top
 a#angular-i18n
 .l-main-section
 :marked
+  ## Angular와 _i18n_ 템플릿 번역
   ## Angular and _i18n_ template translation
+
+  애플리케이션 국제화는 성실과 지속적인 헌신을 필요로 하는
+  도전적인 다방면의 활동입니다.
+  Angular의 _i18n_ 국제화 도구가 도움이 될 수 있습니다.
 
   Application internationalization is a challenging, many-faceted effort that 
   takes dedication and enduring commitment.
   Angular's _i18n_ internationalization facilities can help.
+
+  이 페이지는 컴포넌트 템플릿 텍스트를 여러 언어로 번역하는데 도움이 되는 
+  _i18n_ 도구를 설명합니다.
 
   This page describes the _i18n_ tools available to assist translation of component template text
   into multiple languages.
@@ -38,50 +62,83 @@ a#angular-i18n
 
 .l-sub-section
   :marked
+    _국제화_ 실무자는 번역 가능한 텍스트를 "_message_"라고 부릅니다.
+    이 페이지에서는 "_text_"와 "_message_"를 교환할 수 있으며 "_text message_"로 조합할 수 있습니다.
+
     Practitioners of _internationalization_ refer to a translatable text as a "_message_".
     This page uses the words "_text_" and "_message_" interchangably and in the combination, "_text message_".
   
 :marked
+  _i18n_ 템플릿 번역 프로세스는 다음 네 단계가 있습니다.
+
   The _i18n_ template translation process has four phases:
 
+  1. 번역을 위해 컴포넌트 템플릿에 정적 텍스트 메시지를 표시하세요.
+  
   1. Mark static text messages in your component templates for translation.
   
+  1. Angular _i18n_ 도구는 표시된 메시지를 업계 표준 번역 소스 파일로 추출합니다.
+
   1. An angular _i18n_ tool extracts the marked messages into an industry standard translation source file.
+
+  1. 번역자가 해당 파일을 편집하여 추출한 텍스트 메시지를 대상 언어로 번역하고 파일을 사용자에게 반환합니다.
 
   1. A translator edits that file, translating the extracted text messages into the target language, 
   and returns the file to you.
 
+  1. Angular 컴파일러는 완성된 번역 파일을 가져옵니다.
+  원본 메시지를 번역된 텍스트로 대체하고 대상 언어로 된 새 버전의 애플리케이션을 생성합니다.
+
   1. The Angular compiler imports the completed translation files, 
   replaces the original messages with translated text, and generates a new version of the application
   in the target language.
+
+  지원되는 각 언어에 대해 별도의 애플리케이션 버전으로 빌드하고 배포해야 합니다.
 
   You need to build and deploy a separate version of the application for each supported language.
 
 a#i18n-attribute
 .l-main-section
 :marked
+  ## _i18n_ 속성으로 텍스트 표시
   ## Mark text with the _i18n_ attribute
   
+  Angular `i18n` 속성은 번역 가능한 내용을 나타내는 표식입니다.
+  고정 텍스트가 번역되어야 하는 모든 엘리먼트 태그에 배치합니다.
+
   The Angular `i18n` attribute is a marker for translatable content.
   Place it on every element tag whose fixed text should be translated.
 
 .alert.is-helpful
   :marked
+    `i18n`은 Angular _지시자_가 아닙니다.
+    Angular 도구 및 컴파일러에서 인식하는 사용자 정의 _속성_입니다.
+    변역 후에 컴파일러는 이것을 제거합니다.
+
     `i18n` is not an Angular _directive_. 
     It's a custom _attribute_, recognized by Angular tools and compilers.
     After translation, the compiler removes it.
 
 :marked
+  첨부 된 샘플에서 `<h1>` 태그는 스페인어로 번역되는
+  간단한 영어 인사말을 표시합니다:
+
   In the accompanying sample, an `<h1>` tag displays a simple English language greeting 
   that you translate into Spanish:
 +makeExample('cb-i18n/ts/src/app/app.component.1.html', 'greeting', 'src/app/app.component.html')(format=".")
 :marked
+  `i18n` 속성을 태그에 추가하여 번역 대상임을 표시하세요.
+
   Add the `i18n` attribute to the tag to mark it for translation.
 
 +makeExample('cb-i18n/ts/src/app/app.component.1.html', 'i18n-attribute', 'src/app/app.component.html')(format=".")
 
 :marked
+  ### 번역사에게 _설명_과 _목적_을 알려주세요.
   ### Help the translator with a _description_ and _intent_
+
+  정확하게 번역하려면 번역사는 메시지에 대한 설명이 필요할 수 있습니다.
+  i18n 속성에 설명을 지정하세요.
 
   In order to translate it accurately, the translator may 
   need a description of the message.
@@ -90,6 +147,12 @@ a#i18n-attribute
 +makeExample('cb-i18n/ts/src/app/app.component.1.html', 'i18n-attribute-desc', 'src/app/app.component.html')(format=".")
 
 :marked
+  올바르게 번역을 하려면 번역사가
+  여러분의 목적&mdash;_특정_ 애플리케이션 컨텍스트의 진짜 _의미_&mdash;를
+  알아야 할 수도 있습니다.
+  설명 앞 부분에 할당된 문자열에 대한 문맥적 의미를 추가하고
+  `|` 문자 (`<meaning>|<description>`)를 사용하여 설명과 분리하세요:
+
   In order to deliver a correct translation, the translator may need to 
   know your _intent_&mdash;the true _meaning_ of the text 
   within _this particular_ application context.
@@ -99,24 +162,40 @@ a#i18n-attribute
 +makeExample('cb-i18n/ts/src/app/app.component.html', 'i18n-attribute-meaning', 'src/app/app.component.html')(format=".")
 
 :marked
+  _같은_ 의미를 가진 모든 형태의 메시지는 _동일한_ 번역을 하지만,
+  *다양한 의미가 있는* 메시지는 다른 번역을 할 수 있습니다.
+  Angular 추출 도구는 상황에 맞는 번역을 용이하게 하기 위해
+  번역 소스 파일에서 _의미_와 _설명_을 모두 보존합니다.
+
   While all appearances of a message with the _same_ meaning have the _same_ translation, 
   a message with *a variety of possible meanings* could have different translations.
   The Angular extraction tool preserves both the _meaning_ and the _description_ in the translation source file
   to facilitiate contextually-specific translations.
 
+  ### 요소를 만들지 않고 텍스트 번역하기
   ### Translate text without creating an element
+
+  쭉 이어진 번역할 텍스트가 있다고 가정해보세요.
+  `<span>` 태그로 감쌀 수는 있지만 (CSS 등의) 이유로
+  번역을 용이하게 하기 위해서 새로운 DOM 엘리먼트를 만들고 싶지는 않습니다.
 
   Suppose there is a stretch of text that you'd like to translate.
   You could wrap it in a `<span>` tag but for some reason (CSS comes to mind)
   you don't want to create a new DOM element merely to facilitate translation.
   
+  시도해 볼 수 있는 두 가지 기법이 있습니다.
+
   Here are two techniques to try.
+
+  (1) 텍스트를 `<ng-container>` 엘리먼트로 둘러쌉니다. `<ng-container>`는 결코 렌더링 되지 않습니다:
 
   (1) Wrap the text in an `<ng-container>` element. The `<ng-container>` is never renderered:
 
 +makeExample('cb-i18n/ts/src/app/app.component.html', 'i18n-ng-container', 'src/app/app.component.html')(format=".")
 
 :marked
+  (2) 텍스트를 한 쌍의 HTML 주석으로 묶습니다:
+
   (2) Wrap the text in a pair of HTML comments:
 
 +makeExample('cb-i18n/ts/src/app/app.component.html', 'i18n-with-comment', 'src/app/app.component.html')(format=".")
@@ -124,56 +203,109 @@ a#i18n-attribute
 .l-main-section
 a#translate-attributes
 :marked
+  ## _i18n -..._ 번역 속성 추가
   ## Add _i18n-..._ translation attributes
+
+  템플릿에 이미지를 추가했습니다. 접근성에 대해서 상당히 신경을 써서 `title` 속성을 추가했습니다:
+
   You've added an image to your template. You care about accessibility too so you add a `title` attribute:
 
 +makeExample('cb-i18n/ts/src/app/app.component.1.html', 'i18n-title', 'src/app/app.component.html')(format=".")
 
 :marked
+  `title` 속성을 번역해야 합니다.
+  Angular i18n 지원은 `i18n-x` 형식으로 더 많은 변환 속성을 가지며,
+  `x`는 번역할 속성의 이름입니다.
+  
   The `title` attribute needs to be translated. 
   Angular i18n support has more translation attributes in the form,`i18n-x`, where `x` is the
   name of the attribute to translate. 
   
+  앞의 예제에서 `img` 태그에 `title`을 번역하려면 다음과 같이 작성하세요:
+
   To translate the `title` on the `img` tag from the previous example, write:
 
 +makeExample('cb-i18n/ts/src/app/app.component.html', 'i18n-title-translate', 'src/app/app.component.html')(format=".")
 
 :marked
+  `i18n-x="<의미>|<설명>"` 구문으로 의미와 설명을 할당할 수도 있습니다.
+
   You can also assign a meaning and a description with the `i18n-x="<meaning>|<description>"` syntax.
 
 .l-main-section
 a#cardinality
 :marked
+  ## 단수와 복수 처리
   ## Handle singular and plural
   
+  서로 다른 언어는 복수로 만드는 (복수화) 규칙이 다릅니다.
+  
   Different languages have different pluralization rules.
   
+  애플리케이션이 여러 늑대에 대해 뭔가를 언급한다고 가정해보세요.
+  영어에서는 늑대의 수에 따라 "no wolves", "one wolf", "two wolves" 또는 "a wolf pack"으로 표시 할 수 있습니다.
+  다른 언어에서는 _대응 개체수(cardinality)_를 다르게 표현할 수 있습니다.
+  
   Suppose your application says something about a collection of wolves. 
   In English, depending upon the number of wolves, you could display "no wolves", "one wolf", "two wolves", or "a wolf pack".
   Other languages might express the _cardinality_ differently. 
   
+  다음은 늑대의 수에 적합한 구문을 표시하기 위해 컴포넌트 템플릿을 마크업하는 방법입니다:
+
   Here's how you could mark up the component template to display the phrase appropriate to the number of wolves:
 
 +makeExample('cb-i18n/ts/src/app/app.component.html', 'i18n-plural', 'src/app/app.component.html')(format=".")
 
 :marked
+  * 첫 번째 파라미터가 키입니다. 그것은 늑대의 수를 결정하는 
+  컴포넌트 프로퍼티 (`wolves`)에 바인딩되어 있습니다.
+
   * The first parameter is the key. It is bound to the component property (`wolves`) 
   that determines the number of wolves.
+
+  * 두 번째 파라미터는 이것을 `복수형` 번역 유형으로 식별합니다.
+
   * The second parameter identifies this as a `plural` translation type.
+
+  * 세 번째 파라미터는 복수화 범주와 일치하는 값으로
+  구성된 복수형 패턴을 정의합니다.
+
   * The third parameter defines a pluralization pattern consisting of pluralization 
   categories and their matching values.
 
+  복수화 카테고리에는 다음이 포함됩니다:
+
   Pluralization categories include:
   * =0
+  * =0
+  * =1
   * =1
   * =5
+  * =5
+  * few
   * few
   * other
+  * other
+
+  복수화 카테고리 옆에 기본 _영어_ 번역을 중괄호 (`{}`) 안에 놓습니다.
 
   Put the default _English_ translation in braces (`{}`) next to the pluralization category.
+
+  * 한 마리의 늑대에 관해 말할 때 `=1 {one wolf}`라고 쓸 수 있습니다.
+  
   * When you're talking about one wolf, you could write `=1 {one wolf}`.
+
+  * 늑대가 없는 경우 `=0 {no wolves}`라고 쓸 수 있습니다.
+  
   * For zero wolves, you could write `=0 {no wolves}`.
+
+  * 두 마리의 늑대는 `=2 {two wolves}`라고 쓸 수 있습니다.
+
   * For two wolves, you could write `=2 {two wolves}`. 
+
+  3, 4, 그리고 다른 모든 수의 늑대를 위해서 이러한 방식을 유지할 수 있습니다.
+  또는 **`other`** 카테고리를 매칭되지 않는 모든 카디널리티의 처리자로 지정하여
+  `other {a wolf pack}`과 같이 작성할 수 있습니다.
 
   You could keep this up for three, four, and every other number of wolves.
   Or you could specify the **`other`** category as a catch-all for any unmatched cardinality
@@ -181,6 +313,11 @@ a#cardinality
 
 .l-sub-section
   :marked
+    이 구문은 
+    <a href="http://userguide.icu-project.org/formatparse/messages" target="_blank" title="ICU 메시지 포맷">ICU 메시지 포맷</a>을 준수합니다.
+    이것은 <a href="http://unicode.org/reports/tr35/tr35-numbers.html#Language_Plural_Rules" target="_blank" title="복수화 규칙">복수화 규칙</a>을
+    명시하는 <a href="http://cldr.unicode.org/" target="_blank" title="CLDR">Common Locale Data Repository (CLDR)</a>에서 유래했습니다.
+
     This syntax conforms to the
     <a href="http://userguide.icu-project.org/formatparse/messages" target="_blank" title="ICU Message Format">ICU Message Format</a>
     that derives from the 
@@ -190,14 +327,27 @@ a#cardinality
 
 a#select
 :marked
+  ## 대체 텍스트 중에서 선택
   ## Select among alternative texts
+  히어로가 남성인지 여성인지에 따라 애플리케이션은 다른 텍스트를 표시합니다.
+  이 대체 텍스트 역시 번역이 필요합니다.
+
   The application displays different text depending upon whether the hero is male or female.
   These text alternatives require translation too.
+
+  이것을 `select` 번역으로 처리할 수 있습니다.
+  `select`는 
+  <a href="http://userguide.icu-project.org/formatparse/messages" target="_blank" title="ICU 메시지 형식">ICU 메시지 구문</a>을 따릅니다.
+  숫자 대신 문자열 값을 기반으로 대체 번역을 선택합니다.
 
   You can handle this with a `select` translation. 
   A `select` also follows the
   <a href="http://userguide.icu-project.org/formatparse/messages" target="_blank" title="ICU Message Format">ICU message syntax</a>. 
   You choose among alternative translation based on a string value instead of a number.
+
+  컴포넌트 템플릿의 다음 포맷 메시지는 컴포넌트의 `gender` 프로퍼티에 바인딩되며
+  "m" 또는 "f" 중 하나를 출력합니다.
+  메시지는 해당 값을 적절한 번역에 매핑합니다:
 
   The following format message in the component template binds to the component's `gender` 
   property, which outputs either an "m" or an "f".
@@ -208,11 +358,18 @@ a#select
 a#ng-xi18n
 .l-main-section
 :marked
+  ## _ng-xi18n_ 도구로 번역 소스 파일 만들기  
   ## Create a translation source file with the _ng-xi18n_ tool
   
+  **_ng-xi18n_ 추출 도구**를 사용하여 `i18n`으로 표시된 텍스트를 
+  업계 표준 형식의 번역 소스 파일로 추출하세요.
+  
   Use the **_ng-xi18n_ extraction tool** to extract the `i18n`-marked texts 
   into a translation source file in an industry standard format.
   
+  이것은 `@angular/compiler-cli` npm 패키지의 Angular CLI 도구입니다.
+  CLI와 `platform-server` 피어 종속성을 아직 설치하지 않았다면 지금 설치하세요:
+
   This is an Angular CLI tool in the `@angular/compiler-cli` npm package.
   If you haven't already installed the CLI and its `platform-server` peer dependency, do so now:
   
@@ -220,6 +377,8 @@ code-example(language="sh" class="code-shell").
   npm install @angular/compiler-cli @angular/platform-server --save
 
 :marked
+  애플리케이션 프로젝트의 루트에서 터미널 창을 열고 `ng-xi18n` 명령을 입력하세요:
+
   Open a terminal window at the root of the application project and enter the `ng-xi18n` command:
  
 code-example(language="sh" class="code-shell").
@@ -227,15 +386,25 @@ code-example(language="sh" class="code-shell").
 
 .l-sub-section
   :marked
+    Windows 사용자는 다음과 같이 명령을 입력해야 할 수도 있습니다: `"./node_modules/.bin/ng-xi18n"`
+
     Windows users may have to quote the command like this: `"./node_modules/.bin/ng-xi18n"`
 
 :marked
+  기본적으로 이 도구는 <a href="https://en.wikipedia.org/wiki/XLIFF" target="_blank">XML Localisation Interchange File Format (XLIFF, version 1.2)</a>의
+  **`messages.xlf`**라는 번역 파일을 생성합니다.
+
   By default, the tool generates a translation file named **`messages.xlf`** in the
   <a href="https://en.wikipedia.org/wiki/XLIFF" target="_blank">XML Localisation Interchange File Format (XLIFF, version 1.2)</a>.
 
 a#other-formats
 :marked
+  ### 기타 번역 형식
   ### Other translation formats
+
+  `--i18nFormat=xmb` 플래그를 추가하여
+  <a href="http://cldr.unicode.org/development/development-process/design-proposals/xmb" target="_blank">XML Message Bundle (XMB)</a> 포맷으로
+  **`messages.xmb`**라는 파일을 생성 할 수 있습니다.
 
   You can generate a file named **`messages.xmb`** in the 
   <a href="http://cldr.unicode.org/development/development-process/design-proposals/xmb"  target="_blank">XML Message Bundle (XMB)</a> format
@@ -245,11 +414,19 @@ code-example(language="sh" class="code-shell").
   ./node_modules/.bin/ng-xi18n  --i18nFormat=xmb
 
 :marked
+  이 샘플은 _XLIFF_ 형식을 고수합니다.
+
   This sample sticks with the _XLIFF_ format.
 
 a#ng-xi18n-options
 :marked
+  ### 기타 옵션
   ### Other options
+  추가 옵션을 지정해야 할 수도 있습니다.
+  예를 들어 `tsconfig.json` TypeScript 설정 파일이
+  루트 폴더가 아닌 다른 곳에 있다면
+  `-p` 옵션을 사용해서 그 경로를 지정해야합니다:
+
   You may have to specify additional options. 
   For example, if the `tsconfig.json` TypeScript configuration 
   file is located somewhere other than in the root folder,
@@ -261,8 +438,12 @@ code-example(language="sh" class="code-shell").
 
 a#npm-i18n-script
 :marked
+  ### 편의를 위해 _npm_ 스크립트 추가  
   ### Add an _npm_ script for convenience
   
+  명령을 기억하고 실행하기 쉽도록 `package.json`의
+  `scripts` 섹션에 단축키를 추가하는 것이 좋습니다:
+
   Consider adding a convenience shortcut to the `scripts` section of the `package.json`
   to make the command easier to remember and run:
 code-example(format='.' language='sh' ).
@@ -271,20 +452,32 @@ code-example(format='.' language='sh' ).
     ...
   }
 :marked
+  이제 다음과 같은 여러 명령을 실행할 수 있습니다:
+
   Now you can issue command variations such as these:
 code-example(language="sh" class="code-shell").
   npm run i18n
   npm run i18n -- -p path/to/tsconfig.json
   npm run i18n -- --i18nFormat=xmb -p path/to/tsconfig.json
 :marked
+  옵션 앞에 `--` 플래그가 있는 것에 주의하세요.
+  그것은 _npm_에게 이후의 모든 플래그를 `ng-xi18n`에 전달하도록 지시합니다.
+
   Note the `--` flag before the options. 
   It tells _npm_ to pass every flag thereafter to `ng-xi18n`.
 
 a#translate
 .l-main-section
 :marked
+  ## 텍스트 메시지 번역
   ## Translate text messages
   
+  `ng-xi18n` 명령은 프로젝트 루트 폴더에
+  `messages.xlf`라는 번역 소스 파일을 생성합니다.
+  다음 단계는 영어 서식 파일 텍스트를
+  특정 언어 번역 파일로 변환하는 것입니다.
+  요리책 샘플은 스페인어 번역 파일을 만듭니다.
+
   The `ng-xi18n` command generates a translation source file 
   in the project root folder named `messages.xlf`.
   The next step is to translate the English language template 
@@ -293,82 +486,145 @@ a#translate
 
 a#localization-folder
 :marked
+  ### 지역화 폴더 만들기
   ### Create a localization folder
 
+  아마도 하나 이상의 다른 언어로 번역할 것이므로
+  프로젝트 구조가 전체 국제화 작업을 반영하는 것이 좋습니다.
+  
   You will probably translate into more than one other language so it's a good idea
   for the project structure to reflect your entire internationalization effort.
   
+  한 가지 방법은 폴더를 지역화 전용으로 사용하여
+  관련 자산(예: 국제화 파일)을 저장하는 것입니다.
+
   One approach is to dedicate a folder to localization and store related assets 
   (for example, internationalization files) there.
 .l-sub-section
   :marked
+    지역화와 국제화는
+    <a href="https://en.wikipedia.org/wiki/Internationalization_and_localization" target="_blank">다르지만 밀접히 관련된 용어입니다</a>.
+
     Localization and internationalization are 
     <a href="https://en.wikipedia.org/wiki/Internationalization_and_localization" target="_blank">different but closely related terms</a>.
 :marked
+  이 요리 책은 그 제안을 따릅니다. `src/` 아래에 `locale` 폴더가 있습니다.
+  폴더 내의 자산에는 <a href="https://msdn.microsoft.com/en-us/library/ee825488(v=cs.20).aspx" target="_blank">잘 알려진 코드 집합</a>에서
+  언어-문화 코드가 일치하는 파일명 확장자를 가집니다.
+
   This cookbook follows that suggestion. It has a `locale` folder under the `src/`.
   Assets within the folder carry a filename extension that matches a language-culture code from a
   <a href="https://msdn.microsoft.com/en-us/library/ee825488(v=cs.20).aspx" target="_blank">well-known codeset</a>.
+
+  `messages.xlf` 파일의 사본을 만들어 `locale` 폴더에 넣고
+  스페인어 번역을 위해 `messages.es.xlf`라는 이름을 바꾸세요.
+  각 대상 언어에 대해 동일한 작업을 수행하세요.
 
   Make a copy of the `messages.xlf` file, put it in the `locale` folder and 
   rename it `messages.es.xlf`for the Spanish language translation.
   Do the same for each target language.
 
+  ### 번역 텍스트 노드
   ### Translate text nodes
+
+  실제로는 `message.es.xlf`를 스페인어 번역사에게 보내고
+  번역사는 <a href="https://en.wikipedia.org/wiki/XLIFF#Editors" target="_blank">많은 XLIFF 파일 편집기</a>
+  중에 하나를 사용하여 번역 내용을 채워넣습니다.
+
   In the real world, you send the `messages.es.xlf` file to a Spanish translator who fills in the translations
   using one of the
   <a href="https://en.wikipedia.org/wiki/XLIFF#Editors" target="_blank">many XLIFF file editors</a>.
+
+  이 샘플 파일은 스페인어에 대한 특별한 편집기나 지식이 없어도 쉽게 번역할 수 있습니다.
+  `messages.es.xlf`를 열고 첫 번째 `<trans-unit>` 섹션을 찾으세요:
 
   This sample file is easy to translate without a special editor or knowledge of Spanish.
   Open `messages.es.xlf` and find the first `<trans-unit>` section:
 
 +makeExample('cb-i18n/ts/src/locale/messages.es.xlf.html', 'translated-hello', 'src/locale/messages.es.xlf (<trans-unit>)')(format=".")
 :marked
+  이 XML 요소는 `i18n` 속성으로 표시한 `<h1>` 인사 태그의 번역을 나타냅니다.
+  
   This XML element represents the translation of the `<h1>` greeting tag you marked with the `i18n` attribute. 
   
+  번역을 안내하기 위해 _source_, _description_ 및 _meaning_ 요소를 사용하여
+  `<target/>` 태그를 스페인어 인사말로 대체하세요.
+
   Using the _source_, _description_, and _meaning_ elements to guide your translation,
   replace the `<target/>` tag with the Spanish greeting:
 +makeExample('cb-i18n/ts/src/locale/messages.es.xlf.html', 'translated-hello', 'src/locale/messages.es.xlf (<trans-unit>, after translation)')(format=".")
 
 .alert.is-important
   :marked
+    이 툴은 `id`를 생성합니다. **손대지 마십시오.**
+    이 값은 메시지 내용과 할당된 의미에 따라 다릅니다.
+    어느 요인을 변경하면 `id`도 변경됩니다.
+    **[번역 파일 유지관리 토론](#maintenance)**을 참조하세요.
+
     Note that the tool generates the `id`. **Don't touch it.**
     Its value depends on the content of the message and its assigned meaning.
     Change either factor and the `id` changes as well.
     See the **[translation file maintenance discussion](#maintenance)**.
 
 :marked
+  다른 텍스트 노드도 같은 방식으로 변환하세요:
+
   Translate the other text nodes the same way:
 
 +makeExample('cb-i18n/ts/src/locale/messages.es.xlf.html', 'translated-other-nodes', 'src/locale/messages.es.xlf (<trans-unit>)')(format=".")
 
 a#translate-plural-select
 :marked
+  ## _복수_와 _select_ 번역
   ## Translate _plural_ and _select_
+
+  _복수_와 _select_ 메시지를 번역하는 것은 약간 까다롭습니다.
+
   Translating _plural_ and _select_ messages is a little tricky.
+
+  `<source>` 태그는 `복수`와 `select` 번역 단위가
+  비어 있기 때문에 원본 템플릿과 연관시키기가 어렵습니다.
+  XLIFF 형식은 아직 ICU 규칙을 지원하지 않습니다; 곧 지원될 것입니다.
+  그러나 `XMB` 형식은 ICU 규칙을 지원합니다.
 
   The `<source>` tag is empty for `plural` and `select` translation 
   units, which makes them hard to correlate with the original template.
   The `XLIFF` format doesn't yet support the ICU rules; it soon will.
   However, the `XMB` format does support the ICU rules.
 
+  원본 템플릿의 다른 곳에서 인식하는 다른 번역 단위와 관련하여 검색해야 합니다.
+  이 예제에서는 `select`에 대한 번역 단위가 로고의 번역 단위 바로 아래에 있어야 합니다.
+
   You'll just have to look for them in relation to other translation units that you recognize from elsewhere in the source template.
   In this example, you know the translation unit for the `select` must be just below the translation unit for the logo.
 
 :marked
+  ### _복수_ 번역
   ### Translate _plural_ 
+  `plural`을 번역하기 위해 ICU 포맷의 일치값을 번역하세요:
+
   To translate a `plural`, translate its ICU format match values:
 
 +makeExample('cb-i18n/ts/src/locale/messages.es.xlf.html', 'translated-plural', 'src/locale/messages.es.xlf (<trans-unit>)')(format=".")
 
 :marked
+  ### _select_ 번역
   ### Translate _select_ 
+  `select`는 조금 다르게 동작합니다. 다음은 컴포넌트 템플릿의 ICU 포맷 메시지입니다:
+
   The `select` behaves a little differently. Here again is the ICU format message in the component template:
 
 +makeExample('cb-i18n/ts/src/app/app.component.html', 'i18n-select', 'src/app/app.component.html')(format=".")
 
 :marked
+  추출 도구는 그것을 _두 개의_ 번역 단위로 분리합니다.
+  
   The extraction tool broke that into _two_ translation units.
   
+  첫 번째 유닛은 `select` _외부_의 텍스트를 포함합니다.
+  `select`를 대신하는 `<x id="ICU">`는 `select` 메시지를 나타내는 플레이스홀더입니다.
+  텍스트를 번역하고 플레이스홀더를 그대로 두세요.
+
   The first unit contains the text that was _outside_ the `select`.
   In place of the `select` is a placeholder, `<x id="ICU">`, that represents the `select` message. 
   Translate the text and leave the placeholder where it is.
@@ -376,23 +632,33 @@ a#translate-plural-select
 +makeExample('cb-i18n/ts/src/locale/messages.es.xlf.html', 'translate-select-1', 'src/locale/messages.es.xlf (<trans-unit>)')(format=".")
 
 :marked
+  두 번째 번역 유닛은 첫 번째 번역 바로 아래에 위치하고 `select` 메시지를 포함합니다. 그것을 번역하세요.
+
   The second translation unit, immediately below the first one, contains the `select` message. Translate that.
 
 +makeExample('cb-i18n/ts/src/locale/messages.es.xlf.html', 'translate-select-2', 'src/locale/messages.es.xlf (<trans-unit>)')(format=".")
 
 :marked
+  다음처럼 번역 후 그것들은 함께 위치합니다:
+
   Here they are together, after translation:
 
 +makeExample('cb-i18n/ts/src/locale/messages.es.xlf.html', 'translated-select', 'src/locale/messages.es.xlf (<trans-unit>)')(format=".")
 
 .l-main-content
 :marked
+  전체 템플릿 변환이 완료되었습니다.
+  이제 해당 번역을 애플리케이션에 통합 할 차례입니다.
+
   The entire template translation is complete. It's 
   time to incorporate that translation into the application.
 
 #app-pre-translation
 :marked
+  ### 번역 이전 앱
   ### The app before translation
+
+  이전 단계가 끝나면 샘플 앱 _및_ 번역 파일은 다음과 같습니다:
 
   When the previous steps finish, the sample app _and_ its translation file are as follows:
 
@@ -413,99 +679,197 @@ a#translate-plural-select
 a#merge
 .l-main-section
 :marked
+  ## 완성 된 번역 파일을 애플리케이션에 병합  
   ## Merge the completed translation file into the app
+
+  번역 된 텍스트를 컴포넌트 템플릿에 병합하려면
+  완료된 번역 파일로 애플리케이션을 컴파일하세요.
+  파일이 `.xlf` 포맷이든 다른 포맷 (`.xlif`이나 `.xtb`) 이건
+  관계없이 Angular가 이해하는 과정은 동일합니다.
 
   To merge the translated text into component templates,
   compile the application with the completed translation file.
   The process is the same whether the file is in `.xlf` format or 
   in another format (`.xlif` and `.xtb`) that Angular understands.
   
+  Angular 컴파일러에 세 가지 새로운 정보를 제공합니다:
+  
   You provide the Angular compiler with three new pieces of information:
+
+    * 번역 파일
+
     * the translation file
+
+    * 번역 파일 포맷
+
     * the translation file format 
+
+    * <a href="https://en.wikipedia.org/wiki/XLIFF" target="_blank">_Locale ID_</a> (예를 들어 `es` 또는 `en-US`)
+
     * the   <a href="https://en.wikipedia.org/wiki/XLIFF" target="_blank">_Locale ID_</a>
     (`es` or `en-US` for instance)
   
+  이 정보를 제공하는 _방법_은 JIT (_Just-in-Time_) 컴파일러 또는
+  AOT (_Ahead-of-Time_) 컴파일러로 컴파일하는지 여부에 따라 다릅니다.
+  
   _How_ you provide this information depends upon whether you compile with
   the JIT (_Just-in-Time_) compiler or the AOT (_Ahead-of-Time_) compiler. 
   
+    * [JIT](#jit)을 사용하면 부트스트랩 시간에 정보를 제공합니다.
+
     * With [JIT](#jit), you provide the information at bootstrap time.
+
+    * [AOT](#aot)를 사용하면 정보를 `ngc` 옵션으로 전달합니다.
+
     * With [AOT](#aot), you pass the information as `ngc` options. 
 
 a#jit
 .l-main-section
 :marked
+  ### JIT 컴파일러와 병합  
   ### Merge with the JIT compiler
   
+  JIT 컴파일러는 애플리케이션이 로드될 때 브라우저에서 애플리케이션을 컴파일합니다.
+  JIT 컴파일러를 사용한 번역은 다음과 같은 역동적인 프로세스입니다.
+
   The JIT compiler compiles the application in the browser as the application loads.
   Translation with the JIT compiler is a dynamic process of:
 
+  1. 현재 사용자의 언어 버전 판별합니다.
+
   1. Determining the language version for the current user.
+
+  2. 적절한 언어 번역 파일을 문자열 상수로 임포트합니다.
+
   2. Importing the appropriate language translation file as a string constant.
+
+  3. JIT 컴파일러를 안내할 해당 번역 제공자 작성합니다.
+
   3. Creating corresponding translation providers to guide the JIT compiler.
+
+  4. 해당 제공자로 애플리케이션을 부트스트랩합니다.
+
   4. Bootstrapping the application with those providers.
+
+  `index.html`을 열고 다음과 같이 실행 스크립트를 수정하세요:
 
   Open `index.html` and revise the launch script as follows:
 +makeExample('cb-i18n/ts/src/index.html', 'i18n', 'index.html (launch script)')(format='.')
 :marked
+  이 샘플에서 사용자의 언어는
+  `index.html`에서 전역 `document.locale` 변수로 하드코딩합니다.
+
   In this sample, the user's language is hardcoded as a global `document.locale` variable
   in the `index.html`.
 
 a#text-plugin
 :marked
+  ### SystemJS 텍스트 플러그인
   ### SystemJS Text plugin
+
+  SystemJS가 `text`를 `systemjs-text-plugin.js`에 매핑한 것에 주의하세요.
+  텍스트 플러그인의 도움으로 SystemJS는 모든 파일을 원시 텍스트로 읽을 수 있으며
+  컨텐츠를 문자열로 리턴합니다.
+  언어 변환 파일을 임포트하려면 이것이 필요합니다.
 
   Notice the SystemJS mapping of `text` to a `systemjs-text-plugin.js`.
   With the help of a text plugin, SystemJS can read any file as raw text and
   return the contents as a string.
   You'll need it to import the language translation file.
 
+  SystemJS는 원시 텍스트 플러그인을 제공하지 않지만 쉽게 추가할 수 있습니다.
+  `src/` 폴더에 다음 `systemjs-text-plugin.js` 파일을 생성하세요:
+
   SystemJS doesn't ship with a raw text plugin but it's easy to add.
   Create the following `systemjs-text-plugin.js` in the `src/` folder:
 +makeExample('cb-i18n/ts/src/systemjs-text-plugin.js', null, 'src/systemjs-text-plugin.js')(format='.')
 :marked
+  ### 번역 제공자 만들기
   ### Create translation providers
+
+  세 가지 제공자는 JIT 컴파일러에서 애플리케이션을 컴파일하는 동안 특정 언어에 대한 템플릿 텍스트를 번역하는 방법을 알려줍니다.
 
   Three providers tell the JIT compiler how to translate the template texts for a particular language
   while compiling the application:
 
+  * `TRANSLATIONS`는 번역 파일의 내용을 담고 있는 문자열입니다.
+   
   * `TRANSLATIONS` is a string containing the content of the translation file.
+  
+  * `TRANSLATIONS_FORMAT`은 파일의 형식입니다: `xlf`, `xlif` 또는 `xtb`.
+
   * `TRANSLATIONS_FORMAT` is the format of the file: `xlf`, `xlif` or `xtb`.
+
+  * `LOCALE_ID`는 타깃 언어의 로케일입니다.
+
   * `LOCALE_ID` is the locale of the target language.
+
+  다음 `src/app/i18n-providers.ts` 파일의 `getTranslationProviders` 함수는
+  사용자의 _locale_ 및 해당 번역 파일을 기반으로
+  해당 제공자를 만듭니다.
 
   The `getTranslationProviders` function in the following `src/app/i18n-providers.ts` 
   creates those providers based on the user's _locale_
   and the corresponding translation file:
 +makeExample('cb-i18n/ts/src/app/i18n-providers.ts', null, 'src/app/i18n-providers.ts')
 :marked
+  1. 그것은 `index.html`에서 설정된 전역 `document.locale` 변수로부터 로케일을 가져옵니다.
+
   1. It gets the locale from the global `document.locale` variable that was set in `index.html`.
+
+  1. 로케일이 없거나 미국 영어 (`en-US`)인 경우 번역할 필요가 없습니다.
+    이 함수는 비어있는 `noProviders` 배열을 `Promise`로 리턴합니다.
+    이 함수는 서버로부터 번역 파일을 비동기적으로 읽을 수 있기 때문에 `Promise`를 반환해야 합니다.
 
   1. If there is no locale or the language is U.S. English (`en-US`), there is no need to translate.
     The function returns an empty `noProviders` array as a `Promise`.
     It must return a `Promise` because this function could read a translation file asynchronously from the server.
 
+  1. 앞서 설명한(#localization-folder) 이름 및 위치 규칙에 따라 로케일에서 트랜잭션 파일 이름을 만듭니다.
+
   1. It creates a transaction filename from the locale according to the name and location convention 
   [described earlier](#localization-folder).
+
+  1. `getTranslationsWithSystemJs` 메소드는 번역을 읽고 컨텐츠를 문자열로 반환합니다.
+  파일 이름에 `!text`를 추가하여 SystemJS에 [텍스트 플러그인](#text-plugin)을 사용하도록 알려준 것에 주의하세요.
 
   1. The `getTranslationsWithSystemJs` method reads the translation and returns the contents as a string.
   Notice that it appends `!text` to the filename, telling SystemJS to use the [text plugin](#text-plugin). 
 
+  1. 콜백은 세 개의 번역 제공자를 사용하여 제공자 배열을 구성합니다.
+
   1. The callback composes a providers array with the three translation providers.
+
+  1. 마지막으로 `getTranslationProviders`는 전체 작업을 promise로 반환합니다.
 
   1. Finally, `getTranslationProviders` returns the entire effort as a promise.
 
+  ### 번역 제공자와 함께 앱을 부트스트랩하세요.
   ### Bootstrap the app with translation providers
+
+  Angular `bootstrapModule` 메소드는 컴파일러의 동작에 영향을 줄 수 있는
+  두 번째 _options_ 파라미터를 가지고 있습니다.
 
   The Angular `bootstrapModule` method has a second, _options_ parameter
   that can influence the behavior of the compiler.
+
+  `getTranslationProviders`의 번역 제공자로 _options_ 오브젝트를 생성 해
+  `bootstrapModule`에 건네줍니다.
+  `src/main.ts` 파일을 열고 다음과 같이 부트스트랩 코드를 수정하세요:
 
   You'll create an _options_ object with the translation providers from `getTranslationProviders`
   and pass it to `bootstrapModule`.
   Open the `src/main.ts` and modify the bootstrap code as follows:
 +makeExample('cb-i18n/ts/src/main.ts', null, 'src/main.ts')(format=".")
 :marked
+  애플리케이션을 부트스트랩하기 전에 `getTranslationProviders` promise가
+  결정될 때까지 기다리는 것에 주목하세요.
+
   Notice that it waits for the `getTranslationProviders` promise to resolve before
   bootstrapping the app.
+
+  앱은 현재 영어와 스페인어로 국제화되어 있으며 
+  더 많은 언어를 추가 할 수 있는 명확한 경로가 있습니다.
 
   The app is now _internationalized_ for English and Spanish and there is a clear path for adding
   more languages.
@@ -513,12 +877,24 @@ a#text-plugin
 a#aot
 .l-main-section
 :marked
+  ### _AOT 컴파일러를 사용한 _국제화_
   ### _Internationalize_ with the AOT compiler
   
+  JIT 컴파일러는 브라우저에서 동적으로 컴파일하는 동안
+  애플리케이션을 대상 언어로 번역합니다.
+  유연하지만 사용자에게는 충분히 빠르지 않을 수 있습니다.
+
   The JIT compiler translates the application into the target language 
   while compiling dynamically in the browser.
   That's flexible but may not be fast enough for your users. 
   
+  AOT (_Ahead-of-Time_) 컴파일러는 작고 빠르며 즉시 실행할 수 있는
+  애플리케이션 패키지를 생성하는 빌드 프로세스의 하나입니다.
+  AOT 컴파일러로 국제화하면 각 언어에 대해 별도의 
+  애플리케이션 패키지를 미리 빌드합니다.
+  그런 다음 호스트 웹 페이지 (`index.html`)에서,
+  사용자가 필요한 언어를 결정하고 적절한 애플리케이션 패키지를 제공합니다.
+
   The AOT (_Ahead-of-Time_) compiler is part of a build process that 
   produces a small, fast, ready-to-run application package.
   When you internationalize with the AOT compiler, you pre-build 
@@ -527,9 +903,19 @@ a#aot
   you determine which language the user needs
   and serve the appropriate application package.
 
+  이 요리책은 여러 애플리케이션 패키지를 작성하고
+  사용자의 언어 기본 설정에 따라 제공하는 방법에 대해서는 설명하지 않습니다.
+  번역 파일을 적용하도록 AOT 컴파일러에 알리는 데 필요한 몇 가지 단계를 설명합니다.
+
   This cookbook doesn't cover how to build multiple application packages and 
   serve them according to the user's language preference.
   It does explain the few steps necessary to tell the AOT compiler to apply a translations file.
+
+  AOT 컴파일러로 국제화하려면 AOT 컴파일을 위한 설정이 필요합니다.
+  [번역 파일을 병합하기 전](#app-pre-translation)과 같이
+  애플리케이션 프로젝트를 만들고
+  [AOT cookbook](aot-compiler.html)을 참조하여
+  _AOT-호환상태_로 만드세요.
 
   Internationalization with the AOT compiler requires 
   some setup specifically for AOT compilation. 
@@ -537,39 +923,74 @@ a#aot
   [just before merging the translation file](#app-pre-translation)
   and refer to the [AOT cookbook](aot-compiler.html) to make it _AOT-ready_.
   
+  그런 다음 지원되는 각 언어 (영어 포함)에 대해 'ngc'컴파일 명령을 실행하십시오.
+  결과는 각 언어에 대한 애플리케이션의 별도 버전입니다.
+  
   Next, issue an `ngc` compile command for each supported language (including English).
   The result is a separate version of the application for each language.
   
+  `ngc` 명령에 3 가지 옵션을 추가하여 번역하는 방법을 AOT에게 알려주십시오:
+  
   Tell AOT how to translate by adding three options to the `ngc` command:
+
+    * `--i18nFile`: 번역 파일의 경로
+
     * `--i18nFile`: the path to the translation file
+
+    * `--locale`: 로케일의 이름
+
     * `--locale`: the name of the locale
+
+    * `--i18nFormat` : 지역화 파일의 포맷
+
     * `--i18nFormat`: the format of the localization file
   
+  이 예제의 경우 스페인어 명령은 다음과 같습니다.
+
   For this sample, the Spanish language command would be
 code-example(language="sh" class="code-shell").
   ./node_modules/.bin/ngc --i18nFile=./locale/messages.es.xlf --locale=es --i18nFormat=xlf
 
 .l-sub-section
   :marked
+    Windows 사용자는 다음 명령을 사용해야 할 수 있습니다:
+
     Windows users may have to quote the command:
   code-example(language="sh" class="code-shell").
     "./node_modules/.bin/ngc" --i18nFile=./locale/messages.es.xlf --locale=es --i18nFormat=xlf
 
 a#maintenance
 :marked
+  ## 번역 파일 관리 및 _id_ 변경
   ## Translation file maintenance and _id_ changes
-    
+
+  애플리케이션이 진화함에 따라 _i18n_ 마크업을 변경하고
+  `ng-xi18n` 추출 도구를 여러번 다시 실행할 것입니다.
+  추가한 _새로운_ 마크업은 문제가 되지 않습니다;
+  그러나 _기존_ 마크업에 대한 _대부분_의 변경사항은
+  영향받는 번역 유닛의 _새로운_ `id`의 생성을 유발합니다.
+    
   As the application evolves, you will change the _i18n_ markup 
   and re-run the `ng-xi18n` extraction tool many times.
   The _new_ markup that you add is not a problem;
   but _most_ changes to _existing_ markup trigger 
   generation of _new_ `id`s for the affected translation units.
   
+  `id`가 변경된 후에는 변환 파일이 더 이상 동기화되지 않습니다.
+  다시 컴파일하는 동안 **애플리케이션의 모든 번역 버전은 실패할 것입니다**.
+  오류 메시지는 더 이상 유효하지 않은 이전 `id`를 식별하지만
+  새 `id`가 무엇이어야 하는지 알려주지 않습니다.
+
   After an `id` changes, the translation files are no longer in-sync.
   **All translated versions of the application will fail** during re-compilation. 
   The error messages identify the old `id`s that are no longer valid but 
   they don't tell you what the new `id`s should be.
   
+  **모든 번역 메시지 파일을 소스 제어 커밋하세요**.
+  특히 영어 소스 `messages.xlf`에 커밋하세요.
+  이전 `messages.xlf` 파일과 새로운 `messages.xlf` 파일의 차이점은
+  번역 파일에서 `id` 변경을 찾아서 업데이트 하는데 도움이 됩니다.
+
   **Commit all translation message files to source control**, 
   especially the English source `messages.xlf`.
   The difference between the old and the new `messages.xlf` file
