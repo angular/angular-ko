@@ -67,7 +67,7 @@ a#template1
   [form elements](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Forms_in_HTML) in the component's template.
 
   Angular가 폼 기능을 구현하는 내부 제어모델을 구성하는데 도움이 되는 (대부분 `ng...`로 시작하는) Angular의 폼 지시자를 추가합니다.
-  이런 것을 제어모델이 템플릿에 함축되어 있다고 표현 합니다.
+  이런 것을 제어모델이 템플릿에 함축되어 있다고 표현합니다.
 
   You add Angular form directives (mostly directives beginning `ng...`) to help
   Angular construct a corresponding internal control model that implements form functionality.
@@ -86,7 +86,7 @@ a#template1
 
   위의 첫번째 유효성 검사 예제에서,
   더 많은 HTML을 추가해서 폼 컨트롤의 상태를 읽고 적절한 표시를 업데이트 합니다.
-  아래 코드는, 히어로의 이름에 연결된 단일 입력 폼 컨트롤에 대한 html 템플릿의 일부를 발췌한 것입니다.
+  아래 코드는 히어로의 이름에 연결된 단일 입력 폼 컨트롤에 대한 html 템플릿의 일부를 발췌한 것입니다.
 
   In the first template validation example,
   we add more HTML to read that control state and update the display appropriately.
@@ -96,15 +96,15 @@ a#template1
 +makeExample('cb-form-validation/ts/src/app/template/hero-form-template1.component.html','name-with-error-msg','template/hero-form-template1.component.html (Hero name)')(format='.')
 
 :marked
-  추가 정보:
+  유의 사항:
 
   Note the following:
 
-  - `<input>`는 HTML 유효성 검사 속성인 `required`와 `minlength`, `maxlength`를 가질 수 있습니다.
+  - `<input>` 요소는 HTML 유효성 검사 속성인 `required`와 `minlength`, `maxlength`를 가질 수 있습니다.
 
   - The `<input>` element carries the HTML validation attributes: `required`, `minlength`, and `maxlength`.
 
-  - 입력 박스에 `"name"`이라는 `name` 속성을 부여하므로서, 그것과 연관된 `<input>`를  Angular의 내부 제어 모델에서 `name`이라는 폼 컨트롤과 연결 할 수 있습니다.
+  - 입력 박스에 `"name"`이라는 `name` 속성을 부여함으로써, 그것과 연관된 `<input>`를  Angular의 내부 제어 모델에서 `name`이라는 폼 컨트롤과 연결 할 수 있습니다.
 
   - We set the `name` attribute of the input box to `"name"` so Angular can track this input element and associate it
     with an Angular form control called `name` in its internal control model.
@@ -120,7 +120,7 @@ a#template1
     associated with this control that we can use _in the template_
     to check for control states such as `valid` and `dirty`.
 
-  - `<div>`에 있는 `*ngIf`는 "name"에 오류가 있고 폼 컨트롤이 `dirty`나 `touched`일 때만 `<div>`들에 적혀있는 메시지를 보여줍니다.
+  - `<div>` 요소에 있는 `*ngIf`는 "name"에 오류가 있고 폼 컨트롤이 `dirty`나 `touched`일 때만 `<div>`들에 내포된 메시지를 보여줍니다.
 
   - The `*ngIf` on `<div>` element reveals a set of nested message `divs` but only if there are "name" errors and
     the control is either `dirty` or `touched`.
@@ -219,7 +219,7 @@ cb - form - validation / ts / src / app / template / hero - form - template1.com
 hero - form - template1.component.html(name #1)`)
 
 :marked
-  `<input>`는 거의 같습니다만, 주목할 만한 차이점이 있습니다.
+  `<input>` 요소는 거의 같습니다만, 주목할 만한 차이점이 있습니다.
 
   The `<input>` element HTML is almost the same. There are noteworthy differences:
 
@@ -259,7 +259,7 @@ hero - form - template1.component.html(name #1)`)
 
   The first step is to acquire the form control that Angular created from the template by querying for it.
 
-  `<form>`에서 템플릿 변수`#heroForm`을 설정하는 구성 요소 템플릿의 맨 위 부분을 살펴보십시오.
+  `<form>` 요소에서 템플릿 변수`#heroForm`을 설정하는 구성 요소 템플릿의 맨 위 부분을 살펴보십시오.
 
   Look back at the top of the component template where we set the
   `#heroForm` template variable in the `<form>` element:
@@ -532,7 +532,7 @@ hero - form - template1.component.html(name #2)`)
 .l-sub-section
   :marked
     이후 버전의 반응 형 폼은 컨트롤에 `required` 유효성 검사 함수가 있을 때,
-    `required` HTML 검증 속성을 DOM 엘리먼트 (그리고 아마도 `aria-required` 속성)에 추가 할 것입니다.
+    `required` HTML 검증 속성을 DOM 요소 (그리고 아마도 `aria-required` 속성)에 추가 할 것입니다.
 
     A future version of reactive forms will add the `required` HTML validation attribute to the DOM element
     (and perhaps the `aria-required` attribute) when the control has the `required` validator function.
