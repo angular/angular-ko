@@ -48,7 +48,7 @@ a#toc
 
 a#live-example
 :marked
-  **실시간 예제를 실행해보고, 요리책의 소스 코드 전체를 다운로드 할 수 있습니다.**
+  **라이브 예제를 실행해보고, 요리책의 소스 코드 전체를 다운로드 할 수 있습니다.**
 
   **Try the live example to see and download the full cookbook source code**
 live-example(name="cb-form-validation" embedded img="cookbooks/form-validation/plunker.png")
@@ -67,7 +67,7 @@ a#template1
   [form elements](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Forms_in_HTML) in the component's template.
 
   Angular가 폼 기능을 구현하는 내부 제어모델을 구성하는데 도움이 되는 (대부분 `ng...`로 시작하는) Angular의 폼 지시자를 추가합니다.
-  우리는 이런 것을 제어모델이 템플릿에 함축되어 있다고 표현 합니다.
+  이런 것을 제어모델이 템플릿에 함축되어 있다고 표현 합니다.
 
   You add Angular form directives (mostly directives beginning `ng...`) to help
   Angular construct a corresponding internal control model that implements form functionality.
@@ -85,7 +85,7 @@ a#template1
   whether the user has "touched" the control or made changes and if the control values are valid.
 
   위의 첫번째 유효성 검사 예제에서,
-  우리는 더 많은 HTML을 추가해서 폼 컨트롤의 상태를 읽고 적절한 표시를 업데이트 합니다.
+  더 많은 HTML을 추가해서 폼 컨트롤의 상태를 읽고 적절한 표시를 업데이트 합니다.
   아래 코드는, 히어로의 이름에 연결된 단일 입력 폼 컨트롤에 대한 html 템플릿의 일부를 발췌한 것입니다.
 
   In the first template validation example,
@@ -125,7 +125,7 @@ a#template1
   - The `*ngIf` on `<div>` element reveals a set of nested message `divs` but only if there are "name" errors and
     the control is either `dirty` or `touched`.
 
-  - 내포된 `<div>` 각각은 일어날 수 있는 유효성 검사 오류들 중 하나에 대한 커스텀 메시지를 보여준다. 우리는 `required`와 `minlength`, `maxlength`에 대한 메시지를 준비해놨습니다.
+  - 내포된 `<div>` 각각은 일어날 수 있는 유효성 검사 오류들 중 하나에 대한 커스텀 메시지를 보여줍니다. 우리는 `required`와 `minlength`, `maxlength`에 대한 메시지를 준비해놨습니다.
 
   - Each nested `<div>` can present a custom message for one of the possible validation errors.
     We've prepared messages for `required`, `minlength`, and `maxlength`.
@@ -198,12 +198,12 @@ a#template2
   * We're not fond of so much JavaScript logic in HTML.
 
   * 메시지는 정적인 문자열이고, 템플릿에 하드 코딩 됩니다.
-  때때로 코드로 만들어지는 동적 메시지가 필요합니다.
+  종종 코드로 만들어지는 동적 메시지가 필요합니다.
 
   * The messages are static strings, hard-coded into the template.
   We often require dynamic messages that we should shape in code.
 
-  우리는 템플릿과 컴포넌트에 아주 조금의 변화를 주고 로직과 메시지를 컴포넌트로 옮길 수 있습니다.
+  템플릿과 컴포넌트에 아주 조금의 변화를 주고 로직과 메시지를 컴포넌트로 옮길 수 있습니다.
 
   We can move the logic and the messages into the component with a few changes to
   the template and component.
@@ -229,7 +229,7 @@ hero - form - template1.component.html(name #1)`)
 
   - 새로운 속성인 `forbiddenName`이 생겼는데, 이것은 커스텀 유효성 검사 지시자입니다.
   이 지시자는 만약 유저가 "bob"을 입력했다면 폼 컨트롤이 유효하지 않다는 것을 나타냅니다. ([한번 해보세요](#live-example)).
-  우리는 [커스텀 유효성 검사 지시자](#custom-validation)를 이 요리책에서 나중에 다룰 것 입니다.
+  [커스텀 유효성 검사 지시자](#custom-validation)를 이 요리책에서 나중에 다룰 것 입니다.
 
   - There's a new attribute, `forbiddenName`, that is actually a custom validation directive.
   It invalidates the control if the user enters "bob" anywhere in the name ([try it](#live-example)).
@@ -251,7 +251,7 @@ hero - form - template1.component.html(name #1)`)
 
   The original component code stays the same.
 
-  우리는 Angular의 폼 컨트롤을 획득하고 오류 메시지를 작성하는 새로운 코드를 _추가했습니다._
+  Angular의 폼 컨트롤을 획득하고 오류 메시지를 작성하는 새로운 코드를 _추가했습니다._
 
   We _added_ new code to acquire the Angular form control and compose error messages.
 
@@ -271,7 +271,7 @@ hero - form - template1.component.html(name #1)`)
 
   The `heroForm` variable is a reference to the control model that Angular derived from the template.
 
-  우리는 Angular에게 `@ViewChild` 쿼리를 사용하여 그 모델을 컴포넌트 클래스의 `currentForm`에 삽입하도록 지시합니다.
+  Angular에게 `@ViewChild` 쿼리를 사용하여 그 모델을 컴포넌트 클래스의 `currentForm`에 삽입하도록 지시합니다.
 
   We tell Angular to inject that model into the component class's `currentForm` property using a `@ViewChild` query:
 
@@ -301,7 +301,7 @@ hero - form - template1.component.html(name #1)`)
   when anything changes in the view.
   That's the right time to see if there's a new `heroForm` object.
 
-  - 새로운 `heroForm` _모델_이 있을 때, 우리는 그것의 `valueChanged` _Observable_ 프로퍼티를 구독합니다.
+  - 새로운 `heroForm` _모델_이 있을 때, 그것의 `valueChanged` _Observable_ 프로퍼티를 구독합니다.
   `onValueChanged` 핸들러는 모든 사용자의 키 입력 후에 유효성 검사를 실시 합니다.
 
   - When there _is_ a new `heroForm` model, we subscribe to its `valueChanged` _Observable_ property.
@@ -389,7 +389,7 @@ hero - form - template1.component.html(name #1)`)
   Both trends are manageable.
 
   이제, 메세지가 코드로 작성되었기 때문에 유연성이 향상되었습니다. 또, 메시지를 좀 더 똑똑하게 작성할 수 있습니다.
-  우리는 서버에서 메시지를 가져오는 서비스 클래스를 이용해서 메시지를 컴포넌트 밖으로 꺼낼 수도 있습니다.
+  서버에서 메시지를 가져오는 서비스 클래스를 이용해서 메시지를 컴포넌트 밖으로 꺼낼 수도 있습니다.
   짧게 말하자면, 템플릿에서 코드로 텍스트와 로직을 옮겼기 때문에 메시지 처리를 좀 더 효율적으로 할 수 있는 기회를 더 많이 가지게 되었습니다.
 
   Now that the messages are in code, we have more flexibility. We can compose messages more intelligently.
@@ -495,7 +495,7 @@ a#reactive
 
   ### Component template
 
-  우리는 Angular의 `formGroup` 지시자를 컴포넌트 클래스의 `heroForm` 프로퍼티에 바인딩하기 위해 `<forms>`를 변경하는 것으로 시작합니다.
+  Angular의 `formGroup` 지시자를 컴포넌트 클래스의 `heroForm` 프로퍼티에 바인딩하기 위해 `<forms>`를 변경하는 것으로 시작합니다.
 
   We begin by changing the `<form>` tag so that it binds the Angular `formGroup` directive in the template
   to the `heroForm` property in the component class.
@@ -588,7 +588,7 @@ template / hero - form - template2.component.ts(ViewChild)`)
 
   - we inject the `FormBuilder` in a constructor.
 
-  - 히어로 데이터를 가지게 되었을때 우리는 `addHero` 함수를 다시 호출 할 것이기 때문에, `ngOnInit`에서 `buildForm` 메소드를 호출합니다. [라이프사이클 훅 메소드](../guide/lifecycle-hooks.html#hooks-overview)
+  - 히어로 데이터를 가지게 되었을때 `addHero` 함수를 다시 호출 할 것이기 때문에, `ngOnInit`에서 `buildForm` 메소드를 호출합니다. [라이프사이클 훅 메소드](../guide/lifecycle-hooks.html#hooks-overview)
 
   - we call a `buildForm` method in the `ngOnInit` [lifecycle hook method](../guide/lifecycle-hooks.html#hooks-overview)
   because that's when we'll have the hero data. We'll call it again in the `addHero` method.
@@ -762,7 +762,7 @@ a#custom-validation
 
   #### Custom validation directive
 
-  반응형 폼 컴포넌트에서 우리는 `'name'` 컨트롤의 유효성 검사 함수 리스트의 제일 마지막에 `forbiddenNamevalidator`를 추가했습니다.
+  반응형 폼 컴포넌트에서 `'name'` 컨트롤의 유효성 검사 함수 리스트의 제일 마지막에 `forbiddenNamevalidator`를 추가했습니다.
 
   In the reactive forms component we added a configured `forbiddenNamevalidator`
   to the bottom of the `'name'` control's validator function list.
@@ -804,7 +804,7 @@ a#testing
 
   ## Testing Considerations
 
-  우리는 유효성 검사의 _독립된 유닛 테스트_와 _반응형 폼_의 컨트롤 로직을 작성할 수 있습니다.
+  유효성 검사의 _독립된 유닛 테스트_와 _반응형 폼_의 컨트롤 로직을 작성할 수 있습니다.
 
   We can write _isolated unit tests_ of validation and control logic in _Reactive Forms_.
 
