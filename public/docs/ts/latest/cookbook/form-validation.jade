@@ -2,171 +2,171 @@ include ../_util-fns
 
 a#top
 :marked
-    정확성과 완전성을 위한 사용자 입력에 대한 유효성 검사는 전체적인 데이터 퀄리티의 향상을 가져올 수 있습니다.
+  정확성과 완전성을 위한 사용자 입력에 대한 유효성 검사는 전체적인 데이터 퀄리티의 향상을 가져올 수 있습니다.
 
-    We can improve overall data quality by validating user input for accuracy and completeness.
+  We can improve overall data quality by validating user input for accuracy and completeness.
 
-    이번 요리책에서는, 사용자 입력에 대한 유효성 검사를 UI안에서 어떻게 수행하고 의미있는 유효성 검사 메시지를 어떻게 보여줄 수 있는지를 살펴볼 것입니다.
-    먼저, 템플릿 중심의 폼을 살펴보고, 반응형 폼을 살펴봅시다.
+  이번 요리책에서는, 사용자 입력에 대한 유효성 검사를 UI안에서 어떻게 수행하고 의미있는 유효성 검사 메시지를 어떻게 보여줄 수 있는지를 살펴볼 것입니다.
+  먼저, 템플릿 중심의 폼을 살펴보고, 반응형 폼을 살펴봅시다.
 
-    In this cookbook we show how to validate user input in the UI and display useful validation messages
-    using first the template-driven forms and then the reactive forms approach.
+  In this cookbook we show how to validate user input in the UI and display useful validation messages
+  using first the template-driven forms and then the reactive forms approach.
 
 .l-sub-section
-    :marked
-        폼에 대해 더 알고 싶다면 [폼 챕터](../guide/forms.html)를 참고합시다.
+  :marked
+    폼에 대해 더 알고 싶다면 [폼 챕터](../guide/forms.html)를 참고합시다.
 
-        Learn more about these choices in the [Forms chapter.](../guide/forms.html)
+    Learn more about these choices in the [Forms chapter.](../guide/forms.html)
 
 
 
 a#toc
 :marked
-    ## 목차
+  ## 목차
 
-    ## Table of Contents
+  ## Table of Contents
 
-      [간단한 템플릿 중심의 폼](#template1)
+    [간단한 템플릿 중심의 폼](#template1)
 
-      [Simple Template-Driven Forms](#template1)
+    [Simple Template-Driven Forms](#template1)
 
-      [유효성 검사 메시지를 포함한 템플릿 중심의 폼](#template2)
+    [유효성 검사 메시지를 포함한 템플릿 중심의 폼](#template2)
 
-      [Template-Driven Forms with validation messages in code](#template2)
+    [Template-Driven Forms with validation messages in code](#template2)
 
-      [유효성 검사를 포함한 반응형 폼](#reactive)
+    [유효성 검사를 포함한 반응형 폼](#reactive)
 
-      [Reactive Forms with validation in code](#reactive)
+    [Reactive Forms with validation in code](#reactive)
 
-      [커스텀 유효성 검사](#custom-validation)
+    [커스텀 유효성 검사](#custom-validation)
 
-      [Custom validation](#custom-validation)
+    [Custom validation](#custom-validation)
 
-      [테스팅](#testing)
+    [테스팅](#testing)
 
-      [Testing](#testing)
+    [Testing](#testing)
 
 a#live-example
 :marked
-    **실시간 예제를 실행해보고, 요리책의 소스 코드 전체를 다운로드 할 수 있습니다.**
+  **실시간 예제를 실행해보고, 요리책의 소스 코드 전체를 다운로드 할 수 있습니다.**
 
-    **Try the live example to see and download the full cookbook source code**
+  **Try the live example to see and download the full cookbook source code**
 live-example(name="cb-form-validation" embedded img="cookbooks/form-validation/plunker.png")
 
 .l-main-section
 a#template1
 :marked
-    ## 간단한 템플릿 중심의 폼
+  ## 간단한 템플릿 중심의 폼
 
-    ## Simple Template-Driven Forms
+  ## Simple Template-Driven Forms
 
-    템플릿 중심의 접근 방식에서는,
-    [폼 요소](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Forms_in_HTML)를 컴포넌트의 템플릿에 가져다 놓습니다.
+  템플릿 중심의 접근 방식에서는,
+  [폼 요소](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Forms_in_HTML)를 컴포넌트의 템플릿에 가져다 놓습니다.
 
-    In the template-driven approach, you arrange
-    [form elements](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Forms_in_HTML) in the component's template.
+  In the template-driven approach, you arrange
+  [form elements](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Forms_in_HTML) in the component's template.
 
-    Angular가 폼 기능을 구현하는 내부 제어모델을 구성하는데 도움이 되는 (대부분 `ng...`로 시작하는) Angular의 폼 지시자를 추가합니다.
-    우리는 이런 것을 제어모델이 템플릿에 함축되어 있다고 표현 합니다.
+  Angular가 폼 기능을 구현하는 내부 제어모델을 구성하는데 도움이 되는 (대부분 `ng...`로 시작하는) Angular의 폼 지시자를 추가합니다.
+  우리는 이런 것을 제어모델이 템플릿에 함축되어 있다고 표현 합니다.
 
-    You add Angular form directives (mostly directives beginning `ng...`) to help
-    Angular construct a corresponding internal control model that implements form functionality.
-    We say that the control model is _implicit_ in the template.
+  You add Angular form directives (mostly directives beginning `ng...`) to help
+  Angular construct a corresponding internal control model that implements form functionality.
+  We say that the control model is _implicit_ in the template.
 
-    사용자 입력에 대한 유효성 검사를 하는 것은, 당신이 [HTML 유효성 검사 속성](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation)을 요소에 추가하는 것 입니다.
-    Angular는 HTML 유효성 검사 속성을 해석 할 수 있으며, 제어모델에 유효성 검사 기능을 추가 합니다.
+  사용자 입력에 대한 유효성 검사를 하는 것은, 당신이 [HTML 유효성 검사 속성](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation)을 요소에 추가하는 것 입니다.
+  Angular는 HTML 유효성 검사 속성을 해석 할 수 있으며, 제어모델에 유효성 검사 기능을 추가 합니다.
 
-    To validate user input, you add [HTML validation attributes](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation)
-    to the elements. Angular interprets those as well, adding validator functions to the control model.
+  To validate user input, you add [HTML validation attributes](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation)
+  to the elements. Angular interprets those as well, adding validator functions to the control model.
 
-    Angular는 사용자가 폼 컨트롤을 "터치"했는지 혹은 값을 변경했는지에 대한 여부와 폼 컨트롤 값이 유효한지에 대한 상태 정보를 제공합니다.
+  Angular는 사용자가 폼 컨트롤을 "터치"했는지 혹은 값을 변경했는지에 대한 여부와 폼 컨트롤 값이 유효한지에 대한 상태 정보를 제공합니다.
 
-    Angular exposes information about the state of the controls including
-    whether the user has "touched" the control or made changes and if the control values are valid.
+  Angular exposes information about the state of the controls including
+  whether the user has "touched" the control or made changes and if the control values are valid.
 
-    위의 첫번째 유효성 검사 예제에서,
-    우리는 더 많은 HTML을 추가해서 폼 컨트롤의 상태를 읽고 적절한 표시를 업데이트 합니다.
-    아래 코드는, 히어로의 이름에 연결된 단일 입력 폼 컨트롤에 대한 html 템플릿의 일부를 발췌한 것입니다.
+  위의 첫번째 유효성 검사 예제에서,
+  우리는 더 많은 HTML을 추가해서 폼 컨트롤의 상태를 읽고 적절한 표시를 업데이트 합니다.
+  아래 코드는, 히어로의 이름에 연결된 단일 입력 폼 컨트롤에 대한 html 템플릿의 일부를 발췌한 것입니다.
 
-    In the first template validation example,
-    we add more HTML to read that control state and update the display appropriately.
-    Here's an excerpt from the template html for a single input box control bound to the hero name:
+  In the first template validation example,
+  we add more HTML to read that control state and update the display appropriately.
+  Here's an excerpt from the template html for a single input box control bound to the hero name:
 
 
 +makeExample('cb-form-validation/ts/src/app/template/hero-form-template1.component.html','name-with-error-msg','template/hero-form-template1.component.html (Hero name)')(format='.')
 
 :marked
-    추가 정보:
+  추가 정보:
 
-    Note the following:
+  Note the following:
 
-    - `<input>`는 HTML 유효성 검사 속성인 `required`와 `minlength`, `maxlength`를 가질 수 있습니다.
+  - `<input>`는 HTML 유효성 검사 속성인 `required`와 `minlength`, `maxlength`를 가질 수 있습니다.
 
-    - The `<input>` element carries the HTML validation attributes: `required`, `minlength`, and `maxlength`.
+  - The `<input>` element carries the HTML validation attributes: `required`, `minlength`, and `maxlength`.
 
-    - 입력 박스에 `"name"`이라는 `name` 속성을 부여하므로서, 그것과 연관된 `<input>`를  Angular의 내부 제어 모델에서 `name`이라는 폼 컨트롤과 연결 할 수 있습니다.
+  - 입력 박스에 `"name"`이라는 `name` 속성을 부여하므로서, 그것과 연관된 `<input>`를  Angular의 내부 제어 모델에서 `name`이라는 폼 컨트롤과 연결 할 수 있습니다.
 
-    - We set the `name` attribute of the input box to `"name"` so Angular can track this input element and associate it
-      with an Angular form control called `name` in its internal control model.
+  - We set the `name` attribute of the input box to `"name"` so Angular can track this input element and associate it
+    with an Angular form control called `name` in its internal control model.
 
-    - `[(ngModel)]` 지시자는 `hero.name`와 입력 박스를 양방향으로 데이터 바인딩 합니다.
+  - `[(ngModel)]` 지시자는 `hero.name`와 입력 박스를 양방향으로 데이터 바인딩 합니다.
 
-    - We use the `[(ngModel)]` directive to two-way data bind the input box to the `hero.name` property.
+  - We use the `[(ngModel)]` directive to two-way data bind the input box to the `hero.name` property.
 
-    - 템플릿 변수(`#name`)에 `"ngModel"`을 집어넣으면, 템플릿 변수를 _템플릿 안에서_ 이 폼 컨트롤과 연관된 Angular의 `NgModel` 지시자를 `vaild`나 `dirty`같은 폼 컨트롤 상태를 체크 하기 위해 쓸 수 있습니다.
+  - 템플릿 변수(`#name`)에 `"ngModel"`을 집어넣으면, 템플릿 변수를 _템플릿 안에서_ 이 폼 컨트롤과 연관된 Angular의 `NgModel` 지시자를 `vaild`나 `dirty`같은 폼 컨트롤 상태를 체크 하기 위해 쓸 수 있습니다.
 
-    - We set a template variable (`#name`) to the value `"ngModel"` (always `ngModel`).
-      This gives us a reference to the Angular `NgModel` directive
-      associated with this control that we can use _in the template_
-      to check for control states such as `valid` and `dirty`.
+  - We set a template variable (`#name`) to the value `"ngModel"` (always `ngModel`).
+    This gives us a reference to the Angular `NgModel` directive
+    associated with this control that we can use _in the template_
+    to check for control states such as `valid` and `dirty`.
 
-    - `<div>`에 있는 `*ngIf`는 "name"에 오류가 있고 폼 컨트롤이 `dirty`나 `touched`일 때만 `<div>`들에 적혀있는 메시지를 보여줍니다.
+  - `<div>`에 있는 `*ngIf`는 "name"에 오류가 있고 폼 컨트롤이 `dirty`나 `touched`일 때만 `<div>`들에 적혀있는 메시지를 보여줍니다.
 
-    - The `*ngIf` on `<div>` element reveals a set of nested message `divs` but only if there are "name" errors and
-      the control is either `dirty` or `touched`.
+  - The `*ngIf` on `<div>` element reveals a set of nested message `divs` but only if there are "name" errors and
+    the control is either `dirty` or `touched`.
 
-    - 내포된 `<div>` 각각은 일어날 수 있는 유효성 검사 오류들 중 하나에 대한 커스텀 메시지를 보여준다. 우리는 `required`와 `minlength`, `maxlength`에 대한 메시지를 준비해놨습니다.
+  - 내포된 `<div>` 각각은 일어날 수 있는 유효성 검사 오류들 중 하나에 대한 커스텀 메시지를 보여준다. 우리는 `required`와 `minlength`, `maxlength`에 대한 메시지를 준비해놨습니다.
 
-    - Each nested `<div>` can present a custom message for one of the possible validation errors.
-      We've prepared messages for `required`, `minlength`, and `maxlength`.
+  - Each nested `<div>` can present a custom message for one of the possible validation errors.
+    We've prepared messages for `required`, `minlength`, and `maxlength`.
 
-    전체 예제는 폼의 각 데이터 엔티티 컨트롤에 대한 레이아웃을 반복합니다.
+  전체 예제는 폼의 각 데이터 엔티티 컨트롤에 대한 레이아웃을 반복합니다.
 
-    The full template repeats this kind of layout for each data entry control on the form.
+  The full template repeats this kind of layout for each data entry control on the form.
 
 .l-sub-section
-    :marked
-        #### 왜 _dirty_ 와 _touched_를 체크 해야할까?
+  :marked
+    #### 왜 _dirty_ 와 _touched_를 체크 해야할까?
 
-        #### Why check _dirty_ and _touched_?
+    #### Why check _dirty_ and _touched_?
 
-        유저가 새로운 히어로에 대한 정보를 편집하기 전에 에러를 보여주면 안됩니다.
-        따라서, `dirty`와 `touched`를 체크하는 것은 그런 상황을 예방하는 것입니다.
+    유저가 새로운 히어로에 대한 정보를 편집하기 전에 에러를 보여주면 안됩니다.
+    따라서, `dirty`와 `touched`를 체크하는 것은 그런 상황을 예방하는 것입니다.
 
-        We shouldn't show errors for a new hero before the user has had a chance to edit the value.
-        The checks for `dirty` and `touched` prevent premature display of errors.
+    We shouldn't show errors for a new hero before the user has had a chance to edit the value.
+    The checks for `dirty` and `touched` prevent premature display of errors.
 
-        `dirty`와 `touched`에 대해 더 알고 싶다면 [폼 챕터](../guide/forms.html)를 참고 합시다.
+    `dirty`와 `touched`에 대해 더 알고 싶다면 [폼 챕터](../guide/forms.html)를 참고 합시다.
 
-        Learn about `dirty` and `touched` in the [Forms](../guide/forms.html) chapter.
+    Learn about `dirty` and `touched` in the [Forms](../guide/forms.html) chapter.
 
 :marked
-    컴포넌트 클래스는 데이터 바인딩에 쓰이는 히어로 모델과 뷰를 지원하는 다른 코드들을 관리합니다.
+  컴포넌트 클래스는 데이터 바인딩에 쓰이는 히어로 모델과 뷰를 지원하는 다른 코드들을 관리합니다.
 
-    The component class manages the hero model used in the data binding
-    as well as other code to support the view.
+  The component class manages the hero model used in the data binding
+  as well as other code to support the view.
 
 
 +makeExample('cb-form-validation/ts/src/app/template/hero-form-template1.component.ts','class','template/hero-form-template1.component.ts (class)')
 
 :marked
-    템플릿 중심의 유효성 검사 기술은 정적 폼과 간단하고 정석적인 유효성 검사 방법을 사용합니다.
+  템플릿 중심의 유효성 검사 기술은 정적 폼과 간단하고 정석적인 유효성 검사 방법을 사용합니다.
 
-    Use this template-driven validation technique when working with static forms with simple, standard validation rules.
+  Use this template-driven validation technique when working with static forms with simple, standard validation rules.
 
-    여기 이 파일들은 템플릿 중심의 접근법을 가진 `HeroFormTemplateComponent`의 첫번째 버전입니다.
+  여기 이 파일들은 템플릿 중심의 접근법을 가진 `HeroFormTemplateComponent`의 첫번째 버전입니다.
 
-    Here are the complete files for the first version of `HeroFormTemplateCompononent` in the template-driven approach:
+  Here are the complete files for the first version of `HeroFormTemplateCompononent` in the template-driven approach:
 
 
 +makeTabs(
@@ -179,38 +179,38 @@ template / hero - form - template1.component.ts`)
 .l-main-section
 a#template2
 :marked
-    ## 유효성 검사 메시지를 가진 템플릿 중심의 폼
+  ## 유효성 검사 메시지를 가진 템플릿 중심의 폼
 
-    ## Template-Driven Forms with validation messages in code
+  ## Template-Driven Forms with validation messages in code
 
-    레이아웃은 간단합니다. 하지만, 유효성 검사 메시지를 관리하는 데에는 분명히 결점이 있습니다.
+  레이아웃은 간단합니다. 하지만, 유효성 검사 메시지를 관리하는 데에는 분명히 결점이 있습니다.
 
-    While the layout is straightforward,
-    there are obvious shortcomings with the way we handle validation messages:
+  While the layout is straightforward,
+  there are obvious shortcomings with the way we handle validation messages:
 
-    * 가능한 모든 에러 조건을 나타내기위해 수 많은 HTML이 필요합니다.
+  * 가능한 모든 에러 조건을 나타내기위해 수 많은 HTML이 필요합니다.
 
-    * It takes a lot of HTML to represent all possible error conditions.
-    This gets out of hand when there are many controls and many validation rules.
+  * It takes a lot of HTML to represent all possible error conditions.
+  This gets out of hand when there are many controls and many validation rules.
 
-    * HTML에서 Javascript 로직을 사용하는 것은 좋지 않습니다.
+  * HTML에서 Javascript 로직을 사용하는 것은 좋지 않습니다.
 
-    * We're not fond of so much JavaScript logic in HTML.
+  * We're not fond of so much JavaScript logic in HTML.
 
-    * 메시지는 정적인 문자열이고, 템플릿에 하드 코딩 됩니다.
-    때때로 코드로 만들어지는 동적 메시지가 필요합니다.
+  * 메시지는 정적인 문자열이고, 템플릿에 하드 코딩 됩니다.
+  때때로 코드로 만들어지는 동적 메시지가 필요합니다.
 
-    * The messages are static strings, hard-coded into the template.
-    We often require dynamic messages that we should shape in code.
+  * The messages are static strings, hard-coded into the template.
+  We often require dynamic messages that we should shape in code.
 
-    우리는 템플릿과 컴포넌트에 아주 조금의 변화를 주고 로직과 메시지를 컴포넌트로 옮길 수 있습니다.
+  우리는 템플릿과 컴포넌트에 아주 조금의 변화를 주고 로직과 메시지를 컴포넌트로 옮길 수 있습니다.
 
-    We can move the logic and the messages into the component with a few changes to
-    the template and component.
+  We can move the logic and the messages into the component with a few changes to
+  the template and component.
 
-    여기 원본 버전과 개정된 템플릿 ("Template 2")에서 발췌된 히어로의 이름이 있습니다.
+  여기 원본 버전과 개정된 템플릿 ("Template 2")에서 발췌된 히어로의 이름이 있습니다.
 
-    Here's the hero name again, excerpted from the revised template ("Template 2"), next to the original version:
+  Here's the hero name again, excerpted from the revised template ("Template 2"), next to the original version:
 +makeTabs(
 `cb-form-validation/ts/src/app/template/hero-form-template2.component.html,
 cb - form - validation / ts / src / app / template / hero - form - template1.component.html`,
@@ -219,295 +219,295 @@ cb - form - validation / ts / src / app / template / hero - form - template1.com
 hero - form - template1.component.html(name #1)`)
 
 :marked
-    `<input>`는 거의 같습니다만, 주목할 만한 차이점이 있습니다.
+  `<input>`는 거의 같습니다만, 주목할 만한 차이점이 있습니다.
 
-    The `<input>` element HTML is almost the same. There are noteworthy differences:
+  The `<input>` element HTML is almost the same. There are noteworthy differences:
 
-    - 하드 코딩된 에러 메시지인 `<divs>`가 사라졌다는 것.
+  - 하드 코딩된 에러 메시지인 `<divs>`가 사라졌다는 것.
 
-    - The hard-code error message `<divs>` are gone.
+  - The hard-code error message `<divs>` are gone.
 
-    - 새로운 속성인 `forbiddenName`이 생겼는데, 이것은 커스텀 유효성 검사 지시자입니다.
-    이 지시자는 만약 유저가 "bob"을 입력했다면 폼 컨트롤이 유효하지 않다는 것을 나타냅니다. ([한번 해보세요](#live-example)).
-    우리는 [커스텀 유효성 검사 지시자](#custom-validation)를 이 요리책에서 나중에 다룰 것 입니다.
+  - 새로운 속성인 `forbiddenName`이 생겼는데, 이것은 커스텀 유효성 검사 지시자입니다.
+  이 지시자는 만약 유저가 "bob"을 입력했다면 폼 컨트롤이 유효하지 않다는 것을 나타냅니다. ([한번 해보세요](#live-example)).
+  우리는 [커스텀 유효성 검사 지시자](#custom-validation)를 이 요리책에서 나중에 다룰 것 입니다.
 
-    - There's a new attribute, `forbiddenName`, that is actually a custom validation directive.
-    It invalidates the control if the user enters "bob" anywhere in the name ([try it](#live-example)).
-    We discuss [custom validation directives](#custom-validation) later in this cookbook.
+  - There's a new attribute, `forbiddenName`, that is actually a custom validation directive.
+  It invalidates the control if the user enters "bob" anywhere in the name ([try it](#live-example)).
+  We discuss [custom validation directives](#custom-validation) later in this cookbook.
 
-    - 더 이상 이 요소에 대한 Angular 컨트롤를 참조할 필요가 없기 때문에 템플릿 변수 `#name`를 없엤습니다.
+  - 더 이상 이 요소에 대한 Angular 컨트롤를 참조할 필요가 없기 때문에 템플릿 변수 `#name`를 없엤습니다.
 
-    - The `#name` template variable is gone because we no longer refer to the Angular control for this element.
+  - The `#name` template variable is gone because we no longer refer to the Angular control for this element.
 
-    - 새롭게 바인딩된 `formErrors.name`는 모든 이름 입력에 대한 유효성 검사 에러 메시지를 나타내기에 충분합니다.
+  - 새롭게 바인딩된 `formErrors.name`는 모든 이름 입력에 대한 유효성 검사 에러 메시지를 나타내기에 충분합니다.
 
-    -  Binding to the new `formErrors.name` property is sufficent to display all name validation error messages.
+  -  Binding to the new `formErrors.name` property is sufficent to display all name validation error messages.
 
-    #### 컴포넌트 클래스
+  #### 컴포넌트 클래스
 
-    #### Component class
+  #### Component class
 
-    오리지널 컴포넌트 코드는 그대로 유지 됩니다.
+  오리지널 컴포넌트 코드는 그대로 유지 됩니다.
 
-    The original component code stays the same.
+  The original component code stays the same.
 
-    우리는 Angular의 폼 컨트롤을 획득하고 오류 메시지를 작성하는 새로운 코드를 _추가했습니다._
+  우리는 Angular의 폼 컨트롤을 획득하고 오류 메시지를 작성하는 새로운 코드를 _추가했습니다._
 
-    We _added_ new code to acquire the Angular form control and compose error messages.
+  We _added_ new code to acquire the Angular form control and compose error messages.
 
-    첫번째 단계는 Angular가 쿼리를 통해 만든 폼 컨트롤을 얻는 것입니다.
+  첫번째 단계는 Angular가 쿼리를 통해 만든 폼 컨트롤을 얻는 것입니다.
 
-    The first step is to acquire the form control that Angular created from the template by querying for it.
+  The first step is to acquire the form control that Angular created from the template by querying for it.
 
-    `<form>`에서 템플릿 변수`#heroForm`을 설정하는 구성 요소 템플릿의 맨 위 부분을 살펴보십시오.
+  `<form>`에서 템플릿 변수`#heroForm`을 설정하는 구성 요소 템플릿의 맨 위 부분을 살펴보십시오.
 
-    Look back at the top of the component template where we set the
-    `#heroForm` template variable in the `<form>` element:
+  Look back at the top of the component template where we set the
+  `#heroForm` template variable in the `<form>` element:
 
 +makeExample('cb-form-validation/ts/src/app/template/hero-form-template1.component.html','form-tag','template/hero-form-template1.component.html (form tag)')(format='.')
 
 :marked
-    `heroForm` 변수는 템플릿에서 Angular가 생성한 제어 모델에 대한 참조입니다.
+  `heroForm` 변수는 템플릿에서 Angular가 생성한 제어 모델에 대한 참조입니다.
 
-    The `heroForm` variable is a reference to the control model that Angular derived from the template.
+  The `heroForm` variable is a reference to the control model that Angular derived from the template.
 
-    우리는 Angular에게 `@ViewChild` 쿼리를 사용하여 그 모델을 컴포넌트 클래스의 `currentForm`에 삽입하도록 지시합니다.
+  우리는 Angular에게 `@ViewChild` 쿼리를 사용하여 그 모델을 컴포넌트 클래스의 `currentForm`에 삽입하도록 지시합니다.
 
-    We tell Angular to inject that model into the component class's `currentForm` property using a `@ViewChild` query:
+  We tell Angular to inject that model into the component class's `currentForm` property using a `@ViewChild` query:
 
 +makeExample('cb-form-validation/ts/src/app/template/hero-form-template2.component.ts','view-child','template/hero-form-template2.component.ts (heroForm)')(format='.')
 
 :marked
-    주의점 :
+  주의점 :
 
-    Some observations:
+  Some observations:
 
-    - 템플릿 변수의 이름을 문자열로 전달 할 때 `@ViewChild`는 그것에 해당하는 템플릿 변수를 탐색합니다. ( 이 경우에는 `'heroForm'`. )
+  - 템플릿 변수의 이름을 문자열로 전달 할 때 `@ViewChild`는 그것에 해당하는 템플릿 변수를 탐색합니다. ( 이 경우에는 `'heroForm'`. )
 
-    - Angular `@ViewChild` queries for a template variable when you pass it
-    the name of that variable as a string (`'heroForm'` in this case).
+  - Angular `@ViewChild` queries for a template variable when you pass it
+  the name of that variable as a string (`'heroForm'` in this case).
 
-    - `heroForm`은 이 컴포넌트의 라이프사이클 동안 몇 번 바뀌는데, 특히 새로운 히어로을 추가했을 때 바뀌게 됩니다.
-    우리는 주기적으로 이것을 검사할 필요가 있습니다.
+  - `heroForm`은 이 컴포넌트의 라이프사이클 동안 몇 번 바뀌는데, 특히 새로운 히어로을 추가했을 때 바뀌게 됩니다.
+  우리는 주기적으로 이것을 검사할 필요가 있습니다.
 
-    - The `heroForm` object changes several times during the life of the component, most notably when we add a new hero.
-    We'll have to re-inspect it periodically.
+  - The `heroForm` object changes several times during the life of the component, most notably when we add a new hero.
+  We'll have to re-inspect it periodically.
 
-    - Angular는 뷰에서 어떤 것라도 바뀌게 되면
-    [라이프 사이클 훅 메소드](../guide/lifecycle-hooks.html#afterview)인 `ngAfterViewChecked`를 호출합니다.
-    이 때는 새로운 `heroForm` 객체가 있는지 확인하기에 적절한 타이밍입니다.
+  - Angular는 뷰에서 어떤 것라도 바뀌게 되면
+  [라이프 사이클 훅 메소드](../guide/lifecycle-hooks.html#afterview)인 `ngAfterViewChecked`를 호출합니다.
+  이 때는 새로운 `heroForm` 객체가 있는지 확인하기에 적절한 타이밍입니다.
 
-    - Angular calls the `ngAfterViewChecked` [lifecycle hook method](../guide/lifecycle-hooks.html#afterview)
-    when anything changes in the view.
-    That's the right time to see if there's a new `heroForm` object.
+  - Angular calls the `ngAfterViewChecked` [lifecycle hook method](../guide/lifecycle-hooks.html#afterview)
+  when anything changes in the view.
+  That's the right time to see if there's a new `heroForm` object.
 
-    - 새로운 `heroForm` _모델_이 있을 때, 우리는 그것의 `valueChanged` _Observable_ 프로퍼티를 구독합니다.
-    `onValueChanged` 핸들러는 모든 사용자의 키 입력 후에 유효성 검사를 실시 합니다.
+  - 새로운 `heroForm` _모델_이 있을 때, 우리는 그것의 `valueChanged` _Observable_ 프로퍼티를 구독합니다.
+  `onValueChanged` 핸들러는 모든 사용자의 키 입력 후에 유효성 검사를 실시 합니다.
 
-    - When there _is_ a new `heroForm` model, we subscribe to its `valueChanged` _Observable_ property.
-    The `onValueChanged` handler looks for validation errors after every user keystroke.
+  - When there _is_ a new `heroForm` model, we subscribe to its `valueChanged` _Observable_ property.
+  The `onValueChanged` handler looks for validation errors after every user keystroke.
 
 +makeExample('cb-form-validation/ts/src/app/template/hero-form-template2.component.ts','handler','template/hero-form-template2.component.ts (handler)')(format='.')
 
 :marked
-    `onValueChanged` 핸들러는 사용자의 데이터 입력을 해석합니다.
-    핸들러로 전달된 `data` 객체는 현재 요소의 값을 가지고 있습니다.
-    핸들러는 그것을 무시합니다. 대신 컴포넌트의 `formErrors` 객체의 필드를 반복합니다.
+  `onValueChanged` 핸들러는 사용자의 데이터 입력을 해석합니다.
+  핸들러로 전달된 `data` 객체는 현재 요소의 값을 가지고 있습니다.
+  핸들러는 그것을 무시합니다. 대신 컴포넌트의 `formErrors` 객체의 필드를 반복합니다.
 
-    The `onValueChanged` handler interprets user data entry.
-    The `data` object passed into the handler contains the current element values.
-    The handler ignores them. Instead, it iterates over the fields of the component's `formErrors` object.
+  The `onValueChanged` handler interprets user data entry.
+  The `data` object passed into the handler contains the current element values.
+  The handler ignores them. Instead, it iterates over the fields of the component's `formErrors` object.
 
-    `formErrors`는 유효성 검사 규칙과 그것에 대한 에러 메시지를 가지는 히어로 필드의 사전 입니다.
-    단 두 히어로 프로퍼티는 `name`과 `power`에 대한 유효성 검사 규칙을 가지고 있습니다.
-    그 메시지는 히어로 데이터가 유효할 때, 빈 문자열 입니다.
+  `formErrors`는 유효성 검사 규칙과 그것에 대한 에러 메시지를 가지는 히어로 필드의 사전 입니다.
+  단 두 히어로 프로퍼티는 `name`과 `power`에 대한 유효성 검사 규칙을 가지고 있습니다.
+  그 메시지는 히어로 데이터가 유효할 때, 빈 문자열 입니다.
 
-    The `formErrors` is a dictionary of the hero fields that have validation rules and their current error messages.
-    Only two hero properties have validation rules, `name` and `power`.
-    The messages are empty strings when the hero data are valid.
+  The `formErrors` is a dictionary of the hero fields that have validation rules and their current error messages.
+  Only two hero properties have validation rules, `name` and `power`.
+  The messages are empty strings when the hero data are valid.
 
-    핸들러의 각 필드는,
+  핸들러의 각 필드는,
 
-    For each field, the handler
+  For each field, the handler
 
-      - 이전에 오류 메시지가 있는 경우 이를 지웁니다.
+    - 이전에 오류 메시지가 있는 경우 이를 지웁니다.
 
-      - clears the prior error message if any
+    - clears the prior error message if any
 
-      - 필드의 해당 폼 컨드롤을 얻습니다.
+    - 필드의 해당 폼 컨드롤을 얻습니다.
 
-      - acquires the field's corresponding Angular form control
+    - acquires the field's corresponding Angular form control
 
-      - 이런 폼 컨트롤이 _존재하고_ 그것이 ("dirty")로 _바뀌고_ 그것이 유효하지 않으면...
+    - 이런 폼 컨트롤이 _존재하고_ 그것이 ("dirty")로 _바뀌고_ 그것이 유효하지 않으면...
 
-      - if such a control exists _and_ its been changed ("dirty") _and_ its invalid ...
+    - if such a control exists _and_ its been changed ("dirty") _and_ its invalid ...
 
-      - 핸들러는 모든 폼 컨트롤 에러에 대한 통합된 에러 메시지를 보여줍니다.
+    - 핸들러는 모든 폼 컨트롤 에러에 대한 통합된 에러 메시지를 보여줍니다.
 
-      - the handler composes a consolidated error message for all of the control's errors.
+    - the handler composes a consolidated error message for all of the control's errors.
 
-    코스의 몇 개의 오류 메시지, 유효성이 검사 된 각 프로퍼티에 대한 설정, 유효성 검사 규칙 당 하나의 메시지가 필요합니다:
+  코스의 몇 개의 오류 메시지, 유효성이 검사 된 각 프로퍼티에 대한 설정, 유효성 검사 규칙 당 하나의 메시지가 필요합니다:
 
-    We'll need some error messages of course, a set for each validated property, one message per validation rule:
+  We'll need some error messages of course, a set for each validated property, one message per validation rule:
 +makeExample('cb-form-validation/ts/src/app/template/hero-form-template2.component.ts','messages','template/hero-form-template2.component.ts (messages)')(format='.')
 :marked
-    이제 사용자가 변경을 일으킬 때마다, `onValueChanged` 핸들러는 유효성 검사와 그것과 연관된 메시지를 생성합니다.
+  이제 사용자가 변경을 일으킬 때마다, `onValueChanged` 핸들러는 유효성 검사와 그것과 연관된 메시지를 생성합니다.
 
-    Now every time the user makes a change, the `onValueChanged` handler checks for validation errors and produces messages accordingly.
+  Now every time the user makes a change, the `onValueChanged` handler checks for validation errors and produces messages accordingly.
 
-    ### 개선 된 것 같습니까?
+  ### 개선 된 것 같습니까?
 
-    ### Is this an improvement?
+  ### Is this an improvement?
 
-    분명 템플릿의 코드는 대체로 적고, 컴포넌트의 코드는 대체로 많습니다.
-    겨우 3개의 필드 2개의 유효성 검사 규칙을 확인하는 것으로는 개선이 많이 된 것 처럼 보이긴 어렵습니다.
+  분명 템플릿의 코드는 대체로 적고, 컴포넌트의 코드는 대체로 많습니다.
+  겨우 3개의 필드 2개의 유효성 검사 규칙을 확인하는 것으로는 개선이 많이 된 것 처럼 보이긴 어렵습니다.
 
-    Clearly the template got substantially smaller while the component code got substantially larger.
-    It's not easy to see the benefit when there are just three fields and only two of them have validation rules.
+  Clearly the template got substantially smaller while the component code got substantially larger.
+  It's not easy to see the benefit when there are just three fields and only two of them have validation rules.
 
-    더 많은 수의 유효성 검사 필드와 규칙이 있다고 생각해봅시다.
-    전반적으로, HTML은 코드보다 읽기 어렵고 유지보수 하기도 어렵습니다.
-    초기 템플릿이 이미 방대해서 유효성 검사 메시지 `<divs>`를 추가하면 급격하게 지저분해질 것 입니다.
+  더 많은 수의 유효성 검사 필드와 규칙이 있다고 생각해봅시다.
+  전반적으로, HTML은 코드보다 읽기 어렵고 유지보수 하기도 어렵습니다.
+  초기 템플릿이 이미 방대해서 유효성 검사 메시지 `<divs>`를 추가하면 급격하게 지저분해질 것 입니다.
 
-    Consider what happens as we increase the number of validated fields and rules.
-    In general, HTML is harder to read and maintain than code.
-    The initial template was already large and threatening to get rapidly worse as we add more validation message `<divs>`.
+  Consider what happens as we increase the number of validated fields and rules.
+  In general, HTML is harder to read and maintain than code.
+  The initial template was already large and threatening to get rapidly worse as we add more validation message `<divs>`.
 
-    컴포넌트로 유효성 검사 메시지를 옮기게 되면,
-    템플릿은 아주 천천히 선형적으로 자라나게 될 것 입니다.
-    각 필드는 유효성 검사의 갯수와는 상관 없이 대체적으로 동일한 수의 코드를 가지게 될 것입니다.
-    컴포넌트도 유효섬 검사 필드 당 한 라인, 유효성 검사 메시지당 한 라인의 비율로 선형적으로 자라나게 될 것 입니다.
+  컴포넌트로 유효성 검사 메시지를 옮기게 되면,
+  템플릿은 아주 천천히 선형적으로 자라나게 될 것 입니다.
+  각 필드는 유효성 검사의 갯수와는 상관 없이 대체적으로 동일한 수의 코드를 가지게 될 것입니다.
+  컴포넌트도 유효섬 검사 필드 당 한 라인, 유효성 검사 메시지당 한 라인의 비율로 선형적으로 자라나게 될 것 입니다.
 
-    After moving the validation messaging to the component,
-    the template grows more slowly and proportionally.
-    Each field has approximately the same number of lines no matter its number of validation rules.
-    The component also grows proportionally, at the rate of one line per validated field
-    and one line per validation message.
+  After moving the validation messaging to the component,
+  the template grows more slowly and proportionally.
+  Each field has approximately the same number of lines no matter its number of validation rules.
+  The component also grows proportionally, at the rate of one line per validated field
+  and one line per validation message.
 
-    두 코드의 증가폭은 관리가 가능할 정도 입니다.
+  두 코드의 증가폭은 관리가 가능할 정도 입니다.
 
-    Both trends are manageable.
+  Both trends are manageable.
 
-    이제, 메세지가 코드로 작성되었기 때문에 유연성이 향상되었습니다. 또, 메시지를 좀 더 똑똑하게 작성할 수 있습니다.
-    우리는 서버에서 메시지를 가져오는 서비스 클래스를 이용해서 메시지를 컴포넌트 밖으로 꺼낼 수도 있습니다.
-    짧게 말하자면, 템플릿에서 코드로 텍스트와 로직을 옮겼기 때문에 메시지 처리를 좀 더 효율적으로 할 수 있는 기회를 더 많이 가지게 되었습니다.
+  이제, 메세지가 코드로 작성되었기 때문에 유연성이 향상되었습니다. 또, 메시지를 좀 더 똑똑하게 작성할 수 있습니다.
+  우리는 서버에서 메시지를 가져오는 서비스 클래스를 이용해서 메시지를 컴포넌트 밖으로 꺼낼 수도 있습니다.
+  짧게 말하자면, 템플릿에서 코드로 텍스트와 로직을 옮겼기 때문에 메시지 처리를 좀 더 효율적으로 할 수 있는 기회를 더 많이 가지게 되었습니다.
 
-    Now that the messages are in code, we have more flexibility. We can compose messages more intelligently.
-    We can refactor the messages out of the component, perhaps to a service class that retrieves them from the server.
-    In short, there are more opportunities to improve message handling now that text and logic have moved from template to code.
+  Now that the messages are in code, we have more flexibility. We can compose messages more intelligently.
+  We can refactor the messages out of the component, perhaps to a service class that retrieves them from the server.
+  In short, there are more opportunities to improve message handling now that text and logic have moved from template to code.
 
-    ### _FormModule_ 과 템플릿 중심 폼
+  ### _FormModule_ 과 템플릿 중심 폼
 
-    ### _FormModule_ and template-driven forms
+  ### _FormModule_ and template-driven forms
 
-    Angular는 두 개의 서로 다른 폼 모듈 &mdash; `FormsModule` and `ReactiveFormsModule` &mdash;을 가집니다.
-    이는 개발을 위한 두 가지 접근 방법과 일치합니다.
-    두 모듈은 서로 동일한 `@angular/forms` 라이브러리 패키지에 속합니다.
+  Angular는 두 개의 서로 다른 폼 모듈 &mdash; `FormsModule` and `ReactiveFormsModule` &mdash;을 가집니다.
+  이는 개발을 위한 두 가지 접근 방법과 일치합니다.
+  두 모듈은 서로 동일한 `@angular/forms` 라이브러리 패키지에 속합니다.
 
-    Angular has two different forms modules &mdash; `FormsModule` and `ReactiveFormsModule` &mdash;
-    that correspond with the two approaches to form development.
-    Both modules come from the same `@angular/forms` library package.
+  Angular has two different forms modules &mdash; `FormsModule` and `ReactiveFormsModule` &mdash;
+  that correspond with the two approaches to form development.
+  Both modules come from the same `@angular/forms` library package.
 
-    지금까지 `FormsModule`을 필요로하는 "템플릿 중심"의 접근 방법을 봐왔습니다.
-    다음은 `HeroFormTemplateModule`에서 가져온 방법입니다.
+  지금까지 `FormsModule`을 필요로하는 "템플릿 중심"의 접근 방법을 봐왔습니다.
+  다음은 `HeroFormTemplateModule`에서 가져온 방법입니다.
 
-    We've been reviewing the "Template-driven" approach which requires the `FormsModule`
-    Here's how we imported it in the `HeroFormTemplateModule`.
+  We've been reviewing the "Template-driven" approach which requires the `FormsModule`
+  Here's how we imported it in the `HeroFormTemplateModule`.
 +makeExample('cb-form-validation/ts/src/app/template/hero-form-template.module.ts','','template/hero-form-template.module.ts')(format='.')
 .l-sub-section
-    :marked
-        우리는 이 요리책의 모든 폼 템플릿의 밑에 있는 `SharedModule`이나 그것의 `SubmittedComponent`에 대해 이야기를 한적이 없습니다.
+  :marked
+    우리는 이 요리책의 모든 폼 템플릿의 밑에 있는 `SharedModule`이나 그것의 `SubmittedComponent`에 대해 이야기를 한적이 없습니다.
 
-        We haven't talked about the `SharedModule` or its `SubmittedComponent` which appears at the bottom of every
-        form template in this cookbook.
+    We haven't talked about the `SharedModule` or its `SubmittedComponent` which appears at the bottom of every
+    form template in this cookbook.
 
-        그것들은 유효성 검사와는 밀접한 관련이 있지 않습니다. 흥미가 있다면 [라이브 예제](#live-example)를 참고 합시다.
+    그것들은 유효성 검사와는 밀접한 관련이 있지 않습니다. 흥미가 있다면 [라이브 예제](#live-example)를 참고 합시다.
 
-        They're not germane to the validation story. Look at the [live example](#live-example) if you're interested.
+    They're not germane to the validation story. Look at the [live example](#live-example) if you're interested.
 
 .l-main-section
 a#reactive
 :marked
-    ## 반응형 폼
+  ## 반응형 폼
 
-    ## Reactive Forms
+  ## Reactive Forms
 
-    템플릿 중심 접근법에서, 당신은 폼 요소와 유효성 검사 속성,
-    `ng...` Angular의 `FormModule`에 속한 지시자를 포함한 템플릿을 마크업을 작성했습니다.
-    런타임에서, Angular는 템플릿을 해석하고 그것의 _폼 컨트롤 모델_을 만들어냅니다.
+  템플릿 중심 접근법에서, 당신은 폼 요소와 유효성 검사 속성,
+  `ng...` Angular의 `FormModule`에 속한 지시자를 포함한 템플릿을 마크업을 작성했습니다.
+  런타임에서, Angular는 템플릿을 해석하고 그것의 _폼 컨트롤 모델_을 만들어냅니다.
 
-    In the template-driven approach, you markup the template with form elements, validation attributes,
-    and `ng...` directives from the Angular `FormsModule`.
-    At runtime, Angular interprets the template and derives its _form control model_.
+  In the template-driven approach, you markup the template with form elements, validation attributes,
+  and `ng...` directives from the Angular `FormsModule`.
+  At runtime, Angular interprets the template and derives its _form control model_.
 
-    **반응형 폼**은 다른 접근 방법을 가집니다.
-    폼 컨트롤 모델을 코드에 작성합니다.
-    폼 요소와 Angular `ReactiveFormsModule`에 속한 `form...` 지시자가 포함된 템플릿을 작성합니다.
-    런타임에서, Angular는 템플릿 요소들과 당신의 구성한 컨트롤 모델을 바인딩 합니다.
+  **반응형 폼**은 다른 접근 방법을 가집니다.
+  폼 컨트롤 모델을 코드에 작성합니다.
+  폼 요소와 Angular `ReactiveFormsModule`에 속한 `form...` 지시자가 포함된 템플릿을 작성합니다.
+  런타임에서, Angular는 템플릿 요소들과 당신의 구성한 컨트롤 모델을 바인딩 합니다.
 
-    **Reactive Forms** takes a different approach.
-    You create the form control model in code. You write the template with form elements
-    and`form...` directives from the Angular `ReactiveFormsModule`.
-    At runtime, Angular binds the template elements to your control model based on your instructions.
+  **Reactive Forms** takes a different approach.
+  You create the form control model in code. You write the template with form elements
+  and`form...` directives from the Angular `ReactiveFormsModule`.
+  At runtime, Angular binds the template elements to your control model based on your instructions.
 
-    이 접근 방법은 아주 조금 더 노력이 필요합니다. *컨트롤 모델을 작성하고 관리해야만 합니다*.
+  이 접근 방법은 아주 조금 더 노력이 필요합니다. *컨트롤 모델을 작성하고 관리해야만 합니다*.
 
-    This approach requires a bit more effort. *You have to write the control model and manage it*.
+  This approach requires a bit more effort. *You have to write the control model and manage it*.
 
-    그 대가로,
+  그 대가로,
 
-    In return, you can
+  In return, you can
 
-    * 유효성 검사 기능을 즉시 추가하고, 변경하고 삭제할 수 있습니다.
+  * 유효성 검사 기능을 즉시 추가하고, 변경하고 삭제할 수 있습니다.
 
-    * add, change, and remove validation functions on the fly
+  * add, change, and remove validation functions on the fly
 
-    * 컴포넌트 안에서 컨트롤 모델을 동적으로 조작할 수 있습니다.
+  * 컴포넌트 안에서 컨트롤 모델을 동적으로 조작할 수 있습니다.
 
-    * manipulate the control model dynamically from within the component
+  * manipulate the control model dynamically from within the component
 
-    * 유효성 검사와 컨트롤 로직을 독립된 유닛 [테스트](#testing) 할 수 있습니다.
+  * 유효성 검사와 컨트롤 로직을 독립된 유닛 [테스트](#testing) 할 수 있습니다.
 
-    * [test](#testing) validation and control logic with isolated unit tests.
+  * [test](#testing) validation and control logic with isolated unit tests.
 
-    3번째 요리책 샘플은 히어로 폼을 _반응형 폼_ 스타일로 다시 작성했습니다..
+  3번째 요리책 샘플은 히어로 폼을 _반응형 폼_ 스타일로 다시 작성했습니다..
 
-    The third cookbook sample re-writes the hero form in _reactive forms_ style.
+  The third cookbook sample re-writes the hero form in _reactive forms_ style.
 
-    ### _ReactiveFormsModule_로 전환 하기
+  ### _ReactiveFormsModule_로 전환 하기
 
-    ### Switch to the _ReactiveFormsModule_
+  ### Switch to the _ReactiveFormsModule_
 
-    반응형 폼 클래스와 지시자는 `FormsModule`이 아닌 `ReactiveFormsModule`에 속해 있습니다.
-    이 샘플의 "반응형 폼"의 기능에 대한 애플리케이션 모듈은 다음과 같습니다:
+  반응형 폼 클래스와 지시자는 `FormsModule`이 아닌 `ReactiveFormsModule`에 속해 있습니다.
+  이 샘플의 "반응형 폼"의 기능에 대한 애플리케이션 모듈은 다음과 같습니다:
 
-    The reactive forms classes and directives come from the Angular `ReactiveFormsModule`, not the `FormsModule`.
-    The application module for the "Reactive Forms" feature in this sample looks like this:
+  The reactive forms classes and directives come from the Angular `ReactiveFormsModule`, not the `FormsModule`.
+  The application module for the "Reactive Forms" feature in this sample looks like this:
 +makeExample('cb-form-validation/ts/src/app/reactive/hero-form-reactive.module.ts','','src/app/reactive/hero-form-reactive.module.ts')(format='.')
 :marked
-    "반응형 폼"의 기능 모듈과 컴포넌트는 `src/app/reactive` 폴더에 있습니다.
-    자, `HeroFormReactiveComponent`를 봅시다.
+  "반응형 폼"의 기능 모듈과 컴포넌트는 `src/app/reactive` 폴더에 있습니다.
+  자, `HeroFormReactiveComponent`를 봅시다.
 
-    The "Reactive Forms" feature module and component are in the `src/app/reactive` folder.
-    Let's focus on the `HeroFormReactiveComponent` there, starting with its template.
+  The "Reactive Forms" feature module and component are in the `src/app/reactive` folder.
+  Let's focus on the `HeroFormReactiveComponent` there, starting with its template.
 
-    ### 컴포넌트 템플릿
+  ### 컴포넌트 템플릿
 
-    ### Component template
+  ### Component template
 
-    우리는 Angular의 `formGroup` 지시자를 컴포넌트 클래스의 `heroForm` 프로퍼티에 바인딩하기 위해 `<forms>`를 변경하는 것으로 시작합니다.
+  우리는 Angular의 `formGroup` 지시자를 컴포넌트 클래스의 `heroForm` 프로퍼티에 바인딩하기 위해 `<forms>`를 변경하는 것으로 시작합니다.
 
-    We begin by changing the `<form>` tag so that it binds the Angular `formGroup` directive in the template
-    to the `heroForm` property in the component class.
-    The `heroForm` is the control model that the component class builds and maintains.
+  We begin by changing the `<form>` tag so that it binds the Angular `formGroup` directive in the template
+  to the `heroForm` property in the component class.
+  The `heroForm` is the control model that the component class builds and maintains.
 
 +makeExample('cb-form-validation/ts/src/app/reactive/hero-form-reactive.component.html','form-tag')(format='.')
 :marked
-    그러고나서 템플릿의 HTML 요소를 _반응형 폼_ 스타일로 맞춰서 변경합니다.
-    다음은 템플릿의 "이름" 부분입니다. 반응형 폼으로 수정되고 템플릿 기반 버전과 비교됩니다.
+  그러고나서 템플릿의 HTML 요소를 _반응형 폼_ 스타일로 맞춰서 변경합니다.
+  다음은 템플릿의 "이름" 부분입니다. 반응형 폼으로 수정되고 템플릿 기반 버전과 비교됩니다.
 
-    Then we modify the template HTML elements to match the _reactive forms_ style.
-    Here is the "name" portion of the template again, revised for reactive forms and compared with the template-driven version:
+  Then we modify the template HTML elements to match the _reactive forms_ style.
+  Here is the "name" portion of the template again, revised for reactive forms and compared with the template-driven version:
 +makeTabs(
 `cb-form-validation/ts/src/app/reactive/hero-form-reactive.component.html,
 cb - form - validation / ts / src / app / template / hero - form - template2.component.html`,
@@ -516,67 +516,67 @@ cb - form - validation / ts / src / app / template / hero - form - template2.com
 hero - form - template1.component.html(name #2)`)
 
 :marked
-    중요 변경점:
+  중요 변경점:
 
-    Key changes:
+  Key changes:
 
-    - (`required`를 제외한) 유효성 검사 속성은 다 코드로 옮겨졌습니다.
+  - (`required`를 제외한) 유효성 검사 속성은 다 코드로 옮겨졌습니다.
 
-    - the validation attributes are gone (except `required`) because we'll be validating in code.
+  - the validation attributes are gone (except `required`) because we'll be validating in code.
 
-    - `required`는 유효성 검사 목적으로 남긴 것이 아니라(코드에서 다룰 것 입니다.), css 스타일링과 접근성을 위해 남겼습니다.
+  - `required`는 유효성 검사 목적으로 남긴 것이 아니라(코드에서 다룰 것 입니다.), css 스타일링과 접근성을 위해 남겼습니다.
 
-    - `required` remains, not for validation purposes (we'll cover that in the code),
-    but rather for css styling and accessibility.
-
-.l-sub-section
-    :marked
-        이후 버전의 반응 형 폼은 컨트롤에 `required` 유효성 검사 함수가 있을 때,
-        `required` HTML 검증 속성을 DOM 엘리먼트 (그리고 아마도 `aria-required` 속성)에 추가 할 것입니다.
-
-        A future version of reactive forms will add the `required` HTML validation attribute to the DOM element
-        (and perhaps the `aria-required` attribute) when the control has the `required` validator function.
-
-        그때 까지는 `required` 속성을 적용하고, 아래에서 설명 할 것처럼 `Validator.required` 함수를 컨트롤 모델에 추가하십시오.
-
-        Until then, apply the `required` attribute _and_ add the `Validator.required` function
-        to the control model, as we'll do below.
-
-:marked
-    - `formControllName`는 `name` 속성을 대신합니다. 이것은 입력 박스를 Angular의 폼 컨트롤과 연관 시키는 것과 동일한 목적을 가집니다.
-
-    - the `formControlName` replaces the `name` attribute; it serves the same purpose of correlating the input box with the Angular form control.
-
-    - 양방향 `[(ngModel)]` 바인딩은 사라졌습니다.
-    반응형 접근 방법은 데이터를 양식 컨트롤 안팎으로 이동시키는데 데이터 바인딩을 사용하지 않습니다.
-
-    - the two-way `[(ngModel)]` binding is gone.
-    The reactive approach does not use data binding to move data into and out of the form controls.
-    We do that in code.
+  - `required` remains, not for validation purposes (we'll cover that in the code),
+  but rather for css styling and accessibility.
 
 .l-sub-section
-    :marked
-        데이터 바인딩을 기피하는 것은 기술적인 한계보다는 반응형 패러다임의 원칙입니다.
+  :marked
+    이후 버전의 반응 형 폼은 컨트롤에 `required` 유효성 검사 함수가 있을 때,
+    `required` HTML 검증 속성을 DOM 엘리먼트 (그리고 아마도 `aria-required` 속성)에 추가 할 것입니다.
 
-        The retreat from data binding is a principle of the reactive paradigm rather than a technical limitation.
+    A future version of reactive forms will add the `required` HTML validation attribute to the DOM element
+    (and perhaps the `aria-required` attribute) when the control has the `required` validator function.
+
+    그때 까지는 `required` 속성을 적용하고, 아래에서 설명 할 것처럼 `Validator.required` 함수를 컨트롤 모델에 추가하십시오.
+
+    Until then, apply the `required` attribute _and_ add the `Validator.required` function
+    to the control model, as we'll do below.
+
 :marked
-    ### 컴포넌트 클래스
+  - `formControllName`는 `name` 속성을 대신합니다. 이것은 입력 박스를 Angular의 폼 컨트롤과 연관 시키는 것과 동일한 목적을 가집니다.
 
-    ### Component class
+  - the `formControlName` replaces the `name` attribute; it serves the same purpose of correlating the input box with the Angular form control.
 
-    이제 컴포넌트 클래스가 폼 컨트롤 모델을 정의하고 관리합니다.
+  - 양방향 `[(ngModel)]` 바인딩은 사라졌습니다.
+  반응형 접근 방법은 데이터를 양식 컨트롤 안팎으로 이동시키는데 데이터 바인딩을 사용하지 않습니다.
 
-    The component class is now responsible for defining and managing the form control model.
+  - the two-way `[(ngModel)]` binding is gone.
+  The reactive approach does not use data binding to move data into and out of the form controls.
+  We do that in code.
 
-    Angular는 더 이상 템플릿에서 컨트롤 모델을 가져 오지 않으므로 더 이상 탐색 할 수 없습니다.
-    `FormBuilder`을 통해 Angluar 폼 컨트롤 모델을 명시적으로 만들 수 있습니다.
+.l-sub-section
+  :marked
+    데이터 바인딩을 기피하는 것은 기술적인 한계보다는 반응형 패러다임의 원칙입니다.
 
-    Angular no longer derives the control model from the template so we can no longer query for it.
-    We create the Angular form control model explicitly with the help of the `FormBuilder`.
+    The retreat from data binding is a principle of the reactive paradigm rather than a technical limitation.
+:marked
+  ### 컴포넌트 클래스
 
-    다음은 이 프로세스에 사용되는 코드 섹션으로 대체되는 템플릿 중심 코드와 함께 사용됩니다.
+  ### Component class
 
-    Here's the section of code devoted to that process, paired with the template-driven code it replaces:
+  이제 컴포넌트 클래스가 폼 컨트롤 모델을 정의하고 관리합니다.
+
+  The component class is now responsible for defining and managing the form control model.
+
+  Angular는 더 이상 템플릿에서 컨트롤 모델을 가져 오지 않으므로 더 이상 탐색 할 수 없습니다.
+  `FormBuilder`을 통해 Angluar 폼 컨트롤 모델을 명시적으로 만들 수 있습니다.
+
+  Angular no longer derives the control model from the template so we can no longer query for it.
+  We create the Angular form control model explicitly with the help of the `FormBuilder`.
+
+  다음은 이 프로세스에 사용되는 코드 섹션으로 대체되는 템플릿 중심 코드와 함께 사용됩니다.
+
+  Here's the section of code devoted to that process, paired with the template-driven code it replaces:
 +makeTabs(
 `cb-form-validation/ts/src/app/reactive/hero-form-reactive.component.ts,
 cb - form - validation / ts / src / app / template / hero - form - template2.component.ts`,
@@ -584,113 +584,113 @@ cb - form - validation / ts / src / app / template / hero - form - template2.com
 `reactive/hero-form-reactive.component.ts (FormBuilder),
 template / hero - form - template2.component.ts(ViewChild)`)
 :marked
-    - `FormBuilder`를 생성자에 주입합니다.
+  - `FormBuilder`를 생성자에 주입합니다.
 
-    - we inject the `FormBuilder` in a constructor.
+  - we inject the `FormBuilder` in a constructor.
 
-    - 히어로 데이터를 가지게 되었을때 우리는 `addHero` 함수를 다시 호출 할 것이기 때문에, `ngOnInit`에서 `buildForm` 메소드를 호출합니다. [라이프사이클 훅 메소드](../guide/lifecycle-hooks.html#hooks-overview)
+  - 히어로 데이터를 가지게 되었을때 우리는 `addHero` 함수를 다시 호출 할 것이기 때문에, `ngOnInit`에서 `buildForm` 메소드를 호출합니다. [라이프사이클 훅 메소드](../guide/lifecycle-hooks.html#hooks-overview)
 
-    - we call a `buildForm` method in the `ngOnInit` [lifecycle hook method](../guide/lifecycle-hooks.html#hooks-overview)
-    because that's when we'll have the hero data. We'll call it again in the `addHero` method.
+  - we call a `buildForm` method in the `ngOnInit` [lifecycle hook method](../guide/lifecycle-hooks.html#hooks-overview)
+  because that's when we'll have the hero data. We'll call it again in the `addHero` method.
 .l-sub-section
-    :marked
-        실제 앱은 데이터 서비스에서 히어로를 비동기 적으로 검색합니다. 이 작업은 `ngOnInit` 훅에서 가장 잘 수행됩니다.
+  :marked
+    실제 앱은 데이터 서비스에서 히어로를 비동기 적으로 검색합니다. 이 작업은 `ngOnInit` 훅에서 가장 잘 수행됩니다.
 
-        A real app would retrieve the hero asynchronously from a data service, a task best performed in the `ngOnInit` hook.
+    A real app would retrieve the hero asynchronously from a data service, a task best performed in the `ngOnInit` hook.
 :marked
-    - `buildForm` 메소드는 폼 컨트롤 모델을 선언하기 위해 `FormBuilder`(`fb`)를 사용합니다.
-    그리고 나서 폼의 `valueChanged` 이벤트에 동일한 `onValueChanged` 핸들러 ( 딱 한 줄 다릅니다. ) 를 부착하고
-    즉시 새로운 컨트롤 모델에 대한 에러 메시지를 설정하도록 호출합니다.
+  - `buildForm` 메소드는 폼 컨트롤 모델을 선언하기 위해 `FormBuilder`(`fb`)를 사용합니다.
+  그리고 나서 폼의 `valueChanged` 이벤트에 동일한 `onValueChanged` 핸들러 ( 딱 한 줄 다릅니다. ) 를 부착하고
+  즉시 새로운 컨트롤 모델에 대한 에러 메시지를 설정하도록 호출합니다.
 
-    - the `buildForm` method uses the `FormBuilder` (`fb`) to declare the form control model.
-    Then it attaches the same `onValueChanged` handler (there's a one line difference)
-    to the form's `valueChanged` event and calls it immediately
-    to set error messages for the new control model.
+  - the `buildForm` method uses the `FormBuilder` (`fb`) to declare the form control model.
+  Then it attaches the same `onValueChanged` handler (there's a one line difference)
+  to the form's `valueChanged` event and calls it immediately
+  to set error messages for the new control model.
 
 :marked
-    #### _FormBuilder_ 선언
+  #### _FormBuilder_ 선언
 
-    #### _FormBuilder_ declaration
+  #### _FormBuilder_ declaration
 
-    `FormBuilder` 선언 객체는 샘플의 히어로 폼에 있는 컨트롤 트리를 지정합니다.
+  `FormBuilder` 선언 객체는 샘플의 히어로 폼에 있는 컨트롤 트리를 지정합니다.
 
-    The `FormBuilder` declaration object specifies the three controls of the sample's hero form.
+  The `FormBuilder` declaration object specifies the three controls of the sample's hero form.
 
-    각각의 컨트롤의 명세는 배열 값을 가진 컨트롤 이름입니다.
-    첫 번째 배열 요소는 해당 영웅 필드의 현재 값입니다.
-    (선택항목인) 두 번째 값은 유효성 검사 함수나 유효성 검사 함수 배열 입니다.
+  각각의 컨트롤의 명세는 배열 값을 가진 컨트롤 이름입니다.
+  첫 번째 배열 요소는 해당 영웅 필드의 현재 값입니다.
+  (선택항목인) 두 번째 값은 유효성 검사 함수나 유효성 검사 함수 배열 입니다.
 
-    Each control spec is a control name with an array value.
-    The first array element is the current value of the corresponding hero field.
-    The (optional) second value is a validator function or an array of validator functions.
+  Each control spec is a control name with an array value.
+  The first array element is the current value of the corresponding hero field.
+  The (optional) second value is a validator function or an array of validator functions.
 
-    유효성 검사 함수들의 대부분은 Angular가 제공하는 `Validators` 클래스의 정적 메소드입니다.
-    Angular는 표준 HTML 유효성 검사 요소에 연관된 유효성 검사기가 있습니다.
+  유효성 검사 함수들의 대부분은 Angular가 제공하는 `Validators` 클래스의 정적 메소드입니다.
+  Angular는 표준 HTML 유효성 검사 요소에 연관된 유효성 검사기가 있습니다.
 
-    Most of the validator functions are stock validators provided by Angular as static methods of the `Validators` class.
-    Angular has stock validators that correspond to the standard HTML validation attributes.
+  Most of the validator functions are stock validators provided by Angular as static methods of the `Validators` class.
+  Angular has stock validators that correspond to the standard HTML validation attributes.
 
-    `"name"` 컨트롤에 있는 `forbiddenNames` 유효성 검사기는 커스텀 유효성 검사기이고, 이는 [아래 섹션](#custom-validation)에서 따로 다뤘습니다.
+  `"name"` 컨트롤에 있는 `forbiddenNames` 유효성 검사기는 커스텀 유효성 검사기이고, 이는 [아래 섹션](#custom-validation)에서 따로 다뤘습니다.
 
-    The `forbiddenNames` validator on the `"name"` control is a custom validator,
-    discussed in a separate [section below](#custom-validation).
+  The `forbiddenNames` validator on the `"name"` control is a custom validator,
+  discussed in a separate [section below](#custom-validation).
 
 .l-sub-section
-    :marked
-        `FormBuilder`는 반응형 폼 챕터에서 자세히 다룹니다.
+  :marked
+    `FormBuilder`는 반응형 폼 챕터에서 자세히 다룹니다.
 
-        Learn more about `FormBuilder` in a _forthcoming_ chapter on reactive forms.
+    Learn more about `FormBuilder` in a _forthcoming_ chapter on reactive forms.
 
 :marked
-    ### 히어로 값 변경 확정
+  ### 히어로 값 변경 확정
 
-    #### Committing hero value changes
+  #### Committing hero value changes
 
-    양방항 데이터 바인딩에서 사용자의 변경점은 자동적으로 컨트롤에서 데이터 모델 프로퍼티로 흐릅니다.
-    반응형 폼은 데이터 모델 프로퍼티를 업데이트하기 위해 데이터 바인딩을 쓰지 않습니다.
-    개발자는 _언제 그리고 어떻게_ 컨트롤 값으로 부터 데이터 모델을 업데이트 할 것인지 결정해야합니다.
+  양방항 데이터 바인딩에서 사용자의 변경점은 자동적으로 컨트롤에서 데이터 모델 프로퍼티로 흐릅니다.
+  반응형 폼은 데이터 모델 프로퍼티를 업데이트하기 위해 데이터 바인딩을 쓰지 않습니다.
+  개발자는 _언제 그리고 어떻게_ 컨트롤 값으로 부터 데이터 모델을 업데이트 할 것인지 결정해야합니다.
 
-    In two-way data binding, the user's changes flow automatically from the controls back to the data model properties.
-    Reactive forms do not use data binding to update data model properties.
-    The developer decides _when and how_ to update the data model from control values.
+  In two-way data binding, the user's changes flow automatically from the controls back to the data model properties.
+  Reactive forms do not use data binding to update data model properties.
+  The developer decides _when and how_ to update the data model from control values.
 
-    이 샘플은 모델을 두 번 업데이트 합니다.
+  이 샘플은 모델을 두 번 업데이트 합니다.
 
-    This sample updates the model twice:
+  This sample updates the model twice:
 
-    1. 유저가 폼을 제출 했을 때
+  1. 유저가 폼을 제출 했을 때
 
-    1. when the user submits the form
+  1. when the user submits the form
 
-    1. 유저가 새로운 히어로를 추가하기로 선택했을 때
+  1. 유저가 새로운 히어로를 추가하기로 선택했을 때
 
-    1. when the user chooses to add a new hero
+  1. when the user chooses to add a new hero
 
-    `onSubmit` 메소드는 단순하게 `hero` 오브젝트를 연결된 폼의 값으로 변경합니다.
+  `onSubmit` 메소드는 단순하게 `hero` 오브젝트를 연결된 폼의 값으로 변경합니다.
 
-    The `onSubmit` method simply replaces the `hero` object with the combined values of the form:
+  The `onSubmit` method simply replaces the `hero` object with the combined values of the form:
 +makeExample('cb-form-validation/ts/src/app/reactive/hero-form-reactive.component.ts','on-submit')(format='.')
 .l-sub-section
-    :marked
-        이 예제는`heroForm.value` 속성이 영웅 데이터 객체 속성과 _정확하게 일치_한다는 점에서 "행운"입니다.
+  :marked
+    이 예제는`heroForm.value` 속성이 영웅 데이터 객체 속성과 _정확하게 일치_한다는 점에서 "행운"입니다.
 
-        This example is "lucky" in that the `heroForm.value` properties _just happen_ to
-        correspond _exactly_ to the hero data object properties.
+    This example is "lucky" in that the `heroForm.value` properties _just happen_ to
+    correspond _exactly_ to the hero data object properties.
 :marked
-    `addHero` 메소드는 보류 중인 변경점을 버리고 새로운 `hero` 모델 오브젝트를 생성합니다.
+  `addHero` 메소드는 보류 중인 변경점을 버리고 새로운 `hero` 모델 오브젝트를 생성합니다.
 
-    The `addHero` method discards pending changes and creates a brand new `hero` model object.
+  The `addHero` method discards pending changes and creates a brand new `hero` model object.
 +makeExample('cb-form-validation/ts/src/app/reactive/hero-form-reactive.component.ts','add-hero')(format='.')
 :marked
-    그런 다음 이전의 `heroForm` 제어 모델을 새로운 것으로 대체하는`buildForm`을 다시 호출합니다.
-    `<form>` 태그의 `[formGroup]` 바인딩은 새로운 컨트롤 모델로 페이지를 새로 고칩니다.
+  그런 다음 이전의 `heroForm` 제어 모델을 새로운 것으로 대체하는`buildForm`을 다시 호출합니다.
+  `<form>` 태그의 `[formGroup]` 바인딩은 새로운 컨트롤 모델로 페이지를 새로 고칩니다.
 
-    Then it calls `buildForm` again which replaces the previous `heroForm` control model with a new one.
-    The `<form>` tag's `[formGroup]` binding refreshes the page with the new control model.
+  Then it calls `buildForm` again which replaces the previous `heroForm` control model with a new one.
+  The `<form>` tag's `[formGroup]` binding refreshes the page with the new control model.
 
-    이제 완전한 반응형 컴포넌트 파일과 두 개의 템플릿 기반 구성 요소 파일과 비교해봅시다.
+  이제 완전한 반응형 컴포넌트 파일과 두 개의 템플릿 기반 구성 요소 파일과 비교해봅시다.
 
-    Here's the complete reactive component file, compared to the two template-driven component files.
+  Here's the complete reactive component file, compared to the two template-driven component files.
 +makeTabs(
 `cb-form-validation/ts/src/app/reactive/hero-form-reactive.component.ts,
 cb - form - validation / ts / src / app / template / hero - form - template2.component.ts,
@@ -701,137 +701,137 @@ template / hero - form - template2.component.ts(#2),
 template / hero - form - template1.component.ts(#1)`)
 
 .l-sub-section
-    :marked
-        [라이브 예제](#live-example)를 실행해서 반응형 폼이 어떻게 작동하는지 봅시다.
-        그리고 요리책의 샘플에 있는 모든 파일과 비교해 봅시다.
+  :marked
+    [라이브 예제](#live-example)를 실행해서 반응형 폼이 어떻게 작동하는지 봅시다.
+    그리고 요리책의 샘플에 있는 모든 파일과 비교해 봅시다.
 
-        Run the [live example](#live-example) to see how the reactive form behaves
-        and to compare all of the files in this cookbook sample.
+    Run the [live example](#live-example) to see how the reactive form behaves
+    and to compare all of the files in this cookbook sample.
 
 .l-main-section
 a#custom-validation
 :marked
-    ## 커스텀 유효성 검사
+  ## 커스텀 유효성 검사
 
-    ## Custom validation
+  ## Custom validation
 
-    이 요리책 샘플은 템플릿 중심과 반응형 폼 컨트롤에 적용된 커스텀 `forbiddenNamevalidator` 함수을 소개합니다.
-    이것은 `src/app/shared` 폴더에 들어있고, `SharedModule`에 선언되어 있습니다.
+  이 요리책 샘플은 템플릿 중심과 반응형 폼 컨트롤에 적용된 커스텀 `forbiddenNamevalidator` 함수을 소개합니다.
+  이것은 `src/app/shared` 폴더에 들어있고, `SharedModule`에 선언되어 있습니다.
 
-    This cookbook sample has a custom `forbiddenNamevalidator` function that's applied to both the
-    template-driven and the reactive form controls. It's in the `src/app/shared` folder
-    and declared in the `SharedModule`.
+  This cookbook sample has a custom `forbiddenNamevalidator` function that's applied to both the
+  template-driven and the reactive form controls. It's in the `src/app/shared` folder
+  and declared in the `SharedModule`.
 
-    다음은 `forbiddenNamevalidator` 함수입니다.
+  다음은 `forbiddenNamevalidator` 함수입니다.
 
-    Here's the `forbiddenNamevalidator` function itself:
+  Here's the `forbiddenNamevalidator` function itself:
 +makeExample('cb-form-validation/ts/src/app/shared/forbidden-name.directive.ts','custom-validator', 'shared/forbidden-name.directive.ts (forbiddenNameValidator)')(format='.')
 :marked
-    이 함수는 실제로 _특정_ 금지 된 이름을 탐지하는 정규식을 사용하고 유효화 검사 결과 값을 반환하는 팩토리입니다.
+  이 함수는 실제로 _특정_ 금지 된 이름을 탐지하는 정규식을 사용하고 유효화 검사 결과 값을 반환하는 팩토리입니다.
 
-    The function is actually a factory that takes a regular expression to detect a _specific_ forbidden name
-    and returns a validator function.
+  The function is actually a factory that takes a regular expression to detect a _specific_ forbidden name
+  and returns a validator function.
 
-    이 샘플에서, 금지된 이름은 "bob"입니다.
-    이 유효성 검사기는 어떤 히어로던 이름에 "bob"이 포함되면 거절합니다.
-    다른 곳에서는 "alice" 또는 구성하는 정규식이 일치하는 이름을 거부 할 수 있습니다.
+  이 샘플에서, 금지된 이름은 "bob"입니다.
+  이 유효성 검사기는 어떤 히어로던 이름에 "bob"이 포함되면 거절합니다.
+  다른 곳에서는 "alice" 또는 구성하는 정규식이 일치하는 이름을 거부 할 수 있습니다.
 
 
-    In this sample, the forbidden name is "bob";
-    the validator rejects any hero name containing "bob".
-    Elsewhere it could reject "alice" or any name that the configuring regular expression matches.
+  In this sample, the forbidden name is "bob";
+  the validator rejects any hero name containing "bob".
+  Elsewhere it could reject "alice" or any name that the configuring regular expression matches.
 
-    `forbiddenNamevalidator` 팩토리는 구성된 유효성 검사기 함수를 반환합니다.
-    그 함수는 Angular 컨트롤 객체를 가지고 있고 컨트롤 값이 _유효하면_ null을 반환하고 _그게 아니면_ 유효성 검사 오류 객체를 반환 합니다.
-    유효성 검사 오류 객체는 일반적으로 이름이 유효성 검사 키 ('forbiddenName')인 프로퍼티를 가지고,
-    값이 오류 메시지 (`{name}`)에 삽입 할 수 있는 임의의 값 사전입니다.
+  `forbiddenNamevalidator` 팩토리는 구성된 유효성 검사기 함수를 반환합니다.
+  그 함수는 Angular 컨트롤 객체를 가지고 있고 컨트롤 값이 _유효하면_ null을 반환하고 _그게 아니면_ 유효성 검사 오류 객체를 반환 합니다.
+  유효성 검사 오류 객체는 일반적으로 이름이 유효성 검사 키 ('forbiddenName')인 프로퍼티를 가지고,
+  값이 오류 메시지 (`{name}`)에 삽입 할 수 있는 임의의 값 사전입니다.
 
-    The `forbiddenNamevalidator` factory returns the configured validator function.
-    That function takes an Angular control object and returns _either_
-    null if the control value is valid _or_ a validation error object.
-    The validation error object typically has a property whose name is the validation key ('forbiddenName')
-    and whose value is an arbitrary dictionary of values that we could insert into an error message (`{name}`).
+  The `forbiddenNamevalidator` factory returns the configured validator function.
+  That function takes an Angular control object and returns _either_
+  null if the control value is valid _or_ a validation error object.
+  The validation error object typically has a property whose name is the validation key ('forbiddenName')
+  and whose value is an arbitrary dictionary of values that we could insert into an error message (`{name}`).
 
 .l-sub-section
-    :marked
-        유효성 검사기 함수는 커스텀 폼 유효성 검사 챕터에서 자세히 다룹니다.
+  :marked
+    유효성 검사기 함수는 커스텀 폼 유효성 검사 챕터에서 자세히 다룹니다.
 
-        Learn more about validator functions in a _forthcoming_ chapter on custom form validation.
+    Learn more about validator functions in a _forthcoming_ chapter on custom form validation.
 :marked
-    #### 커스텀 유효성 검사 지시자
+  #### 커스텀 유효성 검사 지시자
 
-    #### Custom validation directive
+  #### Custom validation directive
 
-    반응형 폼 컴포넌트에서 우리는 `'name'` 컨트롤의 유효성 검사 함수 리스트의 제일 마지막에 `forbiddenNamevalidator`를 추가했습니다.
+  반응형 폼 컴포넌트에서 우리는 `'name'` 컨트롤의 유효성 검사 함수 리스트의 제일 마지막에 `forbiddenNamevalidator`를 추가했습니다.
 
-    In the reactive forms component we added a configured `forbiddenNamevalidator`
-    to the bottom of the `'name'` control's validator function list.
+  In the reactive forms component we added a configured `forbiddenNamevalidator`
+  to the bottom of the `'name'` control's validator function list.
 +makeExample('cb-form-validation/ts/src/app/reactive/hero-form-reactive.component.ts','name-validators', 'reactive/hero-form-reactive.component.ts (name validators)')(format='.')
 :marked
-    템플릿 중심의 컴포넌트 템플릿에서, 커스텀 _속성 지시자_의 선택자 (`forbiddenName`)를 이름의 입력 박스에 추가했습니다.
-    그리고 "bob"을 거절 할 수 있도록 설정했습니다.
+  템플릿 중심의 컴포넌트 템플릿에서, 커스텀 _속성 지시자_의 선택자 (`forbiddenName`)를 이름의 입력 박스에 추가했습니다.
+  그리고 "bob"을 거절 할 수 있도록 설정했습니다.
 
-    In the template-driven component template, we add the selector (`forbiddenName`) of a custom _attribute directive_ to the name's input box
-    and configured it to reject "bob".
+  In the template-driven component template, we add the selector (`forbiddenName`) of a custom _attribute directive_ to the name's input box
+  and configured it to reject "bob".
 +makeExample('cb-form-validation/ts/src/app/template/hero-form-template2.component.html','name-input', 'template/hero-form-template2.component.html (name input)')(format='.')
 :marked
-    해당 `ForbiddenValidatorDirective`는 `forbiddenNamevalidator`를 감쌉니다.
+  해당 `ForbiddenValidatorDirective`는 `forbiddenNamevalidator`를 감쌉니다.
 
-    The corresponding `ForbiddenValidatorDirective` is a wrapper around the `forbiddenNamevalidator`.
+  The corresponding `ForbiddenValidatorDirective` is a wrapper around the `forbiddenNamevalidator`.
 
-    Angular의 폼은 이 지시자는 확장가능한 유효성 검사 지시자 집합을 제공자인 `NG_VALIDATORS`에 등록되기 때문에
-    지시자 유효성 검사 프로세스에서 지시자의 역할을 인식합니다.
+  Angular의 폼은 이 지시자는 확장가능한 유효성 검사 지시자 집합을 제공자인 `NG_VALIDATORS`에 등록되기 때문에
+  지시자 유효성 검사 프로세스에서 지시자의 역할을 인식합니다.
 
-    Angular forms recognizes the directive's role in the validation process because the directive registers itself
-    with the `NG_VALIDATORS` provider, a provider with an extensible collection of validation directives.
+  Angular forms recognizes the directive's role in the validation process because the directive registers itself
+  with the `NG_VALIDATORS` provider, a provider with an extensible collection of validation directives.
 +makeExample('cb-form-validation/ts/src/app/shared/forbidden-name.directive.ts','directive-providers', 'shared/forbidden-name.directive.ts (providers)')(format='.')
 :marked
-    나머지 지시문은 눈에 띄지 않으며 추가 설명없이 여기에 제시합니다.
+  나머지 지시문은 눈에 띄지 않으며 추가 설명없이 여기에 제시합니다.
 
-    The rest of the directive is unremarkable and we present it here without further comment.
+  The rest of the directive is unremarkable and we present it here without further comment.
 +makeExample('cb-form-validation/ts/src/app/shared/forbidden-name.directive.ts','directive', 'shared/forbidden-name.directive.ts (directive)')
 :marked
 .l-sub-section
-    :marked
-        [속성 지시자](../guide/attribute-directives.html) 챕터를 봅시다.
+  :marked
+    [속성 지시자](../guide/attribute-directives.html) 챕터를 봅시다.
 
-        See the [Attribute Directives](../guide/attribute-directives.html) chapter.
+    See the [Attribute Directives](../guide/attribute-directives.html) chapter.
 
 .l-main-section
 a#testing
 :marked
-    ## 테스트 고려사항
+  ## 테스트 고려사항
 
-    ## Testing Considerations
+  ## Testing Considerations
 
-    우리는 유효성 검사의 _독립된 유닛 테스트_와 _반응형 폼_의 컨트롤 로직을 작성할 수 있습니다.
+  우리는 유효성 검사의 _독립된 유닛 테스트_와 _반응형 폼_의 컨트롤 로직을 작성할 수 있습니다.
 
-    We can write _isolated unit tests_ of validation and control logic in _Reactive Forms_.
+  We can write _isolated unit tests_ of validation and control logic in _Reactive Forms_.
 
-    _독립된 유닛 테스트_는 템플릿, DOM, 다른 의존성 또는 Angular와의 상호 작용과는 독립적으로 컴포넌트 클래스를 직접 검사합니다.
+  _독립된 유닛 테스트_는 템플릿, DOM, 다른 의존성 또는 Angular와의 상호 작용과는 독립적으로 컴포넌트 클래스를 직접 검사합니다.
 
-    _Isolated unit tests_ probe the component class directly, independent of its
-    interactions with its template, the DOM, other dependencies, or Angular itself.
+  _Isolated unit tests_ probe the component class directly, independent of its
+  interactions with its template, the DOM, other dependencies, or Angular itself.
 
-    이러한 테스트는 사전작업이 적고, 작성이 빠르고 유지 보수가 쉽습니다.
-    이들은 `Angular TestBed` 또는 비동기 테스트 데이터를 필요로 하지 않습니다.
+  이러한 테스트는 사전작업이 적고, 작성이 빠르고 유지 보수가 쉽습니다.
+  이들은 `Angular TestBed` 또는 비동기 테스트 데이터를 필요로 하지 않습니다.
 
-    Such tests have minimal setup, are quick to write, and easy to maintain.
-    They do not require the `Angular TestBed` or asynchronous testing practices.
+  Such tests have minimal setup, are quick to write, and easy to maintain.
+  They do not require the `Angular TestBed` or asynchronous testing practices.
 
-    이것은 _템플릿 중심_의 폼으로는 불가능합니다.
-    템플릿 중심의 접근 방법은 컨트롤 모델 생산하고
-    HTML 유효성 검사 속성으로 부터 유효성 검사 규칙을 만들어 내기 위해 Angular에 의존합니다.
-    컴포넌트의 테스트 인스턴스를 만들기 위해선 반드시 `Angular TestBed`가 필요로 합니다.
-    또, 비동기 테스트를 작성해야하고 DOM과 상호작용해야합니다.
+  이것은 _템플릿 중심_의 폼으로는 불가능합니다.
+  템플릿 중심의 접근 방법은 컨트롤 모델 생산하고
+  HTML 유효성 검사 속성으로 부터 유효성 검사 규칙을 만들어 내기 위해 Angular에 의존합니다.
+  컴포넌트의 테스트 인스턴스를 만들기 위해선 반드시 `Angular TestBed`가 필요로 합니다.
+  또, 비동기 테스트를 작성해야하고 DOM과 상호작용해야합니다.
 
-    That's not possible with _Template-driven_ forms.
-    The template-driven approach relies on Angular to produce the control model and
-    to derive validation rules from the HTML validation attributes.
-    You must use the `Angular TestBed` to create component test instances,
-    write asynchronous tests, and interact with the DOM.
+  That's not possible with _Template-driven_ forms.
+  The template-driven approach relies on Angular to produce the control model and
+  to derive validation rules from the HTML validation attributes.
+  You must use the `Angular TestBed` to create component test instances,
+  write asynchronous tests, and interact with the DOM.
 
-    어려운 것은 아니지만, 테스트 코드 범위와 품질을 떨어 뜨리는 요인인 더 많은 시간과 더 많은 작업, 더 많은 스킬이 소요합니다.
+  어려운 것은 아니지만, 테스트 코드 범위와 품질을 떨어 뜨리는 요인인 더 많은 시간과 더 많은 작업, 더 많은 스킬이 소요합니다.
 
-    While not difficult, this takes more time, work and skill &mdash;
-    factors that tend to diminish test code coverage and quality.
+  While not difficult, this takes more time, work and skill &mdash;
+  factors that tend to diminish test code coverage and quality.
