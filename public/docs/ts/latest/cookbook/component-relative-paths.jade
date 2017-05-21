@@ -1,7 +1,12 @@
 include ../_util-fns
 
 :marked
+  ## *Component-Relative* URL을 컴포넌트 템플릿과 스타일에 쓰기
+  
   ## Write *Component-Relative* URLs to component templates and style files
+
+  Angular에서는 컴포넌트들을 외부 템플릿이나 외부 스타일 파일을 참조하는 경우가 많습니다.
+  이러한 파일들은 `@Component` 메타데이터의 `templateUrl`과 `styleUrls` 속성안의 URL들로 식별합니다. 
 
   Our components often refer to external template and style files.
   We identify those files with a URL in the `templateUrl` and `styleUrls` properties of the `@Component` metadata
@@ -9,25 +14,43 @@ include ../_util-fns
   
 +makeExample('cb-component-relative-paths/ts/src/app/some.component.ts','absolute-config')(format='.')
 :marked
+  기본적으로 어플리케이션 루트까지의 전체 경로를 *표시해야만* 합니다.
+  이것은 어플리케이션 루트로부터 확실하게 위치를 표현할 수 있기 때문에 때문에 ***절대 경로***라고 부릅니다.
+  
   By default, we *must* specify the full path back to the application root.
   We call this an ***absolute path*** because it is *absolute* with respect to the application root.
 
+  *절대 경로*에는 두가지 문제점이 있습니다.
+
   There are two problems with an *absolute path*:
+  
+  1. 어플리케이션 루트까지의 모든 경로를 기억해야만 합니다.
   
   1. We have to remember the full path back to the application root.
   
+  1. 어플리케이션 파일 구조에서 컴포넌트를 이동할때 URL을 업데이트 해야 합니다.
+  
   1. We have to update the URL when we move the component around in the application files structure.
+  
+  컴포넌트의 클래스 파일에 *상대적으로* 으로 템플릿과 스타일 위치들을 표시할 수 있다면 어플리케이션 컴포넌트들을 유지하고 작성하는 것이 더 쉬워지겠죠.
   
   It would be much easier to write and maintain our application components if we could specify template and style locations
   *relative* to their component class file.
   
+  *그렇게 할 수 있습니다.*
+  
   *We can!*
   
 .alert.is-important
-  :marked
+  :marked  
+    어플리케이션을 `commonjs` 모듈 처럼 작성하고 `systemjs`나 `webpack`같은 적절한 패키지 로더로 적재한다면 위치를 상대적으로 명시하는 것이 가능합니다.
+  
     We can if we build our application as `commonjs` modules and load those modules
     with a suitable package loader such as `systemjs` or `webpack`.
     Learn why [below](#why-default).
+ 
+    Angular CLI는 이 기술을 사용하며 기본적으로 *컴포넌트 상대 경로* 접근법을 사용합니다.
+    CLI 사용자들은 이 장을 건너 뛰어도 되고 아니면 어떻게 동작하는지 이해하기 위해 읽으셔도 됩니다.
     
     The Angular CLI uses these technologies and defaults to the
     *component-relative path* approach described here.
@@ -36,13 +59,22 @@ include ../_util-fns
   
 .l-main-section
 :marked
+  ## _컴포넌트-상대_ 경로
+
   ## _Component-Relative_ Paths
+  
+  템플릿 파일과 스타일 URL 을 컴포넌트 클래스 파일에 *상대적으로* 표시하는 것이 목적이기 때문에 ***컴포넌트-상대 경로***라는 이름이 붙었습니다.
   
   Our goal is to specify template and style URLs *relative* to their component class files, 
   hence the term ***component-relative path***.
   
+  관련된 컴포넌트 파일들을 잘 알려진 위치에 두는 관습을 따르는 것이 성공의 비결입니다. 
+  
   The key to success is following a convention that puts related component files in well-known locations.
   
+  컴포넌트 템플릿과 컴포넌트의 특화된 스타일 파일들을 동반하는 컴포넌트 클래스 파일의 *자매*로 관리하는 것을 추천합니다.
+  아래의 예시를 보면 `SomeComponent`를 위한 세 파일이 `app` 폴더의 다음에 나란히 위치하고 있는 모습을 볼 수 있습니다.
+
   We recommend keeping component template and component-specific style files as *siblings* of their
   companion component class files. 
   Here we see the three files for `SomeComponent` sitting next to each other in the `app` folder. 
