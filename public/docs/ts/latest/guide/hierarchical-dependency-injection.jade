@@ -2,23 +2,43 @@ block includes
   include ../_util-fns
 
 :marked
+  여러분은 Angular 의존성 주입을 [의존성 주입](./dependency-injection.html) 가이드에서 배웠습니다.
+
   You learned the basics of Angular Dependency injection in the
   [Dependency Injection](./dependency-injection.html) guide.
+
+  Angular는 계층적인 의존성 주입 시스템을 가지고 있습니다.
+  실제로 애플리케이션의 컴포넌트 트리와 평행한 주입기들의 트리가 존재합니다.
+  여러분은 컴포넌트 트리의 레벨에 상관없이 모든 주입들을 재구성할 수 있습니다.
 
   Angular has a _Hierarchical Dependency Injection_ system.
   There is actually a tree of injectors that parallel an application's component tree.
   You can reconfigure the injectors at any level of that component tree.
 
+  이 가이드에서는 이와 같은 시스템을 어떻게 잘 활용할 수 있을지 알아보겠습니다.
+
   This guide explores this system and how to use it to your advantage.
+
+  이 파트의 <live-example></live-example> 시도해보세요.
 
   Try the <live-example></live-example>.
 
 .l-main-section
 :marked
+  ## 주입기 트리
+
   ## The injector tree
+
+  [의존성 주입](./dependency-injection.html) 가이드에서
+  여러분은 의존성 주입기를 구성하는 방법과 특정 의존성들이 필요할 때 그 의존성을 되찾아오는 방법을 배웠습니다.
 
   In the [Dependency Injection](./dependency-injection.html) guide,
   you learned how to configure a dependency injector and how to retrieve dependencies where you need them.
+
+  사실, ***주입기***와 같은 것들은 존재하지 않습니다.
+  어플리케이션은 여러개의 주입기를 가지고 있을것입니다.
+  Angular 어플리케이션은 컴포넌트들의 트리입니다. 각각의 컴포넌트 인스턴스는 각 인스턴스만의 주입기를 가지고 있습니다.
+  컴포넌트들의 트리는 주입기들의 트리와 평행합니다.
 
   In fact, there is no such thing as ***the*** injector.
   An application may have multiple injectors.
@@ -27,6 +47,10 @@ block includes
 
 .l-sub-section
  :marked
+   컴포넌트의 인젝터는 컴포넌트 트리에서 상위에 있는 상위 주입기의 프록시 일 수 있습니다.
+   효율성을 향상시키는 구현 세부 사항입니다.
+   여러분은 이 차이를 알아 채지 못할 것이고 당신의 정신 모델은 모든 컴포넌트가 자신의 주입기를 가져야한다는 것입니다.
+
    The component's injector may be a _proxy_ for an ancestor injector higher in the component tree.
    That's an implementation detail that improves efficiency.
    You won't notice the difference and
