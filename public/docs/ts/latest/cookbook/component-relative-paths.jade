@@ -1,7 +1,7 @@
 include ../_util-fns
 
 :marked
-  ## *Component-Relative* URL을 컴포넌트 템플릿과 스타일에 쓰기
+  ## *컴포넌트-상대* URL을 컴포넌트 템플릿과 스타일에 쓰기
   
   ## Write *Component-Relative* URLs to component templates and style files
 
@@ -42,7 +42,7 @@ include ../_util-fns
   *We can!*
   
 .alert.is-important
-  :marked  
+  :marked
     어플리케이션을 `commonjs` 모듈 처럼 작성하고 `systemjs`나 `webpack`같은 적절한 패키지 로더로 적재한다면 위치를 상대적으로 명시하는 것이 가능합니다.
   
     We can if we build our application as `commonjs` modules and load those modules
@@ -87,26 +87,46 @@ include ../_util-fns
       .file some.component.ts
     .file ...
 :marked
+  어플리케이션의 크기가 커지면 커질수록 파일들과 폴더들이 많아지고 디렉터리 구조가 더 깊어질 것 입니다.
+  그렇지만 분리할수 없는 자매들끼리 묶어서 컴포넌트 파일들을 이동하는 한 괜찮습니다.
+
   We'll have more files and folders &mdash; and greater folder depth &mdash; as our application grows.
   We'll be fine as long as the component files travel together as the inseparable siblings they are.
   
+  ### *moduleId* 설정하기
+  
   ### Set the *moduleId*
+  
+  이러한 파일 구조 규칙을 적용하면, `@Component` 메타데이터의 `moduleId` 속성을 아래와 같이 적용하는 것으로
+  템플릿과 스타일 파일들의 위치를 컴포넌트 클래스 파일에 상대적으로 표현할 수 있습니다.
++makeExample('cb-component-relative-paths/ts/src/app/some.component.ts','module-id')(format='.')
   
   Having adopted this file structure convention, we can specify locations of the template and style files
   relative to the component class file simply by setting the `moduleId` property of the `@Component` metadata like this
 +makeExample('cb-component-relative-paths/ts/src/app/some.component.ts','module-id')(format='.')
 :marked
+  `src/app` 기본 경로를 `templateUrl` 과 `styleUrls` 에서 제거하고 이를 `./`로 변경하세요.
+  그 결과는 아래와 같습니다.
++makeExample('cb-component-relative-paths/ts/src/app/some.component.ts','relative-config')(format='.')
+  
   We strip the `src/app/` base path from the `templateUrl` and `styleUrls` and replace it with `./`. 
   The result looks like this:
 +makeExample('cb-component-relative-paths/ts/src/app/some.component.ts','relative-config')(format='.')
 
 .alert.is-helpful
   :marked
+    웹팩 유저들은 [다른 접근법](#webpack) 을 선호할 수도 있습니다.
+    
     Webpack users may prefer [an alternative approach](#webpack).
     
 .l-main-section
 :marked
+  ## 소스
+  
   ## Source
+  
+  **여기에서 <live-example name="cb-component-relative-paths">예시</live-example>**
+  를 보고 다운로드하거나 관련된 소스를 아래에서 확인하실 수 있습니다
   
   **We can see the <live-example name="cb-component-relative-paths"></live-example>**
   and download the source code from there
@@ -122,17 +142,29 @@ include ../_util-fns
 a#why-default
 .l-main-section
 :marked
+  ## 부록 : *컴포넌트-상대* 가 기본 설정이 아닌 이유
+  
   ## Appendix: why *component-relative* is not the default
 
+  *컴포넌트-상대* 경로는 명백히 *절대*경로보다 뛰어납니다.
+  왜 Angular가 기본으로 *절대*경로를 사용할까요?
+  왜 `moduleId`를 `직접` 설정해야 할까요? 왜 Angular가 기본적으로 설정할 수 없나요?
+  
   A *component-relative* path is obviously superior to an *absolute* path.
   Why did Angular default to the *absolute* path?
   Why do *we* have to set the `moduleId`? Why can't Angular set it?
+  
+  첫째로, 만일 우리가 `moduleId`를 생략하고 상대 경로를 사용할때 어떤 일이 일어나나 봅시다.
   
   First, let's look at what happens if we use a relative path and omit the `moduleId`.
   
   `EXCEPTION: Failed to load some.component.html`
 
+  Angular는 파일을 찾지 못하고 에러를 발생시킵니다.
+
   Angular can't find the file so it throws an error.
+  
+  왜 Angular는 템플릿과 스타일 URL을 컴포넌트 파일의 위치로부터 계산해내지 못할까요?
   
   Why can't Angular calculate the template and style URLs from the component file's location? 
 
