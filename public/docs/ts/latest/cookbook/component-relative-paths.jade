@@ -115,7 +115,7 @@ include ../_util-fns
 
 .alert.is-helpful
   :marked
-    웹팩 유저들은 [다른 접근법](#webpack) 을 선호할 수도 있습니다.
+    Webpack 유저들은 [다른 접근법](#webpack) 을 선호할 수도 있습니다.
     
     Webpack users may prefer [an alternative approach](#webpack).
     
@@ -168,18 +168,34 @@ a#why-default
   
   Why can't Angular calculate the template and style URLs from the component file's location? 
 
+  그 이유는 컴포넌트의 위치가 개발자의 도움 없이는 결정될 수 없기 때문입니다.
+  Angular 어플리케이션은 여러 방식으로 로드될 수 있습니다: 조금만 예시를 들어보면 단일 파일, SystemJS 패키지,
+  아니면 CommonJS 패키지 등을 통해서 로드될 수 있습니다.
+  여러 포맷들중 어떤 방식으로든 모듈을 만들 수도 있고, 아니면 모듈러한 코드를 아예 작성하지 않을 수도 있습니다.
+  
   Because the location of the component can't be determined without the developer's help.
   Angular apps can be loaded in many ways: from individual files, from SystemJS packages, or
   from CommonJS packages, to name a few. 
   We might generate modules in any of several formats. 
   We might not be writing modular code at all!
-  
+ 
+  이러한 패키징 및 모듈 로드 전략에 다양성때문에,
+  Angular 가 런타임시에 이러한 파일들이 어디에 위치하고 있는지 정확하게 알기란 불가능 합니다.
+ 
   With this diversity of packaging and module load strategies, 
   it's not possible for Angular to know with certainty where these files reside at runtime.
+
+  Angular가 오직 확실히 알 수 있는 위치는 `index.html` 홈페이지의 URL, 어플리케이션 루트 뿐입니다.
+  따라서 기본적으로 템플릿과 스타일 경로를 `index.html`에 상대적으로 계산합니다.
+  이것이 이전에 우리가 파일의 URL들을 `app/` 기본 경로 접두사를 붙여서 작성했던 이유입니다.
 
   The only location Angular can be sure of is the URL of the `index.html` home page, the application root.
   So by default it resolves template and style paths relative to the URL of `index.html`.
   That's why we previously wrote our file URLs with an `app/` base path prefix.
+
+  하지만 *만일* 권장되는 가이드라인을 따라서 `commonjs` 포맷에 맞게 모듈을 작성하고
+  *잘 동작*하는 모듈 로더를 사용한다면, 어플리케이션 개발자는 반절대적인 `module.id` 변수를 알 수 있고
+  이것이 컴포넌트 클래스 모듈 파일의 절대적인 위치를 포함하고 있을 것입니다. 
 
   But *if* we follow the recommended guidelines and we write modules in `commonjs` format
   and we use a module loader that *plays nice*,
@@ -187,6 +203,9 @@ a#why-default
   know that the semi-global `module.id` variable is available and contains
   the absolute URL of the component class module file.
   
+  그 정보가 Angular가 `moduleId`를 설정하지 않고도 *component*파일이 어디 있는지를 알게 해주는 정보입니다.
++makeExample('cb-component-relative-paths/ts/src/app/some.component.ts','module-id')(format='.')
+    
   That knowledge enables us to tell Angular where the *component* file is
   by setting the `moduleId`:
 +makeExample('cb-component-relative-paths/ts/src/app/some.component.ts','module-id')(format='.')
