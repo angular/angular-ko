@@ -47,14 +47,14 @@ block includes
 
 .l-sub-section
   :marked
-    컴포넌트의 인젝터는 컴포넌트 트리에서 상위에 있는 상위 주입기의 프록시 일 수 있습니다.
-    효율성을 향상시키는 구현 세부 사항입니다.
-    여러분은 이 차이를 알아 채지 못할 것이고 당신의 정신 모델은 모든 컴포넌트가 자신의 주입기를 가져야한다는 것입니다.
+   컴포넌트의 인젝터는 컴포넌트 트리에서 상위에 있는 상위 주입기의 프록시 일 수 있습니다.
+   효율성을 향상시키는 구현 세부 사항입니다.
+   여러분은 이 차이를 알아 채지 못할 것이고 당신의 정신 모델은 모든 컴포넌트가 자신의 주입기를 가져야한다는 것입니다.
 
-    The component's injector may be a _proxy_ for an ancestor injector higher in the component tree.
-    That's an implementation detail that improves efficiency.
-    You won't notice the difference and
-    your mental model should be that every component has its own injector.
+   The component's injector may be a _proxy_ for an ancestor injector higher in the component tree.
+   That's an implementation detail that improves efficiency.
+   You won't notice the difference and
+   your mental model should be that every component has its own injector.
 
 :marked
   Tour of Heroes application을 약간 변형시켜 만든 다음 가이드를 고려해봅시다.
