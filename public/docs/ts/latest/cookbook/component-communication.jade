@@ -75,11 +75,9 @@ include ../_util-fns
   The second `@Input` aliases the child component property name `masterName` as `'master'`.
 
   그래서 그 부모인 `HeroParentComponent`는 그의 자식 컴포넌트 `HeroChildComponent`를 `*ngFor` 반복자 안에 넣고,
-<<<<<<< HEAD
-  부모의 `master` 스트링 타입 속성을 자식 컴포넌트의 `master` 바로가기에 묶고 매 반복 때 마다 쓰이는 `hero` 인스턴스를 자식 컴포넌트의 `hero` 속성에 묶습니다.
-=======
-  부모의 `master` 스트링 속성을 자식 컴포넌트의 `master` 바로가기에 묶고 매 반복 때 마다 쓰이는 `hero` 인스턴스를 자식 컴포넌트의 `hero` 속성에 묶습니다.
->>>>>>> 0628d1207789c9816c389e2c7ea67baade22938b
+  부모의 `master` 스트링 타입 속성을 자식 컴포넌트의 `master` 바로가기에 묶고
+  매 반복 때 마다 쓰이는 `hero` 인스턴스를 자식 컴포넌트의 `hero` 속성에 묶습니다.
+
 
   The `HeroParentComponent` nests the child `HeroChildComponent` inside an `*ngFor` repeater,
   binding its `master` string property to the child's `master` alias
@@ -87,11 +85,7 @@ include ../_util-fns
 
 +makeExample('cb-component-communication/ts/src/app/hero-parent.component.ts')
 :marked
-<<<<<<< HEAD
   작동하는 웹 앱은 3명의 영웅들을 보여줍니다.
-=======
-  작동하는 웹 앱은 3명의 히어로들을 보여줍니다.
->>>>>>> 0628d1207789c9816c389e2c7ea67baade22938b
 
   The running application displays three heroes:
 
