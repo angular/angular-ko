@@ -149,7 +149,7 @@ h2#prereq4 Prerequisite: Install TypeScript 2 for Visual Studio 2015
 
   TypeScript 2를 설치하려면:
     * [TypeScript 2.0 Visual Studio 2015] (http://download.microsoft.com/download/6/D/8/6D8381B0-03C1-4BD2-AE65-30FF0A4C62DA/TS2.0.3-TS-release20 -nightly-20160921.1/TypeScript_Dev14Full.exe)** 를 설치하세요
-    * 또는 다음 명령어로 npm을 사용하여 설치하세요 :`npm install -g typescript @ 2.0`.
+    * 또는 다음 명령어로 npm을 사용하여 설치하세요: `npm install -g typescript @ 2.0`.
 
   To install TypeScript 2:
    * Download and install **[TypeScript 2.0 for Visual Studio 2015](http://download.microsoft.com/download/6/D/8/6D8381B0-03C1-4BD2-AE65-30FF0A4C62DA/TS2.0.3-TS-release20-nightly-20160921.1/TypeScript_Dev14Full.exe)**
@@ -249,7 +249,7 @@ h2#restore Step 4: Restore the required packages
   * 경고들은 무시하세요.
   * 복원이 끝나면 `npm command completed with exit code 0`라는 메시지가 나타납니다.
   * 솔루션 탐색기에서 `새로 고침` 아이콘을 클릭하십시오.
-  * ** `node_modules` 폴더를 프로젝트에 포함하지 마세요. 숨겨진 프로젝트 폴더로 내버려 두세요.
+  * `node_modules` 폴더를 프로젝트에 포함하지 **마세요**. 숨겨진 프로젝트 폴더로 내버려 두세요.
 
   * Right-click on the `package.json` file in Solution Explorer and select `Restore Packages`.
     <br>This uses `npm` to install all of the packages defined in the `package.json` file. 
@@ -294,12 +294,12 @@ h2#build-and-run Step 5: Build and run the app
   see the changes. 
   
 .l-main-section
-h2#routing 라우팅 애플리케이션에 대한 주의 사항
+h2#routing 라우팅 애플리케이션에 대한 주의사항
 
 h2#routing Note on Routing Applications
 :marked
   응용 프로그램이 Angular 라우터를 사용하는 경우 브라우저 새로 고침이 *404 - Page Not Found*를 반환 할 수 있습니다.
-  검색 주소창을 보세요. navigation URL ("deep link")를 포함하고 있나요? ... 또는  `/` 또는 
+  검색 주소창을 보세요. navigation URL ("deep link")를 포함하고 있나요? ... 아니면 `/` 또는 
   `/index.html` 이외의 경로를 포함하고 있나요?
   
   If this application used the Angular router, a browser refresh could return a *404 - Page Not Found*.
