@@ -91,7 +91,7 @@ h2#prereq2 준비사항: Visual Studio 2015 Update 3
 h2#prereq2 Prerequisite: Visual Studio 2015 Update 3
 
 :marked
-  Visual Studio에서 Angular 어플리케이션을 위해 필요한 최소 요구 사항은 Update 3입니다.
+  Visual Studio에서 Angular 어플리케이션을 개발하기 위해 필요한 최소 요구 사항은 Update 3입니다.
   이전 버전은 TypeScript를 사용해서 어플리케이션을 개발하는 제일 좋은 방식을 지원하지 않습니다.
   Visual Studio 2015의 버전을 보고 싶으시면, `도움말 | Visual Studio에 대하여` 메뉴를 확인하세요.
   
@@ -100,7 +100,7 @@ h2#prereq2 Prerequisite: Visual Studio 2015 Update 3
   To view your version of Visual Studio 2015, go to `Help | About Visual Studio`.
   
   Update 3이 설치되어 있지 않다면 **[Visual Studio 2015 Update 3](https://www.visualstudio.com/en-us/news/releasenotes/vs2015-update3-vs)**에서 설치하세요.
-  아니면  Visual Studio 2015의 `도구 | 확장 프로그램과 업데이트` 에서 바로 설치하실 수 있습니다.
+  아니면 Visual Studio 2015의 `도구 | 확장 프로그램과 업데이트` 에서 바로 설치하실 수 있습니다.
   
   If you don't have it, install **[Visual Studio 2015 Update 3](https://www.visualstudio.com/en-us/news/releasenotes/vs2015-update3-vs)**.
   Or use `Tools | Extensions and Updates` to update to Update 3 directly from Visual Studio 2015.
@@ -128,9 +128,9 @@ h2#prereq3 Prerequisite: Configure External Web tools
     * Click OK to close the dialog.
     * Restart Visual Studio for this change to take effect.
 
-   이제 Visual Studio는 현재 작업 공간에서 외부 도구를 찾으며
-   찾지 못하면 전역 경로를 살펴보고 거기에 없으면 Visual Studio
-   자체 버전의 도구를 사용합니다.
+  이제 Visual Studio는 현재 작업 공간에서 외부 도구를 찾으며
+  찾지 못하면 전역 경로를 살펴보고 거기에 없으면 Visual Studio
+  자체 버전의 도구를 사용합니다.
 
   Visual Studio will now look first for external tools in the current workspace and 
   if not found then look in the global path and if it is not found there, Visual Studio
@@ -159,13 +159,13 @@ h2#prereq4 Prerequisite: Install TypeScript 2 for Visual Studio 2015
    
   You can find out more about TypeScript 2 support in Visual studio **[here](https://blogs.msdn.microsoft.com/typescript/2016/09/22/announcing-typescript-2-0/)**
 
-  이 시점에서 Visual Studio가 준비되었습니다. 모든 것이 정돈되도록 Visual Studio를 닫고 재시작 하는 것이 좋습니다.
+  이제 Visual Studio가 준비되었습니다. 모든 것이 정리되도록 지금 Visual Studio를 닫고 재시작 하는 것이 좋습니다.
   
   At this point, Visual Studio is ready. It’s a good idea to close Visual Studio and 
   restart it to make sure everything is clean.
 
 .l-main-section
-h2#download 단계 1: QuickStart 파일들 다운로드하기
+h2#download 단계 1: QuickStart 파일들을 다운로드하기
 
 h2#download Step 1: Download the QuickStart files
 :marked
@@ -181,7 +181,6 @@ h2#create-project 단계 2: Visual Studio ASP.NET 프로젝트 만들기
 h2#create-project Step 2: Create the Visual Studio ASP.NET project
 
 :marked
-
   다음과 같이 일반적인 방법으로 ASP.NET 4.x 프로젝트를 만듭니다.
   
   Create the ASP.NET 4.x project in the usual way as follows:
@@ -267,7 +266,6 @@ h2#build-and-run 단계 5: app 빌드 및 실행
 h2#build-and-run Step 5: Build and run the app
 
 :marked
-
   먼저, 'index.html`이 시작 페이지로 설정되어 있는지 확인하세요.
   솔루션 탐색기에서` index.html`을 오른쪽 클릭하고  `Set As Start Page` 옵션을 선택하십시오.
 
@@ -301,7 +299,7 @@ h2#routing 라우팅 애플리케이션에 대한 주의 사항
 h2#routing Note on Routing Applications
 :marked
   응용 프로그램이 Angular 라우터를 사용하는 경우 브라우저 새로 고침이 *404 - Page Not Found*를 반환 할 수 있습니다.
-  검색 주소창을 보세요. navigation URL ("deep link" )를 포함하고 있나요? ... 또는  `/` 또는 
+  검색 주소창을 보세요. navigation URL ("deep link")를 포함하고 있나요? ... 또는  `/` 또는 
   `/index.html` 이외의 경로를 포함하고 있나요?
   
   If this application used the Angular router, a browser refresh could return a *404 - Page Not Found*.
