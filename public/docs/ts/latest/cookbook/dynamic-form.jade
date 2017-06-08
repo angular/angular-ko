@@ -1,31 +1,31 @@
 include ../_util-fns
 
 :marked
-   손수 만들어진 form을 만드는데 필요한 시간과 비용을 언제나 정당화 할수는 없지만,
-   특히 많은 수의 form들이 필요할고, 서로 비슷하며, 빠르게 변하는 비즈니스와 규제 요건들을 맞추기 위해
+   손수 만드는 form을 만드는데 언제나 시간과 비용을 소모할 수는 없습니다.
+   특히 많은 수의 form들이 필요하고, 서로 비슷하며, 빠르게 변하는 비즈니스와 규제 요건들을 맞추기 위해
    자주 변경되는 경우에는 더 그렇습니다.
 
    We can't always justify the cost and time to build handcrafted forms, 
    especially if we'll need a great number of them, they're similar to each other, and they change frequently 
    to meet rapidly changing business and regulatory requirements.
    
-   비즈니스 오브젝트 모델을 설명하는 메타 데이터를 기반으로 form을 동적으로 작성하는 것이 더 경제적일 수 있습니다.
+   이럴때는 비즈니스 오브젝트 모델을 설명하는 메타 데이터를 기반으로 form을 동적으로 작성하는 것이 더 경제적일 수 있습니다.
 
    It may be more economical to create the forms dynamically, based on metadata that describe the business object model.
   
    이 요리책에서는 `formGroup`을 사용하여 다른 컨트롤 유형들과 유효성 검사를 사용하여
    간단한 form을 동적으로 렌더링하는 방법을 보여줍니다. 
-   이는 근본적인 시작이며 훨씬 더 다양한 요구사항, 보다 우아한 렌더링 및 탁월한 사용자 경험을 
+   이는 근본적인 방법이며 훨씬 더 다양한 요구사항, 보다 우아한 렌더링 및 탁월한 사용자 경험을 
    지원하기 위해 진화 할 수 있습니다.
-   이러한 모든 위대함은 겸손한 시작을 가지고 있습니다.
+   이러한 모든 위대함은 미미한 변화로 부터 시작됩니다.
 
    In this cookbook we show how to use `formGroup` to dynamically render a simple form with different control types and validation.
    It's a primitive start. 
    It might evolve to support a much richer variety of questions, more graceful rendering, and superior user experience.
    All such greatness has humble beginnings.
   
-   이 예시에서는 온라인 애플리케이션 경험을 만들기 위해 동적 form을 사용하여 주인공을 찾는 상황을 만들어 보겠습니다.
-   대행사는 신청 절차를 지속적으로 조금씩 변경하지만 *애플리케이션 코드를 변경하지 않고* 즉시 양식을 만들 수 있습니다.
+   이 예시에서는 온라인 애플리케이션 경험을 만들기 위해 동적 form을 사용하여 주인공을 구인하는 상황을 만들어 보겠습니다.
+   대행사는 신청 절차를 지속적으로 조금씩 변경합니다. 하지만 이 방식을 사용하면 *애플리케이션 코드를 변경하지 않고* 즉시 양식을 만들 수 있습니다.
 
    In our example we use a dynamic form to build an online application experience for heroes seeking employment.
    The agency is constantly tinkering with the application process.
@@ -77,7 +77,7 @@ include ../_util-fns
 
    In our example we will be using Reactive Forms. 
    
-   ReactiveForm은 `ReactiveFormsModule`이라는 다른 `NgModule`에 속하므로 Reactive Forms 지시문에 액세스하려면 `@angular/ forms` 라이브러리에서 `ReactiveFormsModule`를 임포트 해야 합니다.
+   ReactiveForm은 `ReactiveFormsModule`이라는 다른 `NgModule`에 속하므로 Reactive Forms 지시문에 액세스하려면 `@angular/forms` 라이브러리에서 `ReactiveFormsModule`을 임포트 해야합니다.
 
    Reactive Forms belongs to a different `NgModule` called `ReactiveFormsModule`, so in order to access any Reactive Forms directives, we have to import `ReactiveFormsModule` from the `@angular/forms` library.    
 
@@ -100,7 +100,7 @@ include ../_util-fns
 
    ## Question Model
 
-   다음 단계는 from 기능에 필요한 모든 시나리오를 설명 할 수있는 개체 모델을 정의하는 것입니다.
+   다음 단계는 from 기능에 필요한 모든 시나리오를 설명할 수 있는 개체 모델을 정의하는 것입니다.
    주인공 신청 과정에는 많은 질문이있는 form이 포함됩니다.
    "질문"은 이 모델에서 가장 기본적인 객체입니다.
 
@@ -121,7 +121,6 @@ include ../_util-fns
    From this base we derived two new classes in `TextboxQuestion` and `DropdownQuestion` that represent Textbox and Dropdown questions. 
    The idea is that the form will be bound to specific question types and render the appropriate controls dynamically. 
 
-
    `TextboxQuestion`은 `type` 속성을 통해 text, email, url 등과 같은 여러 HTML5 타입을 지원합니다.
 
    `TextboxQuestion` supports multiple html5 types like text, email, url etc via the `type` property.
@@ -129,7 +128,7 @@ include ../_util-fns
 +makeExample('cb-dynamic-form/ts/src/app/question-textbox.ts',null,'src/app/question-textbox.ts')(format='.')
 
 :marked
-   `DropdownQuestion`는 셀렉트 박스의 선택 목록들을 표현합니다..
+   `DropdownQuestion`는 셀렉트 박스의 선택 목록들을 표현합니다.
 
    `DropdownQuestion` presents a list of choices in a select box.
    
@@ -269,7 +268,6 @@ include ../_util-fns
    The final form looks like this:
 figure.image-display
    img(src="/resources/images/cookbooks/dynamic-form/dynamic-form.png" alt="Dynamic-Form")
-
 
 :marked
 -   [맨 위로](#top)
