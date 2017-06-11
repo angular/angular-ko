@@ -24,7 +24,7 @@ include ../_util-fns
    It might evolve to support a much richer variety of questions, more graceful rendering, and superior user experience.
    All such greatness has humble beginnings.
   
-   이 예시에서는 온라인 애플리케이션 경험을 만들기 위해 동적 form을 사용하여 주인공을 구인하는 상황을 만들어 보겠습니다.
+   이 예시에서는 온라인 애플리케이션 경험을 만들기 위해 동적 form을 사용하여 히어로를 구인하는 상황을 만들어 보겠습니다.
    대행사는 신청 절차를 지속적으로 조금씩 변경합니다. 하지만 이 방식을 사용하면 *애플리케이션 코드를 변경하지 않고* 즉시 양식을 만들 수 있습니다.
 
    In our example we use a dynamic form to build an online application experience for heroes seeking employment.
@@ -203,7 +203,7 @@ include ../_util-fns
 
    ## Questionnaire data
 :marked
-  `DynamicFormComponent`는 `@Input() questions`에 묶인 배열 형시긔 질문 목록을 기대합니다.
+  `DynamicFormComponent`는 `@Input() questions`에 묶인 배열 형식의 질문 목록을 기대합니다.
 
   `DynamicFormComponent` expects the list of questions in the form of an array bound to  `@Input() questions`.
 
@@ -213,7 +213,7 @@ include ../_util-fns
    The set of questions we have defined for the job application is returned from the `QuestionService`. 
    In a real app we'd retrieve these questions from storage.
     
-   요점은 `QuestionService`에서 반환 된 객체를 통해 주인공 지원서의 질문을 완전히 통제한다는 것입니다.
+   요점은 `QuestionService`에서 반환 된 객체를 통해 히어로 지원서의 질문을 완전히 통제한다는 것입니다.
    설문지의 유지 보수는 `questions` 배열에서 객체를 추가, 업데이트 및 제거하는 간단한 작업입니다.
    
    The key point is that we control the hero job application questions entirely through the objects returned from `QuestionService`. 
@@ -234,7 +234,7 @@ include ../_util-fns
 
    ## Dynamic Template
 
-   이 예에서는 주인공을 위한 지원서를 모델링하고 있지만 `QuestionService`에 의해 리턴 된 오브젝트 외부의 특정 주인공에 대한 질문을 언급하지는 않습니다.
+   이 예에서는 히어로를 위한 지원서를 모델링하고 있지만 `QuestionService`에 의해 리턴 된 오브젝트 외부의 특정 히어로에 대한 질문을 언급하지는 않습니다.
 
    Although in this example we're modelling a job application for heroes, there are no references to any specific hero question 
    outside the objects returned by `QuestionService`. 
