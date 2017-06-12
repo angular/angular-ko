@@ -2,30 +2,58 @@ include ../_util-fns
 
 <a id="top"></a>
 :marked
+   IDE로써 Visual Studio를 선호하는 사람들이 조금 있습니다.
+
    Some developers prefer Visual Studio as their Integrated Development Environment (IDE).
+
+   이번 쿡북에서는 **ASP.NET 4.x 프로젝트에서 Visual Studio 2015**안의 Angular 빠른시작 파일들을 설정하고
+   사용하기 위해 필요한 과정들을 설명합니다.
 
    This cookbook describes the steps required to set up and use the
    Angular QuickStart files in **Visual Studio 2015 within an ASP.NET 4.x project**.
 .l-sub-section
   :marked
+    이번에는 어플리케이션이 아니라 Visual Studio에 대해서 설명하기 때문에 *라이브 예제*가 없습니다.
+  
     There is no *live example* for this cookbook because it describes Visual Studio, not the application.
 
 .l-main-section
 <a id="asp-net-4"></a>
 :marked
+  ## ASP.NET 4.x 프로젝트
+
   ## ASP.NET 4.x Project
+
+  이번 요리책에서는 Visual Studio 2015안에 있는 **ASP.NET 4.x 프로젝트*를 활용해 빠른시작 파일들을 설정하는 방법을 설명합니다.
 
   This cookbook explains how to set up the QuickStart files with an **ASP.NET 4.x project** in
   Visual Studio 2015.
 .l-sub-section
   :marked
+    만일 `파일 | 새 프로젝트` 방식을 선호하고, **ASP.NET Core**를 사용하고 계시다면, _실험적인 기능_을 고려해 보세요.
+    <a href="http://blog.stevensanderson.com/2016/10/04/angular2-template-for-visual-studio/" target="_blank">ASP.NET Core + Angular template for Visual Studio 2015</a>. 
+    결과로 만들어지는 코드는 docs로 연결되지 않으니 적절히 수정해서 사용하세요.
+    
     If you prefer a `File | New Project` experience and are using **ASP.NET Core**, 
     then consider the _experimental_
     <a href="http://blog.stevensanderson.com/2016/10/04/angular2-template-for-visual-studio/" target="_blank">ASP.NET Core + Angular template for Visual Studio 2015</a>. 
     Note that the resulting code does not map to the docs. Adjust accordingly.   
   
 :marked
+  아래 과정들을 따라하세요.
+
   The steps are as follows:
+  
+  - [준비사항](#prereq1): Node.js 설치하기
+  - [준비사항](#prereq2): Visual Studio 2015 업데이트 3 설치하기
+  - [준비사항](#prereq3): External Web tools 설정하기
+  - [준비사항](#prereq4): Visual Studio 2015용 TypeScript 2 설치하기
+  - [단계 1](#download): 빠른시작 파일들 다운로드 하기
+  - [단계 2](#create-project): Visual Studio에서 ASP.NET 프로젝트 생성하기
+  - [단계 3](#copy): 빠른시작 파일들을 ASP.NET 프로젝트 폴더로 복사하기
+  - [단계 4](#restore): 필요한 패키지들을 복원하기
+  - [단계 5](#build-and-run): 어플리케이션을 빌드하고 실행하기
+
 
   - [Prerequisite](#prereq1): Install Node.js
   - [Prerequisite](#prereq2): Install Visual Studio 2015 Update 3
@@ -38,30 +66,60 @@ include ../_util-fns
   - [Step 5](#build-and-run): Build and run the app
   
 .l-main-section
+h2#prereq1 준비사항: Node.js
+
 h2#prereq1 Prerequisite: Node.js
+
 :marked
+  컴퓨터에 **[Node.js® 와 npm](https://nodejs.org/en/download/)**가 없다면 설치하세요.
+  
   Install **[Node.js® and npm](https://nodejs.org/en/download/)**
   if they are not already on your machine.
+  
 .l-sub-section
   :marked
+    **node 버전 `4.6.x`이나 그 상위 버전, npm 버전 `3.x.x`이나 그 상위 버전을 설치 했는지 확인하세요**
+    `node -v`와 `npm -v` 명령어를 터미널에서 사용해서 확인하실 수 있습니다. 더 이전 버전들은 에러를 발생시킵니다.
+
     **Verify that you are running node version `4.6.x` or greater, and npm `3.x.x` or greater**
     by running `node -v` and `npm -v` in a terminal/console window.
     Older versions produce errors.
 
 .l-main-section
+h2#prereq2 준비사항: Visual Studio 2015 Update 3
+
 h2#prereq2 Prerequisite: Visual Studio 2015 Update 3
+
 :marked
+  Visual Studio에서 Angular 어플리케이션을 개발하기 위해 필요한 최소 요구 사항은 Update 3입니다.
+  이전 버전은 TypeScript를 사용해서 어플리케이션을 개발하는 제일 좋은 방식을 지원하지 않습니다.
+  Visual Studio 2015의 버전을 보고 싶으시면, `도움말 | Visual Studio에 대하여` 메뉴를 확인하세요.
+  
   The minimum requirement for developing Angular applications with Visual Studio is Update 3.
   Earlier versions do not follow the best practices for developing applications with TypeScript.
   To view your version of Visual Studio 2015, go to `Help | About Visual Studio`.
+  
+  Update 3이 설치되어 있지 않다면 **[Visual Studio 2015 Update 3](https://www.visualstudio.com/en-us/news/releasenotes/vs2015-update3-vs)**에서 설치하세요.
+  아니면 Visual Studio 2015의 `도구 | 확장 프로그램과 업데이트` 에서 바로 설치하실 수 있습니다.
   
   If you don't have it, install **[Visual Studio 2015 Update 3](https://www.visualstudio.com/en-us/news/releasenotes/vs2015-update3-vs)**.
   Or use `Tools | Extensions and Updates` to update to Update 3 directly from Visual Studio 2015.
 
 .l-main-section
+h2#prereq3 준비사항: 외부 웹 도구 설정하기
+
 h2#prereq3 Prerequisite: Configure External Web tools
 :marked
+  Visual Studio와 함께 제공되는 도구 대신 글로벌 외부 웹 도구를 사용하도록 Visual Studio를 설정합니다.
+  
   Configure Visual Studio to use the global external web tools instead of the tools that ship with Visual Studio:
+
+    * '도구' | `옵션` 에서 **옵션** 을 엽니다.
+    * 왼쪽의 트리에서 '프로젝트 및 솔루션' | `외부 웹 도구` 을 선택하세요.
+    * 오른쪽에서  `$(PATH)` 항목을 `$ (DevEnvDir`) 항목 위로 이동하세요. 이를 통해 Visual Studio에게
+      기존 버전의 외부 도구 대신에 전역 경로의 외부 도구 ( npm 같은 )를 사용하게 합니다.
+    * 확인을 클릭하여 대화 상자를 닫습니다.
+    * 이 변경 사항을 적용하려면 Visual Studio를 다시 시작하세요.
 
     * Open the **Options** dialog with `Tools` | `Options`
     * In the tree on the left, select `Projects and Solutions` | `External Web Tools`.
@@ -70,36 +128,67 @@ h2#prereq3 Prerequisite: Configure External Web tools
     * Click OK to close the dialog.
     * Restart Visual Studio for this change to take effect.
 
+  이제 Visual Studio는 현재 작업 공간에서 외부 도구를 찾으며
+  찾지 못하면 전역 경로를 살펴보고 거기에 없으면 Visual Studio
+  자체 버전의 도구를 사용합니다.
+
   Visual Studio will now look first for external tools in the current workspace and 
   if not found then look in the global path and if it is not found there, Visual Studio
   will use its own versions of the tools.
 
 .l-main-section
+h2#prereq4 준비사항: Visual Studio 2015를 위해 TypeScript 2 설치하기
+
 h2#prereq4 Prerequisite: Install TypeScript 2 for Visual Studio 2015
 :marked
+  Visual Studio Update 3은 TypeScript 지원 기능을 기본적으로 제공하지만 Angular 응용 프로그램을 개발하는데 
+  필요한 TypeScript 2는 현재 제공되지 않습니다.
+   
   While Visual Studio Update 3 ships with TypeScript support out of the box, it currently doesn’t ship with TypeScript 2, 
   which you need to develop Angular applications.
+
+  TypeScript 2를 설치하려면:
+    * [TypeScript 2.0 Visual Studio 2015] (http://download.microsoft.com/download/6/D/8/6D8381B0-03C1-4BD2-AE65-30FF0A4C62DA/TS2.0.3-TS-release20 -nightly-20160921.1/TypeScript_Dev14Full.exe)** 를 설치하세요
+    * 또는 다음 명령어로 npm을 사용하여 설치하세요: `npm install -g typescript @ 2.0`.
 
   To install TypeScript 2:
    * Download and install **[TypeScript 2.0 for Visual Studio 2015](http://download.microsoft.com/download/6/D/8/6D8381B0-03C1-4BD2-AE65-30FF0A4C62DA/TS2.0.3-TS-release20-nightly-20160921.1/TypeScript_Dev14Full.exe)**
    * OR install it with npm: `npm install -g typescript@2.0`.
 
+   **[여기](https://blogs.msdn.microsoft.com/typescript/2016/09/22/announcing-typescript-2-0/)**에서 Visual Studio의 TypeScript 2 지원에 대한 자세한 내용을 볼 수 있습니다. 
+   
   You can find out more about TypeScript 2 support in Visual studio **[here](https://blogs.msdn.microsoft.com/typescript/2016/09/22/announcing-typescript-2-0/)**
 
+  이제 Visual Studio가 준비되었습니다. 모든 것이 정리되도록 지금 Visual Studio를 닫고 재시작 하는 것이 좋습니다.
+  
   At this point, Visual Studio is ready. It’s a good idea to close Visual Studio and 
   restart it to make sure everything is clean.
 
 .l-main-section
+h2#download 단계 1: 빠른시작 파일들을 다운로드하기
+
 h2#download Step 1: Download the QuickStart files
 :marked
+  github에서 [빠른시작 소스 다운로드] (https://github.com/angular/quickstart)
+  zip 파일로 다운로드 한 경우 파일을 압축풀기 하세요.
+
   [Download the QuickStart source](https://github.com/angular/quickstart)
   from github. If you downloaded as a zip file, extract the files.
 
 .l-main-section
+h2#create-project 단계 2: Visual Studio ASP.NET 프로젝트 만들기
+
 h2#create-project Step 2: Create the Visual Studio ASP.NET project
 
 :marked
+  다음과 같이 일반적인 방법으로 ASP.NET 4.x 프로젝트를 만듭니다.
+  
   Create the ASP.NET 4.x project in the usual way as follows:
+
+  * Visual Studio의 메뉴에서 `파일` | `신규` | `프로젝트`를 선택하세요.
+  * 템플릿 트리에서 `Templates` | `Visual C#` (또는 `Visual Basic`) | `웹`.
+  * 'ASP.NET 웹 응용 프로그램 템플릿을 선택하고 프로젝트 이름을 지정한 다음 확인을 클릭하십시오.
+  * 원하는 ASP.NET 4.5.2 템플릿을 선택하고 확인을 클릭하세요.
   
   * In Visual Studio, select `File` | `New` | `Project` from the menu.
   * In the template tree, select `Templates` | `Visual C#` (or `Visual Basic`) | `Web`.
@@ -108,16 +197,33 @@ h2#create-project Step 2: Create the Visual Studio ASP.NET project
 
 .l-sub-section
   :marked
+    이 요리책에서는 폴더가 추가되지 않고 인증 및 호스팅이 없는 `Empty` 템플릿을 선택할 것입니다.
+    여러분의 프프로젝트에 적합한 템플릿과 옵션을 고르세요.
+    
     In this cookbook we'll select the `Empty` template with no added folders, 
     no authentication and no hosting. Pick the template and options appropriate for your project.
     
 .l-main-section
+h2#copy 단계 3: 빠른시작 파일을 ASP.NET 프로젝트 폴더에 복사합니다.
+
 h2#copy Step 3: Copy the QuickStart files into the ASP.NET project folder
 
 :marked
+  github에서 다운로드 한 빠른시작 파일들을 `.csproj` 파일이 들어있는 폴더에 복사하세요.
+  다음과 같이 Visual Studio 프로젝트에 파일을 포함시킵니다.
+  
   Copy the QuickStart files we downloaded from github into the folder containing the `.csproj` file.
   Include the files in the Visual Studio project as follows:
   
+  * 솔루션 탐색기에서 `모든 파일 표시` 버튼을 클릭하여 프로젝트의 모든 숨김 파일을 표시하세요.
+  * 프로젝트에 포함될 각 폴더 / 파일을 마우스 오른쪽 버튼으로 클릭하고 `프로젝트에 포함` 을 선택하세요.
+    최소한 다음 폴더 / 파일들을 포함하세요.
+    * app 폴더 (TypeScript 타이핑을 검색하라는 메시지가 표시되면 *아니오*라고 답하세요)
+    * styles.css
+    * index.html
+    * package.json
+    * tsconfig.json
+
   * Click the `Show All Files` button in Solution Explorer to reveal all of the hidden files in the project.
   * Right-click on each folder/file to be included in the project and select `Include in Project`.
     Minimally, include the following folder/files:
@@ -128,10 +234,23 @@ h2#copy Step 3: Copy the QuickStart files into the ASP.NET project folder
     * tsconfig.json
     
 .l-main-section
+h2#restore 단계 4: 필요한 패키지 복원하기
+
 h2#restore Step 4: Restore the required packages
 :marked
+  다음과 같이 Angular 어플리케이션에 필요한 패키지를 복원하세요.
+
   Restore the packages required for an Angular application as follows:
   
+  * 솔루션 탐색기에서 `package.json` 파일을 오른쪽 클릭하고 `패키지 복원'을 선택하세요.
+    <br> `npm`을 사용하여 `package.json` 파일에 정의 된 모든 패키지를 설치합니다.
+    약간의 시간이 걸릴 수 있습니다.
+  * 원하는 경우 (`View` | `Output`)으로 출력 창을 열면 npm 명령이 실행되는 것을 볼 수 있습니다.
+  * 경고들은 무시하세요.
+  * 복원이 끝나면 `npm command completed with exit code 0`라는 메시지가 나타납니다.
+  * 솔루션 탐색기에서 `새로 고침` 아이콘을 클릭하십시오.
+  * `node_modules` 폴더를 프로젝트에 포함하지 **마세요**. 숨겨진 프로젝트 폴더로 내버려 두세요.
+
   * Right-click on the `package.json` file in Solution Explorer and select `Restore Packages`.
     <br>This uses `npm` to install all of the packages defined in the `package.json` file. 
     It may take some time.
@@ -142,27 +261,52 @@ h2#restore Step 4: Restore the required packages
   * **Do not** include the `node_modules` folder in the project. Let it be a hidden project folder.
 
 .l-main-section
+h2#build-and-run 단계 5: app 빌드 및 실행
+
 h2#build-and-run Step 5: Build and run the app
 
 :marked
+  먼저, 'index.html`이 시작 페이지로 설정되어 있는지 확인하세요.
+  솔루션 탐색기에서` index.html`을 오른쪽 클릭하고  `Set As Start Page` 옵션을 선택하십시오.
+
   First, ensure that `index.html` is set as the start page.
   Right-click `index.html` in Solution Explorer and select option `Set As Start Page`.
   
+  **Run** 버튼을 클릭하거나 F5를 눌러 앱을 빌드하고 디버거와 함께 실행하세요.
+  
   Build and launch the app with debugger by clicking the **Run** button or press `F5`.
+
 .l-sub-section
   :marked
+    `Ctrl-F5`를 눌러 디버거없이 실행하는 것이 더 빠릅니다.
+
     It's faster to run without the debugger by pressing `Ctrl-F5`.
+
 :marked
-  The default browser opens and displays the QuickStart sample application.
+  기본 브라우저가 열리고 빠른시작 샘플 application이 표시됩니다.
   
+  The default browser opens and displays the QuickStart sample application.
+
+  프로젝트 파일을 편집해 보세요. *저장*후 브라우저를 새로 고침하고
+  변경 사항을 확인해 보세요.
+
   Try editing any of the project files. *Save* and refresh the browser to
   see the changes. 
   
 .l-main-section
+h2#routing 라우팅 애플리케이션에 대한 주의사항
+
 h2#routing Note on Routing Applications
 :marked
+  응용 프로그램이 Angular 라우터를 사용하는 경우 브라우저 새로 고침이 *404 - Page Not Found*를 반환 할 수 있습니다.
+  검색 주소창을 보세요. navigation URL ("deep link")를 포함하고 있나요? ... 아니면 `/` 또는 
+  `/index.html` 이외의 경로를 포함하고 있나요?
+  
   If this application used the Angular router, a browser refresh could return a *404 - Page Not Found*.
   Look at the address bar. Does it contain a navigation url (a "deep link") ... any path other than `/` or `/index.html`? 
   
+  이러한 요청들에 대해 `index.html` 을 반환하도록 서버를 설정해야합니다.
+  그 전까지는 navigation 경로들을 지우고 다시 새로고침 하세요.
+
   You'll have to configure the server to return `index.html` for these requests.
   Until you do, remove the navigation path and refresh again. 
