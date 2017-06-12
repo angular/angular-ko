@@ -2,11 +2,20 @@ block includes
   include ../_util-fns
 
 :marked
+  이 문서 [setup](setup.html) 는 많은 파일을 설치하는 절차를 진행합니다.
+  대부분은 무시해도 안전합니다.
+
   The documentation [setup](setup.html) procedures install a _lot_ of files,
   Most of them can be safely ignored.
 
+  **`src/`** 와 **`e2e/`** 폴더 _안에 있는_ 어플리케이션 파일들은 개발자에게 중요합니다.
+
   Application files _inside the_ **`src/`** and **`e2e/`** folders matter most to developers.
-  
+
+  이 폴더의 _밖에_ 있는 파일들은 개발 환경을 조정합니다.
+  변경해야 하는 경우가 거의 없으며 그 파일들을 수정하거나 볼 필요도 없을 것입니다.
+  만약 수정해야 한다면, 이 페이지가 여러분의 목적을 달성하는데 도움이 될 것입니다.
+
   Files _outside_ those folders condition the development environment.
   They rarely change and you may never view or modify them.
   If you do, this page can help you understand their purpose.
@@ -22,12 +31,20 @@ table(width="100%")
     td <code>src/app/...</code>
     td
       :marked
+        Angular 어플리케이션 파일들이 여기 있습니다.
+
         Your Angular application files go here. 
-        
+
+
+
         Ships with the "Hello Angular" sample's
         `AppComponent`, `AppModule`, a component unit test (`app.component.spec.ts`), and
         the bootstrap file, `main.ts`.
-            
+
+        다음 어플리케이션들을 시도해보세요.
+        <live-example name="setup">예시 어플리케이션</live-example>
+        <live-example name="setup" plnkr="quickstart-specs">단위 테스트</live-example>
+
         Try the <live-example name="setup">sample application</live-example> 
         and the <live-example name="setup" plnkr="quickstart-specs">unit test</live-example>
         as _live examples_.
@@ -35,16 +52,23 @@ table(width="100%")
     td <code>e2e/...</code>
     td
       :marked
-        _End-to-end_ (e2e) tests of your application, 
+        Jasmine으로 작성되었고 <a href="http://www.protractortest.org/" target="_blank" title="Protractor: end-to-end testing for Angular">protractor</a> e2e 테스트기로 실행되는
+        어플리케이션의 _End-to-end_ (e2e) 테스트입니다.
+
+        _End-to-end_ (e2e) tests of your application,
         written in Jasmine and run by the
         <a href="http://www.protractortest.org/" target="_blank" title="Protractor: end-to-end testing for Angular">protractor</a>
         e2e test runner.
+
+        처음에 "Hello Angular" 예제를 사용하는 e2e 테스트를 확인할 수 있습니다.
 
         Initialized with an e2e test for the "Hello Angular" sample.
   tr
     td <code>node_modules/...</code>
     td
       :marked
+        'npm install' _npm_ 패키지가 명령으로 설치됩니다.
+
         The _npm_ packages installed with the `npm install` command.
   tr
     td
@@ -55,45 +79,70 @@ table(width="100%")
         .travis.yml
     td
       :marked
-        Tooling configuration files and folders. 
+        구성 파일과 폴더를 설정합니다.
+        이 파일들을 컴파일해야 할 이유가 없다면 무시하세요.
+
+        Tooling configuration files and folders.
         Ignore them until you have a compelling reason to do otherwise.
   tr
     td <code>CHANGELOG.md</code>
     td
       :marked
+        _QuickStart_ 저장소의 변경 기록입니다.
+        삭제하거나 무시하세요.
+
         The history of changes to the _QuickStart_ repository.
         Delete or ignore.
   tr
     td <code>favicon.ico</code>
     td
       :marked
+        브라우저 탭에 나타나는 어플리케이션 아이콘입니다.
+
         The application icon that appears in the browser tab.
   tr
     td <code>index.html</code>
     td
       :marked
-        The application host page. 
+        어플리케이션의 호스트 페이지입니다.
+        미리 작성된 순서대로 필수적인 스크립트를 가져옵니다.
+        그 뒤에 어플리케이션을 부팅하고 커스텀 `<my-app>` body 태그에
+        루트 컴포넌트인 'AppComponent'를 배치합니다.
+
+        The application host page.
         It loads a few essential scripts in a prescribed order.
         Then it boots the application, placing the root `AppComponent`
         in the custom `<my-app>` body tag.
+
+        동일한 'index.html'은 모든 문서 어플리케이션 샘플들을 만족시킵니다.
 
         The same `index.html` satisfies all documentation application samples.
   tr
     td <code>karma.conf.js</code>
     td
       :marked
+        <a href="https://karma-runner.github.io/1.0/index.html" target="_blank" title="Karma unit test runner">karma</a> 테스트 구동기를 위한 환경설정은
+        다음 [Testing](testing.html) 가이드에서 안내합니다.
+
         Configuration for the <a href="https://karma-runner.github.io/1.0/index.html" target="_blank" title="Karma unit test runner">karma</a>
         test runner described in the [Testing](testing.html) guide.
   tr
     td <code>karma-test-shim.js</code>
     td
       :marked
+        SystemJS를 사용하여 <a href="https://karma-runner.github.io/1.0/index.html" target="_blank" title="Karma unit test runner">karma</a>를 실행시키기 위한 스크립트는
+        다음 [Testing](testing.html) 가이드에서 안내합니다.
+
         Script to run <a href="https://karma-runner.github.io/1.0/index.html" target="_blank" title="Karma unit test runner">karma</a>
         with SystemJS as described in the [Testing](testing.html) guide.
   tr
     td <code>non-essential-files.txt</code>
     td
       :marked
+        다음은 원본 QuickStart 시드 테스트 및 git 유지 관리 아티팩트의 설정을 제거하려는 경우 삭제할 수있는 파일 목록입니다.
+        선택 [_Deleting non-essential files_](setup.html#non-essential "Setup: Deleting non-essential files") 섹션의 설명서를 참조하세요.
+        *테스트들과 구축해 놓은 git을 실수로 삭제하는 일을 피하기 위해 반드시 이 작업들은 초기에 진행해야 합니다!*
+
         A list of files that you can delete if you want to purge your setup of the
         original QuickStart Seed testing and git maintainence artifacts.
         See instructions in the optional 
@@ -103,13 +152,22 @@ table(width="100%")
     td <code>LICENSE</code>
     td
       :marked
+        어플리케이션의 설치 코드는 open source MIT 라이센스를 준수합니다.
+
         The open source MIT license to use this setup code in your application.
   tr
     td <code>package.json</code>
     td
       :marked
+        프로젝트가 어떤 npm 패키지에 의존하는지 명시해 놓은 파일입니다.
+
         Identifies `npm `package dependencies for the project.
-        
+
+        어플리케이션을 실행, 테스트 실행 등을 위한 명령어를 포함하고 있습니다.
+        'npm run'을 입력 해보고 그 리스트를 확인하세요.
+        <a href="https://github.com/angular/quickstart/blob/master/README.md#npm-scripts"
+                   target="_blank" title="npm scripts for Angular documentation samples">더 읽을거리</a>
+
         Contains command scripts for running the application,
         running tests, and more. Enter `npm run` for a listing.
         <a href="https://github.com/angular/quickstart/blob/master/README.md#npm-scripts" 
@@ -118,50 +176,77 @@ table(width="100%")
     td <code>protractor.config.js</code>
     td
       :marked
-        Configuration for the 
+        <a href="http://www.protractortest.org/" target="_blank" title="Protractor: end-to-end testing for Angular">protractor</a>
+        _end-to-end_ (e2e) 테스트 실행기를 위한 구성.
+
+        Configuration for the
         <a href="http://www.protractortest.org/" target="_blank" title="Protractor: end-to-end testing for Angular">protractor</a>
         _end-to-end_ (e2e) test runner.
   tr
     td <code>README.md</code>
     td
       :marked
+        프로젝트가 있는 git 저장소를 잘 사용하기 위한 설명문.
+        삭제하기 전에 한번 쯤은 읽어 볼만한 가치가 있습니다.
+
         Instruction for using this git repository in your project.
         Worth reading before deleting.
   tr
     td <code>styles.css</code>
     td
       :marked
+        어플리케이션을 위한 글로벌 스타일 css 파일. QuickStart 데모를 위해 '<h1>' 스타일로 초기화됩니다.
+
         Global styles for the application. Initialized with an `<h1>` style for the QuickStart demo.
 
   tr
     td <code>systemjs<br>.config.js</code>
     td
       :marked
+        **SystemJS** 모듈 로더에게 다음과 같은 JavaScript `import` 문에서
+        참조되는 모듈을 찾을 위치를 알려줍니다.
+      code-example(language="ts").
+        import { Component } from '@angular/core;
+
         Tells the **SystemJS** module loader where to find modules
         referenced in JavaScript `import` statements such as
       code-example(language="ts").
         import { Component } from '@angular/core;
       :marked
+        SystemJS 구성에 대해 완전히 숙지하지 못한 상태라면 이 파일을 건드리지 마세요.
         Don't touch this file unless you are fully versed in SystemJS configuration.
   tr
     td <code>systemjs<br>.config.extras.js</code>
     td
       :marked
-        Optional extra SystemJS configuration. 
+        추가적인 SystemJS 구성을 위한 선택 사항입니다.
+        _barrels_ 어플리케이션과 같이 원래의 'system.comfig.js' 교체 없이
+        SystemJS 맵핑을 추가할 수 있는 방법입니다.
+
+        Optional extra SystemJS configuration.
         A way to add SystemJS mappings, such as for appliation _barrels_,
         without changing the original `system.config.js`.
    tr
     td <code>tsconfig.json</code>
     td
       :marked
+        TypeScript 컴파일러에게 모든 최신 브라우저에서 동작하는 자바스크립트 파일 안의
+        금방 없어질 TypeScript 소스 파일들을 컴파일 할지 알려주세요.
+
         Tells the TypeScript compiler how to transpile TypeScript source files
         into JavaScript files that run in all modern browsers.
    tr
     td <code>tslint.json</code>
     td
       :marked
+        'npm'이 TypeScript code를 검사해 볼 TypeScript linter 를 설치하고
+        문법 규칙에 위배되는 경우가 있다면 이를 알려줍니다.
+
         The `npm` installed TypeScript linter inspects your TypeScript code
         and complains when you violate one of its rules.
-        
+
+        이 파일은 [Angular style guide](style-guide.html)와 문서의 저자가
+        선호하는 방식의 linting 규칙을 정의하고 있습니다.
+
         This file defines linting rules favored by the 
         [Angular style guide](style-guide.html) and by the authors of the documentation.
