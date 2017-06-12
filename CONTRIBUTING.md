@@ -30,6 +30,44 @@
 
 1. `npm install`을 실행해 *모든 문서들*의 로컬 패키지들을 설치하세요. > `node-sass`는 별도로 다시 빌드해야 합니다.: `npm rebuild node-sass`
 
+##  개발 설정(Development Setup) - Ubuntu 16.04 기준
+
+1. apt-get 을 통해서 npm 을 설치하세요.
+
+    sudo apt-get install npm
+
+1. Angular 리포지토리를 클론하세요.
+
+    git clone https://github.com/angular/angular.git
+
+1. 2번에서 클론했던 동일한 폴더에 번역을 진행하는 프로젝트를 클론하세요.
+
+    예시) git clone https://github.com/17-1-SKKU-OSS/angular-ko.git
+
+1. angular-ko 디렉토리로 이동하세요.
+
+    cd angular-ko
+
+1. 필요한 라이브러리들을 설치하세요.
+
+    npm install
+
+1. harp 및 gulp@3.9.0을 설치하세요, 버전이 맞지 않으면 동작하지 않습니다.
+
+    npm install -g harp gulp@3.9.0
+
+1. node-sass를 리빌드 하세요.
+
+    npm rebuild node-sass
+
+1. gulp로 웹 서버를 실행시키세요.
+
+    gulp serve-and-sync
+
+1. 웹 브라우저로 페이지에 접근해보세요.
+
+    기본 주소 : http://localhost:3000/
+
 ## 내용 구성(Content Development)
 모든 문서의 내용은 Jade의 [구문](http://jade-lang.com/reference/)으로 쓰여졌습니다.
 공백이 중요한 언어의 엄격한 기준에 유의하시기 바랍니다.
