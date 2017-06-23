@@ -1,65 +1,146 @@
 block includes
   include ../_util-fns
   - var _Http = 'Http'; // Angular `Http` library name.
+  - var _Http_ko = 'Http'; // Angular `Http` library name.
   - var _Angular_Http = 'Angular <code>Http</code>'
+  - var _Angular_Http_ko = 'Angular <code>Http</code>'
   - var _Angular_http_library = 'Angular HTTP library'
-
+  - var _Angular_http_library_ko = 'Angular HTTP 라이브러리'
+  - var _Promise_ko = 'Promise'
+  - var _a_ca_class_with_ko = '커스텀 애플리케이션 클래스'
 :marked
+  [HTTP](https://tools.ietf.org/html/rfc2616)는 브라우저/서버 통신에서 주요한 프로토콜입니다.
+
   [HTTP](https://tools.ietf.org/html/rfc2616) is the primary protocol for browser/server communication.
 .l-sub-section
   :marked
+    [`웹소켓`](https://tools.ietf.org/html/rfc6455) 프로토콜은 통신 기술에서 다른 중요한 기술이지만, 본 페이지에서 다루지 않습니다.
+
     The [`WebSocket`](https://tools.ietf.org/html/rfc6455) protocol is another important communication technology;
     it isn't covered in this page.
 :marked
+  최근의 브라우저는 두 가지 HTTP 기반의 API를 지원합니다:
+  [XMLHttpRequest (XHR)](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest)와
+  [JSONP](https://en.wikipedia.org/wiki/JSONP)입니다. 몇몇 브라우저는 또한
+  [Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)를 지원합니다.
+
   Modern browsers support two HTTP-based APIs:
   [XMLHttpRequest (XHR)](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) and
   [JSONP](https://en.wikipedia.org/wiki/JSONP). A few browsers also support
   [Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API).
 
+  !{_Angular_http_library_ko}는 **XHR**과 **JSONP** API를 이용해 애플리케이션 프로그래밍을 단순화 합니다. 본 페이지는 다음을 다룹니다:
+
   The !{_Angular_http_library} simplifies application programming with the **XHR** and **JSONP** APIs.
   This page covers:
 
+  - [The Tour of Heroes *HTTP* 클라이언트 예제](#http-client).
+
   - [The Tour of Heroes *HTTP* client demo](#http-client).
+
+  - [http.get를 통해 데이터 받기](#fetch-data).
+
   - [Fetch data with http.get](#fetch-data).
+
+  <li if-docs="ts"> [RxJS 라이브러리](#rxjs).</li>
+
   <li if-docs="ts"> [RxJS library](#rxjs).</li>
+
+  <li if-docs="ts"> [RxJS 연산자 활성화](#enable-rxjs-operators).</li>
+
   <li if-docs="ts"> [Enable RxJS operators](#enable-rxjs-operators).</li>
+
+  - [응답 객체 처리](#extract-data).
+
   - [Process the response object](#extract-data).
+
+  - [항상 오류 처리하기](#error-handling).
+
   - [Always handle errors](#error-handling).
+
+  - [서버에 데이터 전송](#update).
+
   - [Send data to the server](#update).
+
+  <li if-docs="ts"> [Promise로 Fallback](#promises).</li>
+
   <li if-docs="ts"> [Fall back to promises](#promises).</li>
+
+  - [교차출처 요청: 위키피디아 예제](#cors).
+
   - [Cross-Origin Requests: Wikipedia example](#cors).
-    <ul if-docs="ts">
-      <li> [Search parameters](#search-parameters).</li>
-      <li> [More fun with observables](#more-observables).</li>
-    </ul>
+
+  <ul if-docs="ts">
+    <li> [검색 파라미터](#search-parameters).</li>
+    <li> [Observable 갖고 놀기](#more-observables).</li>
+  </ul>
+
+  <ul if-docs="ts">
+    <li> [Search parameters](#search-parameters).</li>
+    <li> [More fun with observables](#more-observables).</li>
+  </ul>
+
+  - [교차사이트 요청 위조 막기](#xsrf).
+
   - [Guarding against Cross-Site Request Forgery](#xsrf).
+
+  - [기본 요청헤더(그리고 다른 요청 옵션) 오버라이드](#override-default-request-options).
+
   - [Override default request headers (and other request options)](#override-default-request-options).
+
+  - [부록: Tour of Heroes _인메모리 웹 API_](#in-mem-web-api).
+
   - [Appendix: Tour of Heroes _in-memory web api_](#in-mem-web-api).
+
+  <live-example>라이브 예제</live-example>는 이러한 주제를 다룹니다.
 
   A <live-example>live example</live-example> illustrates these topics.
 
 .l-main-section
 :marked
+  # 예제
+
   # Demos
+
+  이 페이지는 다음의 예제를 통해 서버 통신을 설명합니다:
 
   This page describes server communication with the help of the following demos:
 
 block demos-list
   :marked
+    - [The Tour of Heroes *HTTP* 클라이언트 예제](#http-client).
+
     - [The Tour of Heroes *HTTP* client demo](#http-client).
+
+    - [!{_Promise_ko}로 Fallback](#promises).
+
     - [Fall back to !{_Promise}s](#promises).
+
+    - [교차출처 요청: 위키피디아 예제](#cors).
+
     - [Cross-Origin Requests: Wikipedia example](#cors).
+
+    - [Observable 가지고 놀기](#more-observables).
+
     - [More fun with observables](#more-observables).
 
 :marked
+  루트 `AppComponent`는 본 예제들을 지휘합니다:
+
   The root `AppComponent` orchestrates these demos:
 +makeExample('server-communication/ts/src/app/app.component.ts', null, 'src/app/app.component.ts')
 
 .l-main-section#http-providers
 :marked
+  # HTTP 서비스 제공하기
   # Providing HTTP services
 
+  우선 애플리케이션이 서버 통신에 필요한 기능을 사용하도록 설정합니다.
+
   First, configure the application to use server communication facilities.
+
+  !{_Angular_Http_ko} 클라이언트는 친숙한 HTTP 요청/응답 프로토콜을 사용해 통신합니다.
+  `!{_Http_ko}` 클라이언트는 !{_Angular_http_library_ko} 서비스 모음의 일부입니다.
 
   The !{_Angular_Http} client communicates with the server using a familiar HTTP request/response protocol.
   The `!{_Http}` client is one of a family of services in the !{_Angular_http_library}.
@@ -67,49 +148,87 @@ block demos-list
 +ifDocsFor('ts')
   .l-sub-section
     :marked
+      `@angular/http`모듈을 임포트할 때, SystemJS는
+      `systemjs.config.js` 파일이 해당 모듈의 이름을 대응시키기 때문에
+      !{_Angular_http_library_ko}에서 어떻게 서비스를 불러올 지 알고 있습니다.
+
       When importing from the `@angular/http` module, SystemJS knows how to load services from
       the !{_Angular_http_library}
       because the `systemjs.config.js` file maps to that module name.
 
 :marked
+  `!{_Http_ko}`클라이언트를 사용하기 전에 의존성 주입 시스템의 서비스 제공자로 등록해야 합니다.
+
   Before you can use the `!{_Http}` client, you need to register it as a service provider with the dependency injection system.
 
 .l-sub-section
   :marked
+    제공자에 대해서는 [의존성 주입](dependency-injection.html) 페이지를 참고하세요.
+
     Read about providers in the [Dependency Injection](dependency-injection.html) page.
 
 :marked
+  `app.module.ts`의 루트 NgModule에 다른 NgModule을 임포트해 제공자로 등록하세요
+
   Register providers by importing other NgModules to the root NgModule in `app.module.ts`.
 
 +makeExample('server-communication/ts/src/app/app.module.1.ts', null, 'src/app/app.module.ts (v1)')(format='.')
 
 block http-providers
   :marked
+    필요한 멤버를 임포트하는 것으로 시작하세요.
+    새로운 것은 !{_Angular_http_library_ko}의 `HttpModule`과 `JsonpModule`입니다. 더 자세한 임포팅과 용어에 관해서는, [MDN 참조문서](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)의 `import` 부분을 참고하세요.
+
     Begin by importing the necessary members.
     The newcomers are the `HttpModule` and the `JsonpModule` from the !{_Angular_http_library}. For more information about imports and related terminology, see the [MDN reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import) on the `import` statement.
+
+    이 모듈을 애플리케이션에 추가하려면, 루트 `@NgModule`의 `imports` 배열에 전달하세요.
 
     To add these modules to the application, pass them to the `imports` array in the root `@NgModule`.
 .l-sub-section
   :marked
+    `HttpModule`은 HTTP 호출을 하는데 필요합니다.
+    JsonpModule은 단순 HTTP에는 필요하지 않더라도,
+    이 페이지의 뒷부분에는 JSONP 예제가 있습니다.
+    이것의 모듈을 불러오는 것은 이제 시간을 줄여줍니다.
+
     The `HttpModule` is necessary for making HTTP calls.
     Though the JsonpModule isn't necessary for plain HTTP,
     there is a JSONP demo later in this page.
     Loading its module now saves time.
 .l-main-section#http-client
 :marked
+  ## The Tour of Heroes HTTP 클라이언트 예제
+
   ## The Tour of Heroes HTTP client demo
+
+  첫 예제는 [튜토리얼](../tutorial)에 있는 "Tour of Heroes" 애플리케이션의 작은 버전입니다.
+  이 버전은 서버에서 몇몇 히어로들을 불러오고, 목록으로 출력한 다음, 사용자에게 새로운 히어로를 추가할 수 있게 하며, 그것을 서버에 저장합니다.
+  앱은 `XMLHttpRequest (XHR)`와 통신하기 위해 !{_Angular_Http_ko} 클라이언트를 사용합니다.
 
   The first demo is a mini-version of the [tutorial](../tutorial)'s "Tour of Heroes" (ToH) application.
   This version gets some heroes from the server, displays them in a list, lets the user add new heroes, and saves them to the server.
   The app uses the !{_Angular_Http} client to communicate via `XMLHttpRequest (XHR)`.
 
+  이것은 다음과 같이 작동합니다:
+
   It works like this:
 figure.image-display
   img(src='/resources/images/devguide/server-communication/http-toh.gif' alt="ToH mini app" width="250")
 :marked
+  이 예제는 `HeroListComponent`라는 단 하나의 컴포넌트를 갖습니다. 템플릿은 다음과 같습니다:
+
   This demo has a single component, the `HeroListComponent`.  Here's its template:
 +makeExample('server-communication/ts/src/app/toh/hero-list.component.html', null, 'src/app/toh/hero-list.component.html (template)')
 :marked
+  `ngFor`에 히어로 리스트를 제공합니다.
+  리스트 아래에는 새 히어로의 이름을 입력하고 데이터베이스에 추가할 수 있는 
+  입력 상자와 *Add Hero* 버튼이 있습니다.
+  [템플릿 참조 변수](template-syntax.html#ref-vars), `newHeroName`은
+  `(click)` 이벤트 바인딩의 입력 상자 값에 접근합니다.
+  사용자가 버튼을 클릭하면, 컴포넌트의 `addHero` 메소드에 값을 전달하고,
+  이벤트 바인딩은 새 히어로 이름을 준비하기 위해 값을 지웁니다.
+  
   It presents the list of heroes with an `ngFor`.
   Below the list is an input box and an *Add Hero* button where you can enter the names of new heroes
   and add them to the database.
@@ -118,23 +237,44 @@ figure.image-display
   When the user clicks the button, that value passes to the component's `addHero` method and then
   the event binding clears it to make it ready for a new hero name.
 
+  버튼의 아래는 오류 메시지를 위한 영역입니다.
+
   Below the button is an area for an error message.
 
 a#oninit
 a#HeroListComponent
 :marked
+  ### *HeroListComponent* 클래스
+
   ### The *HeroListComponent* class
+
+  다음은 컴포넌트 클래스입니다:
+
   Here's the component class:
 +makeExample('server-communication/ts/src/app/toh/hero-list.component.ts','component', 'src/app/toh/hero-list.component.ts (class)')
 :marked
+  Angular는 `HeroService`를 생성자에 [주입](dependency-injection.html)하고,
+  컴포넌트는 데이터를 불러오고 저장하기 위해 서비스를 호출합니다.
+
   Angular [injects](dependency-injection.html) a `HeroService` into the constructor
   and the component calls that service to fetch and save data.
+
+  컴포넌트는 **!{_Angular_Http_ko} 클라이언트를 직접 부르지 않습니다**.
+  컴포넌트는 데이터를 어떻게 얻어 오는지 알지 못하며, 상관하지 않습니다.
+  이를 `HeroService`에 위임합니다.
 
   The component **does not talk directly to the !{_Angular_Http} client**.
   The component doesn't know or care how it gets the data.
   It delegates to the `HeroService`.
 
+  이것은 황금률입니다: **항상 헬퍼 서비스 클래스에 데이터 접근을 위임하세요**.
+
   This is a golden rule: **always delegate data access to a supporting service class**.
+
+  비록 _런타임에_ 컴포넌트가 생성되자마자 히어로를 즉시 요청하더라도
+  서비스의 `get` 메소드를 컴포넌트의 생성자에서 부르지 *마세요*.
+  대신에, 이를 `ngOnInit` [생명주기 훅](lifecycle-hooks.html) 안에서 호출하고
+  Angular가 컴포넌트를 인스턴스화할 때 `ngOnInit`을 호출하도록 하세요.
 
   Although _at runtime_ the component requests heroes immediately after creation,
   you **don't** call the service's `get` method in the component's constructor.
@@ -142,45 +282,77 @@ a#HeroListComponent
   and rely on Angular to call `ngOnInit` when it instantiates this component.
 .l-sub-section
   :marked
+    이는 *최고의 습관*입니다.
+    컴포넌트는 생성자가 간단할 수록 테스트하고 디버그하기 편해지며, 모든 실제 작업
+    (특히 원격 서버 호출)은 분리된 메소드에서 처리하면 편리합니다.
+
     This is a *best practice*.
     Components are easier to test and debug when their constructors are simple, and all real work
     (especially calling a remote server) is handled in a separate method.
 block getheroes-and-addhero
   :marked
+    서비스의 `getHeroes()`와 `addHero()` 메소드는 !{_Angular_Http_ko} 클라이언트가 서버에서 받아온 히어로 데이터의 `Observable`을 리턴합니다.
+
     The service's `getHeroes()` and `addHero()` methods return an `Observable` of hero data that the !{_Angular_Http} client fetched from the server.
 
+    `Observable`을 어떤 소스에서 발행한 이벤트의 스트림이라고 생각하세요.
+
     Think of an `Observable` as a stream of events published by some source.
+
+    이 스트림에서 이벤트를 읽으려면, `Observable`을 ***구독***하세요.
+    이 구독은 웹 요청이 성공적인 이벤트를
+    (이벤트 페이로드의 히어로 데이터와 함께) 생산해낼 때의 액션을 구체화하거나 실패한 이벤트를(페이로드의 오류와 함께) 구체화합니다.
+
     To listen for events in this stream, ***subscribe*** to the `Observable`.
     These subscriptions specify the actions to take when the web request
     produces a success event (with the hero data in the event payload) or a fail event (with the error in the payload).
 
 :marked
+  컴포넌트에 대한 기본적인 이해를 바탕으로, 여러분은 `HeroService`의 내부를 들여볼 준비가 되었습니다.
+
   With a basic understanding of the component, you're ready to look inside the `HeroService`.
 
 a#HeroService
 .l-main-section#fetch-data
 :marked
+  ## http.get으로 데이터 받아오기
+
   ## Fetch data with http.get
+
+  이전의 많은 예제에서 앱은 서비스의 샘플 히어로를 반환함으로써 서버와의 상호작용을 흉내냈습니다.
 
   In many of the previous samples the app faked the interaction with the server by
   returning mock heroes in a service like this one:
 +makeExample('toh-4/ts/src/app/hero.service.ts', 'just-get-heroes')(format=".")
 :marked
+  !{_Angular_Http_ko} 클라이언트 서비스를 사용해 히어로를 서버에서 받아오도록 `HeroService`를 수정할 수 있습니다:
+
   You can revise that `HeroService` to get the heroes from the server using the !{_Angular_Http} client service:
 +makeExample('server-communication/ts/src/app/toh/hero.service.ts', 'v1', 'src/app/toh/hero.service.ts (revised)')
 
 :marked
+  !{_Angular_Http_ko} 클라이언트 서비스는
+  `HeroService` 생성자에 [주입](dependency-injection.html)된다는 것을 눈여겨 보기 바랍니다.
+
   Notice that the !{_Angular_Http} client service is
   [injected](dependency-injection.html) into the `HeroService` constructor.
 +makeExample('server-communication/ts/src/app/toh/hero.service.ts', 'ctor')
 :marked
+  어떻게 `!{_priv_ko}http.get`을 호출하는지 좀 더 자세히 살펴보겠습니다:
+
   Look closely at how to call `!{_priv}http.get`:
 +makeExample('server-communication/ts/src/app/toh/hero.service.ts', 'http-get', 'src/app/toh/hero.service.ts (getHeroes)')(format=".")
 :marked
+  리소스 URL을 `get`에 넘기면 이것은 히어로를 반환하는 서버를 호출합니다.
+
   You pass the resource URL to `get` and it calls the server which returns heroes.
 
 .l-sub-section
   :marked
+    아래 부록에 설명된 것처럼
+    [인메모리 웹 API](#in-mem-web-api)를 설정하고 나면 서버는 히어로를 반환합니다.
+    혹은, 엔드포인트 URL을 바꿔 임시 JSON 파일을 지정할 수도 있습니다:
+
     The server returns heroes once you've set up the [in-memory web api](#in-mem-web-api)
     described in the appendix below.
     Alternatively, you can temporarily target a JSON file by changing the endpoint URL:
@@ -189,32 +361,66 @@ a#HeroService
 +ifDocsFor('ts')
   :marked
     <a id="rxjs"></a>
+    최신 자바스크립트의 비동기 메소드에 익숙하다면, `get`메소드가
+    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" target="_blank" title="Promise">Promise</a>를 반환하기를 기대할 수도 있습니다.
+    `map()` 메소드를 호출하는 대신에,
+    연쇄적인 `then()`을 호출하여 히어로를 추출하기를 expect할 수도 있습니다.
+    분명 이는 Promise가 아닙니다.
+
     If you are familiar with asynchronous methods in modern JavaScript, you might expect the `get` method to return a
     <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" target="_blank" title="Promise">promise</a>.
     You'd expect to chain a call to `then()` and extract the heroes.
     Instead you're calling a `map()` method.
     Clearly this is not a promise.
 
+    사실상, `http.get` 메소드는 (`Observable<Response>`) RxJS 라이브러리에서의 HTTP 응답의 **Observable**을 리턴합니다.
+    그리고 `map`은 RxJS의 *연산자*입니다.
+
     In fact, the `http.get` method returns an **Observable** of HTTP Responses (`Observable<Response>`) from the RxJS library
     and `map` is one of the RxJS *operators*.
 
   .l-main-section
   :marked
+    ## RxJS 라이브러리
+
     ## RxJS library
+
+    <a href="http://reactivex.io/rxjs" target="_blank" title="RxJS Reactive Extensions">RxJS</a>
+    는 Anuglar로부터 지원을 받는 서드파티 라이브러리로,
+    <a href="" target="_blank" title="Video: Rob Wormald on observables"><b>비동기 Observable</b></a> 패턴을 지원합니다.
+
     <a href="http://reactivex.io/rxjs" target="_blank" title="RxJS Reactive Extensions">RxJS</a>
     is a third party library, endorsed by Angular, that implements the 
     <a href="" target="_blank" title="Video: Rob Wormald on observables"><b>asynchronous observable</b></a> pattern.
+
+    모든 개발자 가이드 예제는 RxJS npm 패키지가 설치되있는데,
+    이는 Observable이 Angular 애플리케이션에서 널리 사용되기 때문입니다.
+    _이_ 앱은 HTTP 클라이언트와 작동할 때 이를 필요로 합니다.
+    하지만 RxJS  observable을 활용하려면 중요한 추가 단계를 진행해야 합니다:
 
     All of the Developer Guide samples have installed the RxJS npm package
     because observables are used widely in Angular applications.
     _This_ app needs it when working with the HTTP client.
     But you must take a critical extra step to make RxJS observables usable: 
+
+    RxJS 연산자를 개별적으로 임포트합니다.
+
     you must import the RxJS operators individually.
 
+    ### RxJS 연산자 활성화
+
     ### Enable RxJS operators
+
+    RxJS 라이브러리는 큽니다.
+    상용 애플리케이션을 만들 때와 모바일 기기에 배포할 때 크기는 중요합니다.
+    반드시 필요한 기능만을 포함해야 합니다.
+
     The RxJS library is large.
     Size matters when building a production application and deploying it to mobile devices.
     You should include only necessary features.
+
+    각 코드 파일은 필요한 연산자를 RxJS 라이브러리에서 임포트해 추가합니다.
+    `getHeroes` 메소드는 `map`과 `catch` 연산자가 필요하므로 다음과 같이 임포트합니다:
 
     Each code file should add the operators it needs by importing from an RxJS library.
     The `getHeroes` method needs the `map` and `catch` operators so it imports them like this.
@@ -223,22 +429,39 @@ a#HeroService
 .l-main-section
 a#extract-data
 :marked
+  ## 응답 객체 처리하기
+
   ## Process the response object
+
+  `getHeroes()` 메소드가 `!{_priv_ko}extractData` 헬퍼 메소드를 `!{_priv_ko}http.get` 응답 객체를 히어로에 대응시키는데 사용한 것을 기억하세요:
+
   Remember that the `getHeroes()` method used an `!{_priv}extractData` helper method to map the `!{_priv}http.get` response object to heroes:
 +makeExample('server-communication/ts/src/app/toh/hero.service.ts', 'extract-data', 'src/app/toh/hero.service.ts (excerpt)')(format=".")
 :marked
+  `response` 객체는 데이터를 앱이 직접 사용할 수 있는 형태로 가지고 있지 않습니다.
+  응답 데이터를 JSON 객체로 파싱해야만 합니다.
+
   The `response` object doesn't hold the data in a form the app can use directly.
   You must parse the response data into a JSON object.
+
+  ### JSON으로 파싱하기
 
   ### Parse to JSON
 block parse-json
   :marked
+    응답 데이터는 JSON 문자열 형태로 되어 있습니다.
+    앱은 그 문자열을 `response.json()`을 호출함으로써 JavaScript 객체로 파싱해야만 합니다.
+
     The response data are in JSON string form.
     The app must parse that string into JavaScript objects by calling `response.json()`.
 
-
   .l-sub-section
     :marked
+      이것은 Angular만의 디자인이 아닙니다.
+      Angular HTTP 클라이언트는 `Fetch` 함수에 의해 반환되는
+      [response object](https://fetch.spec.whatwg.org/#response-class)에 대해 가져오기 명세를 따릅니다.
+      해당 명세는 응답 본문을 JavaScript 객체로 파싱하는 `json()` 메소드를 규정합니다.
+
       This is not Angular's own design.
       The Angular HTTP client follows the Fetch specification for the
       [response object](https://fetch.spec.whatwg.org/#response-class) returned by the `Fetch` function.
@@ -246,6 +469,12 @@ block parse-json
 
 .l-sub-section
   :marked
+    JSON이 !{_array_ko}로 곧바로 디코딩될 것이라 기대하지 마세요.
+    이 서버는 항상 JSON 결과를 `data` 프로퍼티를 갖는 객체로 래핑합니다.
+    히어로를 받아오려면 이것을 벗겨내야 합니다.
+    이것은 [보안 문제](https://www.owasp.org/index.php/OWASP_AJAX_Security_Guidelines#Always_return_JSON_with_an_Object_on_the_outside)에 따른
+    전통적인 웹 API 작동방식입니다.
+
     Don't expect the decoded JSON to be the heroes !{_array} directly.
     This server always wraps JSON results in an object with a `data`
     property. You have to unwrap it to get the heroes.
@@ -254,10 +483,22 @@ block parse-json
 
 .alert.is-important
   :marked
+     서버 API에 대해서 가정하지마세요.
+     모든 서버가 `data` 프로퍼티와 함께 객체를 반환하는 것은 아닙니다.
+
      Make no assumptions about the server API.
      Not all servers return an object with a `data` property.
 :marked
+  ### 응답 객체를 반환하지 마세요
+
   ### Do not return the response object
+
+  `getHeroes()` 메소드는 HTTP 응답을 반환_할 수도_ 있지만 이것은
+  좋은 습관이 아닙니다.
+  데이터 서비스에서 중요한 점은 이용자에게서 서버 상호작용의 구체적인 부분을 감추는 것입니다.
+  `HeroService`를 호출하는 컴포넌트는 단지 히어로를 얻고자 하며 그것을 얻는 행위와,
+  그것이 어디서 오는지 처리하는 코드와, 응답 객체를 분리합니다.
+
   The `getHeroes()` method _could_ have returned the HTTP response but this wouldn't
   be a best practice.
   The point of a data service is to hide the server interaction details from consumers.
@@ -268,19 +509,33 @@ block parse-json
   .callout.is-important
     header HTTP GET is delayed
     :marked
-      The `!{_priv}http.get` does **not send the request just yet.** This observable is
+      `!{_priv_ko}http.get`은 **요청을 곧바로 전송하지 않습니다** 이 observable은
+      [*차가운*](https://github.com/Reactive-Extensions/RxJS/blob/master/doc/gettingstarted/creating.md#cold-vs-hot-observables)것인데,
+      무언가 observabled을 *구독*하기 전 까지 요청을 하지않는다는 것을 의미합니다.
+      그 *무언가*는 [HeroListComponet](#subscribe)입니다.
+
+      The `!{_priv_ko}http.get` does **not send the request just yet.** This observable is
       [*cold*](https://github.com/Reactive-Extensions/RxJS/blob/master/doc/gettingstarted/creating.md#cold-vs-hot-observables),
       which means that the request won't go out until something *subscribes* to the observable.
       That *something* is the [HeroListComponent](#subscribe).
 
 a#error-handling
 :marked
+  ### 오류 항상 처리하기
+
   ### Always handle errors
+
+  I/O를 처리하는데 있어 가장 중요한 것은 오류에 대하여 낚아채거나 처리할 준비를 함으로써
+  그것을 예측하는 것입니다. 오류를 처리하는 한 방법은 오류 메시지를 
+  사용자가 이해하고 행동할 수 있는 무엇인가로 말할 수 있을 때, 
+  컴포넌트에 오류 메시지를 다시 전달하는 것입니다.
 
   An important part of dealing with I/O is anticipating errors by preparing to catch them
   and do something with them. One way to handle errors is to pass an error message
   back to the component for presentation to the user,
   but only if it says something that the user can understand and act upon.
+  
+  이 간단한 앱은 비록 불완전할지라도, 그 발상을 따르는 방법으로 `getHeroes` 오류를 처리합니다.
   
   This simple app conveys that idea, albeit imperfectly, in the way it handles a `getHeroes` error.
 
@@ -288,15 +543,25 @@ a#error-handling
 
 block error-handling
   :marked
+    `catch` 연산자는 오류 객체를 `http`에서 `handleError` 메소드로 전달합니다.
+    `handleError` 메소드는 오류를 개발자에게 친숙한 메시지로 변환하고,
+    콘솔에 기록한 다음, 새로운 실패한 Observable을 `Observable.throw`를 통해 메시지를 반환합니다.
+
     The `catch` operator passes the error object from `http` to the `handleError` method.
     The `handleError` method transforms the error into a developer-friendly message, 
     logs it to the console, and returns the message in a new, failed observable via `Observable.throw`.
 
 a#subscribe
 a#hero-list-component
+h3 #[b HeroListComponent] 오류 처리
+
 h3 #[b HeroListComponent] error handling
 block hlc-error-handling
   :marked
+    `HeroListComponent`로 돌아가서, `!{_priv_ko}heroService.getHeroes()`에서,
+    `subscribe` 함수는 오류를 처리하기 위해 두 번째 함수 파라미터를 받습니다.
+    `HeroListComponent` 템플릿에 조건적으로 바인딩하는 `errorMessage` 변수를 설정합니다.
+
     Back in the `HeroListComponent`, in `!{_priv}heroService.getHeroes()`,
     the `subscribe` function has a second function parameter to handle the error message.
     It sets an `errorMessage` variable that's bound conditionally in the `HeroListComponent` template.
@@ -305,6 +570,8 @@ block hlc-error-handling
 
 .l-sub-section
   :marked
+    실패하는 것을 확인하고 싶으신가요? `HeroService`에서, API 엔드포인트를  부적절한 값으로 재설정하세요. 그 후에, 복원하는 것을 잊지마세요.
+
     Want to see it fail? In the `HeroService`, reset the api endpoint to a bad value. Afterward, remember to restore it.
 
 
@@ -312,10 +579,18 @@ block hlc-error-handling
 <a id="post"></a>
 .l-main-section
 :marked
+  ## 서버에 데이터를 전송
+
   ## Send data to the server
+
+  이로써 여러분은 HTTP 서비스를 사용하여 데이터를 원격 장소에서 받아오는 법을 보았습니다.
+  이제 새로운 히어로를 생성하고 그것을 백엔드에 저장할 수 있습니다.
 
   So far you've seen how to retrieve data from a remote location using an HTTP service.
   Now you'll add the ability to create new heroes and save them in the backend.
+
+  이제 `HeroListComponent`가 호출할 `addHero()` 메소드를 작성하고,
+  그것으로 새 히어로의 이름을 받아오고 `Hero`의 `Observable`을 반환합니다. 이는 다음과 같이 시작합니다:
 
   You'll write a method for the `HeroListComponent` to call, an `addHero()` method, that takes
   just the name of a new hero and returns an `Observable` of `Hero`. It begins like this:
@@ -323,7 +598,15 @@ block hlc-error-handling
 +makeExample('server-communication/ts/src/app/toh/hero.service.ts', 'addhero-sig')(format=".")
 
 :marked
+  이것을 구현하기 위해, 히어로를 생성하기 위한 서버의 API를 알아야만 합니다. 
+
   To implement it, you must know the server's API for creating heroes.
+
+  [이 예제의 데이터 서버](#server)는 통상적인 REST 가이드라인을 따릅니다.
+  이것은 히어로를 `GET`할 때와 마찬가지로 같은 엔드포인트에서의 [`POST`](http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9.5) 요청을 필요로 합니다. 
+  새 히어로 데이터가 요청의 본문에 도착하기를 기대하고,
+  `Hero` 개체와 같은 구조를 갖되 `id` 프로퍼티를 갖지 않습니다.
+  요청의 본문은 다음과 같습니다:
 
   [This sample's data server](#server) follows typical REST guidelines.
   It expects a [`POST`](http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9.5) request
@@ -335,9 +618,15 @@ block hlc-error-handling
 code-example(format="." language="javascript").
   { "name": "Windstorm" }
 :marked
+  서버는 `id`를 생성하고 새 히어로의 생성된 아이디를 포함하여 
+  `JSON` 표현 전체를 반환합니다. 히어로는 응답 객체에
+  자신의 `data` 프로퍼티와 함께 도착합니다.
+
   The server generates the `id` and returns the entire `JSON` representation
   of the new hero including its generated id. The hero arrives tucked inside a response object
   with its own `data` property.
+
+  이제 API가 어떻게 동작하는지 알게되었으니, `addHero()`를 다음과 같이 구현하세요:
 
   Now that you know how the API works, implement `addHero()`as follows:
 
@@ -346,42 +635,70 @@ code-example(format="." language="javascript").
 +makeExample('server-communication/ts/src/app/toh/hero.service.ts', 'addhero', 'src/app/toh/hero.service.ts (addHero)')(format=".")
 
 :marked
+  ### 헤더
+  
   ### Headers
+
+  `headers` 객체에서, `Content-Type`은 본문의 형태를 JSON으로 지정합니다.
 
   In the `headers` object, the `Content-Type` specifies that the body represents JSON.
 
 +ifDocsFor('ts')
   :marked
+    다음으로, `headers` 객체는 `options` 객체를 설정하는데 사용합니다. `options`
+    객체는 `RequestOptions`의 새 인스턴스인데, 요청을 인스턴스화할 때 특정 세팅을
+    정할 수 있도록 해줍니다. 이런 맥락에서, [헤더](../api/http/index/Headers-class.html)는 [요청옵션](../api/http/index/RequestOptions-class.html)입니다.
+
     Next, the `headers` object is used to configure the `options` object. The `options`
     object is a new instance of `RequestOptions`, a class that allows you to specify
     certain settings when instantiating a request. In this way, [headers](../api/http/index/Headers-class.html) is one of the [RequestOptions](../api/http/index/RequestOptions-class.html).
 
+    위에서 볼 수 있듯, `return` 구문에서, `options` 는 `post` 메소드의 *세 번째* 파라미터입니다.
     In the `return` statement, `options` is the *third* argument of the `post` method, as shown above.
 
 :marked
+  ### JSON 결과
+  
   ### JSON results
+
+  `getHeroes()`와 함께, 응답에서 [데이터를 추출](#extract-data)하는데 `!{_priv_ko}extractData()` 헬퍼를 사용하세요.
 
   As with `getHeroes()`, use the `!{_priv}extractData()` helper to [extract the data](#extract-data)
   from the response.
 
 block hero-list-comp-add-hero
   :marked
+    `HeroListComponent`에서 `addHero()` 메소드는, *서비스의* `addHero()` 메소드에 의해 반환된 observable을 구독합니다.
+    그리고 데이터가 도착하면 새 히어로 객체를 사용자에게 보여주기 위해 `heroes` 배열에 넣습니다.
+
     Back in the `HeroListComponent`, *its* `addHero()` method subscribes to the observable returned by the *service's* `addHero()` method.
     When the data arrive it pushes the new hero object into its `heroes` array for presentation to the user.
 +makeExample('server-communication/ts/src/app/toh/hero-list.component.ts', 'addHero', 'src/app/toh/hero-list.component.ts (addHero)')(format=".")
 
 +ifDocsFor('ts')
+  h2#promises Promise로 Fallback
+
   h2#promises Fall back to promises
   :marked
+    비록 Angular의 `http` 클라이언트 API가 `Observable<Response>`를 반환하더라도 이것을
+    [`Promise<Response>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)로 바꿀 수 있습니다.
+    이것은 쉽게 할 수 있으며, 단순한 경우에는, promise-기반 버전은
+    observable-기반 버전과 더욱 비슷합니다.
+
     Although the Angular `http` client API returns an `Observable<Response>` you can turn it into a
     [`Promise<Response>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
     It's easy to do, and in simple cases, a promise-based version looks much
     like the observable-based version.
   .l-sub-section
     :marked
+      Promise가 더욱 친숙할 지라도, Observable은 많은 장점이 있습니다.
+
       While promises may be more familiar, observables have many advantages.
 
   :marked
+    다음은 Promise를 사용할 때와 Observable을 사용할 때의 `HeroService` 비교이며,
+    강조표시된 것이 다른 부분입니다.
+
     Here is a comparison of the `HeroService` using promises versus observables,
     highlighting just the parts that are different.
   +makeTabs(
@@ -389,14 +706,24 @@ block hero-list-comp-add-hero
     'methods, methods',
     'src/app/toh/hero.service.promise.ts (promise-based), src/app/toh/hero.service.ts (observable-based)')
   :marked
+    이 예제에서처럼 Promise `then(this.extractData).catch(this.handleError)` 패턴을 따라할 수 있습니다.
+
     You can follow the promise `then(this.extractData).catch(this.handleError)` pattern as in
     this example.
 
+    혹은, `toPromise(success, fail)`을 호출할 수도 있습니다. 이 패턴에서 observable의  `map` 콜백은 첫 *success* 인수로 옮겨가고, `catch` 콜백은 두 번째 *fail* 인수로 옮겨갑니다: `.toPromise(this.extractData, this.handleError)`
+
     Alternatively, you can call `toPromise(success, fail)`. The observable's `map` callback moves to the first *success* parameter and its `catch` callback to the second *fail* parameter in this pattern: `.toPromise(this.extractData, this.handleError)`.
+
+    `errorHandler`는 오류 메시지를 실패한 `observable`이 아닌 Promise로 넘깁니다.
 
     The `errorHandler` forwards an error message as a failed promise instead of a failed `observable`.
 
+    *콘솔에 기록된* 진단은 Promise 체인에서의 추가적인 하나의 `then`입니다.
+
     The diagnostic *log to console* is just one more `then` in the promise chain.
+
+    컴포넌트 호출을 `observable` 대신에 `Promise`를 기다리도록 조정해야 합니다.
 
     You have to adjust the calling component to expect a `Promise` instead of an `observable`:
 
@@ -405,43 +732,79 @@ block hero-list-comp-add-hero
     'methods, methods',
     'src/app/toh/hero-list.component.promise.ts (promise-based), src/app/toh/hero-list.component.ts (observable-based)')
   :marked
+    한 가지 분명한 차이는 `subscribe`대신에 `then`을 반환된 Promise에 호출한다는 것입니다.
+    두 메소드 모두 같은 함수 파라미터를 갖습니다.
+    
     The only obvious difference is that you call `then` on the returned promise instead of `subscribe`.
     Both methods take the same functional arguments.
   .l-sub-section
     :marked
+      덜 분명하지만 치명적인 차이는 이 두 메소드들이 아주 다른 결과를 반환한다는 것입니다.
+
       The less obvious but critical difference is that these two methods return very different results.
+
+      promise-기반의 `then`은 또다른 promise를 반환합니다. promise를 매번 받아오면서`then` 호출을 `catch` 호출보다 많이, 계속해서 줄줄이 부를 수  있습니다.
 
       The promise-based `then` returns another promise. You can keep chaining more `then` and `catch` calls, getting a new promise each time.
 
+      `subscribe` 메소드는 `Subscription`을 반환합니다. `Subscription`은 또다른 `Observable`이 아닙니다.
+      이제 observable은 종료되어서 `map`이나 `subscribe`를 이것에 다시 호출할 수 없습니다.
+      `Subscription` 객체는 다른 목적을 가지는데, 이에 주요 메소드인 `unsubscribe`가 쓰입니다.
+      
       The `subscribe` method returns a `Subscription`. A `Subscription` is not another `Observable`.
       It's the end of the line for observables. You can't call `map` on it or call `subscribe` again.
       The `Subscription` object has a different purpose, signified by its primary method, `unsubscribe`.
 
+      구독의 담긴 뜻과 그 결과를 이해하려면, [Ben Lesh의 observable에 대한 이야기](https://www.youtube.com/watch?v=3LKMwkuK0ZE) 또는 그의 비디오 코스인  [egghead.io](https://egghead.io/lessons/rxjs-rxjs-observables-vs-promises)를 참고하세요.
+      
       To understand the implications and consequences of subscriptions, watch [Ben Lesh's talk on observables](https://www.youtube.com/watch?v=3LKMwkuK0ZE) or his video course on [egghead.io](https://egghead.io/lessons/rxjs-rxjs-observables-vs-promises).
+
+h2#cors 교차출처 요청: 위키피디아 예제  
 
 h2#cors Cross-Origin Requests: Wikipedia example
 :marked
+  !{_Angular_Http_ko} 서비스를 사용해 `XMLHttpRequest`를 어떻게 만드는지 배웠습니다.
+  이것은 서버 통신의 가장 보편적인 접근이지만, 모든 상황에 적용되지는 않습니다.
+
   You just learned how to make `XMLHttpRequests` using the !{_Angular_Http} service.
   This is the most common approach for server communication, but it doesn't work in all scenarios.
 
+  보안상의 문제로, 웹 브라우저는 웹 페이지의 출처와 다른 출처를 갖는 원격서버로의 `XHR` 호출을 막습니다.
+  *출처*는 URI 스킴과 호스트명, 그리고 포트 번호의 조합입니다.
+
   For security reasons, web browsers block `XHR` calls to a remote server whose origin is different from the origin of the web page.
   The *origin* is the combination of URI scheme, hostname, and port number.
+
+  이를 일컫어 [동일출처 원칙](https://en.wikipedia.org/wiki/Same-origin_policy)이라고 합니다.
+
   This is called the [same-origin policy](https://en.wikipedia.org/wiki/Same-origin_policy).
 
 .l-sub-section
   :marked
+    최신 브라우저는 출처가 달라도 서버가 [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) 프로토콜을 지원하면 `XHR` 요청을 허용합니다. 
+    서버가 사용자에게 인증서를 요청하면, 이를 [요청 헤더](#header)에서 활성화할 수 있습니다.
+
     Modern browsers do allow `XHR` requests to servers from a different origin if the server supports the
     [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) protocol.
     If the server requires user credentials, you'll enable them in the [request headers](#headers).
 
 :marked
+  몇몇의 서버는 CORS를 지원하지 않고 오래된, 읽기전용의 대체인 [JSONP](https://en.wikipedia.org/wiki/JSONP)를 지원하기도 합니다. 
+  위키피디아는 그러한 서버입니다.
+
   Some servers do not support CORS but do support an older, read-only alternative called [JSONP](https://en.wikipedia.org/wiki/JSONP).
   Wikipedia is one such server.
 .l-sub-section
   :marked
+    이 [스택오버플로우 답변](http://stackoverflow.com/questions/2067472/what-is-jsonp-all-about/2067584#2067584)은 JSONP에 대한 많은 사항을 다루고 있습니다.
+
     This [Stack Overflow answer](http://stackoverflow.com/questions/2067472/what-is-jsonp-all-about/2067584#2067584) covers many details of JSONP.
 :marked
+  ### 위키피디아 검색
+
   ### Search wikipedia
+
+  다음의 간단한 검색은 사용자가 텍스트 상자에 입력할 때 위키피디아의 제시어를 보여줍니다:
 
   Here is a simple search that shows suggestions from Wikipedia as the user
   types in a text box:
@@ -451,21 +814,38 @@ figure.image-display
 
 block wikipedia-jsonp+
   :marked
+    위키피디아는 최신의 `CORS` API를 제공하며 레거시 `JSONP` 검색 API를 제공합니다. 본 예제는 후자를 사용합니다.
+    Angular의 `Jsonp` 서비스는 `!{_Http_ko}` 서비스와 JSONP를 확장하고, `GET` 요청을 제한합니다.
+    모든 다른 HTTP 메소드는 JSONP가 읽기전용 기능이기 때문에 오류를 발생시킵니다.
+
     Wikipedia offers a modern `CORS` API and a legacy `JSONP` search API. This example uses the latter.
     The Angular `Jsonp` service both extends the `!{_Http}` service for JSONP and restricts you to `GET` requests.
     All other HTTP methods throw an error because JSONP is a read-only facility.
 
-    As always, wrap the interaction with an Angular data access client service inside a dedicated service, here called `WikipediaService`.
+항상 Angular 데이터 엑세스 클라이언트 서비스를 전용의 서비스 안에 래핑하세요, 여기서는 `WikipediaService`라고 부릅니다.
+
+As always, wrap the interaction with an Angular data access client service inside a dedicated service, here called `WikipediaService`.
 
   +makeExample('server-communication/ts/src/app/wiki/wikipedia.service.ts',null,'src/app/wiki/wikipedia.service.ts')
   :marked
+    생성자는 Angular가 자신의 `jsonp` 서비스에 주입하기를 기대하며, 이는
+    `JsonpModule`이 `app.module.ts`의 `imports` 배열에 있는 루트 `@NgModule` 안에 있기 때문에 가능합니다.
+
     The constructor expects Angular to inject its `jsonp` service, which 
     is available because `JsonpModule` is in the root `@NgModule` `imports` array
     in `app.module.ts`.
 
   <a id="query-parameters"></a>
   :marked
+    ### 검색 파라미터
+
     ### Search parameters
+    [위키피디아 "opensearch" API](https://www.mediawiki.org/wiki/API:Opensearch)
+    는 네 파라미터(키/값 쌍)이 요청 URL의 쿼리 문자열로 도착하기를 기대합니다.
+    키에는 `search`, `action`, `format` 그리고 `callback`이 있습니다. 
+    `search` 키의 값은 위키피디아에서 찾기위한 사용자 제공 용어입니다.
+    다른 세 고정값은 각각 "opensearch", "json", "JSONP_CALLBACK" 입니다.
+
     The [Wikipedia "opensearch" API](https://www.mediawiki.org/wiki/API:Opensearch)
     expects four parameters (key/value pairs) to arrive in the request URL's query string.
     The keys are `search`, `action`, `format`, and `callback`.
@@ -473,31 +853,59 @@ block wikipedia-jsonp+
     The other three are the fixed values "opensearch", "json", and "JSONP_CALLBACK" respectively.
   .l-sub-section
     :marked
+      `JSONP`의 활용법은 콜백 함수 이름을 서버에 쿼리 문자열로 넘겨주어야 합니다: `callback=JSONP_CALLBACK`.  
+      서버는 그 이름을 그 요청에서 JavaScript 래퍼 함수를 빌드하는데 사용하며,
+      이것은 궁극적으로는 Angular가 데이터를 추출하는 호출입니다.
+      이 모든 것이 숨겨진 채 이루어집니다.
+
       The `JSONP` technique requires that you pass a callback function name to the server in the query string: `callback=JSONP_CALLBACK`.
       The server uses that name to build a JavaScript wrapper function in its response, which Angular ultimately calls to extract the data.
       All of this happens under the hood.
   :marked
+    만약 "Angular"라는 단어가 포함된 기사를 찾을 때, 쿼리 문자열을 손으로 만들어서 `jsonp`를 다음과 같이 호출할 수 있습니다:
+
     If you're looking for articles with the word "Angular", you could construct the query string by hand and call `jsonp` like this:
   +makeExample('server-communication/ts/src/app/wiki/wikipedia.service.1.ts','query-string')(format='.')
   :marked
+    좀 더 매개화 된 예로는 쿼리 문자열을 Angular의  `URLSearchParams` 헬퍼로 만드는 것입니다:
+
     In more parameterized examples you could build the query string with the Angular `URLSearchParams` helper:
   +makeExample('server-communication/ts/src/app/wiki/wikipedia.service.ts','search-parameters','src/app/wiki/wikipedia.service.ts (search parameters)')(format=".")
   :marked
+    이번에는 `jsonp`를 *두 개*의 파라미터를 통해 호출합니다: `wikiUrl`와 `search` 프로퍼티가 `params` 객체인 옵션 객체입니다.
+
     This time you call `jsonp` with *two* arguments: the `wikiUrl` and an options object whose `search` property is the `params` object.
   +makeExample('server-communication/ts/src/app/wiki/wikipedia.service.ts','call-jsonp','src/app/wiki/wikipedia.service.ts (call jsonp)')(format=".")
   :marked
+    `Jsonp`는 `params`를 이전에 보았던 것과 같은 쿼리 문자열로 단순화하여 요청을 흘려 보냅니다.
+
     `Jsonp` flattens the `params` object into the same query string you saw earlier, putting the request on the wire.
 
   <a id="wikicomponent"></a>
   :marked
+    ### 위키 컴포넌트
+
     ### The WikiComponent
+
+    이제 위키피디아 API에 요청할 수 있는 서비스를 만들었으니,
+    사용자 입력과 검색 결과를 보여주는 컴포넌트(템플릿과 클래스)로 관심을 옮겨보겠습니다.
 
     Now that you have a service that can query the Wikipedia API,
     turn your attention to the component (template and class) that takes user input and displays search results.
   +makeExample('server-communication/ts/src/app/wiki/wiki.component.ts', null, 'src/app/wiki/wiki.component.ts')
   :marked
+    템플릿은 사용자로부터의 검색어를 얻기위해 `<input>` 엘리먼트를 *검색 상자*에 띄우고,
+    `search(term)` 메소드를 `keyup` 이벤트 다음에 호출합니다.
+
     The template presents an `<input>` element *search box* to gather search terms from the user,
     and calls a `search(term)` method after each `keyup` event.
+
+    컴포넌트의 `search(term)` 메소드는 `WikipediaService`에
+    문자열 결과 (`Observable<string[]>`)의 observable 배열을 반환하는 용도로 쓰입니다.
+    observable을 `HeroListComponent`에서와 같이 컴포넌트 내부에서 구독하는 대신에, 
+    앱은 observable 결과를 `ngFor`의 `async` 파이프가 구독을 처리하는
+    템플릿(`items`를 통해)에 전달합니다. 더 자세한 사항은 [파이프](pipes.html) 페이지의
+    [비동기 파이프](pipes.html#async-pipe)에서 확인하세요.
 
     The component's `search(term)` method delegates to the `WikipediaService`, which returns an 
     observable array of string results (`Observable<string[]>`).
@@ -507,35 +915,69 @@ block wikipedia-jsonp+
     in the [Pipes](pipes.html) page.
   .l-sub-section
     :marked
+      [비동기 파이프](pipes.html#async-pipe)는 컴포넌트가 데이터와 상호작용할 필요가 없는 읽기전용 컴포넌트에 좋은 선택입니다. 
+
       The [async pipe](pipes.html#async-pipe) is a good choice in read-only components where the component has no need to interact with the data.
+
+      `HeroListComponent`는 `addHero()`가 새롭게 생성된 히어로를 리스트에 넣기 때문에 그 파이프를 사용할 수 없습니다.
 
       `HeroListComponent` can't use the pipe because `addHero()` pushes newly created heroes into the list.
 
   :marked
+    ## 비효율적인 앱
+
     ## A wasteful app
+
+    위키피디아 검색은 서버에 너무 많은 호출을 합니다.
+    이것은 비효율적이며, 제한된 데이터 요금제를 쓰는 모바일 기기에는 잠재적으로 무리를 줄 수 있습니다.
 
     The wikipedia search makes too many calls to the server.
     It is inefficient, and potentially expensive on mobile devices with limited data plans.
 
+    ### 1. 사용자가 입력을 멈출 때까지 기다리기
+
     ### 1. Wait for the user to stop typing
+
+    현재 코드는 매 키 입력 마다 서버를 호출합니다.
+    단지 *입력을 멈출 때*만 요청을 만들어야 할 것입니다.
+    다음은 리팩토링 후의 동작을 보여줍니다:
+
     Presently, the code calls the server after every keystroke.
     It should only make requests when the user *stops typing* .
     Here's how it will work after refactoring:
   figure.image-display
     img(src='/resources/images/devguide/server-communication/wiki-2.gif' alt="Wikipedia search app (v.2)" width="250")
   :marked
+    ### 2. 검색 용어가 바뀔 때 검색하기
+
     ### 2. Search when the search term changes
+
+    사용자가 가령 *angular*라는 단어를 검색창에 입력하고 잠시 멈춘다고 상상해보겠습니다.
+    애플리케이션은 *angular*라는 검색 요청을 내보냅니다.
 
     Suppose a user enters the word *angular* in the search box and pauses for a while.
     The application issues a search request for *angular*.
 
+    그런 다음 사용자는 마지막 세 글자 *lar*를 백스페이스를 눌러 지우고, 즉시 *lar*를 입력하고 한 번 더 멈춥니다.
+    검색어는 여전히 _angular_입니다. 앱은 또다른 요청을 만들면 안됩니다.
+
     Then the user backspaces over the last three letters, *lar*, and immediately re-types *lar* before pausing once more.
     The search term is still _angular_. The app shouldn't make another request.
 
+    ### 3. 순서에서 벗어난 요청 다루기
+
     ### 3. Cope with out-of-order responses
+
+    사용자는 *angular*를 입력하고, 멈춘 다음, 검색창을 비우고, 다시 *http*를 입력합니다.
+    애플리케이션은 두 번의 검색 요청인, *angular*와 *http*의 요청을 내보냅니다.
 
     The user enters *angular*, pauses, clears the search box, and enters *http*.
     The application issues two search requests, one for *angular* and one for *http*.
+
+    어떤 응답이 먼저 도착할까요? 이것은 예측할 수 없습니다.
+    여러 개의 요청이 전송 중일때, 앱은 기존의 요청 순서에 따라 응답을 보여주어야 합니다.
+    아래의 예제에서는, 앱은 어떤 응답이 먼저 오든 상관하지 않고,
+    항상 *http*에 대한 검색 결과를 보여줍니다.
 
     Which response arrives first? It's unpredictable.
     When there are multiple requests in-flight, the app should present the responses
@@ -544,11 +986,19 @@ block wikipedia-jsonp+
     no matter which response arrives first.
 
     <a id="more-observables"></a>
+    ## Observable 가지고 놀기
+
     ## More fun with observables
+
+    `WikipediaServide`를 발전시킬 수도 있지만, 좀 더 나은
+    사용자 경험을 위해, `WikiComponent`의 복사본을 만들어서 좀 더 영리하게 만들고,
+    익숙한 몇몇 observable 연산자를 지원하도록 하겠습니다.
 
     You could make changes to the `WikipediaService`, but for a better
     user experience, create a copy of the `WikiComponent` instead and make it smarter,
     with the help of some nifty observable operators.
+
+    아래는 기존의 `WikiComponent` 다음으로 제시된 `WikiSmartComponent`입니다.
 
     Here's the `WikiSmartComponent`, shown next to the original `WikiComponent`
 
@@ -560,44 +1010,82 @@ block wikipedia-jsonp+
     src/app/wiki/wiki.component.ts`
   )
   :marked
+    템플릿들은 거의 동일하지만,
+    "똑똑한" 버전에는 더 많은 RxJS가 있는데,
+    [위에서 기술 된 바](#rxjs)와 같이 임포트할 수 있는
+    `debounceTime`, `distinctUntilChanged`, 그리고 `switchMap` 연산자가 그것입니다.
+
     While the templates are virtually identical,
     there's a lot more RxJS in the "smart" version, 
     starting with `debounceTime`, `distinctUntilChanged`, and `switchMap` operators,
     imported as [described above](#rxjs).
 
+    ### 검색어 스트림 만들기
+
     ### Create a stream of search terms
 
+    `WikiComponent`는 매 키입력마다 새로운 검색어를 직접 `WikipediaService`에 전달합니다.
+
     The `WikiComponent` passes a new search term directly to the `WikipediaService` after every keystroke.
+
+    `WikiSmartComponent` 클래스는 RxJS에서 임포트한 `Subject`의 지원을 통해 사용자의 키입력을
+     Obervable _검색어 스트림_으로 전환합니다:
 
     The `WikiSmartComponent` class turns the user's keystrokes into an observable _stream of search terms_
     with the help of a `Subject`, which you import from RxJS:
   +makeExample('server-communication/ts/src/app/wiki/wiki-smart.component.ts', 'import-subject')(format='.')
   :marked
+    컴포넌트는 `searchTermStream`을 `string`타입의 `Subject`로 생성합니다.
+    `search` 메소드는 subject의 `next`메소드를 통해 검색창의 새로운 값들을 각각 그 스트림에 보냅니다.
+
     The component creates a `searchTermStream` as a `Subject` of type `string`.
     The `search` method adds each new search box value to that stream via the subject's `next` method.
 
   +makeExample('server-communication/ts/src/app/wiki/wiki-smart.component.ts', 'subject')(format='.')
 
   :marked
+    ### 검색어 기다리기
+
     ### Listen for search terms
    
+    `WikiSmartComponent`는 *검색어 스트림*을 기다리고
+    서비스를 호출하기 *전에* 스트림을 처리합니다.
+
     The `WikiSmartComponent` listens to the *stream of search terms* and 
     processes that stream _before_ calling the service.
   +makeExample('server-communication/ts/src/app/wiki/wiki-smart.component.ts', 'observable-operators')(format='.')
   :marked
     * <a href="https://github.com/Reactive-Extensions/RxJS/blob/master/doc/api/core/operators/debounce.md" target="_blank" title="debounce operator"><i>debounceTime</i></a>
+    은 사용자가 입력하기를 멈출 때까지 최소 300 밀리초를 기다립니다.
+
+    * <a href="https://github.com/Reactive-Extensions/RxJS/blob/master/doc/api/core/operators/debounce.md" target="_blank" title="debounce operator"><i>debounceTime</i></a>
     waits for the user to stop typing for at least 300 milliseconds.
+
+    * <a href="https://github.com/Reactive-Extensions/RxJS/blob/master/doc/api/core/operators/distinctuntilchanged.md" target="_blank" title="distinctUntilChanged operator"><i>distinctUntilChanged</i></a>
+    는 오직 새로운 검색어가 이전의 검색어와 다를 때에만 서비스가 호출되도록 보장합니다.
 
     * <a href="https://github.com/Reactive-Extensions/RxJS/blob/master/doc/api/core/operators/distinctuntilchanged.md" target="_blank" title="distinctUntilChanged operator"><i>distinctUntilChanged</i></a>
     ensures that the service is called only when the new search term is different from the previous search term.
 
     * The <a href="https://github.com/Reactive-Extensions/RxJS/blob/master/doc/api/core/operators/flatmaplatest.md" target="_blank" title="switchMap operator"><i>switchMap</i></a>
+    는 `WikipediaService`를 새롭고, 기다려진 검색어로 호출하고 서비스 응답의 스트림을 배열합니다.
+
+    * The <a href="https://github.com/Reactive-Extensions/RxJS/blob/master/doc/api/core/operators/flatmaplatest.md" target="_blank" title="switchMap operator"><i>switchMap</i></a>
     calls the `WikipediaService` with a fresh, debounced search term and coordinates the stream(s) of service response.
+
+    `switchMap`의 역할은 특히 중요합니다.
+    `WikipediaService`는 매 검색 요청마다 각각의 문자열 배열인 (`Observable<string[]>`) observable을 반환합니다. 
+    사용자는 느린 서버가 답장을 하는데 걸리는 시간 이전에, 여러개의 요청을 보낼 수 있는데,
+    이는 응답 Observable에 대한 백로그가 언제든, 어느 순서로든 클라이언트에 도착할 수 있다는 것입니다.
 
     The role of `switchMap` is particularly important.
     The `WikipediaService` returns a separate observable of string arrays (`Observable<string[]>`) for each search request.
     The user could issue multiple requests before a slow server has had time to reply,
     which means a backlog of response observables could arrive at the client, at any moment, in any order.
+
+    `switchMap`은 `WikipediaService`의 모든 응답 observable과 _결합하는_ 자신의 observable을 반환합니다.
+    이것들을 원래의 요청 순서에 맞게 재배열하고,
+    구독자에게 가장 최신의 검색 결과만을 전달합니다.
 
     The `switchMap` returns its own observable that _combines_ all `WikipediaService` response observables,
     re-arranges them in their original request order,
@@ -606,78 +1094,138 @@ block wikipedia-jsonp+
 a#xsrf
 .l-main-section
 :marked
+  ## 교차사이트 요청 위조에 맞서 방어하기
+
   ## Guarding against Cross-Site Request Forgery
+
+  교차사이트 요청 위조 (CSRF 또는 XSRF)는 공격자가 사용자를 속여
+  다른 해로운 웹페이지를 방문하도록 만든 다음 몰래 악성 요청을 애플리케이션의 웹서버에 전송하도록 합니다.
 
   In a cross-site request forgery (CSRF or XSRF), an attacker tricks the user into visiting
   a different web page with malignant code that secretly sends a malicious request to your application's web server,
-  
+
+  서버와 클라이언트 애플리케이션은 이 공격을 물리치기 위해 함께 작동해야만 합니다.
+  Angular의 `Http` 클라이언트는 그 일환으로 `CookieXSRFStrategy`를 자동적으로 모든 요청에 적용하도록 기본설정이 되어 있습니다.
+
   The server and client application must work together to thwart this attack.
   Angular's `Http` client does its part by applying a default `CookieXSRFStrategy` automatically to all requests.
+
+  `CookieXSRFStrategy`는 보편화된 XSRF 대항 기법을 지원하고 있으며 이것은 서버가 무작위로
+  `XSRF-TOKEN`라고 불리는 쿠키로 인증 토큰을 생성하고
+  HTTP 클라이언트는 뒤따르는 요청의 `X-XSRF-TOKEN` 헤더에 그 토큰 값을 추가합니다.
+  서버는 쿠키와 헤더를 받고, 그것을 비교한 다음, 쿠키와 헤더가 일치할 때에만 요청을 처리합니다.
 
   The `CookieXSRFStrategy` supports a common anti-XSRF technique in which the server sends a randomly
   generated authentication token in a cookie named `XSRF-TOKEN`. 
   The HTTP client adds an `X-XSRF-TOKEN` header with that token value to subsequent requests. 
   The server receives both the cookie and the header, compares them, and processes the request only if the cookie and header match.
-  
+
+  XSRF와 Anuglar의 `XSRFStrategy` 대항 수단에 대한 더 자세한 내용은 [보안 페이지에 있는 XSRF 주제](security.html#xsrf)를 참고하세요.
+
   See the [XSRF topic on the Security page](security.html#xsrf) for more information about XSRF and Angular's `XSRFStrategy` counter measures.
 
 a#override-default-request-options
 .l-main-section
 :marked
+  ## 기본 요청헤더(혹은 다른 요청 옵션) 오버라이드
+
   ## Override default request headers (and other request options)
+
+  요청 옵션(헤더와 같은)은 요청이 처리되기 전에
+  [기본 _RequestOptions_](https://angular.io/docs/ts/latest/api/http/index/BaseRequestOptions-class.html "API: BaseRequestOptions")로
+  병합됩니다.
+  `HttpModule`은 이 기본 옵션을 `RequestOptions` 토큰으로 제공합니다.
 
   Request options (such as headers) are merged into the
   [default _RequestOptions_](https://angular.io/docs/ts/latest/api/http/index/BaseRequestOptions-class.html "API: BaseRequestOptions") 
   before the request is processed.
   The `HttpModule` provides these default options via the `RequestOptions` token.
 
+  이 기본값을 애플리케이션 요구에 맞게 오버라이딩 할 수 있습니다.
+  애플리케이션의 기본 옵션을 설정하는
+  `RequestOption`의 맞춤 서브클래스를 생성하면 됩니다.
+
   You can override these defaults to suit your application needs.
   by creating a custom sub-class of `RequestOptions`
   that sets the default options for the application.
 
+  본 예제는 기본 `Content-Type` 헤더를 JSON으로 지정하는 클래스를 생성합니다.
+
   This sample creates a class that sets the default `Content-Type` header to JSON.
+
+  그리고 `AppModule`에서는 등록을 단순화하기 위해 필요한 `RequestOptions` 제공자에 상수를 익스포트합니다.
+
   It exports a constant with the necessary `RequestOptions` provider to simplify registration in `AppModule`.
 
 +makeExample('server-communication/ts/src/app/default-request-options.service.ts', '', 'src/app/default-request-options.service.ts')(format=".")
 :marked
+  그리고 루트 `AppModule`에 제공자를 등록합니다.
+
   Then it registers the provider in the root `AppModule`.
 +makeExample('server-communication/ts/src/app/app.module.ts', 'provide-default-request-options', 'src/app/app.module.ts (provide default request header)')(format=".")
 .l-sub-section
  :marked
+   앱의 HTTP 서비스를 유닛테스팅할 때 설정 중 이 제공자를 포함시키는 것을 기억하세요.
+
    Remember to include this provider during setup when unit testing the app's HTTP services.
 :marked
+  이 변경 후, `HeroService.addHero`의 `header` 옵션 설정은 더 이상 필요하지 않습니다.
+
   After this change, the `header` option setting in `HeroService.addHero` is no longer necessary,
 
 +makeExample('server-communication/ts/src/app/toh/hero.service.ts', 'addhero', 'src/app/toh/hero.service.ts (addHero)')(format=".")
 :marked
+  `DefaultRequestOptions`가 작동하는 지 HTTP 요청을 브라우저 상의 개발자 도구 탭에서 검사함으로써 확인할 수 있습니다.
+  만약 서버 호출을 [_인메모리 웹 API_](#in-mem-web-api)와 같은 것으로 연결해 테스트하려면,
+  `addHero` 헤더 옵션을 주석처리하고,
+  POST 호출에 중단점을 설정해서, 요청이 진행되는 단계를 따라
+  헤더가 존재하는지 확인하세요.
+
   You can confirm that `DefaultRequestOptions` is working by examing HTTP requests in the browser developer tools' network tab.
   If you're short-circuiting the server call with something like the [_in-memory web api_](#in-mem-web-api),
   try commenting-out the `addHero` header option, 
   set a breakpoint on the POST call, and step through the request processing
   to verify the header is there.
   
+  이것과 같은 개별 요청 옵션은, `RequestOptions`의 기본값의 우선 순위를 따릅니다.
+  보다 안전하게 `addHero`가 계속 header를 요청하도록 하는 것이 현명할지도 모릅니다.
+
   Individual requests options, like this one, take precedence over the default `RequestOptions`.
   It might be wise to keep the `addHero` request header setting for extra safety.
 
 a#in-mem-web-api
 .l-main-section
 :marked
+  ## 부록: Tour of Heroes _인메모리 웹 api_
+
   ## Appendix: Tour of Heroes _in-memory web api_
+
+  만일 앱이 데이터를 받기만 한다면, 히어로를 `heroes.json` 파일에서 받아올 수 있습니다:
 
   If the app only needed to retrieve data, you could get the heroes from a `heroes.json` file:
 - var _heroesJsonPath = (_docsFor == 'dart' ? 'web' : 'src/app') + '/heroes.json';
 +makeJson('server-communication/' + _docsFor + '/' + _heroesJsonPath, null, _heroesJsonPath)(format=".")
 .l-sub-section
   :marked
+    데이터 서버가 최상위 JSON 배열에 의한 [보안 위험](http://stackoverflow.com/questions/3503102/what-are-top-level-json-arrays-and-why-are-they-a-security-risk)을 줄일 때와 마찬가지로,
+    히어로 배열을 `data` 프로퍼티를 갖는 객체로 래핑합니다.
+
     You wrap the heroes array in an object with a `data` property for the same reason that a data server does:
     to mitigate the [security risk](http://stackoverflow.com/questions/3503102/what-are-top-level-json-arrays-and-why-are-they-a-security-risk)
     posed by top-level JSON arrays.
 :marked
+  다음과 같이 엔드포인트를 JSON파일로 설정합니다:
+
   You'd set the endpoint to the JSON file like this:
 +makeExample('server-communication/ts/src/app/toh/hero.service.ts', 'endpoint-json', 'src/app/toh/hero.service.ts')(format=".")
 
 - var _a_ca_class_with = _docsFor === 'ts' ? 'a custom application class with' : ''
 :marked
+  *히어로 얻기* 시나리오가 작동하더라도,
+  앱은 JSON 파일로 변경사항을 저장할 수 없으므로, 웹 API 서버를 필요로 합니다.
+  본 예제에는 진짜 서버는 없기 때문에,
+  실제 XHR 백엔드 서비스를 위한 Angular의 _인메모리 웹 API_ 시뮬레이터로 대체합니다.
+
   The *get heroes* scenario would work,
   but since the app can't save changes to a JSON file, it needs a web API server.
   Because there isn't a real server for this demo, 
@@ -685,52 +1233,90 @@ a#in-mem-web-api
 
 .l-sub-section
   :marked
+    인메모리 웹 API는 _엄밀히_ 말해서 Angular의 일부가 아닙니다.
+    이것은 npm으로 설치된 <a href="https://github.com/angular/in-memory-web-api" target="_blank" title="In-memory Web API"><i>angular-in-memory-web-api</i></a> 라이브러리를 갖는
+    추가적인 서비스입니다.(참고: `package.json`)
+
     The in-memory web api is not part of Angular _proper_. 
     It's an optional service in its own 
     <a href="https://github.com/angular/in-memory-web-api" target="_blank" title="In-memory Web API"><i>angular-in-memory-web-api</i></a>
     library installed with npm (see `package.json`).
+
+    자세한 것은
+    <a href="https://github.com/angular/in-memory-web-api/blob/master/README.md" target="_blank" title='In-memory Web API "README.md"'><i>README 파일</i></a>
+    의 설정 옵션, 기본 작동, 제한사항 등을 참고하세요.
 
     See the
     <a href="https://github.com/angular/in-memory-web-api/blob/master/README.md" target="_blank" title='In-memory Web API "README.md"'><i>README file</i></a>
     for configuration options, default behaviors, and limitations.
 
 :marked
+  인메모리 웹 API는 데이터를 !{_a_ca_class_with_ko}에서 `createDb()` 메소드로 받는데
+  이 메소드는 컬렉션의 이름을 키로 갖고 해당 컬렉션의 객체 !{_array_ko}을 값으로 하는 맵을 리턴합니다.
+
   The in-memory web API gets its data from !{_a_ca_class_with} a `createDb()`
   method that returns a map whose keys are collection names and whose values
   are !{_array}s of objects in those collections.
 
+  다음은 JSON 데이터에 기반한, 이 예제를 위한 클래스입니다:
+
   Here's the class for this sample, based on the JSON data:
 +makeExample('server-communication/ts/src/app/hero-data.ts', null, 'src/app/hero-data.ts')(format=".")
 :marked
+  `HeroService` 엔드포인트가 웹 API를 참조하도록 확실히 하세요:
+
   Ensure that the `HeroService` endpoint refers to the web API:
 +makeExample('server-communication/ts/src/app/toh/hero.service.ts', 'endpoint', 'src/app/toh/hero.service.ts')(format=".")
 
 block redirect-to-web-api
   :marked
+    마지막으로, `InMemoryWebApiModule`을 `AppModule.imports` 리스트에 추가함으로써
+    인메모리 웹 API로의 클라이언트 HTTP 요청을 리디렉션 하세요.
+    동시에, `HeroData` 클래스와 함께 이것의 `forRoot` 설정 메소드를 호출하세요.
+
     Finally, redirect client HTTP requests to the in-memory web API by
     adding the `InMemoryWebApiModule` to the `AppModule.imports` list.
     At the same time, call its `forRoot` configuration method with the `HeroData` class.
   +makeExample('server-communication/ts/src/app/app.module.ts', 'in-mem-web-api', 'src/app/app.module.ts')(format=".")
   :marked
+    ### 작동하는 원리
+
     ### How it works
+
+    Angular의 `http` 서비스는 클라이언트/서버 통신 작업을 
+    헬퍼 서비스인 `XHRBackend`에 위임합니다.
 
     Angular's `http` service delegates the client/server communication tasks
     to a helper service called the `XHRBackend`.
+
+    표준 Angular 제공자 등록 기법을 사용해, `InMemoryWebApiModule`
+    은 기본 `XHRBackend` 서비스를 자신의 메모리상 대체수단으로 바꿉니다.
+    그러는 동안, `forRoot` 메소드는 인메모리 웹 API를 샘플 히어로 데이터셋에서 *시드 데이터*로 초기화 합니다.
 
     Using standard Angular provider registration techniques, the `InMemoryWebApiModule`
     replaces the default `XHRBackend` service with its own in-memory alternative.
     At the same time, the `forRoot` method initializes the in-memory web API with the *seed data* from the mock hero dataset.
   .l-sub-section
     :marked
+      `forRoot` 메소드명은 루트 `AppModule`의 메타데이터를 세팅할 때,
+      오직 `InMemoryWebApiModule`을 _한 번만_ 호출해야 한다는 사실을 분명하게 알려줍니다. 여러 번 호출하지 마세요.
+
       The `forRoot` method name is a strong reminder that you should only call the `InMemoryWebApiModule` _once_,
       while setting the metadata for the root `AppModule`. Don't call it again.
 :marked
+  다음은 이 단계들을 시연하는, 최종적인, 수정된 버전의 <span ngio-ex>src/app/app.module.ts</span>입니다.
+
   Here is the final, revised version of <span ngio-ex>src/app/app.module.ts</span>, demonstrating these steps.
 
 +makeExcerpt('src/app/app.module.ts')
 .alert.is-important
   :marked
+    `InMemoryWebApiModule`의 `XHRBackend` 제공자가 다른 것들을 밀어낼 수 있도록
+    `HttpModule`의 _다음_에 `InMemoryWebApiModule`를 불러오게 하세요.
+
     Import the `InMemoryWebApiModule` _after_ the `HttpModule` to ensure that 
     the `XHRBackend` provider of the `InMemoryWebApiModule` supersedes all others.
 :marked
+  전체 소스코드는 <live-example>라이브 예제</live-example>에서 볼 수 있습니다.
+
   See the full source code in the <live-example></live-example>.
