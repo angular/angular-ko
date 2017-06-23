@@ -1,36 +1,65 @@
 include ../_util-fns
 
 :marked
+   손수 만드는 form을 만드는데 언제나 시간과 비용을 소모할 수는 없습니다.
+   특히 많은 수의 form들이 필요하고, 서로 비슷하며, 빠르게 변하는 비즈니스와 규제 요건들을 맞추기 위해
+   자주 변경되는 경우에는 더 그렇습니다.
+
    We can't always justify the cost and time to build handcrafted forms, 
    especially if we'll need a great number of them, they're similar to each other, and they change frequently 
    to meet rapidly changing business and regulatory requirements.
    
+   이럴때는 비즈니스 오브젝트 모델을 설명하는 메타 데이터를 기반으로 form을 동적으로 작성하는 것이 더 경제적일 수 있습니다.
+
    It may be more economical to create the forms dynamically, based on metadata that describe the business object model.
-   
+  
+   이 요리책에서는 `formGroup`을 사용하여 다른 컨트롤 유형들과 유효성 검사를 사용하여
+   간단한 form을 동적으로 렌더링하는 방법을 보여줍니다. 
+   이는 근본적인 방법이며 훨씬 더 다양한 요구사항, 보다 우아한 렌더링 및 탁월한 사용자 경험을 
+   지원하기 위해 진화 할 수 있습니다.
+   이러한 모든 위대함은 미미한 변화로 부터 시작됩니다.
+
    In this cookbook we show how to use `formGroup` to dynamically render a simple form with different control types and validation.
    It's a primitive start. 
    It might evolve to support a much richer variety of questions, more graceful rendering, and superior user experience.
    All such greatness has humble beginnings.
   
+   이 예시에서는 온라인 애플리케이션 경험을 만들기 위해 동적 form을 사용하여 히어로를 구인하는 상황을 만들어 보겠습니다.
+   대행사는 신청 절차를 지속적으로 조금씩 변경합니다. 하지만 이 방식을 사용하면 *애플리케이션 코드를 변경하지 않고* 즉시 양식을 만들 수 있습니다.
+
    In our example we use a dynamic form to build an online application experience for heroes seeking employment.
    The agency is constantly tinkering with the application process.
    We can create the forms on the fly *without changing our application code*. 
    
 <a id="toc"></a>
 :marked
+   ## 목차
+
    ## Table of contents
 
       [Bootstrap](#bootstrap)
 
+      [Bootstrap](#bootstrap)
+
+      [질문 모델](#object-model)
+
       [Question Model](#object-model)
+
+      [Form 요소](#form-component)
 
       [Form Component](#form-component)
 
+      [질문지 메타 데이터](#questionnaire-metadata)
+
       [Questionnaire Metadata](#questionnaire-metadata)
       
+      [동적 템플릿](#dynamic-template)
+
       [Dynamic Template](#dynamic-template)
 
 :marked
+   **<live-example name="cb-dynamic-form">라이브 예제</live-example>**를 확인하세요.
+
    **See the <live-example name="cb-dynamic-form"></live-example>**.
 
 .l-main-section
@@ -38,11 +67,21 @@ include ../_util-fns
 :marked
    ## Bootstrap
 
+   ## Bootstrap
+
+   `AppModule` 라 불리는 `NgModule` 을 만드는 것으로 시작해 봅시다.
+
    We start by creating an `NgModule` called `AppModule`.
+
+   이번 예제에서는 Reactive Forms를 사용할 것입니다.
 
    In our example we will be using Reactive Forms. 
    
+   ReactiveForm은 `ReactiveFormsModule`이라는 다른 `NgModule`에 속하므로 Reactive Forms 지시문에 액세스하려면 `@angular/forms` 라이브러리에서 `ReactiveFormsModule`을 임포트 해야합니다.
+
    Reactive Forms belongs to a different `NgModule` called `ReactiveFormsModule`, so in order to access any Reactive Forms directives, we have to import `ReactiveFormsModule` from the `@angular/forms` library.    
+
+   main.ts의 `AppModule`을 부트스트랩할 것입니다.
 
    We bootstrap our `AppModule` in main.ts.
 
@@ -57,30 +96,48 @@ include ../_util-fns
 .l-main-section
 <a id="object-model"></a>
 :marked
+   ## 질문 모델
+
    ## Question Model
+
+   다음 단계는 from 기능에 필요한 모든 시나리오를 설명할 수 있는 개체 모델을 정의하는 것입니다.
+   주인공 신청 과정에는 많은 질문이있는 form이 포함됩니다.
+   "질문"은 이 모델에서 가장 기본적인 객체입니다.
 
    The next step is to define an object model that can describe all scenarios needed by the form functionality.
    The hero application process involves a form with a lot of questions. 
    The "question" is the most fundamental object in the model.
+
+   가장 기본적인 질문 클래스로 `QuestionBase`를 만들었습니다.
 
    We have created `QuestionBase` as the most fundamental question class.
 
 +makeExample('cb-dynamic-form/ts/src/app/question-base.ts','','src/app/question-base.ts')
 
 :marked
+   이 기반으로부터 우리는 Textbox와 Dropdown 질문들을 나타내는 `TextboxQuestion`와 `DropdownQuestion`에 두 개의 새로운 클래스를 파생 시켰습니다.
+   이 아이디어는 form이 특정 질문 유형에 묶여 있고 적절한 컨트롤을 동적으로 렌더링한다는 것입니다.
+   
    From this base we derived two new classes in `TextboxQuestion` and `DropdownQuestion` that represent Textbox and Dropdown questions. 
    The idea is that the form will be bound to specific question types and render the appropriate controls dynamically. 
-   
+
+   `TextboxQuestion`은 `type` 속성을 통해 text, email, url 등과 같은 여러 HTML5 타입을 지원합니다.
+
    `TextboxQuestion` supports multiple html5 types like text, email, url etc via the `type` property.
 
 +makeExample('cb-dynamic-form/ts/src/app/question-textbox.ts',null,'src/app/question-textbox.ts')(format='.')
 
 :marked
+   `DropdownQuestion`는 셀렉트 박스의 선택 목록들을 표현합니다.
+
    `DropdownQuestion` presents a list of choices in a select box.
    
 +makeExample('cb-dynamic-form/ts/src/app/question-dropdown.ts',null,'src/app/question-dropdown.ts')(format='.')
 
 :marked
+   다음으로 `QuestionControlService`를 정의합니다. 이 서비스는 우리의 질문을 `FormGroup`으로 변형시키는 간단한 서비스입니다.
+   간단히 말해서, form 그룹은 질문 모델의 메타 데이터를 사용하며 기본 값과 유효성 검사 규칙을 지정할 수 있도록 합니다.
+
    Next we have defined `QuestionControlService`, a simple service for transforming our questions to a `FormGroup`. 
    In a nutshell, the form group consumes the metadata from the question model and allows us to specify default values and validation rules.
 
@@ -88,11 +145,17 @@ include ../_util-fns
 
 <a id="form-component"></a>
 :marked
+   ## 질문 form 요소
+   이제 완전한 모델을 정의했으므로 동적 양식을 나타내기 위한 구성 요소를 만들 준비가 되었습니다.
+
    ## Question form components
    Now that we have defined the complete model we are ready to create components to represent the dynamic form.
 
 :marked
+  `DynamicFormComponent`는 엔트리 포인트이고 form의 메인 컨테이너입니다.
+
   `DynamicFormComponent` is the entry point and the main container for the form. 
+
 +makeTabs(
   `cb-dynamic-form/ts/src/app/dynamic-form.component.html,
    cb-dynamic-form/ts/src/app/dynamic-form.component.ts`,
@@ -100,7 +163,11 @@ include ../_util-fns
   `dynamic-form.component.html,
    dynamic-form.component.ts`
 )  
+
 :marked
+  이것은 질문 목록을 제시하며, 각 질문은 `<df-question>` 컴포넌트에 묶여있습니다.
+  `<df-question>`태그는 `DynamicFormQuestionComponent`와 연결되며, 데이터 바인딩 된 질문 객체의 값을 기반으로 각 _개개의_ 질문의 세부 정보를 렌더링하는 것을 책임지는 구성 요소입니다.
+
   It presents a list of questions, each question bound to a `<df-question>` component element.
   The `<df-question>` tag matches the `DynamicFormQuestionComponent`,
   the component responsible for rendering the details of each _individual_ question based on values in the data-bound question object.  
@@ -113,23 +180,41 @@ include ../_util-fns
    dynamic-form-question.component.ts`
 )
 :marked
+  이 컴포넌트는 우리 모델의 어떤 유형의 질문이라도 표현한다는 점을 기억하세요.
+  우리는 이 시점에서 두 가지 유형의 질문만 가지고 있지만 더 많은 경우를 생각해 볼 수 있습니다.
+  `ngSwitch`가 표시 할 질문 유형을 결정합니다.
+
   Notice this component can present any type of question in our model. 
   We only have two types of questions at this point but we can imagine many more.
   The `ngSwitch` determines which type of question to display.
   
+  두 구성 요소 모두에서 Angular의 **formGroup**을 사용하여 템플릿 HTML을 기반이 되는 컨트롤 객체(표현 및 유효성 검사 규칙에 대한 질문 모델에서 파생된)와 연결합니다.
+  
   In both components  we're relying on Angular's **formGroup** to connect the template HTML to the
   underlying control objects, populated from the question model with display and validation rules.
+  
+  `formControlName`과 `formGroup`은 `ReactiveFormsModule`에 정의 된 지시어입니다. 우리의 템플릿들은 `AppModule`로부터 `ReactiveFormsModule`을 임포트했기 때문에 이러한 지시자들을 접근할 수 있습니다.
 
   `formControlName` and `formGroup` are directives defined in `ReactiveFormsModule`. Our templates can can access these directives directly since we imported `ReactiveFormsModule` from `AppModule`.  
 
 <a id="questionnaire-metadata"></a>
 :marked
+   ## 질문지 데이터
+
    ## Questionnaire data
 :marked
+  `DynamicFormComponent`는 `@Input() questions`에 묶인 배열 형식의 질문 목록을 기대합니다.
+
   `DynamicFormComponent` expects the list of questions in the form of an array bound to  `@Input() questions`.
+
+   우리가 일자리 지원서에 대해 정의한 일련의 질문은 `QuestionService`에서 반환됩니다.
+   실제 앱에서는 이러한 질문을 저장소에서 가져옵니다.
 
    The set of questions we have defined for the job application is returned from the `QuestionService`. 
    In a real app we'd retrieve these questions from storage.
+    
+   요점은 `QuestionService`에서 반환 된 객체를 통해 히어로 지원서의 질문을 완전히 통제한다는 것입니다.
+   설문지의 유지 보수는 `questions` 배열에서 객체를 추가, 업데이트 및 제거하는 간단한 작업입니다.
    
    The key point is that we control the hero job application questions entirely through the objects returned from `QuestionService`. 
    Questionnaire maintenance is a simple matter of adding, updating, and removing objects from the `questions` array.
@@ -137,21 +222,39 @@ include ../_util-fns
 +makeExample('cb-dynamic-form/ts/src/app/question.service.ts','','src/app/question.service.ts')  
 
 :marked
+  마지막으로`AppComponent` 쉘안에 form의 인스턴스를 표시합니다.
+
   Finally, we display an instance of the form in the `AppComponent` shell.
 
 +makeExample('cb-dynamic-form/ts/src/app/app.component.ts','','app.component.ts')
 
 <a id="dynamic-template"></a>
 :marked
+   ## 동적 템플릿
+
    ## Dynamic Template
+
+   이 예에서는 히어로를 위한 지원서를 모델링하고 있지만 `QuestionService`에 의해 리턴 된 오브젝트 외부의 특정 히어로에 대한 질문을 언급하지는 않습니다.
+
    Although in this example we're modelling a job application for heroes, there are no references to any specific hero question 
    outside the objects returned by `QuestionService`. 
    
+   이는 우리의 *질문* 객체 모델과 호환되는 한 모든 유형의 설문 조사에서
+   컴포넌트의 용도 변경을 허용하므로 매우 중요합니다.
+   요점은 양식을 렌더링하는 데 사용되는 메타 데이터를 특정 질문에 대한 하드코딩 된 
+   가정을 하지 않는 동적 데이터 바인딩입니다.
+   추가로 메타 데이터 제어하기 위해, 동적으로 유효성 검사를 추가합니다.
+
    This is very important since it allows us to repurpose the components for any type of survey
    as long as it's compatible with our *question* object model. 
    The key is the dynamic data binding of metadata used to render the form 
    without making any hardcoded assumptions about specific questions. 
    In addition to control metadata, we are also adding validation dynamically.
+
+   양식이 유효한 상태가 될 때까지 *저장* 버튼이 비활성화됩니다.
+   양식이 유효하면, *저장*을 클릭하면 응용 프로그램은 현재 form 값을 JSON으로 렌더링합니다.
+   이는 모든 사용자 입력이 데이터 모델에 바인딩됨을 증명합니다.
+   데이터 저장 및 검색은 다른 곳에서 다루도록 하겠습니다.
 
    The *Save* button is disabled until the form is in a valid state. 
    When the form is valid, we can click *Save* and the app renders the current form values as JSON. 
@@ -159,10 +262,14 @@ include ../_util-fns
    Saving and retrieving the data is an exercise for another time.
 
 :marked
+   최종 form은 아래와 같은 모습입니다:
+   img(src="/resources/images/cookbooks/dynamic-form/dynamic-form.png" alt="Dynamic-Form")
+   
    The final form looks like this:
 figure.image-display
    img(src="/resources/images/cookbooks/dynamic-form/dynamic-form.png" alt="Dynamic-Form")
 
-
 :marked
-   [Back to top](#top)
+-   [맨 위로](#top)
+
+-   [Back to top](#top)
