@@ -41,6 +41,7 @@
 * inventory: 인벤토리
 * tree: 트리
 * messages: 메시지
+* metadata: 메타데이터
 * placeholder: 플레이스홀더
 * target: 타깃 (타깃 O, 타겟 X)
 * targeting: 타기팅 (타기팅 O, 타게팅 X)
