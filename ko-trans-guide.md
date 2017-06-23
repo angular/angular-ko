@@ -102,6 +102,7 @@
 * helper method: 지원 메소드
 * Cross-Site Request: 교차-사이트 요청(Cross-Site Request)
 * Cross-Origin Requests: 교차-출처 요청(Cross-Origin Requests)
+* example: 예제 (2017.06.23 "예시" => "예제"로 수정)
 
 ## 정리중인 단어
 * selector: 선택자? vs 셀렉터?
