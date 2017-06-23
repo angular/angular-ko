@@ -34,6 +34,7 @@
 * property: 프로퍼티 (attribute는 속성으로 property는 프로퍼티로 번역하여 차이를 두고 있으니 꼭 프로퍼티로 해주세요.)
 * agency: 에이전시
 * view: 뷰
+* form: 
 * section: 섹션
 * entry: 엔트리
 * error: 에러
